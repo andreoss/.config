@@ -1,0 +1,2 @@
+prog  "URxvt"  xterm     urxvt
+prog  "Emacs"  emacs     emacsclient -c

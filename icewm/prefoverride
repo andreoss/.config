@@ -1,0 +1,90 @@
+TitleFontNameXft	   = "Dina:size=8:bold"
+MenuFontNameXft	           = "Dina:size=8"
+MinimizedWindowFontNameXft = "Dina:size=8"
+ActiveButtonFontNameXft    = "Dina:size=8"
+NormalButtonFontNameXft    = "Dina:size=8"
+QuickSwitchFontNameXft     = "Dina:size=8"
+ListBoxFontNameXft         = "Dina:size=8"
+StatusFontNameXft          = "Dina:size=8"
+ToolTipFontNameXft         = "Dina:size=8"
+ActiveTaskBarFontNameXft   = "Dina:size=8:bold"
+NormalTaskBarFontNameXft   = "Dina:size=8"
+ClockFontNameXft           = "Dina:size=8"
+ApmFontNameXft             = "Dina:size=8"
+LabelFontNameXft           = "Dina:size=8"
+
+TimeFormat="%x %-I:%M %Z"
+TimeFormatAlt="%x %-I:%M %Z"
+DateFormat="%x %X %Z"
+
+AllowFullscreen=1
+Alpha=1
+
+CenterLarge=1
+CenterTransientsOnOwner=1
+
+CornerSizeX=30
+CornerSizeY=30
+
+EdgeSwitch=0
+GrabRootWindow=0
+KeySysShowDesktop="Super+d"
+KeySysTileHorizontal="Super+F3"
+KeySysTileVertical="Super+F2"
+KeyTileRight="Super+Right"
+KeyWinArrangeE="Super+Right"
+KeyWinArrangeW="Super+Left"
+LockCommand="physlock"
+MenuMouseTracking=1
+OpaqueMove=0
+OpaqueResize=0
+QuickSwitchFillSelection=1
+QuickSwitchToUrgent=1
+ShowEllipsis = 1
+ShowProgramsMenu=0
+SmartPlacement=1
+TaskBarAtTop=0
+TaskBarAutoHide=0
+TaskBarMailboxStatusBeepOnNewMail=0
+TaskBarShowAllWindows=0
+TaskBarShowAPMAuto=0
+TaskBarShowAPMGraph=0
+TaskBarShowAPMStatus=0
+TaskBarShowAPMStatus=0
+TaskBarShowAPMTime=0
+TaskBarShowAPMTime=0
+TaskBarShowClock=1
+TaskBarShowCollapseButton=0
+TaskBarShowCPUStatus = 0
+TaskBarShowMailboxStatus=0
+TaskBarShowMailboxStatus=0
+TaskBarShowMailboxStatus=0
+TaskBarShowMEMStatus = 0
+TaskBarShowNetStatus = 0
+TaskBarShowShowDesktopButton=0
+TaskBarShowStartMenu = 0
+TaskBarShowTray=1
+TaskBarShowWindowIcons=1
+TaskBarShowWindowListMenu=1
+TaskBarShowWindows=1
+TaskBarTaskGrouping = 0
+TaskBarWorkspacesLeft=1
+VerticalEdgeSwitch=0
+WarpPointer=1
+WorkspaceNames="   ", "   ", "   ", "   "
+
+EnableAddressBar=1
+KeySysAddressBar="Alt+Ctrl+Space"
+ShowAddressBar=1
+
+KeySysCascade="Super+Alt+F4"
+
+KeySysArrange="Super+Alt+F5"
+
+KeySysUndoArrange="Super+Alt+F7"
+
+KeySysArrangeIcons="Super+Alt+F8"
+
+ColorClock="rgb:c6/c6/c6"
+ColorClockText="rgb:00/00/00"
+TaskBarClockLeds=0
