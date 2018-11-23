@@ -12,14 +12,17 @@ then
    export LC_ALL LANG
 fi
 
-case "$OSTYPE" in
-    linux-gnu*)
-        ulimit -u 10240
-        ulimit -n 16384
-        ulimit -c unlimited
-        ulimit -Sn unlimited && ulimit -Sl unlimited
-        ;;
-esac
+if [ "${USER:-}" != "root" ]
+then
+    case "$OSTYPE" in
+        linux-gnu*)
+            ulimit -u 10240
+            ulimit -n 16384
+            ulimit -c unlimited
+            ulimit -Sn unlimited && ulimit -Sl unlimited
+            ;;
+    esac
+fi
 
 if [ "$BASH" ]
 then
@@ -35,9 +38,12 @@ __source() {
     # shellcheck disable=SC1090
     if [ -f "$1" ]; then . "$1"; fi;
 }
+__warn() {
+    echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+}
 __complain() {
     __is_debug() { [ "${__debug}x" != "x" ]; }
-    __is_debug && echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+    __is_debug && __warn "$*"
 }
 __define_dir() {
     dir="$1"
@@ -188,8 +194,14 @@ __vcs_status() {
     fi
 }
 __ps1() {
-    PROMPT='* '
+    if [ "${USER:-}" = "root" ]
+    then
+        PROMPT='# '
+    else
+        PROMPT='* '
+    fi
     DIR="$(__short_pwd)"
+
     if [ "$DIR" ]
     then
         VCS="$(__vcs_status)"
@@ -236,6 +248,48 @@ case "$TERM" in
       *)    PAGER="less" ;;
 esac
 export PAGER
+
+jdk() {
+    JDK=
+    case "${1:----}" in
+        graal)
+            JDK=GRAALVM_"${2:?no second arg}"
+            ;;
+        [0-9]*)
+            JDK=JDK_"$1"
+            ;;
+        ---)
+            if [ "$JAVA_HOME" ]
+            then
+               "$JAVA_HOME"/bin/java -version
+            else
+                __warn "not defined: JAVA_HOME"
+                if command -v java
+                then
+                    java -version
+                fi
+            fi
+            return
+            ;;
+        *)
+            __warn "not suppored $*"
+            return
+            ;;
+    esac
+    if eval "[ \"x\$$JDK\" == \"x\" ]"
+    then
+        __warn "not defined $JDK"
+        return
+    fi
+    if [ ! -d "$(eval "echo \${$JDK}")" ]
+    then
+        __warn "not exists $JDK"
+        return
+    fi
+    eval "export JAVA_HOME=\$$JDK"
+    jdk
+    PATH="$JAVA_HOME/bin:$PATH"
+}
 
 __source "$HOME/.config/shrc-private"
 __source "$HOME/.nix-profile/etc/profile.d/nix.sh"
