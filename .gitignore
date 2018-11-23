@@ -4,4 +4,4 @@
 !/.gitmodules
 !/nixpkgs/*.nix
 !/*rc
-!/git*
+!.git-crypt
