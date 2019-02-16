@@ -62,8 +62,6 @@ in
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    userName = "andreoss";
-    userEmail = "andreoss@sdf.org";
     extraConfig = {
       url = {
         "git@github.com:" = {
