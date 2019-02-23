@@ -105,6 +105,12 @@ in
       wget https://dtinth.github.io/comic-mono-font/ComicMono-Bold.ttf \
                 --continue                                        \
                 --directory-prefix=$HOME/.fonts/comic-mono/
+      for DIR in "$HOME/.fonts/*"
+      do
+         xset +fp "$HOME/.fonts/$DIR"
+      done
+      xset fp rehash
+      fc-cache
   '';
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
