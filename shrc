@@ -1,0 +1,235 @@
+# -*- mode: sh -*-
+# -*- encoding: ansi -*-
+
+umask 077
+unalias -a
+
+[ "$TERM" != "dumb" ] && set -o vi
+
+ulimit -u 10240
+ulimit -n 16384
+ulimit -c unlimited
+ulimit -Sn unlimited && ulimit -Sl unlimited
+
+shopt -s autocd
+shopt -s histappend
+shopt -s cmdhist
+
+stty werase undef
+
+__source() {
+    # shellcheck disable=SC1090
+    if [ -f "$1" ]; then source "$1"; fi;
+}
+
+__debug=
+__complain() {
+    __is_debug() { [ "$__debug" == "true" ]; }
+    __is_debug && echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+}
+__define_dir() {
+    dir="$1"
+    val="$2"
+    if [ ! -d "$val" ]
+    then
+        __complain "$dir defined to $val which not found"
+    fi
+    eval "$dir=$val"
+}
+__prepend_path() {
+    if [ -d "$1" ]
+    then
+        PATH="$1:$PATH"
+    else
+        __complain "$1 not found"
+    fi
+}
+__append_path() {
+    if [ -d "$1" ]
+    then
+        PATH="$1:$PATH"
+    else
+        __complain "$1 not found"
+    fi
+}
+is_there() {
+    which "$@" >/dev/null 2>&1
+}
+is_running() {
+    pgrep "$@" >/dev/null 2>&1
+}
+
+__prepend_path "$HOME/.local/bin"
+
+if ! is_there sudo && is_there doas
+then
+    alias sudo=doas
+fi
+
+if ! is_there docker && is_there podman
+then
+    alias docker=podman
+fi
+
+if ! is_there vi && is_there elvis
+then
+    alias vi=elvis
+fi
+
+alias e='emacsclient'
+
+if mv --version 2>&1 | grep GNU >/dev/null
+then
+    for command in chmod chown mkdir rm rmdir ln cp mv
+    do
+        # shellcheck disable=SC2139
+        alias "$command=${command} --verbose"
+    done
+    alias ls='ls -1 -F -Q --quoting-style=shell'
+    alias unxz='unxz -v'
+else
+    alias ls='ls -1 -F'
+fi
+# shellcheck disable=SC2142
+{
+    alias _1="awk '{print \$1}'"
+    alias _2="awk '{print \$2}'"
+    alias _3="awk '{print \$3}'"
+}
+__cd() {
+    case "${1:-}" in
+        "")
+            pushd "$HOME" || return
+            ;;
+        "-")
+            popd || return
+            ;;
+        "--")
+            popd || return
+            popd || return
+            ;;
+        *)
+            pushd "$1" || return
+            ;;
+    esac >/dev/null
+}
+alias less='less -R'
+alias more=less
+alias cd=__cd
+alias lc='ls | column'
+alias cd..='cd ..'
+alias cd...='cd ../..'
+alias cd-='cd -'
+alias -- ..='cd..'
+alias -- ...='cd...'
+alias -- -='cd '
+alias -- .!='cd `git root`'
+alias l=ls
+alias sl=ls
+alias la='ls -laht'
+alias ll='ls -l'
+alias lh='ls -asht'
+alias cx='chmod +x'
+alias what='command -v'
+alias rsync='rsync --progress'
+alias xc='xclip -o | xclip -i -selection clipboard'
+alias q=exit
+alias j=jobs
+alias h='fc -l'
+alias wget='wget -U -c'
+alias bc='bc -q'
+alias ssh='ssh -Y'
+alias ngrep='grep -n'
+alias igrep='grep -i'
+alias lstcp='sudo lsof -i TCP -P'
+alias make='time make'
+alias g=git
+alias gs='git status'
+alias gc='git commit'
+alias p=perl6
+alias nm=notmuch
+
+__short_pwd() {
+    DIR=
+    if [ -z "${INSIDE_EMACS:-}" ]
+    then
+        case "$PWD" in
+            "$HOME")
+                DIR=
+                ;;
+            $HOME/*)
+                DIR=${PWD//"$HOME/"}
+                ;;
+            *)
+                DIR="$PWD"
+                ;;
+        esac
+    fi
+    echo -n "$DIR"
+}
+__git_work_tree() {
+    git rev-parse --is-inside-work-tree 2>/dev/null >/dev/null
+}
+__git_branch() {
+    if git show-ref --verify --quiet HEAD
+    then
+        git rev-parse --symbolic-full-name --abbrev-ref HEAD
+    else
+        echo "(empty)"
+    fi
+}
+__vcs_status() {
+    if __git_work_tree
+    then
+        printf '%s' "$(__git_branch)"
+    fi
+}
+__ps1() {
+    PROMPT='* '
+    DIR="$(__short_pwd)"
+    if [ "$DIR" ]
+    then
+        VCS="$(__vcs_status)"
+        printf '%s %s\n%s' "$VCS" "$DIR" "$PROMPT"
+    else
+        printf '%s' "$PROMPT"
+    fi
+}
+
+export PATH
+PROMPT_COMMAND="history -a"
+PS1='$(__ps1)'
+__title() {
+    DIR="$(__short_pwd)"
+    DIR="${DIR:-~}"
+    COMMAND="$BASH_COMMAND"
+    VCS="$(__vcs_status)"
+    case "$COMMAND" in
+        history*)
+            COMMAND=""
+            ;;
+    esac
+    if [ "$COMMAND" ]
+    then
+        echo -ne "\e]0;${VCS} ${DIR}: ${COMMAND}\007"
+    else
+        echo -ne "\e]0;${VCS} ${DIR}\007"
+    fi
+}
+case "$TERM" in
+    xterm*|rxvt*)
+        trap '__title' DEBUG
+        ;;
+esac
+__prepend_path "$HOME/.scripts"
+__prepend_path "$HOME/.cargo/bin"
+case "$TERM" in
+      dumb) PAGER="cat"  ;;
+      *)    PAGER="less" ;;
+esac
+export PAGER
+
+__source "$HOME/.config/shrc-private"
+__source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+__source "$HOME/.nix-profile/etc/profile.d/autojump.sh"
+__source "$HOME/.nix-profile/etc/bash_completion.d/git-prompt.sh"
