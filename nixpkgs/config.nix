@@ -1,0 +1,3 @@
+{
+   allowUnfree = false;
+}
