@@ -54,9 +54,119 @@ in
         ];
       });
     extraPackages = epkgs: [
-      epkgs.nix-mode
-      epkgs.magit
+      epkgs.ag
+      epkgs.aggressive-indent
+      epkgs.auto-compile
+      epkgs.backup-each-save
+      epkgs.bash-completion
+      epkgs.beacon
+      epkgs.better-defaults
+      epkgs.browse-kill-ring
+      epkgs.bug-reference-github
+      epkgs.cargo
+      epkgs.ccls
+      epkgs.c-eldoc
+      epkgs.centered-cursor-mode
+      epkgs.company
+      epkgs.company-c-headers
+      epkgs.company-lua
+      epkgs.company-prescient
+      epkgs.counsel
+      epkgs.dashboard
+      epkgs.default-text-scale
+      epkgs.digit-groups
+      epkgs.dired-narrow
+      epkgs.dired-subtree
+      epkgs.dumb-jump
+      epkgs.editorconfig
+      epkgs.elisp-lint
+      epkgs.elisp-slime-nav
+      epkgs.eros
+      epkgs.eval-sexp-fu
       epkgs.evil
+      epkgs.evil-collection
+      epkgs.evil-commentary
+      epkgs.evil-goggles
+      epkgs.evil-leader
+      epkgs.evil-lispy
+      epkgs.evil-magit
+      epkgs.evil-snipe
+      epkgs.expand-region
+      epkgs.feebleline
+      epkgs.flx
+      epkgs.flx-ido
+      epkgs.flycheck
+      epkgs.flycheck-inline
+      epkgs.flycheck-rust
+      epkgs.flymake-cursor
+      epkgs.flymake-shell
+      epkgs.fringe-current-line
+      epkgs.fullframe
+      epkgs.git-gutter
+      epkgs.go-autocomplete
+      epkgs.go-eldoc
+      epkgs.go-guru
+      epkgs.golint
+      epkgs.go-mode
+      epkgs.groovy-mode
+      epkgs.guix
+      epkgs.helm
+      epkgs.helm-lsp
+      epkgs.highlight
+      epkgs.hl-todo
+      epkgs.hydra
+      epkgs.ivy
+      epkgs.ivy-prescient
+      epkgs.keyfreq
+      epkgs.kotlin-mode
+      epkgs.langtool
+      epkgs.lispy
+      epkgs.lsp-haskell
+      epkgs.lsp-ivy
+      epkgs.lsp-java
+      epkgs.lsp-javacomp
+      epkgs.lsp-metals
+      epkgs.lsp-mode
+      epkgs.lsp-python-ms
+      epkgs.lsp-sonarlint
+      epkgs.lsp-ui
+      epkgs.lua-mode
+      epkgs.magit
+      epkgs.nix-mode
+      epkgs.notmuch
+      epkgs.ob-restclient
+      epkgs.org-bullets
+      epkgs.org-caldav
+      epkgs.org-evil
+      epkgs.org-jira
+      epkgs.org-pdftools
+      epkgs.page-break-lines
+      epkgs.paredit
+      epkgs.pdf-tools
+      epkgs.persistent-scratch
+      epkgs.projectile
+      epkgs.pyvenv
+      epkgs.quelpa-use-package
+      epkgs.quick-peek
+      epkgs.rainbow-mode
+      epkgs.raku-mode
+      epkgs.restart-emacs
+      epkgs.reverse-im
+      epkgs.rust-mode
+      epkgs.selectrum
+      epkgs.session
+      epkgs.slime
+      epkgs.slime-company
+      epkgs.telega
+      epkgs.typescript-mode
+      epkgs.undo-tree
+      epkgs.unkillable-scratch
+      epkgs.use-package
+      epkgs.vlf
+      epkgs.which-key
+      epkgs.winum
+      epkgs.yasnippet
+      epkgs.ytdl
     ];
   };
   programs.git = {
@@ -138,6 +248,8 @@ in
     docker
     gitAndTools.git-codeowners
     gitAndTools.gitflow
+    gitAndTools.git-extras
+    mercurialFull
     unstable.maven
     unstable.gradle
     unstable.ant
@@ -147,6 +259,7 @@ in
     shellcheck
     iosevka
     tamzen
+    nix
   ];
   gtk.theme = "Adwaita";
   xresources.properties = {
