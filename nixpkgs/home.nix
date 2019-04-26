@@ -172,18 +172,13 @@ in
       epkgs.winum
       epkgs.yasnippet
       epkgs.ytdl
+      epkgs.scala-mode
+      epkgs.sbt-mode
     ];
   };
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    extraConfig = {
-      url = {
-        "git@github.com:" = {
-          insteadOf = "https://github.com/";
-        };
-      };
-    };
     aliases = {
       au   = "add --all";
       cc   = "clone";
