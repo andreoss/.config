@@ -8,10 +8,18 @@ in
   nixpkgs.config = {
     packageOverrides = pkgs: {
       unstable = import unstableTarball { config = config.nixpkgs.config; };
+      nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+        inherit pkgs;
+      };
     };
   };
   programs.home-manager.enable = true;
   programs.command-not-found.enable = true;
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    enableNixDirenvIntegration = true;
+  };
   programs.autojump.enable = true;
   programs.lf.enable = true;
   programs.jq.enable = true;
