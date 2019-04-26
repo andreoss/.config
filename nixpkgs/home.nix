@@ -42,9 +42,6 @@ in
     extraConfig = {};
     fonts = ["xft:Tamzen:size=12"];
   };
-  programs.firefox = {
-    enable = true;
-  };
   programs.emacs = {
     enable = true;
     package = (pkgs.emacs.override {
@@ -199,6 +196,30 @@ in
       pure = "pull --rebase";
       ri   = "rebase --interactive";
       xx   = "reset HEAD";
+    };
+  };
+  programs.chromium = {
+    enable = true;
+    extensions = [
+    ];
+  };
+  programs.firefox= {
+    enable = true;
+    extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      https-everywhere
+      tridactyl
+      ublock-origin
+    ];
+    profiles  = {
+      work = {
+        name = "work";
+        settings = {
+          "browser.bookmarks.showMobileBookmarks" = false;
+        };
+        extraConfig = builtins.readFile (builtins.fetchurl
+          "https://raw.githubusercontent.com/pyllyukko/user.js/master/user.js"
+        );
+      };
     };
   };
   home.username = "a";
