@@ -209,12 +209,15 @@ in
   home.activation.installFonts = lib.hm.dag.entryAfter ["writeBoundary"] ''
       install --directory --mode 755 --owner="$USER" "$HOME/.fonts/"
       install --directory --mode 755 --owner="$USER" "$HOME/.fonts/comic-mono/"
-      ${pkgs.wget.out}/bin/wget https://dtinth.github.io/comic-mono-font/ComicMono.ttf \
-                --continue                                        \
-                --directory-prefix=$HOME/.fonts/comic-mono/
-      ${pkgs.wget.out}/bin/wget https://dtinth.github.io/comic-mono-font/ComicMono-Bold.ttf \
-                --continue                                        \
-                --directory-prefix=$HOME/.fonts/comic-mono/
+      if [ ! -d "$HOME/.fonts/comic-mono" ]
+      then
+          ${pkgs.wget.out}/bin/wget https://dtinth.github.io/comic-mono-font/ComicMono.ttf \
+                    --continue                                        \
+                    --directory-prefix=$HOME/.fonts/comic-mono/
+          ${pkgs.wget.out}/bin/wget https://dtinth.github.io/comic-mono-font/ComicMono-Bold.ttf \
+                    --continue                                        \
+                    --directory-prefix=$HOME/.fonts/comic-mono/
+      fi
       for DIR in "$HOME/.fonts"/*
       do
          ${pkgs.xorg.mkfontdir.out}/bin/mkfontdir "$DIR"
