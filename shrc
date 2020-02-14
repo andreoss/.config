@@ -6,10 +6,12 @@ unalias -a
 
 [ "$TERM" != "dumb" ] && set -o vi
 
-ulimit -u 10240
-ulimit -n 16384
-ulimit -c unlimited
-ulimit -Sn unlimited && ulimit -Sl unlimited
+{
+    ulimit -u 10240
+    ulimit -n 16384
+    ulimit -c unlimited
+    ulimit -Sn unlimited && ulimit -Sl unlimited
+} 2>/dev/null
 
 shopt -s autocd
 shopt -s histappend
