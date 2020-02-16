@@ -140,6 +140,7 @@ in
     gitAndTools.gitflow
     unstable.maven
     unstable.gradle
+    unstable.ant
     unstable.jetbrains.idea-community
     umlet
     shellcheck
