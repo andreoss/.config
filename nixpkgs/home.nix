@@ -99,18 +99,19 @@ in
   home.activation.installFonts = lib.hm.dag.entryAfter ["writeBoundary"] ''
       install --directory --mode 755 --owner="$USER" "$HOME/.fonts/"
       install --directory --mode 755 --owner="$USER" "$HOME/.fonts/comic-mono/"
-      wget https://dtinth.github.io/comic-mono-font/ComicMono.ttf \
+      ${pkgs.wget.out}/bin/wget https://dtinth.github.io/comic-mono-font/ComicMono.ttf \
                 --continue                                        \
                 --directory-prefix=$HOME/.fonts/comic-mono/
-      wget https://dtinth.github.io/comic-mono-font/ComicMono-Bold.ttf \
+      ${pkgs.wget.out}/bin/wget https://dtinth.github.io/comic-mono-font/ComicMono-Bold.ttf \
                 --continue                                        \
                 --directory-prefix=$HOME/.fonts/comic-mono/
-      for DIR in "$HOME/.fonts/*"
+      for DIR in "$HOME/.fonts"/*
       do
-         xset +fp "$HOME/.fonts/$DIR"
+         ${pkgs.xorg.mkfontdir.out}/bin/mkfontdir "$DIR"
+         ${pkgs.xorg.xset.out}/bin/xset +fp "$DIR"
       done
-      xset fp rehash
-      fc-cache
+      ${pkgs.xorg.xset.out}/bin/xset fp rehash
+      ${pkgs.fontconfig.bin}/bin/fc-cache
   '';
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
