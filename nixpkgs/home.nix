@@ -141,6 +141,7 @@ in
     unstable.maven
     unstable.gradle
     unstable.ant
+    unstable.visualvm
     unstable.jetbrains.idea-community
     umlet
     shellcheck
