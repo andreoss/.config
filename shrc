@@ -1,3 +1,4 @@
+#!/bin/sh
 # -*- mode: sh -*-
 # -*- encoding: ansi -*-
 
@@ -13,9 +14,12 @@ unalias -a
     ulimit -Sn unlimited && ulimit -Sl unlimited
 } 2>/dev/null
 
-shopt -s autocd
-shopt -s histappend
-shopt -s cmdhist
+if [ "$BASH" ]
+then
+    shopt -s autocd
+    shopt -s histappend
+    shopt -s cmdhist
+fi
 
 stty werase undef
 
@@ -98,22 +102,28 @@ fi
     alias _2="awk '{print \$2}'"
     alias _3="awk '{print \$3}'"
 }
+
 __cd() {
-    case "${1:-}" in
-        "")
-            pushd "$HOME" || return
-            ;;
-        "-")
-            popd || return
-            ;;
-        "--")
-            popd || return
-            popd || return
-            ;;
-        *)
-            pushd "$1" || return
-            ;;
-    esac >/dev/null
+    if ! [ "$BASH" ]
+    then
+        \cd "$*" || return
+    else
+        case "${1:-}" in
+            "")
+                pushd "$HOME" || return
+                ;;
+            "-")
+                popd || return
+                ;;
+            "--")
+                popd || return
+                popd || return
+                ;;
+            *)
+                pushd "$1" || return
+                ;;
+        esac >/dev/null
+    fi
 }
 alias less='less -R'
 alias more=less
@@ -218,11 +228,13 @@ __title() {
         echo -ne "\e]0;${VCS} ${DIR}\007"
     fi
 }
-case "$TERM" in
-    xterm*|rxvt*)
-        trap '__title' DEBUG
-        ;;
-esac
+if [ "$BASH" ]
+then
+    case "$TERM" in xterm*|rxvt*)
+                        trap '__title' DEBUG
+                        ;;
+    esac
+fi
 __prepend_path "$HOME/.scripts"
 __prepend_path "$HOME/.cargo/bin"
 case "$TERM" in
