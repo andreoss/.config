@@ -1,0 +1,23 @@
+exec wmname LG3D
+exec xhost +local:
+
+startup_message off
+set bgcolor #ffffea
+set bwcolor #8e8e8e
+set fwcolor #121212
+set winfmt %n %c %s%20t(%wx%h)
+set startupmessage 0
+set wrap 1
+set barborder 3
+set border 3
+set padding 20 20 20 20
+set barpadding 20 0
+set barinpadding 0
+set framesels 1234567890
+set bargravity c
+bind o only
+
+addhook key windows
+
+definekey top M-Tab focusprev
+definekey top M-S-Tab focus
