@@ -25,11 +25,11 @@ in
   programs.eclipse = {
     enable = true;
     enableLombok = true;
-    package = pkgs.eclipses.eclipse-java;
+    package = pkgs.unstable.eclipses.eclipse-java;
     plugins = [
-      pkgs.eclipses.plugins.vrapper
-      pkgs.eclipses.plugins.spotbugs
-      pkgs.eclipses.plugins.color-theme
+      pkgs.unstable.eclipses.plugins.vrapper
+      pkgs.unstable.eclipses.plugins.spotbugs
+      pkgs.unstable.eclipses.plugins.color-theme
     ];
   };
   programs.tmux = {
