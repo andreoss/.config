@@ -202,17 +202,6 @@ in
       tridactyl
       ublock-origin
     ];
-    profiles  = {
-      work = {
-        name = "work";
-        settings = {
-          "browser.bookmarks.showMobileBookmarks" = false;
-        };
-        extraConfig = builtins.readFile (builtins.fetchurl
-          "https://raw.githubusercontent.com/pyllyukko/user.js/master/user.js"
-        );
-      };
-    };
   };
   home.username = "a";
   home.homeDirectory = "/home/a";
