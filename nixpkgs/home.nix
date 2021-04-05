@@ -284,7 +284,6 @@ in
     tamzen
     nix
   ];
-  gtk.theme = "Adwaita";
   xresources.properties = {
     "Emacs*font" = "Comic Mono-14";
     "Emacs*geometry" = "80x40";
