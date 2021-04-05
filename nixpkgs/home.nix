@@ -227,7 +227,6 @@ in
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
-      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-14.out}" $HOME/.jdk/14
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-15.out}" $HOME/.jdk/15
       ln --symbolic --force "${pkgs.unstable.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
       ln --symbolic --force "${pkgs.unstable.graalvm11-ce.out}"                $HOME/.jdk/11-graal
