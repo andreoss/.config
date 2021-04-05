@@ -292,4 +292,9 @@ in
     "Emacs.scrollBarWidth" =  6;
   };
   services.stalonetray.enable = true;
+  programs.rofi.enable = true;
+  services.sxhkd = {
+    enable = true;
+    extraPath = "/run/current-system/sw/bin";
+  };
 }
