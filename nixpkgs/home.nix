@@ -285,7 +285,7 @@ in
     nix
   ];
   xresources.properties = {
-    "Emacs*font" = "Comic Mono-14";
+    "Emacs*font" = "Tamzen-14";
     "Emacs*geometry" = "80x40";
     "Emacs.scrollBar" = "on";
     "Emacs.scrollBarWidth" =  6;
