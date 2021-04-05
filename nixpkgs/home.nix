@@ -160,6 +160,8 @@ in
       epkgs.restart-emacs
       epkgs.reverse-im
       epkgs.rust-mode
+      epkgs.sbt-mode
+      epkgs.scala-mode
       epkgs.selectrum
       epkgs.session
       epkgs.slime
@@ -170,12 +172,11 @@ in
       epkgs.unkillable-scratch
       epkgs.use-package
       epkgs.vlf
+      epkgs.vterm
       epkgs.which-key
       epkgs.winum
       epkgs.yasnippet
       epkgs.ytdl
-      epkgs.scala-mode
-      epkgs.sbt-mode
     ];
   };
   programs.git = {
