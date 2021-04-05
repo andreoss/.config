@@ -274,16 +274,27 @@ in
     gitAndTools.gitflow
     gitAndTools.git-extras
     mercurialFull
-    unstable.maven
-    unstable.gradle
-    unstable.ant
-    unstable.visualvm
+    ant
+    clojure
+    clojure-lsp
+    gradle
+    groovy
     unstable.jetbrains.idea-community
+    unstable.netbeans
+    leiningen
+    lombok
+    maven
+    metals
+    sbt
+    visualvm
     umlet
     shellcheck
     iosevka
     tamzen
     nix
+    xorg.xdpyinfo
+    xorg.xmessage
+    unstable.nyxt
   ];
   xresources.properties = {
     "Emacs*font" = "Tamzen-14";
