@@ -42,6 +42,9 @@ in
     fonts = ["xft:Tamzen:size=12"];
   };
   programs.emacs = {
+    overrides = self: super: rec {
+      telega = pkgs.unstable.emacsPackages.telega;
+    };
     enable = true;
     package = (pkgs.emacs.override {
         withGTK3 = true;
