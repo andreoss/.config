@@ -195,11 +195,6 @@ in
       xx   = "reset HEAD";
     };
   };
-  programs.chromium = {
-    enable = true;
-    extensions = [
-    ];
-  };
   programs.firefox= {
     enable = true;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
