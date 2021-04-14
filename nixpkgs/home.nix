@@ -134,8 +134,6 @@ in
       epkgs.flycheck
       epkgs.flycheck-inline
       epkgs.flycheck-rust
-      epkgs.flymake-cursor
-      epkgs.flymake-shell
       epkgs.fringe-current-line
       epkgs.fullframe
       epkgs.git-gutter
