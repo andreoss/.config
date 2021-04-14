@@ -38,8 +38,37 @@ in
   };
   programs.urxvt = {
     enable = true;
-    extraConfig = {};
+    iso14755 = false;
     fonts = ["xft:Tamzen:size=12"];
+    scroll = {
+      bar.enable = true;
+      lines = 65535;
+      scrollOnOutput = false;
+      scrollOnKeystroke = true;
+    };
+    extraConfig = {
+      "loginShell" = "true";
+      "urgentOnBell" = "true";
+      "secondaryScroll" = "true";
+      "background" = "#101010";
+      "foreground" = "#aeaeae";
+      "color0" = "#101010";
+      "color1" = "#AE0050";
+      "color2" = "#69ae11";
+      "color3" = "#c47f2c";
+      "color4" = "#4040ae";
+      "color5" = "#7e43ae";
+      "color6" = "#4979ae";
+      "color7" = "#a999ae";
+      "color8" = "#353535";
+      "color9" = "#fa3a99";
+      "color10" = "#44fa80";
+      "color11" = "#fabe9a";
+      "color12" = "#4f4fea";
+      "color13" = "#ab88de";
+      "color14" = "#4eb9fa";
+      "color15" = "#d3d0d0";
+    };
   };
   programs.emacs = {
     overrides = self: super: rec {
