@@ -6,6 +6,7 @@ umask 077
 unalias -a
 
 [ "$TERM" != "dumb" ] && set -o vi
+[ "$TERM" != "dumb" ] && TERM=vt100
 
 {
     ulimit -u 10240
