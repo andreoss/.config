@@ -1,23 +1,28 @@
 exec wmname LG3D
 exec xhost +local:
+exec ~/.fehbg
 
-startup_message off
-set bgcolor #ffffea
-set bwcolor #8e8e8e
-set fwcolor #121212
-set winfmt %n %c %s%20t(%wx%h)
-set startupmessage 0
-set wrap 1
+set barborder 10
 set barborder 3
-set border 3
-set padding 20 20 20 20
-set barpadding 20 0
+set bargravity nw
 set barinpadding 0
+set barpadding 20 0
+
+set border 3
+set bgcolor #121212
+set fgcolor #ffffaa
+set bwcolor #eaeaea
+set fwcolor #aafaaa
 set framesels 1234567890
-set bargravity c
+set padding 20 20 20 20
+set startupmessage 0
+set winfmt %n %c %s%20t(%wx%h)
+set wrap 1
+startup_message off
 bind o only
 
 addhook key windows
 
 definekey top M-Tab focusprev
 definekey top M-S-Tab focus
+bind a exec ratpoison -d :0.0 -c "echo `uptime` `date` "
