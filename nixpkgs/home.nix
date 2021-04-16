@@ -239,7 +239,6 @@ in
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
-      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-15.out}" $HOME/.jdk/15
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
       ln --symbolic --force "${pkgs.unstable.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
       ln --symbolic --force "${pkgs.unstable.graalvm11-ce.out}"                $HOME/.jdk/11-graal
@@ -268,7 +267,7 @@ in
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
     JDK_14 = "$HOME/.jdk/14";
-    JDK_15 = "$HOME/.jdk/15";
+    JDK_16 = "$HOME/.jdk/16";
     GRAALVM_8 = "$HOME/.jdk/8-graal";
     GRAALVM_11 = "$HOME/.jdk/11-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
