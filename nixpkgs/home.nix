@@ -157,7 +157,6 @@ in
       epkgs.lispy
       epkgs.forge
       epkgs.emacsql
-      epkgs.emacsql
       epkgs.nix-mode
       epkgs.notmuch
       epkgs.ob-restclient
@@ -202,27 +201,6 @@ in
       epkgs.evil-matchit
       epkgs.clj-refactor
       epkgs.aggressive-indent
-      # epkgs.lsp-haskell
-      # epkgs.lsp-ivy
-      # epkgs.lsp-java
-      # epkgs.lsp-javacomp
-      # epkgs.lsp-metals
-      # epkgs.lsp-mode
-      # epkgs.lsp-python-ms
-      # epkgs.lsp-sonarlint
-      # epkgs.lsp-ui
-      # epkgs.lua-mode
-      # epkgs.evil-magit
-      # epkgs.magit
-      # epkgs.magit-gitflow
-      # epkgs.magit-filenotify
-      # epkgs.evil
-      # epkgs.evil-collection
-      # epkgs.evil-commentary
-      # epkgs.evil-goggles
-      # epkgs.evil-leader
-      # epkgs.evil-lispy
-      # epkgs.evil-snipe
     ];
   };
   programs.git = {
