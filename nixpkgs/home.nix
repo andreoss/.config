@@ -38,52 +38,53 @@ in
   };
   programs.urxvt = {
     enable = true;
-    iso14755 = false;
+    package = pkgs.rxvt_unicode-with-plugins;
+    iso14755 = true;
     fonts = ["xft:Tamzen:size=12"];
     scroll = {
       bar.enable = true;
+      bar.style = "plain";
       lines = 65535;
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
     extraConfig = {
+      "perl-ext-common" = [ "selection-to-clipboard"];
+      "letterSpace" = -1;
       "loginShell" = "true";
       "urgentOnBell" = "true";
       "secondaryScroll" = "true";
-      "background" = "#101010";
-      "foreground" = "#aeaeae";
-      "color0" = "#101010";
-      "color1" = "#AE0050";
-      "color2" = "#69ae11";
-      "color3" = "#c47f2c";
-      "color4" = "#4040ae";
-      "color5" = "#7e43ae";
-      "color6" = "#4979ae";
-      "color7" = "#a999ae";
-      "color8" = "#353535";
-      "color9" = "#fa3a99";
-      "color10" = "#44fa80";
-      "color11" = "#fabe9a";
-      "color12" = "#4f4fea";
-      "color13" = "#ab88de";
-      "color14" = "#4eb9fa";
-      "color15" = "#d3d0d0";
+      "cursorColor" = "#afbfbf";
+      "cursorBlink" = "true";
+      "internalBorder" = 24;
+      "depth" = 24;
+      "background" = "#101010"; "foreground" = "#aeaeae";
+      "color0"  = "#101010"; "color8"  = "#353535";
+      "color1"  = "#AE0050"; "color9"  = "#FA3A99";
+      "color2"  = "#69AE11"; "color10" = "#44FA80";
+      "color3"  = "#C47F2C"; "color11" = "#FABE9A";
+      "color4"  = "#4040AE"; "color12" = "#4F4FEA";
+      "color5"  = "#7E43AE"; "color13" = "#AB88DE";
+      "color6"  = "#4979AE"; "color14" = "#4EB9FA";
+      "color7"  = "#A999AE"; "color15" = "#D3D0D0";
     };
   };
   programs.emacs = {
     overrides = self: super: rec {
       telega = pkgs.unstable.emacsPackages.telega;
+      evil = pkgs.unstable.emacsPackages.evil;
+      magit = pkgs.unstable.emacsPackages.magit;
     };
     enable = true;
     package = (pkgs.emacs.override {
-        withGTK3 = true;
+        withGTK3 = false;
         withGTK2 = false;
       }).overrideAttrs (attrs: {
         configureFlags = [
           "--disable-build-details"
           "--with-modules"
           "--without-toolkit-scroll-bars"
-          "--with-x-toolkit=gtk3"
+          "--with-x-toolkit=no"
           "--with-xft"
           "--with-cairo"
           "--with-nativecomp"
