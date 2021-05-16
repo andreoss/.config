@@ -26,10 +26,10 @@ in
     enable = true;
     enableLombok = true;
     package = pkgs.unstable.eclipses.eclipse-java;
-    plugins = [
-      pkgs.unstable.eclipses.plugins.vrapper
-      pkgs.unstable.eclipses.plugins.spotbugs
-      pkgs.unstable.eclipses.plugins.color-theme
+    plugins = with pkgs.unstable.eclipses.plugins; [
+      vrapper
+      spotbugs
+      color-theme
     ];
   };
   programs.tmux = {
