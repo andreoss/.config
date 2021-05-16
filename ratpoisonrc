@@ -2,6 +2,8 @@ exec wmname LG3D
 exec xhost +local:
 exec ~/.fehbg
 
+unmanage stalonetray
+
 set barborder 10
 set barborder 3
 set bargravity nw
@@ -25,4 +27,5 @@ addhook key windows
 
 definekey top M-Tab focusprev
 definekey top M-S-Tab focus
-bind a exec ratpoison -d :0.0 -c "echo `uptime` `date` "
+
+tmpwm ~/.stumpwm.d/start.sh
