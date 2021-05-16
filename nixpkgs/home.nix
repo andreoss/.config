@@ -94,6 +94,7 @@ in
       epkgs.ag
       epkgs.aggressive-indent
       epkgs.auto-compile
+      epkgs.avy
       epkgs.backup-each-save
       epkgs.bash-completion
       epkgs.beacon
@@ -104,6 +105,8 @@ in
       epkgs.ccls
       epkgs.c-eldoc
       epkgs.centered-cursor-mode
+      epkgs.cider
+      epkgs.clojure-mode
       epkgs.company
       epkgs.company-c-headers
       epkgs.company-lua
@@ -120,15 +123,8 @@ in
       epkgs.elisp-slime-nav
       epkgs.eros
       epkgs.eval-sexp-fu
-      epkgs.evil
-      epkgs.evil-collection
-      epkgs.evil-commentary
-      epkgs.evil-goggles
-      epkgs.evil-leader
-      epkgs.evil-lispy
-      epkgs.evil-magit
-      epkgs.evil-snipe
       epkgs.expand-region
+      epkgs.exwm
       epkgs.feebleline
       epkgs.flx
       epkgs.flx-ido
@@ -137,7 +133,10 @@ in
       epkgs.flycheck-rust
       epkgs.fringe-current-line
       epkgs.fullframe
+      epkgs.general
+      epkgs.gitconfig
       epkgs.git-gutter
+      epkgs.gitignore-mode
       epkgs.go-autocomplete
       epkgs.go-eldoc
       epkgs.go-guru
@@ -146,7 +145,7 @@ in
       epkgs.groovy-mode
       epkgs.guix
       epkgs.helm
-      epkgs.helm-lsp
+      epkgs.helpful
       epkgs.highlight
       epkgs.hl-todo
       epkgs.hydra
@@ -156,17 +155,9 @@ in
       epkgs.kotlin-mode
       epkgs.langtool
       epkgs.lispy
-      epkgs.lsp-haskell
-      epkgs.lsp-ivy
-      epkgs.lsp-java
-      epkgs.lsp-javacomp
-      epkgs.lsp-metals
-      epkgs.lsp-mode
-      epkgs.lsp-python-ms
-      epkgs.lsp-sonarlint
-      epkgs.lsp-ui
-      epkgs.lua-mode
-      epkgs.magit
+      epkgs.forge
+      epkgs.emacsql
+      epkgs.emacsql
       epkgs.nix-mode
       epkgs.notmuch
       epkgs.ob-restclient
@@ -205,6 +196,33 @@ in
       epkgs.winum
       epkgs.yasnippet
       epkgs.ytdl
+      epkgs.ghub
+      epkgs.emms
+      epkgs.evil-exchange
+      epkgs.evil-matchit
+      epkgs.clj-refactor
+      epkgs.aggressive-indent
+      # epkgs.lsp-haskell
+      # epkgs.lsp-ivy
+      # epkgs.lsp-java
+      # epkgs.lsp-javacomp
+      # epkgs.lsp-metals
+      # epkgs.lsp-mode
+      # epkgs.lsp-python-ms
+      # epkgs.lsp-sonarlint
+      # epkgs.lsp-ui
+      # epkgs.lua-mode
+      # epkgs.evil-magit
+      # epkgs.magit
+      # epkgs.magit-gitflow
+      # epkgs.magit-filenotify
+      # epkgs.evil
+      # epkgs.evil-collection
+      # epkgs.evil-commentary
+      # epkgs.evil-goggles
+      # epkgs.evil-leader
+      # epkgs.evil-lispy
+      # epkgs.evil-snipe
     ];
   };
   programs.git = {
@@ -216,7 +234,7 @@ in
       ci   = "commit";
       co   = "checkout";
       fe   = "fetch";
-      ll   = "log --one-line";
+      ll   = "log --oneline";
       me   = "merge";
       pu   = "pull";
       pure = "pull --rebase";
@@ -275,6 +293,10 @@ in
     MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
   };
   home.packages = with pkgs; [
+    notmuch
+    davmail
+    isync
+    msmtp
     pkg-config
     cloc
     ack
@@ -302,24 +324,46 @@ in
     leiningen
     lombok
     maven
-    metals
+    unstable.metals
     sbt
     visualvm
     umlet
     shellcheck
     iosevka
     tamzen
+    uw-ttyp0
     nix
     xorg.xdpyinfo
     xorg.xmessage
     unstable.nyxt
+    lispPackages.dbus
+    lispPackages.external-program
+    lispPackages.bordeaux-threads
+    lispPackages.quicklisp
+    lispPackages.swank
+    lispPackages.stumpwm
+    imagemagick7Big
+    ffmpeg-full
+    mpv
   ];
   xresources.properties = {
-    "Emacs*font" = "Tamzen-14";
+    "Emacs*font" = "Iosevka-14";
     "Emacs*geometry" = "80x40";
     "Emacs.scrollBar" = "on";
     "Emacs.scrollBarWidth" =  6;
   };
-  services.stalonetray.enable = true;
   programs.rofi.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+  };
+  services.cbatticon.enable = true;
+  services.emacs.enable = true;
+  services.keynav.enable = true;
+  services.network-manager-applet.enable = true;
+  services.pasystray.enable = true;
+  home.file.".shrc".source = ~/.config/shrc;
+  home.file.".inputrc".source = ~/.config/inputrc;
+  home.file.".ratpoisonrc".source = ~/.config/ratpoisonrc;
 }
