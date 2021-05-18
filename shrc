@@ -104,31 +104,10 @@ fi
     alias _3="awk '{print \$3}'"
 }
 
-__cd() {
-    if ! [ "$BASH" ]
-    then
-        \cd "$*" || return
-    else
-        case "${1:-}" in
-            "")
-                pushd "$HOME" || return
-                ;;
-            "-")
-                popd || return
-                ;;
-            "--")
-                popd || return
-                popd || return
-                ;;
-            *)
-                pushd "$1" || return
-                ;;
-        esac >/dev/null
-    fi
-}
+CDPATH=".:$HOME:$HOME/src:$HOME/work:$HOME"
+export CDPATH
 alias less='less -R'
 alias more=less
-alias cd=__cd
 alias lc='ls | column'
 alias cd..='cd ..'
 alias cd...='cd ../..'
@@ -178,7 +157,7 @@ __short_pwd() {
                 ;;
         esac
     fi
-    echo -n "$DIR"
+    printf '%s' "$DIR"
 }
 __git_work_tree() {
     git rev-parse --is-inside-work-tree 2>/dev/null >/dev/null
