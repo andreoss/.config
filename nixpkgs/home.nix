@@ -1,8 +1,20 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, fetchurl, stdenv, ... }:
 let
   unstableTarball = fetchTarball
     "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
   hostname = builtins.replaceStrings ["\n"] [""] (builtins.readFile /etc/hostname);
+  onHost = hosts: builtins.any (s: s == hostname) hosts;
+  onLocal = onHost [ "thnk" ];
+  ifOnHost = host: result: alternative: if (onHost host) then result else alternative;
+  ifOnLocal = ((ifOnHost) ["think"]);
+  sbclPackages = with pkgs.lispPackages; [
+    dbus
+    external-program
+    bordeaux-threads
+    quicklisp
+    swank
+    stumpwm
+  ];
 in
 {
   nixpkgs.config = {
@@ -26,10 +38,10 @@ in
     enable = true;
     enableLombok = true;
     package = pkgs.unstable.eclipses.eclipse-java;
-    plugins = [
-      pkgs.unstable.eclipses.plugins.vrapper
-      pkgs.unstable.eclipses.plugins.spotbugs
-      pkgs.unstable.eclipses.plugins.color-theme
+    plugins = with pkgs.unstable.eclipses.plugins; [
+      vrapper
+      spotbugs
+      color-theme
     ];
   };
   programs.tmux = {
@@ -38,61 +50,70 @@ in
   };
   programs.urxvt = {
     enable = true;
-    iso14755 = false;
+    package = pkgs.rxvt_unicode-with-plugins;
+    iso14755 = true;
     fonts = ["xft:Tamzen:size=12"];
     scroll = {
       bar.enable = true;
+      bar.style = "plain";
       lines = 65535;
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
     extraConfig = {
+      "perl-ext-common" = [ "selection-to-clipboard"];
+      "letterSpace" = -1;
       "loginShell" = "true";
       "urgentOnBell" = "true";
       "secondaryScroll" = "true";
-      "background" = "#101010";
-      "foreground" = "#aeaeae";
-      "color0" = "#101010";
-      "color1" = "#AE0050";
-      "color2" = "#69ae11";
-      "color3" = "#c47f2c";
-      "color4" = "#4040ae";
-      "color5" = "#7e43ae";
-      "color6" = "#4979ae";
-      "color7" = "#a999ae";
-      "color8" = "#353535";
-      "color9" = "#fa3a99";
-      "color10" = "#44fa80";
-      "color11" = "#fabe9a";
-      "color12" = "#4f4fea";
-      "color13" = "#ab88de";
-      "color14" = "#4eb9fa";
-      "color15" = "#d3d0d0";
+      "cursorColor" = "#afbfbf";
+      "cursorBlink" = "true";
+      "internalBorder" = 24;
+      "depth" = 24;
+      "background" = "#101010"; "foreground" = "#aeaeae";
+      "color0"  = "#101010"; "color8"  = "#353535";
+      "color1"  = "#AE0050"; "color9"  = "#FA3A99";
+      "color2"  = "#69AE11"; "color10" = "#44FA80";
+      "color3"  = "#C47F2C"; "color11" = "#FABE9A";
+      "color4"  = "#4040AE"; "color12" = "#4F4FEA";
+      "color5"  = "#7E43AE"; "color13" = "#AB88DE";
+      "color6"  = "#4979AE"; "color14" = "#4EB9FA";
+      "color7"  = "#A999AE"; "color15" = "#D3D0D0";
     };
   };
   programs.emacs = {
     overrides = self: super: rec {
       telega = pkgs.unstable.emacsPackages.telega;
+      evil = pkgs.unstable.emacsPackages.evil;
+      magit = pkgs.unstable.emacsPackages.magit;
     };
     enable = true;
     package = (pkgs.emacs.override {
-        withGTK3 = true;
-        withGTK2 = false;
-      }).overrideAttrs (attrs: {
-        configureFlags = [
-          "--disable-build-details"
-          "--with-modules"
-          "--without-toolkit-scroll-bars"
-          "--with-x-toolkit=gtk3"
-          "--with-xft"
-          "--with-cairo"
-          "--with-nativecomp"
-        ];
-      });
+      withGTK3 = false;
+      withGTK2 = false;
+      srcRepo = true;
+    }).overrideAttrs (attrs: {
+      src = pkgs.fetchgit {
+        rev = "emacs-27.2";
+        url = "https://git.savannah.gnu.org/git/emacs.git";
+        sha256 = "0p5ilxpn9kj57h9fbw3jwz409k5j1ilpyj7z3i3crxs7aigiga8s";
+      };
+      patches = [];
+      configureFlags = [
+        "--disable-build-details"
+        "--with-modules"
+        "--without-toolkit-scroll-bars"
+        "--with-x-toolkit=no"
+        "--with-xft"
+        "--with-cairo"
+        "--with-nativecomp"
+      ];
+    });
     extraPackages = epkgs: [
       epkgs.ag
       epkgs.aggressive-indent
       epkgs.auto-compile
+      epkgs.avy
       epkgs.backup-each-save
       epkgs.bash-completion
       epkgs.beacon
@@ -103,6 +124,8 @@ in
       epkgs.ccls
       epkgs.c-eldoc
       epkgs.centered-cursor-mode
+      epkgs.cider
+      epkgs.clojure-mode
       epkgs.company
       epkgs.company-c-headers
       epkgs.company-lua
@@ -119,15 +142,8 @@ in
       epkgs.elisp-slime-nav
       epkgs.eros
       epkgs.eval-sexp-fu
-      epkgs.evil
-      epkgs.evil-collection
-      epkgs.evil-commentary
-      epkgs.evil-goggles
-      epkgs.evil-leader
-      epkgs.evil-lispy
-      epkgs.evil-magit
-      epkgs.evil-snipe
       epkgs.expand-region
+      epkgs.exwm
       epkgs.feebleline
       epkgs.flx
       epkgs.flx-ido
@@ -136,7 +152,10 @@ in
       epkgs.flycheck-rust
       epkgs.fringe-current-line
       epkgs.fullframe
+      epkgs.general
+      epkgs.gitconfig
       epkgs.git-gutter
+      epkgs.gitignore-mode
       epkgs.go-autocomplete
       epkgs.go-eldoc
       epkgs.go-guru
@@ -145,7 +164,7 @@ in
       epkgs.groovy-mode
       epkgs.guix
       epkgs.helm
-      epkgs.helm-lsp
+      epkgs.helpful
       epkgs.highlight
       epkgs.hl-todo
       epkgs.hydra
@@ -155,17 +174,8 @@ in
       epkgs.kotlin-mode
       epkgs.langtool
       epkgs.lispy
-      epkgs.lsp-haskell
-      epkgs.lsp-ivy
-      epkgs.lsp-java
-      epkgs.lsp-javacomp
-      epkgs.lsp-metals
-      epkgs.lsp-mode
-      epkgs.lsp-python-ms
-      epkgs.lsp-sonarlint
-      epkgs.lsp-ui
-      epkgs.lua-mode
-      epkgs.magit
+      epkgs.forge
+      epkgs.emacsql
       epkgs.nix-mode
       epkgs.notmuch
       epkgs.ob-restclient
@@ -204,6 +214,12 @@ in
       epkgs.winum
       epkgs.yasnippet
       epkgs.ytdl
+      epkgs.ghub
+      epkgs.emms
+      epkgs.evil-exchange
+      epkgs.evil-matchit
+      epkgs.clj-refactor
+      epkgs.aggressive-indent
     ];
   };
   programs.git = {
@@ -215,7 +231,7 @@ in
       ci   = "commit";
       co   = "checkout";
       fe   = "fetch";
-      ll   = "log --one-line";
+      ll   = "log --oneline";
       me   = "merge";
       pu   = "pull";
       pure = "pull --rebase";
@@ -223,8 +239,20 @@ in
       xx   = "reset HEAD";
     };
   };
-  programs.firefox= {
+  programs.browserpass = {
     enable = true;
+    browsers = ["firefox" "chromium"];
+  };
+  programs.chromium = {
+    enable = true;
+    package = pkgs.unstable.ungoogled-chromium;
+    extensions = [
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm"
+      "gcbommkclmclpchllfjekcdonpmejbdp"
+    ];
+  };
+  programs.firefox= {
+    enable = false;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       https-everywhere
       tridactyl
@@ -239,7 +267,6 @@ in
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
-      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-15.out}" $HOME/.jdk/15
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
       ln --symbolic --force "${pkgs.unstable.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
       ln --symbolic --force "${pkgs.unstable.graalvm11-ce.out}"                $HOME/.jdk/11-graal
@@ -264,22 +291,33 @@ in
       ${pkgs.xorg.xset.out}/bin/xset fp rehash
       ${pkgs.fontconfig.bin}/bin/fc-cache
   '';
+  programs.bash = {
+    enableVteIntegration = true;
+    shellAliases = {
+      vi = "emacsclient -t";
+    };
+  };
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
-    JDK_14 = "$HOME/.jdk/14";
-    JDK_15 = "$HOME/.jdk/15";
+    JDK_16 = "$HOME/.jdk/16";
     GRAALVM_8 = "$HOME/.jdk/8-graal";
     GRAALVM_11 = "$HOME/.jdk/11-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
   };
   home.packages = with pkgs; [
+    gitAndTools.git-codeowners
+    gitAndTools.gitflow
+    gitAndTools.git-extras
+    notmuch
+    davmail
+    isync
+    msmtp
     pkg-config
     cloc
     ack
     ripgrep
-    xterm
     atool
     unzip
     wget
@@ -288,38 +326,61 @@ in
     mc
     openshift
     docker
-    gitAndTools.git-codeowners
-    gitAndTools.gitflow
-    gitAndTools.git-extras
     mercurialFull
     ant
     clojure
     clojure-lsp
     gradle
     groovy
-    unstable.jetbrains.idea-community
-    unstable.netbeans
     leiningen
     lombok
     maven
-    metals
+    unstable.jetbrains.idea-community
+    unstable.netbeans
+    unstable.metals
     sbt
     visualvm
     umlet
     shellcheck
     iosevka
     tamzen
+    uw-ttyp0
     nix
     xorg.xdpyinfo
     xorg.xmessage
     unstable.nyxt
-  ];
+    imagemagick7Big
+    ffmpeg-full
+    mpv
+  ] ++ (ifOnLocal sbclPackages []);
   xresources.properties = {
-    "Emacs*font" = "Tamzen-14";
+    "Emacs*font" = "Iosevka-14";
     "Emacs*geometry" = "80x40";
     "Emacs.scrollBar" = "on";
     "Emacs.scrollBarWidth" =  6;
   };
-  services.stalonetray.enable = true;
-  programs.rofi.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+  };
+  services.cbatticon.enable = onLocal;
+  services.emacs.enable = onLocal;
+  services.keynav.enable = onLocal;
+  services.network-manager-applet.enable = onLocal;
+  services.pasystray.enable = onLocal;
+  services.random-background = {
+    enable = onLocal;
+    imageDirectory = "%h/.config/wp";
+  };
+  home.file = {
+    ".ideavimrc".source = ~/.config/ideavimrc;
+    ".inputrc".source = ~/.config/inputrc;
+    ".npmrc".source = ~/.config/npmrc;
+    ".ratpoisonrc".source = ~/.config/ratpoisonrc;
+    ".sbclrc".source = ~/.config/sbclrc;
+    ".shrc".source = ~/.config/shrc;
+    ".xinitrc".source = ~/.config/xinitrc;
+    ".xsession".source = ~/.config/xinitrc;
+  };
 }
