@@ -26,10 +26,10 @@ in
     enable = true;
     enableLombok = true;
     package = pkgs.unstable.eclipses.eclipse-java;
-    plugins = with pkgs.unstable.eclipses.plugins; [
-      vrapper
-      spotbugs
-      color-theme
+    plugins = [
+      pkgs.unstable.eclipses.plugins.vrapper
+      pkgs.unstable.eclipses.plugins.spotbugs
+      pkgs.unstable.eclipses.plugins.color-theme
     ];
   };
   programs.tmux = {
@@ -38,53 +38,52 @@ in
   };
   programs.urxvt = {
     enable = true;
-    package = pkgs.rxvt_unicode-with-plugins;
-    iso14755 = true;
+    iso14755 = false;
     fonts = ["xft:Tamzen:size=12"];
     scroll = {
       bar.enable = true;
-      bar.style = "plain";
       lines = 65535;
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
     extraConfig = {
-      "perl-ext-common" = [ "selection-to-clipboard"];
-      "letterSpace" = -1;
       "loginShell" = "true";
       "urgentOnBell" = "true";
       "secondaryScroll" = "true";
-      "cursorColor" = "#afbfbf";
-      "cursorBlink" = "true";
-      "internalBorder" = 24;
-      "depth" = 24;
-      "background" = "#101010"; "foreground" = "#aeaeae";
-      "color0"  = "#101010"; "color8"  = "#353535";
-      "color1"  = "#AE0050"; "color9"  = "#FA3A99";
-      "color2"  = "#69AE11"; "color10" = "#44FA80";
-      "color3"  = "#C47F2C"; "color11" = "#FABE9A";
-      "color4"  = "#4040AE"; "color12" = "#4F4FEA";
-      "color5"  = "#7E43AE"; "color13" = "#AB88DE";
-      "color6"  = "#4979AE"; "color14" = "#4EB9FA";
-      "color7"  = "#A999AE"; "color15" = "#D3D0D0";
+      "background" = "#101010";
+      "foreground" = "#aeaeae";
+      "color0" = "#101010";
+      "color1" = "#AE0050";
+      "color2" = "#69ae11";
+      "color3" = "#c47f2c";
+      "color4" = "#4040ae";
+      "color5" = "#7e43ae";
+      "color6" = "#4979ae";
+      "color7" = "#a999ae";
+      "color8" = "#353535";
+      "color9" = "#fa3a99";
+      "color10" = "#44fa80";
+      "color11" = "#fabe9a";
+      "color12" = "#4f4fea";
+      "color13" = "#ab88de";
+      "color14" = "#4eb9fa";
+      "color15" = "#d3d0d0";
     };
   };
   programs.emacs = {
     overrides = self: super: rec {
       telega = pkgs.unstable.emacsPackages.telega;
-      evil = pkgs.unstable.emacsPackages.evil;
-      magit = pkgs.unstable.emacsPackages.magit;
     };
     enable = true;
     package = (pkgs.emacs.override {
-        withGTK3 = false;
+        withGTK3 = true;
         withGTK2 = false;
       }).overrideAttrs (attrs: {
         configureFlags = [
           "--disable-build-details"
           "--with-modules"
           "--without-toolkit-scroll-bars"
-          "--with-x-toolkit=no"
+          "--with-x-toolkit=gtk3"
           "--with-xft"
           "--with-cairo"
           "--with-nativecomp"
@@ -94,7 +93,6 @@ in
       epkgs.ag
       epkgs.aggressive-indent
       epkgs.auto-compile
-      epkgs.avy
       epkgs.backup-each-save
       epkgs.bash-completion
       epkgs.beacon
@@ -105,8 +103,6 @@ in
       epkgs.ccls
       epkgs.c-eldoc
       epkgs.centered-cursor-mode
-      epkgs.cider
-      epkgs.clojure-mode
       epkgs.company
       epkgs.company-c-headers
       epkgs.company-lua
@@ -123,8 +119,15 @@ in
       epkgs.elisp-slime-nav
       epkgs.eros
       epkgs.eval-sexp-fu
+      epkgs.evil
+      epkgs.evil-collection
+      epkgs.evil-commentary
+      epkgs.evil-goggles
+      epkgs.evil-leader
+      epkgs.evil-lispy
+      epkgs.evil-magit
+      epkgs.evil-snipe
       epkgs.expand-region
-      epkgs.exwm
       epkgs.feebleline
       epkgs.flx
       epkgs.flx-ido
@@ -133,10 +136,7 @@ in
       epkgs.flycheck-rust
       epkgs.fringe-current-line
       epkgs.fullframe
-      epkgs.general
-      epkgs.gitconfig
       epkgs.git-gutter
-      epkgs.gitignore-mode
       epkgs.go-autocomplete
       epkgs.go-eldoc
       epkgs.go-guru
@@ -145,7 +145,7 @@ in
       epkgs.groovy-mode
       epkgs.guix
       epkgs.helm
-      epkgs.helpful
+      epkgs.helm-lsp
       epkgs.highlight
       epkgs.hl-todo
       epkgs.hydra
@@ -155,8 +155,17 @@ in
       epkgs.kotlin-mode
       epkgs.langtool
       epkgs.lispy
-      epkgs.forge
-      epkgs.emacsql
+      epkgs.lsp-haskell
+      epkgs.lsp-ivy
+      epkgs.lsp-java
+      epkgs.lsp-javacomp
+      epkgs.lsp-metals
+      epkgs.lsp-mode
+      epkgs.lsp-python-ms
+      epkgs.lsp-sonarlint
+      epkgs.lsp-ui
+      epkgs.lua-mode
+      epkgs.magit
       epkgs.nix-mode
       epkgs.notmuch
       epkgs.ob-restclient
@@ -195,12 +204,6 @@ in
       epkgs.winum
       epkgs.yasnippet
       epkgs.ytdl
-      epkgs.ghub
-      epkgs.emms
-      epkgs.evil-exchange
-      epkgs.evil-matchit
-      epkgs.clj-refactor
-      epkgs.aggressive-indent
     ];
   };
   programs.git = {
@@ -212,7 +215,7 @@ in
       ci   = "commit";
       co   = "checkout";
       fe   = "fetch";
-      ll   = "log --oneline";
+      ll   = "log --one-line";
       me   = "merge";
       pu   = "pull";
       pure = "pull --rebase";
@@ -236,6 +239,7 @@ in
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
+      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-15.out}" $HOME/.jdk/15
       ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
       ln --symbolic --force "${pkgs.unstable.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
       ln --symbolic --force "${pkgs.unstable.graalvm11-ce.out}"                $HOME/.jdk/11-graal
@@ -264,17 +268,13 @@ in
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
     JDK_14 = "$HOME/.jdk/14";
-    JDK_16 = "$HOME/.jdk/16";
+    JDK_15 = "$HOME/.jdk/15";
     GRAALVM_8 = "$HOME/.jdk/8-graal";
     GRAALVM_11 = "$HOME/.jdk/11-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
   };
   home.packages = with pkgs; [
-    notmuch
-    davmail
-    isync
-    msmtp
     pkg-config
     cloc
     ack
@@ -302,46 +302,24 @@ in
     leiningen
     lombok
     maven
-    unstable.metals
+    metals
     sbt
     visualvm
     umlet
     shellcheck
     iosevka
     tamzen
-    uw-ttyp0
     nix
     xorg.xdpyinfo
     xorg.xmessage
     unstable.nyxt
-    lispPackages.dbus
-    lispPackages.external-program
-    lispPackages.bordeaux-threads
-    lispPackages.quicklisp
-    lispPackages.swank
-    lispPackages.stumpwm
-    imagemagick7Big
-    ffmpeg-full
-    mpv
   ];
   xresources.properties = {
-    "Emacs*font" = "Iosevka-14";
+    "Emacs*font" = "Tamzen-14";
     "Emacs*geometry" = "80x40";
     "Emacs.scrollBar" = "on";
     "Emacs.scrollBarWidth" =  6;
   };
+  services.stalonetray.enable = true;
   programs.rofi.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    defaultCacheTtl = 1800;
-    enableSshSupport = true;
-  };
-  services.cbatticon.enable = true;
-  services.emacs.enable = true;
-  services.keynav.enable = true;
-  services.network-manager-applet.enable = true;
-  services.pasystray.enable = true;
-  home.file.".shrc".source = ~/.config/shrc;
-  home.file.".inputrc".source = ~/.config/inputrc;
-  home.file.".ratpoisonrc".source = ~/.config/ratpoisonrc;
 }
