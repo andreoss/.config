@@ -1,0 +1,83 @@
+set clipboard+=unnamed
+
+set smartcase
+
+command r    :action ReformatCode <CR>
+command n    :action NextTab      <CR>
+command p    :action PreviousTab  <CR>
+command todo :action ActivateTODOToolWindow<CR>
+
+'' <C-S-/> <C-S-o>
+nmap gc :action CommentByBlockComment<CR>
+'' <C-/> <C-o>
+nmap gl :action CommentByLineComment<CR>
+
+nmap +        :action EditorIncreaseFontSize<CR>
+nmap _        :action EditorDecreaseFontSize<CR>
+
+nmap ,ff      :action ReformatCode<CR>
+
+nmap <M-.>    :action GotoImplementation<CR>
+
+nmap ,gd      :action GotoTypeDeclaration<CR>
+nmap ,gi      :action GotoImplementation<CR>
+nmap ,gt      :action GotoTest<CR>
+
+nmap ,ts         :action ActivateStructureToolWindow<CR>
+nmap ,tt         :action ActivateTODOToolWindow<CR>
+nmap ,xx         :action Annotate<CR>
+nmap <space>xx   :action Annotate<CR>
+nmap ,bc         :action ByteCodeViewer<CR>
+
+nmap < :action PreviousTab<CR>
+nmap > :action NextTab<CR>
+
+nmap ,ws      :action SplitHorizontally    <CR>
+nmap ,wv      :action SplitVertically      <CR>
+nmap ,wo      :action VimWindowOnly        <CR>
+nmap ,wx      :action VimWindowClose       <CR>
+
+nmap <A-C-\>  :action ReformatCode<CR>
+
+nmap <A-S-space>  :action PreviousTab<CR>
+nmap <A-x>        :action GotoAction<CR>
+
+nmap <C-i> :action Forward<CR>
+nmap <C-o> :action Back<CR>
+
+nmap <C-w><C-j> :action PreviousTab<CR>
+nmap <C-w><C-k> :action NextTab<CR>
+
+nmap <F5>                  :action Synchronize<CR>
+nmap <space><enter><enter> :action Run<CR>
+nmap <space><enter>f       :action ToggleFullScreen<CR>
+
+nmap <space>=   :action EditorResetFontSize<CR>
+nmap <space>U   :action FindUsages<CR>
+nmap <space>a   :action GotoAction<CR>
+nmap <space>c   :action GotoClass<CR>
+nmap <space>d   :action ShowErrorDescription<CR>
+nmap <space>e   :action GotoFile<CR>
+nmap <space>en  :action GotoNextError<CR>
+nmap <space>ep  :action GotoPreviousError<CR>
+nmap <space>f   :action GotoFile<CR>
+nmap <space>gb  :action ViewStatusBar<CR>
+nmap <space>gi  :action ViewImportPopups<CR>
+nmap <space>j   :action AceJumpAction<CR>
+nmap <space>q   :action CloseActiveTab<CR>
+nmap <space>r   :action RenameElement<CR>
+nmap <space>s   :action GotoSymbol<CR>
+nmap <space>t   :action GotoTest<CR>
+nmap <space>u   :action ShowUsages  <CR>
+nmap ZZ         :wall               <CR>
+nmap gq         :action QuickJavaDoc<CR>
+nnoremap ;  :
+nnoremap <A-,>  :action Back<CR>
+nnoremap <A-.> ,gi
+nnoremap <space>vr :source ~/.ideavimrc<CR>
+nnoremap Y  y$
+nnoremap zv zR
+noremap  ,rf       :action RecentFiles<CR>
+noremap  ,xf       :action ShowNavBar<CR>
+noremap  ,xs       :wall<CR>
+noremap <C-w><C-k> :action NextTab<CR>
