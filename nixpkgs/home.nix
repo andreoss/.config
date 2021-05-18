@@ -1,8 +1,20 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, fetchurl, stdenv, ... }:
 let
   unstableTarball = fetchTarball
     "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
   hostname = builtins.replaceStrings ["\n"] [""] (builtins.readFile /etc/hostname);
+  onHost = hosts: builtins.any (s: s == hostname) hosts;
+  onLocal = onHost [ "thnk" ];
+  ifOnHost = host: result: alternative: if (onHost host) then result else alternative;
+  ifOnLocal = ((ifOnHost) ["think"]);
+  sbclPackages = with pkgs.lispPackages; [
+    dbus
+    external-program
+    bordeaux-threads
+    quicklisp
+    swank
+    stumpwm
+  ];
 in
 {
   nixpkgs.config = {
@@ -77,19 +89,26 @@ in
     };
     enable = true;
     package = (pkgs.emacs.override {
-        withGTK3 = false;
-        withGTK2 = false;
-      }).overrideAttrs (attrs: {
-        configureFlags = [
-          "--disable-build-details"
-          "--with-modules"
-          "--without-toolkit-scroll-bars"
-          "--with-x-toolkit=no"
-          "--with-xft"
-          "--with-cairo"
-          "--with-nativecomp"
-        ];
-      });
+      withGTK3 = false;
+      withGTK2 = false;
+      srcRepo = true;
+    }).overrideAttrs (attrs: {
+      src = pkgs.fetchgit {
+        rev = "emacs-27.2";
+        url = "https://git.savannah.gnu.org/git/emacs.git";
+        sha256 = "0p5ilxpn9kj57h9fbw3jwz409k5j1ilpyj7z3i3crxs7aigiga8s";
+      };
+      patches = [];
+      configureFlags = [
+        "--disable-build-details"
+        "--with-modules"
+        "--without-toolkit-scroll-bars"
+        "--with-x-toolkit=no"
+        "--with-xft"
+        "--with-cairo"
+        "--with-nativecomp"
+      ];
+    });
     extraPackages = epkgs: [
       epkgs.ag
       epkgs.aggressive-indent
@@ -220,8 +239,20 @@ in
       xx   = "reset HEAD";
     };
   };
-  programs.firefox= {
+  programs.browserpass = {
     enable = true;
+    browsers = ["firefox" "chromium"];
+  };
+  programs.chromium = {
+    enable = true;
+    package = pkgs.unstable.ungoogled-chromium;
+    extensions = [
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm"
+      "gcbommkclmclpchllfjekcdonpmejbdp"
+    ];
+  };
+  programs.firefox= {
+    enable = false;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       https-everywhere
       tridactyl
@@ -260,10 +291,15 @@ in
       ${pkgs.xorg.xset.out}/bin/xset fp rehash
       ${pkgs.fontconfig.bin}/bin/fc-cache
   '';
+  programs.bash = {
+    enableVteIntegration = true;
+    shellAliases = {
+      vi = "emacsclient -t";
+    };
+  };
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
-    JDK_14 = "$HOME/.jdk/14";
     JDK_16 = "$HOME/.jdk/16";
     GRAALVM_8 = "$HOME/.jdk/8-graal";
     GRAALVM_11 = "$HOME/.jdk/11-graal";
@@ -271,6 +307,9 @@ in
     MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
   };
   home.packages = with pkgs; [
+    gitAndTools.git-codeowners
+    gitAndTools.gitflow
+    gitAndTools.git-extras
     notmuch
     davmail
     isync
@@ -279,7 +318,6 @@ in
     cloc
     ack
     ripgrep
-    xterm
     atool
     unzip
     wget
@@ -288,20 +326,17 @@ in
     mc
     openshift
     docker
-    gitAndTools.git-codeowners
-    gitAndTools.gitflow
-    gitAndTools.git-extras
     mercurialFull
     ant
     clojure
     clojure-lsp
     gradle
     groovy
-    unstable.jetbrains.idea-community
-    unstable.netbeans
     leiningen
     lombok
     maven
+    unstable.jetbrains.idea-community
+    unstable.netbeans
     unstable.metals
     sbt
     visualvm
@@ -314,34 +349,38 @@ in
     xorg.xdpyinfo
     xorg.xmessage
     unstable.nyxt
-    lispPackages.dbus
-    lispPackages.external-program
-    lispPackages.bordeaux-threads
-    lispPackages.quicklisp
-    lispPackages.swank
-    lispPackages.stumpwm
     imagemagick7Big
     ffmpeg-full
     mpv
-  ];
+  ] ++ (ifOnLocal sbclPackages []);
   xresources.properties = {
     "Emacs*font" = "Iosevka-14";
     "Emacs*geometry" = "80x40";
     "Emacs.scrollBar" = "on";
     "Emacs.scrollBarWidth" =  6;
   };
-  programs.rofi.enable = true;
   services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
   };
-  services.cbatticon.enable = true;
-  services.emacs.enable = true;
-  services.keynav.enable = true;
-  services.network-manager-applet.enable = true;
-  services.pasystray.enable = true;
-  home.file.".shrc".source = ~/.config/shrc;
-  home.file.".inputrc".source = ~/.config/inputrc;
-  home.file.".ratpoisonrc".source = ~/.config/ratpoisonrc;
+  services.cbatticon.enable = onLocal;
+  services.emacs.enable = onLocal;
+  services.keynav.enable = onLocal;
+  services.network-manager-applet.enable = onLocal;
+  services.pasystray.enable = onLocal;
+  services.random-background = {
+    enable = onLocal;
+    imageDirectory = "%h/.config/wp";
+  };
+  home.file = {
+    ".ideavimrc".source = ~/.config/ideavimrc;
+    ".inputrc".source = ~/.config/inputrc;
+    ".npmrc".source = ~/.config/npmrc;
+    ".ratpoisonrc".source = ~/.config/ratpoisonrc;
+    ".sbclrc".source = ~/.config/sbclrc;
+    ".shrc".source = ~/.config/shrc;
+    ".xinitrc".source = ~/.config/xinitrc;
+    ".xsession".source = ~/.config/xinitrc;
+  };
 }
