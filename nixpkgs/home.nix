@@ -308,57 +308,44 @@ in
   };
   home.packages = with pkgs; [
     gitAndTools.git-codeowners
-    gitAndTools.gitflow
     gitAndTools.git-extras
-    notmuch
+    gitAndTools.gitflow
     davmail
-    isync
-    msmtp
-    pkg-config
-    cloc
     ack
-    ripgrep
     atool
+    cloc
+    coreutils
+    docker
+    gnupg
+    imagemagick7Big
+    mc
+    mercurialFull
+    nix
+    openshift
+    pkg-config
+    ripgrep
+    shellcheck
     unzip
     wget
-    gnupg
-    coreutils
-    mc
-    openshift
-    docker
-    mercurialFull
-    ant
-    clojure
-    clojure-lsp
-    gradle
-    groovy
-    leiningen
-    lombok
-    maven
-    unstable.jetbrains.idea-community
-    unstable.netbeans
-    unstable.metals
-    sbt
-    visualvm
-    umlet
-    shellcheck
-    iosevka
-    tamzen
-    uw-ttyp0
-    nix
     xorg.xdpyinfo
     xorg.xmessage
-    unstable.nyxt
-    imagemagick7Big
-    ffmpeg-full
     mpv
-  ] ++ (ifOnLocal sbclPackages []);
+    ffmpeg-full
+    pass
+  ] ++ fontPackages ++ (ifOnLocal sbclPackages []) ++ jdkRelatedPackages;
   xresources.properties = {
-    "Emacs*font" = "Iosevka-14";
+    "Emacs*font" = "Sudo-12";
     "Emacs*geometry" = "80x40";
     "Emacs.scrollBar" = "on";
     "Emacs.scrollBarWidth" =  6;
   };
+  xsession = {
+    enable = true;
+    windowManager.command = "~/.stumpwm.d/start.sh";
+  };
+  programs.keychain.enable = true;
+  programs.keychain.enableXsessionIntegration = true;
+  programs.keychain.enableBashIntegration = true;
   services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 1800;
