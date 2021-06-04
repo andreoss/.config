@@ -369,6 +369,63 @@ in
   services.keynav.enable = onLocal;
   services.network-manager-applet.enable = onLocal;
   services.pasystray.enable = onLocal;
+  services.dunst.enable = onLocal;
+  services.picom.enable = true;
+  services.dunst.settings = {
+    global = {
+      frame_color = "#959DCB";
+      separator_color = "#959DCB";
+    };
+    urgency_low = {
+      background = "#444267";
+      foreground = "#676E95";
+    };
+    urgency_normal = {
+      background = "#32374D";
+      foreground = "#959DCB";
+    };
+    urgency_critical = {
+      background = "#F07178";
+      foreground = "#959DCB";
+    };
+    global.font = "Sudo 12";
+    global.alignment = "left";
+    global.geometry = "300x5-30+20";
+    urgency_low.timeout = 10;
+    urgency_normal.timeout = 10;
+    urgency_critical.timeout = 10;
+  };
+  services.picom.package = pkgs.nur.repos.reedrw.picom-next-ibhagwan;
+  services.picom.experimentalBackends = true;
+  services.picom.backend = "glx";
+  services.picom.opacityRule = [
+      "80:class_g  = 'Dunst'"
+  ];
+  services.picom.extraOptions = ''
+    detect-client-opacity = false;
+    detect-rounded-corners = true;
+    blur:
+    {
+        method = "kawase";
+        strength = 8;
+        background = false;
+        background-frame = false;
+        background-fixed = false;
+    };
+    blur-background-exclude = [
+        "class_g = 'keynav'"
+    ];
+    corner-radius = 6;
+    rounded-corners-exclude = [
+        "window_type = 'dock'",
+        "_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'",
+        "class_g = 'keynav'",
+    ];
+    round-borders = 1;
+    round-borders-exclude = [
+        "class_g = 'keynav'"
+    ];
+  '';
   services.random-background = {
     enable = onLocal;
     imageDirectory = "%h/.config/wp";
