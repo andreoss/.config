@@ -52,7 +52,7 @@ in
     enable = true;
     package = pkgs.rxvt_unicode-with-plugins;
     iso14755 = true;
-    fonts = ["xft:Tamzen:size=12"];
+    fonts = ["xft:Ttyp0:size=12"];
     scroll = {
       bar.enable = true;
       bar.style = "plain";
