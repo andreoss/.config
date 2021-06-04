@@ -380,7 +380,11 @@ in
     ".ratpoisonrc".source = ~/.config/ratpoisonrc;
     ".sbclrc".source = ~/.config/sbclrc;
     ".shrc".source = ~/.config/shrc;
-    ".xinitrc".source = ~/.config/xinitrc;
-    ".xsession".source = ~/.config/xinitrc;
+  };
+  programs.mbsync.enable = true;
+  programs.msmtp.enable = true;
+  programs.notmuch.enable = true;
+  accounts.email = {
+    maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
 }
