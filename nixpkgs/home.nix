@@ -4,16 +4,44 @@ let
     "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
   hostname = builtins.replaceStrings ["\n"] [""] (builtins.readFile /etc/hostname);
   onHost = hosts: builtins.any (s: s == hostname) hosts;
-  onLocal = onHost [ "thnk" ];
+  onLocal = onHost [ "thnk" "vtfn" ];
   ifOnHost = host: result: alternative: if (onHost host) then result else alternative;
-  ifOnLocal = ((ifOnHost) ["think"]);
+  ifOnLocal = ((ifOnHost) ["thnk" "vtfn" ]);
   sbclPackages = with pkgs.lispPackages; [
+    sbcl
     dbus
     external-program
     bordeaux-threads
     quicklisp
     swank
     stumpwm
+    clisp
+  ];
+  jdkRelatedPackages = with pkgs.unstable; [
+    ant
+    clojure
+    clojure-lsp
+    gradle
+    groovy
+    jetbrains.idea-community
+    leiningen
+    lombok
+    maven
+    metals
+    netbeans
+    sbt
+    visualvm
+    umlet
+  ];
+  fontPackages = with pkgs; [
+    paratype-pt-mono
+    iosevka
+    uw-ttyp0
+    terminus_font_ttf
+    gentium
+    unifont
+    sudo-font
+    dina-font
   ];
 in
 {
@@ -35,7 +63,7 @@ in
   programs.lf.enable = true;
   programs.jq.enable = true;
   programs.eclipse = {
-    enable = true;
+    enable = false;
     enableLombok = true;
     package = pkgs.unstable.eclipses.eclipse-java;
     plugins = with pkgs.unstable.eclipses.plugins; [
