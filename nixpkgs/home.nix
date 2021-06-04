@@ -239,16 +239,15 @@ in
       xx   = "reset HEAD";
     };
   };
-  programs.browserpass = {
-    enable = true;
-    browsers = ["firefox" "chromium"];
-  };
   programs.chromium = {
     enable = true;
-    package = pkgs.unstable.ungoogled-chromium;
+    #package = pkgs.unstable.ungoogled-chromium;
     extensions = [
       "cjpalhdlnbpafiamejdnhcphjbkeiagm"
       "gcbommkclmclpchllfjekcdonpmejbdp"
+      "haiffjcadagjlijoggckpgfnoeiflnem"
+      "dbepggeogbaibhgnhhndojpepiihcmeb"
+      "ldpochfccmkkmhdbclfhpagapcfdljkj"
     ];
   };
   programs.firefox= {
