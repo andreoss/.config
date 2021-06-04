@@ -88,17 +88,11 @@ in
       magit = pkgs.unstable.emacsPackages.magit;
     };
     enable = true;
-    package = (pkgs.emacs.override {
+    package = (pkgs.unstable.emacs.override {
       withGTK3 = false;
       withGTK2 = false;
-      srcRepo = true;
+      srcRepo = false;
     }).overrideAttrs (attrs: {
-      src = pkgs.fetchgit {
-        rev = "emacs-27.2";
-        url = "https://git.savannah.gnu.org/git/emacs.git";
-        sha256 = "0p5ilxpn9kj57h9fbw3jwz409k5j1ilpyj7z3i3crxs7aigiga8s";
-      };
-      patches = [];
       configureFlags = [
         "--disable-build-details"
         "--with-modules"
