@@ -69,8 +69,8 @@ in
       "cursorColor" = "#afbfbf";
       "cursorBlink" = "true";
       "internalBorder" = 24;
-      "depth" = 24;
-      "background" = "#101010"; "foreground" = "#aeaeae";
+      "depth" = 32;
+      "background" = "rgba:0000/0000/0200/c800"; "foreground" = "#aeaeae";
       "color0"  = "#101010"; "color8"  = "#353535";
       "color1"  = "#AE0050"; "color9"  = "#FA3A99";
       "color2"  = "#69AE11"; "color10" = "#44FA80";
