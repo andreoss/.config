@@ -80,16 +80,27 @@ in
     enable = true;
     package = pkgs.rxvt_unicode-with-plugins;
     iso14755 = true;
-    fonts = ["xft:Ttyp0:size=12"];
+    fonts = ["xft:Ttyp0:size=10"];
     scroll = {
-      bar.enable = true;
-      bar.style = "plain";
+      bar = {
+        enable = true;
+        style = "plain";
+      };
       lines = 65535;
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
     extraConfig = {
-      "perl-ext-common" = [ "selection-to-clipboard"];
+      "perl-lib" = "${pkgs.rxvt-unicode}/lib/urxvt/perl/";
+      "perl-ext-common" = "selection-to-clipboard,url-select,resize-font,keyboard-select";
+      "keysym.M-u" = "perl:url-select:select_next";
+      "keysym.M-f" = "perl:keyboard-select:search";
+      "keysym.M-s" = "perl:keyboard-select:activate";
+      "keysym.C-minus" = "resize-font:smaller";
+      "keysym.C-equal" = "resize-font:bigger";
+      "keysym.C-0" = "resize-font:reset";
+      "keysym.C-question" = "resize-font:show";
+      "url-select.underline" = "true";
       "letterSpace" = -1;
       "loginShell" = "true";
       "urgentOnBell" = "true";
