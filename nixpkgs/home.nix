@@ -459,6 +459,9 @@ in
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
   programs.notmuch.enable = true;
+  services.gammastep.enable = true;
+  services.gammastep.longitude = -55.89;
+  services.gammastep.latitude = -27.36;
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
