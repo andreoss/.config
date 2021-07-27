@@ -364,6 +364,34 @@ in
     ffmpeg-full
     pass
   ] ++ fontPackages ++ (ifOnLocal sbclPackages []) ++ jdkRelatedPackages;
+  fonts.fontconfig.enable = true;
+  gtk = {
+    enable = true;
+    font = {
+      package = pkgs.sudo-font;
+      name = "Sudo";
+    };
+    gtk2.extraConfig = '''';
+    gtk3.extraConfig = {
+      gtk-xft-antialias=1;
+      gtk-xft-hinting=1;
+      gtk-xft-hintstyle="hintfull";
+      gtk-xft-rgba="rgb";
+      gtk-button-images=0;
+      gtk-cursor-theme-size=0;
+      gtk-enable-animations=false;
+      gtk-enable-event-sounds=0;
+      gtk-enable-input-feedback-sounds=0;
+    };
+    theme = {
+      name = "cdetheme";
+      package = pkgs.cde-gtk-theme;
+    };
+    iconTheme = {
+      package = pkgs.paper-icon-theme;
+      name = "Paper";
+    };
+  };
   xresources.properties = {
     "Emacs*font" = "Sudo-12";
     "Emacs*geometry" = "80x40";
