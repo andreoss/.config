@@ -257,6 +257,11 @@ in
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
+    extraConfig = {
+      init = {
+        defaultBranch = "master";
+      };
+    };
     aliases = {
       au   = "add --all";
       cc   = "clone";
