@@ -433,7 +433,7 @@ in
     blur-background-exclude = [
         "class_g = 'keynav'"
     ];
-    corner-radius = 6;
+    corner-radius = 4;
     rounded-corners-exclude = [
         "window_type = 'dock'",
         "_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'",
