@@ -59,14 +59,13 @@ in
     enableBashIntegration = true;
     enableNixDirenvIntegration = true;
   };
-  programs.autojump.enable = true;
   programs.lf.enable = true;
   programs.jq.enable = true;
   programs.eclipse = {
-    enable = false;
+    enable = true;
     enableLombok = true;
-    package = pkgs.unstable.eclipses.eclipse-java;
-    plugins = with pkgs.unstable.eclipses.plugins; [
+    package = pkgs.eclipses.eclipse-java;
+    plugins = with pkgs.eclipses.plugins; [
       vrapper
       spotbugs
       color-theme
