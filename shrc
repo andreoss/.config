@@ -5,8 +5,6 @@
 umask 077
 unalias -a
 
-[ "$TERM" != "dumb" ] && set -o vi
-[ "$TERM" != "dumb" ] && TERM=vt100
 
 {
     ulimit -u 10240
@@ -190,7 +188,14 @@ __ps1() {
 
 export PATH
 PROMPT_COMMAND="history -a"
-PS1='$(__ps1)'
+
+if [ "$TERM" != "dumb" ]
+then
+    TERM=vt100
+    set -o vi
+    PS1='$(__ps1)'
+fi
+
 __title() {
     DIR="$(__short_pwd)"
     DIR="${DIR:-~}"
