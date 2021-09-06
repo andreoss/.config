@@ -5,6 +5,13 @@
 umask 077
 unalias -a
 
+if [ "${LANG}x" == "x" ]
+then
+   LC_ALL=en_US.UTF-8
+   LANG=en
+   export LC_ALL LANG
+fi
+
 case "$OSTYPE" in
     linux-gnu*)
         ulimit -u 10240
