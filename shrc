@@ -6,12 +6,12 @@ umask 077
 unalias -a
 
 case "$OSTYPE" in
-   linux-gnu*)
-    ulimit -u 10240
-    ulimit -n 16384
-    ulimit -c unlimited
-    ulimit -Sn unlimited && ulimit -Sl unlimited
-    ;;
+    linux-gnu*)
+        ulimit -u 10240
+        ulimit -n 16384
+        ulimit -c unlimited
+        ulimit -Sn unlimited && ulimit -Sl unlimited
+        ;;
 esac
 
 if [ "$BASH" ]
