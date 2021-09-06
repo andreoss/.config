@@ -148,7 +148,7 @@ __short_pwd() {
                 DIR=
                 ;;
             $HOME/*)
-                DIR=${PWD//"$HOME/"}
+                DIR=${PWD##"$HOME/"}
                 ;;
             *)
                 DIR="$PWD"
