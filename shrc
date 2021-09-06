@@ -60,9 +60,6 @@ __append_path() {
 is_there() {
     which "$@" >/dev/null 2>&1
 }
-is_running() {
-    pgrep "$@" >/dev/null 2>&1
-}
 
 __prepend_path "$HOME/.local/bin"
 
