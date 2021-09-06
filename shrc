@@ -23,14 +23,13 @@ fi
 
 stty werase undef
 
+__debug=
 __source() {
     # shellcheck disable=SC1090
-    if [ -f "$1" ]; then source "$1"; fi;
+    if [ -f "$1" ]; then . "$1"; fi;
 }
-
-__debug=
 __complain() {
-    __is_debug() { [ "$__debug" == "true" ]; }
+    __is_debug() { [ "${__debug}x" != "x" ]; }
     __is_debug && echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
 }
 __define_dir() {
