@@ -8,14 +8,12 @@ let
   ifOnHost = host: result: alternative: if (onHost host) then result else alternative;
   ifOnLocal = ((ifOnHost) ["thnk" "vtfn" ]);
   sbclPackages = with pkgs.lispPackages; [
-    sbcl
     dbus
     external-program
     bordeaux-threads
     quicklisp
     swank
     stumpwm
-    clisp
   ];
   jdkRelatedPackages = with pkgs.unstable; [
     ant
@@ -57,7 +55,6 @@ in
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
-    enableNixDirenvIntegration = true;
   };
   programs.lf.enable = true;
   programs.jq.enable = true;
