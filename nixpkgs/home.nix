@@ -334,18 +334,18 @@ in
       separator_color = "#959DCB";
     };
     urgency_low = {
-      background = "#444267";
-      foreground = "#676E95";
+      background = "#181818";
+      foreground = "#EAEAEA";
     };
     urgency_normal = {
-      background = "#32374D";
-      foreground = "#959DCB";
+      background = "#581818";
+      foreground = "#eaeaea";
     };
     urgency_critical = {
       background = "#F07178";
       foreground = "#959DCB";
     };
-    global.font = "Sudo 12";
+    global.font = "Ttyp0";
     global.alignment = "left";
     global.geometry = "300x5-30+20";
     urgency_low.timeout = 10;
