@@ -489,13 +489,22 @@ in
     ".sbclrc".source = ~/.config/sbclrc;
     ".shrc".source = ~/.config/shrc;
   };
-  programs.mbsync.enable = true;
-  programs.msmtp.enable = true;
-  programs.notmuch.enable = true;
-  services.gammastep.enable = true;
-  services.gammastep.longitude = -55.89;
-  services.gammastep.latitude = -27.36;
+  services.gammastep =  {
+    enable = true;
+    longitude = -55.89;
+    latitude = -27.36;
+  };
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
-}
+  home.file.".local/bin/vi"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec emacs -Q -nw -l "${../mini-init.el}" "$@"
+    '' ;
+  };
+  home.sessionPath = [
+    ".local/bin"
+  ];
+ }
