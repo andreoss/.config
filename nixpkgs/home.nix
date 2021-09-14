@@ -300,10 +300,14 @@ in
     };
   };
   xresources.properties = {
-    "Emacs*font" = "Sudo-12";
-    "Emacs*geometry" = "80x40";
-    "Emacs.scrollBar" = "on";
-    "Emacs.scrollBarWidth" =  6;
+    "Emacs*toolBar" = 0;
+    "Emacs*menuBar" = 0;
+    "Emacs*geometry" = "80x60";
+    "Emacs*font" = "Ttyp0";
+    "Emacs*scrollBar" = "on";
+    "Emacs*scrollBarWidth" =  6;
+    "XTerm*faceName" = "dejavu sans mono";
+    "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
   xsession = {
     enable = true;
