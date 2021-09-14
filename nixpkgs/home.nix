@@ -290,10 +290,6 @@ in
       gtk-enable-event-sounds=0;
       gtk-enable-input-feedback-sounds=0;
     };
-    theme = {
-      name = "cdetheme";
-      package = pkgs.cde-gtk-theme;
-    };
     iconTheme = {
       package = pkgs.paper-icon-theme;
       name = "Paper";
