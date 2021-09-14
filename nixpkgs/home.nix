@@ -120,9 +120,16 @@ in
     overrides = self: super: rec {
       telega = pkgs.unstable.emacsPackages.telega;
       evil = pkgs.unstable.emacsPackages.evil;
+      evil-collection = pkgs.unstable.emacsPackages.evil-collection;
       magit = pkgs.unstable.emacsPackages.magit;
+      forge = pkgs.unstable.emacsPackages.forge;
     };
     enable = true;
+    # extraConfig = ''
+    #   (require 'better-defaults)
+    #   (require 'evil)
+    #   (evil-mode +1)
+    # '';
     package = (pkgs.unstable.emacs.override {
       withGTK3 = false;
       withGTK2 = false;
@@ -132,123 +139,21 @@ in
         "--disable-build-details"
         "--with-modules"
         "--without-toolkit-scroll-bars"
-        "--with-x-toolkit=no"
+        "--with-x-toolkit=athena"
         "--with-xft"
         "--with-cairo"
         "--with-nativecomp"
       ];
     });
     extraPackages = epkgs: [
-      epkgs.ag
-      epkgs.aggressive-indent
-      epkgs.auto-compile
-      epkgs.avy
-      epkgs.backup-each-save
-      epkgs.bash-completion
-      epkgs.beacon
+      epkgs.magit
       epkgs.better-defaults
-      epkgs.browse-kill-ring
-      epkgs.bug-reference-github
-      epkgs.cargo
-      epkgs.ccls
-      epkgs.c-eldoc
-      epkgs.centered-cursor-mode
-      epkgs.cider
-      epkgs.clojure-mode
-      epkgs.company
-      epkgs.company-c-headers
-      epkgs.company-lua
-      epkgs.company-prescient
-      epkgs.counsel
-      epkgs.dashboard
-      epkgs.default-text-scale
-      epkgs.digit-groups
-      epkgs.dired-narrow
-      epkgs.dired-subtree
-      epkgs.dumb-jump
-      epkgs.editorconfig
-      epkgs.elisp-lint
-      epkgs.elisp-slime-nav
-      epkgs.eros
-      epkgs.eval-sexp-fu
-      epkgs.expand-region
-      epkgs.exwm
-      epkgs.feebleline
-      epkgs.flx
-      epkgs.flx-ido
-      epkgs.flycheck
-      epkgs.flycheck-inline
-      epkgs.flycheck-rust
-      epkgs.fringe-current-line
-      epkgs.fullframe
-      epkgs.general
-      epkgs.gitconfig
-      epkgs.git-gutter
-      epkgs.gitignore-mode
-      epkgs.go-autocomplete
-      epkgs.go-eldoc
-      epkgs.go-guru
-      epkgs.golint
-      epkgs.go-mode
-      epkgs.groovy-mode
-      epkgs.guix
-      epkgs.helm
-      epkgs.helpful
-      epkgs.highlight
-      epkgs.hl-todo
-      epkgs.hydra
-      epkgs.ivy
-      epkgs.ivy-prescient
-      epkgs.keyfreq
-      epkgs.kotlin-mode
-      epkgs.langtool
-      epkgs.lispy
       epkgs.forge
-      epkgs.emacsql
-      epkgs.nix-mode
-      epkgs.notmuch
-      epkgs.ob-restclient
-      epkgs.org-bullets
-      epkgs.org-caldav
-      epkgs.org-evil
-      epkgs.org-jira
-      epkgs.org-pdftools
-      epkgs.page-break-lines
-      epkgs.paredit
-      epkgs.pdf-tools
-      epkgs.persistent-scratch
-      epkgs.projectile
-      epkgs.pyvenv
-      epkgs.quelpa-use-package
-      epkgs.quick-peek
-      epkgs.rainbow-mode
-      epkgs.raku-mode
-      epkgs.restart-emacs
-      epkgs.reverse-im
-      epkgs.rust-mode
-      epkgs.sbt-mode
-      epkgs.scala-mode
-      epkgs.selectrum
-      epkgs.session
-      epkgs.slime
-      epkgs.slime-company
-      epkgs.telega
-      epkgs.typescript-mode
-      epkgs.undo-tree
-      epkgs.unkillable-scratch
-      epkgs.use-package
-      epkgs.vlf
+      epkgs.evil
+      epkgs.evil-collection
       epkgs.vterm
-      epkgs.which-key
-      epkgs.winum
-      epkgs.yasnippet
-      epkgs.ytdl
-      epkgs.ghub
-      epkgs.emms
-      epkgs.evil-exchange
-      epkgs.evil-matchit
-      epkgs.clj-refactor
-      epkgs.aggressive-indent
+      epkgs.pdf-tools
+      epkgs.telega
     ];
   };
   programs.git = {
