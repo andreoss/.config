@@ -158,9 +158,11 @@ in
       epkgs.telega
     ];
   };
+  programs.man.enable = true;
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
+    delta.enable = true;
     extraConfig = {
       init = {
         defaultBranch = "master";
@@ -192,7 +194,7 @@ in
     ];
   };
   programs.firefox= {
-    enable = false;
+    enable = true;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       https-everywhere
       tridactyl
