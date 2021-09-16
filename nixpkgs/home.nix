@@ -239,6 +239,11 @@ in
       vi = "emacsclient -t";
     };
   };
+  programs.gpg.enable = true;
+  programs.password-store = {
+    enable = true;
+    package =  pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+  };
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
