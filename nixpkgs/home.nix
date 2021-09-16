@@ -254,39 +254,76 @@ in
     MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
   };
   home.packages = with pkgs; [
-    gitAndTools.git-codeowners
-    gitAndTools.git-extras
-    gitAndTools.gitflow
-    davmail
     ack
     atool
     cloc
     coreutils
+    davmail
     docker
-    gnupg
+    file
     imagemagick7Big
-    mc
-    mercurialFull
+    lsof
     nix
     openshift
-    pkg-config
+    openvpn
+    pavucontrol
+    pulsemixer
     ripgrep
+    sdcv
     shellcheck
     unzip
     wget
-    xorg.xdpyinfo
-    xorg.xmessage
+  ]
+  ++ fontPackages
+  ++ (ifOnLocal [
     mpv
     ffmpeg-full
-    pass
-  ] ++ fontPackages ++ (ifOnLocal sbclPackages []) ++ jdkRelatedPackages;
+    aria
+    python38Packages.youtube-dl
+  ] [])
+
+  ++ (ifOnLocal [
+    signal-desktop
+  ] [])
+  ++ [
+    aspell
+    aspellDicts.ru
+    aspellDicts.en
+    aspellDicts.es
+  ]
+  ++ [
+    mercurialFull
+    gitAndTools.git-codeowners
+    gitAndTools.git-extras
+    gitAndTools.gitflow
+  ]
+  ++ [
+    gnumake
+    cmake
+    gcc
+    clang-analyzer
+    binutils
+    autoconf
+    ccls
+  ]
+  ++ [
+    python38Packages.python-language-server
+    python38Packages.pep8
+    python38Packages.pip
+    python38Packages.meson
+  ]
+  ++ (ifOnLocal [nyxt] [])
+  ++ (ifOnLocal sbclPackages [])
+  ++ (ifOnLocal [
+    pkg-config
+    roswell
+    sbcl
+    clisp
+  ] [])
+  ++ jdkRelatedPackages;
   fonts.fontconfig.enable = true;
   gtk = {
     enable = true;
-    font = {
-      package = pkgs.sudo-font;
-      name = "Sudo";
-    };
     gtk2.extraConfig = '''';
     gtk3.extraConfig = {
       gtk-xft-antialias=1;
@@ -413,6 +450,27 @@ in
     text = ''
        #!/bin/sh
        exec emacs -Q -nw -l "${../mini-init.el}" "$@"
+    '' ;
+  };
+  home.file.".local/bin/firefox"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec firejail firefox "$@"
+    '' ;
+  };
+  home.file.".local/bin/jetbrains"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec firejail --profile="${../firejail/idea.profile}" idea-community "$@"
+    '' ;
+  };
+  home.file.".local/bin/xterm"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec urxvt "$@"
     '' ;
   };
   home.sessionPath = [
