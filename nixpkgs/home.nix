@@ -203,7 +203,7 @@ in
   };
   home.username = "a";
   home.homeDirectory = "/home/a";
-  home.stateVersion = "20.09";
+  home.stateVersion = "21.05";
   home.activation.installJdks = lib.hm.dag.entryAfter ["writeBoundary"] ''
       rm --recursive --force "$HOME/.jdk/"
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
