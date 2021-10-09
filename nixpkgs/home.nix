@@ -141,20 +141,9 @@ in
     };
   };
   programs.emacs = {
-    overrides = self: super: rec {
-      telega = pkgs.unstable.emacsPackages.telega;
-      evil = pkgs.unstable.emacsPackages.evil;
-      evil-collection = pkgs.unstable.emacsPackages.evil-collection;
-      magit = pkgs.unstable.emacsPackages.magit;
-      forge = pkgs.unstable.emacsPackages.forge;
-    };
+    overrides = self: super: rec {};
     enable = true;
-    # extraConfig = ''
-    #   (require 'better-defaults)
-    #   (require 'evil)
-    #   (evil-mode +1)
-    # '';
-    package = (pkgs.unstable.emacs.override {
+    package = (pkgs.emacs.override {
       withGTK3 = false;
       withGTK2 = false;
       srcRepo = false;
