@@ -331,23 +331,25 @@ in
     autoconf
     ccls
   ]
+  ++ (whenOnLocal [
+    pandoc
+    libertine
+    texlive.combined.scheme-full
+  ] [])
   ++ [
-    python38Packages.python-language-server
-    python38Packages.pep8
-    python38Packages.pip
-    python38Packages.meson
   ]
-  ++ (ifOnLocal [nyxt] [])
-  ++ (ifOnLocal sbclPackages [])
-  ++ (ifOnLocal [
+  ++ (whenOnLocal [nyxt] [])
+  ++ (whenOnLocal ([
     pkg-config
     roswell
     sbcl
     clisp
-  ] [])
+  ] ++ sbclPackages) [])
   ++ jdkRelatedPackages;
   fonts.fontconfig.enable = true;
   gtk = {
+    font.package = pkgs.paratype-pt-mono;
+    font.name = "PT Mono 11";
     enable = true;
     gtk2.extraConfig = '''';
     gtk3.extraConfig = {
