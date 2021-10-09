@@ -224,7 +224,32 @@ in
       https-everywhere
       tridactyl
       ublock-origin
+      umatrix
+      browserpass
     ];
+    profiles."default" = {
+      id = 0;
+      extraConfig = builtins.readFile (builtins.fetchurl
+        "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js"
+      );
+      userChrome = # builtins.readFile (builtins.fetchurl "https://raw.githubusercontent.com/Arty2/userstyles/master/tabs_to_bottom.userchrome.css") +
+                   "\n\n" + (builtins.readFile (builtins.fetchurl
+(
+        "https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css"
+)));
+      userContent = '''';
+      settings = {
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "browser.tabs.tabMinWidth" = 5;
+        "browser.uidensity" = 1;
+        "browser.startup.homepage" = "about:blank";
+        "browser.places.importBookmarksHTML"=true;
+        "browser.bookmarks.file"= builtins.toString ~/.config/bookmarks.html;
+        "browser.bookmarks.restore_default_bookmarks"=false;
+        "browser.bookmarks.autoExportHTML"=true;
+
+      };
+    };
   };
   home.username = "a";
   home.homeDirectory = "/home/a";
