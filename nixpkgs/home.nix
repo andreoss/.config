@@ -1,12 +1,22 @@
 { config, pkgs, lib, fetchurl, stdenv, ... }:
 let
-  unstableTarball = fetchTarball
-    "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
   hostname = builtins.replaceStrings ["\n"] [""] (builtins.readFile /etc/hostname);
   onHost = hosts: builtins.any (s: s == hostname) hosts;
   onLocal = onHost [ "thnk" "vtfn" ];
-  ifOnHost = host: result: alternative: if (onHost host) then result else alternative;
-  ifOnLocal = ((ifOnHost) ["thnk" "vtfn" ]);
+  whenOn = host: result: alternative: if (onHost host) then result else alternative;
+  whenOnLocal = ((whenOn) ["thnk" "vtfn" ]);
+  python3Plus = pkgs.python3.withPackages (ps : with ps;
+      [
+      pep8
+      ipython
+      pandas
+      pip
+      meson
+      seaborn
+      pyqt5
+      tkinter
+      ]
+    );
   sbclPackages = with pkgs.lispPackages; [
     dbus
     external-program
@@ -15,21 +25,29 @@ let
     swank
     stumpwm
   ];
-  jdkRelatedPackages = with pkgs.unstable; [
+  jdkRelatedPackages = with pkgs; [
     ant
     clojure
     clojure-lsp
+    eclipse-mat
     gradle
     groovy
     jetbrains.idea-community
+    jruby
+    kotlin
     leiningen
+    babashka
     lombok
     maven
     metals
+    mill
+    nailgun
     netbeans
-    sbt
-    visualvm
+    sbt-with-scala-native
+    spring-boot-cli
     umlet
+    uncrustify
+    visualvm
   ];
   fontPackages = with pkgs; [
     paratype-pt-mono
@@ -45,7 +63,6 @@ in
 {
   nixpkgs.config = {
     packageOverrides = pkgs: {
-      unstable = import unstableTarball { config = config.nixpkgs.config; };
       nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
         inherit pkgs;
       };
@@ -67,6 +84,11 @@ in
       spotbugs
       color-theme
     ];
+  };
+  programs.matplotlib.enable = true;
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
   };
   programs.tmux = {
     enable = true;
@@ -103,7 +125,7 @@ in
       "loginShell" = "true";
       "urgentOnBell" = "true";
       "secondaryScroll" = "true";
-      "cursorColor" = "#afbfbf";
+      "cursorColor" = "#AFBFBF";
       "cursorBlink" = "true";
       "internalBorder" = 24;
       "depth" = 32;
@@ -158,11 +180,18 @@ in
       epkgs.telega
     ];
   };
+  programs.feh.enable = true;
   programs.man.enable = true;
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
     delta.enable = true;
+    userName = "andreoss";
+    userEmail = "andreoss@sdf.org";
+    signing = {
+      key = "5B10E6EC857B1046";
+      signByDefault = true;
+    };
     extraConfig = {
       init = {
         defaultBranch = "master";
@@ -242,7 +271,7 @@ in
   programs.gpg.enable = true;
   programs.password-store = {
     enable = true;
-    package =  pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+    package =  pkgs.pass.withExtensions (exts: [ exts.pass-otp exts.pass-import ]);
   };
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
@@ -449,7 +478,7 @@ in
     executable = true;
     text = ''
        #!/bin/sh
-       exec emacs -Q -nw -l "${../mini-init.el}" "$@"
+       exec emacs --quick --no-window-system --load="${../mini-init.el}" "$@"
     '' ;
   };
   home.file.".local/bin/firefox"= {
@@ -474,6 +503,6 @@ in
     '' ;
   };
   home.sessionPath = [
-    ".local/bin"
+    "$HOME/.local/bin"
   ];
  }
