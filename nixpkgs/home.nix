@@ -420,7 +420,7 @@ in
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
     "Emacs*geometry" = "80x60";
-    "Emacs*font" = "Ttyp0";
+    "Emacs*font" = "PT Mono";
     "Emacs*scrollBar" = "on";
     "Emacs*scrollBarWidth" =  6;
     "XTerm*faceName" = "dejavu sans mono";
