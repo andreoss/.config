@@ -512,7 +512,8 @@ in
     ".npmrc".source = ~/.config/npmrc;
     ".ratpoisonrc".source = ~/.config/ratpoisonrc;
     ".sbclrc".source = ~/.config/sbclrc;
-    ".shrc".source = ~/.config/shrc;
+    ".bashrc".source = ~/.config/shrc;
+    ".profile".source = ~/.config/shrc;
   };
   services.gammastep =  {
     enable = true;
