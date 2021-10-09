@@ -368,6 +368,7 @@ in
     gnumake
     cmake
     gcc
+    cppcheck
     clang-analyzer
     binutils
     autoconf
