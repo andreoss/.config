@@ -462,9 +462,11 @@ in
       background = "#F07178";
       foreground = "#959DCB";
     };
-    global.font = "Ttyp0";
-    global.alignment = "left";
-    global.geometry = "300x5-30+20";
+    global.font = "PT Mono";
+    global.alignment = "right";
+    global.word_warp= "true";
+    global.line_height= 3;
+    global.geometry = "384x5-30+20";
     urgency_low.timeout = 10;
     urgency_normal.timeout = 10;
     urgency_critical.timeout = 10;
