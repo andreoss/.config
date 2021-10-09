@@ -284,10 +284,8 @@ in
       ${pkgs.fontconfig.bin}/bin/fc-cache
   '';
   programs.bash = {
+    enable = true;
     enableVteIntegration = true;
-    shellAliases = {
-      vi = "emacsclient -t";
-    };
   };
   programs.gpg.enable = true;
   programs.password-store = {
