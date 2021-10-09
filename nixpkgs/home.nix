@@ -159,6 +159,9 @@ in
       ];
     });
     extraPackages = epkgs: [
+      epkgs.exwm
+      epkgs.elpher
+      epkgs.elfeed
       epkgs.magit
       epkgs.better-defaults
       epkgs.forge
