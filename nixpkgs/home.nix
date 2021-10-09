@@ -407,9 +407,13 @@ in
       gtk-enable-event-sounds=0;
       gtk-enable-input-feedback-sounds=0;
     };
+    theme = {
+      package = pkgs.onestepback;
+      name = "OneStepBack";
+    };
     iconTheme = {
-      package = pkgs.paper-icon-theme;
-      name = "Paper";
+      package = pkgs.tela-icon-theme;
+      name = "Tela";
     };
   };
   xresources.properties = {
