@@ -323,9 +323,30 @@ in
     shellcheck
     unzip
     wget
+    xclip
+    wmname
+    python3Plus
   ]
   ++ fontPackages
-  ++ (ifOnLocal [
+  ++ [
+    yamllint
+    xmlformat
+    yaml2json
+    json2yaml
+    yaml-merge
+    jo
+    libxslt
+  ]
+  ++ (whenOnLocal (with perl532Packages; [
+    Appcpanminus
+    PerlCritic
+    PerlTidy
+    PodTidy
+    HTMLTidy
+    BUtils
+    rakudo
+  ]) [])
+  ++ (whenOnLocal [
     mpv
     ffmpeg-full
     aria
