@@ -232,11 +232,11 @@ in
   home.activation.installJdks = lib.hm.dag.entryAfter ["writeBoundary"] ''
       rm --recursive --force "$HOME/.jdk/"
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
-      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
-      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
-      ln --symbolic --force "${pkgs.unstable.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
-      ln --symbolic --force "${pkgs.unstable.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
-      ln --symbolic --force "${pkgs.unstable.graalvm11-ce.out}"                $HOME/.jdk/11-graal
+      ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
+      ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
+      ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
+      ln --symbolic --force "${pkgs.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
+      ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11-graal
   '';
   home.activation.installFonts = lib.hm.dag.entryAfter ["writeBoundary"] ''
       install --directory --mode 755 --owner="$USER" "$HOME/.fonts/"
