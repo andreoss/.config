@@ -203,9 +203,13 @@ in
       xx   = "reset HEAD";
     };
   };
+  programs.browserpass= {
+    enable = true;
+    browsers = [ "chromium" "firefox" ];
+  };
   programs.chromium = {
     enable = true;
-    #package = pkgs.unstable.ungoogled-chromium;
+    package = pkgs.ungoogled-chromium;
     extensions = [
       "cjpalhdlnbpafiamejdnhcphjbkeiagm"
       "gcbommkclmclpchllfjekcdonpmejbdp"
