@@ -312,6 +312,7 @@ in
     imagemagick7Big
     lsof
     nix
+    rnix-lsp
     openshift
     openvpn
     pavucontrol
@@ -348,12 +349,9 @@ in
     mpv
     ffmpeg-full
     aria
-    python38Packages.youtube-dl
+    python39Packages.youtube-dl
   ] [])
-
-  ++ (ifOnLocal [
-    signal-desktop
-  ] [])
+  ++ (whenOnLocal [signal-desktop] [])
   ++ [
     aspell
     aspellDicts.ru
@@ -475,7 +473,7 @@ in
   services.picom.experimentalBackends = true;
   services.picom.backend = "glx";
   services.picom.opacityRule = [
-      "80:class_g  = 'Dunst'"
+      "50:class_g  = 'Dunst'"
   ];
   services.picom.extraOptions = ''
     detect-client-opacity = false;
@@ -491,7 +489,7 @@ in
     blur-background-exclude = [
         "class_g = 'keynav'"
     ];
-    corner-radius = 4;
+    corner-radius = 1;
     rounded-corners-exclude = [
         "window_type = 'dock'",
         "_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'",
@@ -534,7 +532,7 @@ in
     executable = true;
     text = ''
        #!/bin/sh
-       exec firejail firefox "$@"
+       exec firejail "${pkgs.firefox.out}/bin/firefox" "$@"
     '' ;
   };
   home.file.".local/bin/jetbrains"= {
