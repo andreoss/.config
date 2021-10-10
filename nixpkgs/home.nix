@@ -370,6 +370,8 @@ in
     gcc
     cppcheck
     clang-analyzer
+    valgrind
+    indent
     binutils
     autoconf
     ccls
@@ -513,6 +515,7 @@ in
     ".sbclrc".source = ~/.config/sbclrc;
     ".bashrc".source = ~/.config/shrc;
     ".profile".source = ~/.config/shrc;
+    ".indent.pro".source = ~/.config/indent.pro;
   };
   services.gammastep =  {
     enable = true;
