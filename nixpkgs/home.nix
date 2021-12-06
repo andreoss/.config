@@ -260,7 +260,6 @@ in
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
-      ln --symbolic --force "${pkgs.graalvm8-ce.out}"                 $HOME/.jdk/8-graal
       ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11-graal
   '';
   home.activation.installFonts = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -296,7 +295,6 @@ in
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
     JDK_16 = "$HOME/.jdk/16";
-    GRAALVM_8 = "$HOME/.jdk/8-graal";
     GRAALVM_11 = "$HOME/.jdk/11-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
