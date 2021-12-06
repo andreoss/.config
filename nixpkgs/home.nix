@@ -181,7 +181,7 @@ in
     userName = "andreoss";
     userEmail = "andreoss@sdf.org";
     signing = {
-      key = "5B10E6EC857B1046";
+      key = "2DB39B412CDF97C7";
       signByDefault = true;
     };
     extraConfig = {
