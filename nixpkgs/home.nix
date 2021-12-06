@@ -150,12 +150,12 @@ in
     }).overrideAttrs (attrs: {
       configureFlags = [
         "--disable-build-details"
-        "--with-modules"
-        "--without-toolkit-scroll-bars"
-        "--with-x-toolkit=athena"
-        "--with-xft"
         "--with-cairo"
+        "--with-modules"
         "--with-nativecomp"
+        "--without-toolkit-scroll-bars"
+        "--with-xft"
+        "--with-x-toolkit=athena"
       ];
     });
     extraPackages = epkgs: [
