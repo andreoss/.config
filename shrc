@@ -193,12 +193,8 @@ __ps1() {
 export PATH
 PROMPT_COMMAND="history -a"
 
-if [ "$TERM" != "dumb" ]
-then
-    TERM=vt100
-    set -o vi
-    PS1='$(__ps1)'
-fi
+set -o vi
+PS1='$(__ps1)'
 
 __title() {
     DIR="$(__short_pwd)"
