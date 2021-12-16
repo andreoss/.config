@@ -33,7 +33,6 @@ let
     gradle
     groovy
     jetbrains.idea-community
-    jruby
     kotlin
     leiningen
     babashka
@@ -48,6 +47,8 @@ let
     umlet
     uncrustify
     visualvm
+    ruby
+    gem
   ];
   fontPackages = with pkgs; [
     paratype-pt-mono
