@@ -310,6 +310,7 @@ in
   home.packages = with pkgs; [
     ack
     atool
+    screen
     cloc
     coreutils
     davmail
