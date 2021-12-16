@@ -196,12 +196,18 @@ in
       ci   = "commit";
       co   = "checkout";
       fe   = "fetch";
+      st   = "status";
       ll   = "log --oneline";
+      l    = "log --graph --oneline --abbrev-commit --decorate=short";
       me   = "merge";
       pu   = "pull";
       pure = "pull --rebase";
       ri   = "rebase --interactive";
       xx   = "reset HEAD";
+      cn   = "!f() { git checkout -b \${1} origin/master ; }; f";
+      last = "log -1 HEAD";
+      unstage = "reset HEAD -- ";
+      alias = "!f() { git config --get-regexp \"^alias.\${1}$\" ;}; f" ;
     };
   };
   programs.browserpass= {
