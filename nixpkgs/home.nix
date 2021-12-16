@@ -327,6 +327,7 @@ in
     ripgrep
     sdcv
     shellcheck
+    zip
     unzip
     wget
     xclip
