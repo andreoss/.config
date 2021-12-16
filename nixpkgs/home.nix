@@ -329,6 +329,7 @@ in
     shellcheck
     zip
     unzip
+    unar
     wget
     xclip
     wmname
