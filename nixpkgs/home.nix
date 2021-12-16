@@ -559,6 +559,13 @@ in
        exec urxvt "$@"
     '' ;
   };
+  home.file.".local/bin/xterm-screen"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec xterm -e screen -D -R -S primary
+    '' ;
+  };
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
