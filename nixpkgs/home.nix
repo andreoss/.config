@@ -254,8 +254,15 @@ in
         "browser.places.importBookmarksHTML"=true;
         "browser.bookmarks.file"= builtins.toString ~/.config/bookmarks.html;
         "browser.bookmarks.restore_default_bookmarks"=false;
-        "browser.bookmarks.autoExportHTML"=true;
-
+        "browser.bookmarks.autoExportHTML"= true;
+        "privacy.clearOnShutdown.offlineApps"=true;
+        "privacy.clearOnShutdown.siteSettings"=true;
+        "privacy.cpd.offlineApps"=true;
+        "privacy.cpd.passwords"=true;
+        "privacy.cpd.siteSettings"=true;
+        "browser.cache.disk.enable" = false;
+        "browser.cache.offline.enable" = false;
+        "browser.search.searchEnginesURL" = "";
       };
     };
   };
