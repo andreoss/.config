@@ -239,13 +239,14 @@ in
       extraConfig = builtins.readFile (builtins.fetchurl
         "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js"
       );
-      userChrome = # builtins.readFile (builtins.fetchurl "https://raw.githubusercontent.com/Arty2/userstyles/master/tabs_to_bottom.userchrome.css") +
-                   "\n\n" + (builtins.readFile (builtins.fetchurl
-(
+      userChrome = (builtins.readFile (builtins.fetchurl (
         "https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css"
-)));
+      )));
       userContent = '''';
       settings = {
+        "signon.rememberSignons"  = false;
+        "extensions.pocket.enabled" = false;
+        "browser.privatebrowsing.autostart" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "browser.tabs.tabMinWidth" = 5;
         "browser.uidensity" = 1;
