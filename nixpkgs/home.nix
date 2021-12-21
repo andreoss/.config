@@ -191,11 +191,12 @@ in
       };
     };
     aliases = {
-      au   = "add --all";
+      fe   = "fetch";
+      fa   = "fetch --all";
+      au   = "add -u";
       cc   = "clone";
       ci   = "commit";
       co   = "checkout";
-      fe   = "fetch";
       st   = "status";
       ll   = "log --oneline";
       l    = "log --graph --oneline --abbrev-commit --decorate=short";
