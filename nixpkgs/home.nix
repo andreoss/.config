@@ -437,7 +437,7 @@ in
   xresources.properties = {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
-    "Emacs*geometry" = "80x60";
+    "Emacs*geometry" = "80x30";
     "Emacs*font" = "PT Mono";
     "Emacs*scrollBar" = "on";
     "Emacs*scrollBarWidth" =  6;
