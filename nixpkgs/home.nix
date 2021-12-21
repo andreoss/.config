@@ -360,6 +360,7 @@ in
     PodTidy
     HTMLTidy
     BUtils
+    Appperlbrew
     rakudo
   ]) [])
   ++ (whenOnLocal [
