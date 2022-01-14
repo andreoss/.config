@@ -209,6 +209,7 @@ in
       last = "log -1 HEAD";
       unstage = "reset HEAD -- ";
       alias = "!f() { git config --get-regexp \"^alias.\${1}$\" ;}; f" ;
+      branch = "branch --sort=-committerdate";
     };
   };
   programs.browserpass= {
