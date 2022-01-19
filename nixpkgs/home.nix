@@ -573,14 +573,20 @@ in
        exec urxvt "$@"
     '' ;
   };
-  home.file.".local/bin/xterm-screen"= {
+  home.file.".local/bin/xscreen"= {
     executable = true;
     text = ''
        #!/bin/sh
-       exec xterm -e screen -D -R -S primary
+       exec xterm -e screen -D -R -S "$\{1:-primary}" "$*"
+    '' ;
+  };
+  home.file.".local/bin/mpa"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec mpv --vo=null "$@"
     '' ;
   };
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
- }
