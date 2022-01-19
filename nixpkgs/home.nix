@@ -302,6 +302,7 @@ in
   programs.bash = {
     enable = true;
     enableVteIntegration = true;
+    initExtra = builtins.readFile ~/.config/shrc;
   };
   programs.gpg.enable = true;
   programs.password-store = {
@@ -533,8 +534,6 @@ in
     ".npmrc".source = ~/.config/npmrc;
     ".ratpoisonrc".source = ~/.config/ratpoisonrc;
     ".sbclrc".source = ~/.config/sbclrc;
-    ".bashrc".source = ~/.config/shrc;
-    ".profile".source = ~/.config/shrc;
     ".indent.pro".source = ~/.config/indent.pro;
   };
   services.gammastep =  {
