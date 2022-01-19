@@ -342,6 +342,8 @@ in
     unzip
     unar
     wget
+    curl
+    libressl
     xclip
     wmname
     python3Plus
