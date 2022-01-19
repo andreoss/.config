@@ -535,6 +535,7 @@ in
     ".ratpoisonrc".source = ~/.config/ratpoisonrc;
     ".sbclrc".source = ~/.config/sbclrc;
     ".indent.pro".source = ~/.config/indent.pro;
+    ".screenrc".source = ~/.config/screenrc;
   };
   services.gammastep =  {
     enable = true;
