@@ -606,4 +606,13 @@ in
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
+  accounts.email.accounts = (import ./mail.nix);
+  programs.mbsync.enable = true;
+  programs.msmtp.enable = true;
+  programs.notmuch = {
+    enable = true;
+    hooks = {
+      preNew = "";
+    };
+  };
 }
