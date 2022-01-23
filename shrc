@@ -184,7 +184,7 @@ __ps1() {
     if [ "$DIR" ]
     then
         VCS="$(__vcs_status)"
-        printf '%s %s\n%s' "$VCS" "$DIR" "$PROMPT"
+        printf '%s %s %s\n%s' "$VCS" "$DIR" "${IN_NIX_SHELL:-}" "$PROMPT"
     else
         printf '%s' "$PROMPT"
     fi
