@@ -568,6 +568,13 @@ in
        exec firejail --profile="${../firejail/idea.profile}" idea-community "$@"
     '' ;
   };
+  home.file.".local/bin/citrix"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exec firejail wfica "$@"
+    '' ;
+  };
   home.file.".local/bin/xterm"= {
     executable = true;
     text = ''
