@@ -544,8 +544,6 @@ in
     longitude = -55.89;
     latitude = -27.36;
   };
-  accounts.email = {
-    maildirBasePath = "${config.home.homeDirectory}/Maildir";
   home.file.".local/bin/nano"= {
     executable = true;
     text = ''
@@ -605,4 +603,7 @@ in
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
+  accounts.email = {
+    maildirBasePath = "${config.home.homeDirectory}/Maildir";
+  };
 }
