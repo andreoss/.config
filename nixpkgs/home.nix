@@ -546,6 +546,12 @@ in
   };
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
+  home.file.".local/bin/nano"= {
+    executable = true;
+    text = ''
+       #!/bin/sh
+       exit 1
+    '' ;
   };
   home.file.".local/bin/vi"= {
     executable = true;
