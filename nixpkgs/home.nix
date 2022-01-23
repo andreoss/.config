@@ -615,4 +615,9 @@ in
       preNew = "";
     };
   };
+  services.xcape.enable = true;
+  home.keyboard.layout = "us,ru";
+  home.keyboard.options = [
+    "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt"
+  ];
 }
