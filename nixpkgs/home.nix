@@ -346,6 +346,7 @@ in {
       ripgrep
       sdcv
       shellcheck
+      shfmt
       zip
       unzip
       unar
@@ -374,6 +375,8 @@ in {
       gitAndTools.git-codeowners
       gitAndTools.git-extras
       gitAndTools.gitflow
+      git-crypt
+      pre-commit
     ] ++ [
       gnumake
       cmake
