@@ -1,0 +1,8 @@
+--continue
+--write-auto-sub
+--sub-lang es,en
+--embed-subs
+--embed-thumbnail
+--convert-subs srt
+--write-description
+--add-metadata
