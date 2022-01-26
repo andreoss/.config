@@ -266,9 +266,9 @@ in {
       };
     };
   };
-  home.username = "a";
-  home.homeDirectory = "/home/a";
-  home.stateVersion = "21.05";
+  home.username = builtins.getEnv "USER";
+  home.homeDirectory = builtins.getEnv "HOME";
+  home.stateVersion = "21.11";
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
     install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
