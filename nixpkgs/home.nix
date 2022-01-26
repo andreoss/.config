@@ -204,6 +204,12 @@ in {
       unstage = "reset HEAD -- ";
       alias = ''!f() { git config --get-regexp "^alias.''${1}$" ;}; f'';
       branch = "branch --sort=-committerdate";
+      spull = "!git stash && git pull && git stash pop";
+    };
+    extraConfig = {
+      pull.rebase = true;
+      rebase.autosquash = true;
+      rerere.enabled = true;
     };
   };
   programs.browserpass = {
