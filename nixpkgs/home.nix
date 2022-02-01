@@ -16,11 +16,10 @@ let
     quicklisp
     swank
     stumpwm
-  ];
+  ] ;
   jdkRelatedPackages = with pkgs; [
     ant
     clojure
-    clojure-lsp
     eclipse-mat
     gradle
     groovy
