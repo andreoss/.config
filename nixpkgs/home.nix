@@ -368,6 +368,7 @@ in {
       Appperlbrew
       rakudo
     ]) [ ])
+    ++ [pkg-config roswell sbcl clisp]
     ++ (whenOnLocal [ mpv ffmpeg-full aria python39Packages.youtube-dl ] [ ])
     ++ (whenOnLocal [ signal-desktop ] [ ])
     ++ [ aspell aspellDicts.ru aspellDicts.en aspellDicts.es ] ++ [
