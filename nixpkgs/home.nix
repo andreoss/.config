@@ -388,10 +388,12 @@ in {
       binutils
       autoconf
       ccls
-    ] ++ (whenOnLocal [ pandoc libertine texlive.combined.scheme-full ] [ ])
-    ++ [ ] ++ (whenOnLocal [ nyxt ] [ ])
-    ++ (whenOnLocal ([ pkg-config roswell sbcl clisp ] ++ sbclPackages) [ ])
-    ++ jdkRelatedPackages;
+    ]
+    ++ (whenOnLocal [ pandoc libertine texlive.combined.scheme-full ] [ ])
+    ++ (whenOnLocal [ nyxt ] [ ])
+    ++ (whenOnLocal sbclPackages [ ])
+    ++ jdkRelatedPackages
+    ++ (whenOnLocal [android-tools] []);
   fonts.fontconfig.enable = true;
   gtk = {
     font.package = pkgs.paratype-pt-mono;
