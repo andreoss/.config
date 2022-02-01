@@ -276,7 +276,8 @@ in {
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
     ln --symbolic --force "${pkgs.openjdk17.out}"                   $HOME/.jdk/17
-    ln --symbolic --force "${pkgs.jdk17_headless.out}"              $HOME/.jdk/17-headless
+    ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
+    ln --symbolic --force "${pkgs.jdk17_headless.out}/lib/openjdk"  $HOME/.jdk/17-headless
     ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11-graal
   '';
   home.activation.installFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
