@@ -338,6 +338,7 @@ in {
       file
       imagemagick7Big
       lsof
+      mtr
       nix
       nix-tree
       nixfmt
