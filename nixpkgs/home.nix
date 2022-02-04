@@ -244,11 +244,14 @@ in {
         ("https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css")));
       userContent = "";
       settings = {
-        "signon.rememberSignons" = false;
         "extensions.pocket.enabled" = false;
+        # Extensions are managed with Nix, don't auto update anything
+        "extensions.update.autoUpdateDefault" = false;
+        "extensions.update.enabled" = false;
+        "signon.rememberSignons" = false;
         "browser.privatebrowsing.autostart" = true;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "browser.tabs.tabMinWidth" = 5;
+        "browser.tabs.tabMinWidth" = 16;
         "browser.uidensity" = 1;
         "browser.startup.homepage" = "about:blank";
         "browser.places.importBookmarksHTML" = true;
