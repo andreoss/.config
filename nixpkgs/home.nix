@@ -33,6 +33,7 @@ let
     mill
     nailgun
     netbeans
+    dotty
     sbt-with-scala-native
     spring-boot-cli
     umlet
@@ -339,6 +340,7 @@ in {
       nixfmt
       rnix-lsp
       openshift
+      minikube
       openvpn
       pavucontrol
       pulsemixer
@@ -352,10 +354,13 @@ in {
       wget
       curl
       libressl
+      libqrencode
+      paperkey
       xclip
       wmname
       python3Plus
-    ] ++ fontPackages
+    ]
+    ++ fontPackages
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt ]
     ++ (whenOnLocal (with perl532Packages; [
       Appcpanminus
