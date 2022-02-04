@@ -74,6 +74,7 @@ if ! is_there sudo && is_there doas
 then
     alias sudo=doas
 fi
+alias sudo="sudo "
 
 if ! is_there docker && is_there podman
 then
