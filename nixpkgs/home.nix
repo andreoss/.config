@@ -606,6 +606,13 @@ in {
   accounts.email.accounts = (import ./mail.nix);
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
+  services.gpg-agent = {
+    grabKeyboardAndMouse = true;
+    pinentryFlavor = "emacs";
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+  };
   programs.foot.enable = my.wayland;
   programs.foot.settings = {
     main = {
