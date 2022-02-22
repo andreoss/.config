@@ -345,6 +345,7 @@ in {
       imagemagick7Big
       lsof
       mtr
+      sysstat
       nix
       nix-tree
       nixfmt
