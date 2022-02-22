@@ -603,10 +603,7 @@ in {
   programs.msmtp.enable = true;
   programs.notmuch = {
     enable = true;
-    hooks = { preNew = ""; };
   };
-  services.xcape.enable = true;
-  home.keyboard.layout = "us,ru";
-  home.keyboard.options =
-    [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
+  services.mbsync.postExec = "notmuch new";
+  services.mbsync.enable = true;
 }
