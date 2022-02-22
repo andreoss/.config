@@ -645,6 +645,7 @@ in {
     };
     mouse = { hide-when-typing = "yes"; };
   };
+  services.fnott.enable = my.wayland;
   programs.notmuch = {
     enable = true;
   };
