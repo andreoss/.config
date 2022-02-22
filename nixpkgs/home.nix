@@ -252,6 +252,8 @@ in {
         ("https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css")));
       userContent = "";
       settings = {
+        "accessibility.force_disabled" = 1;
+        "browser.link.open_newwindow" = 2;
         "full-screen-api.ignore-widgets" = true;
         "extensions.update.autoUpdateDefault" = false;
         "extensions.update.enabled" = false;
