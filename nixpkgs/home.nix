@@ -595,7 +595,6 @@ in {
       exec mpv --vo=null "$@"
     '';
   };
-  home.sessionPath = [ "$HOME/.local/bin" ];
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
