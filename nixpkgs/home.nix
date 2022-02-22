@@ -1,6 +1,7 @@
 { config, pkgs, lib, fetchurl, stdenv, ... }:
 let
-  python3Plus = pkgs.python3.withPackages (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
+  python3Plus = pkgs.python3.withPackages
+    (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
   sbclPackages = (with pkgs.lispPackages; [
     dbus
@@ -376,19 +377,20 @@ in {
       Appperlbrew
       rakudo
       perl532
-    ]))
-    ++ (lib.optionals (my.desktop) [ mpv ffmpeg-full aria python39Packages.youtube-dl ])
-    ++ (lib.optionals (my.desktop) [ signal-desktop ])
-    ++ [ aspell aspellDicts.ru aspellDicts.en aspellDicts.es ]
-    ++ [
+    ])) ++ (lib.optionals (my.desktop) [
+      mpv
+      ffmpeg-full
+      aria
+      python39Packages.youtube-dl
+    ]) ++ (lib.optionals (my.desktop) [ signal-desktop ])
+    ++ [ aspell aspellDicts.ru aspellDicts.en aspellDicts.es ] ++ [
       mercurialFull
       gitAndTools.git-codeowners
       gitAndTools.git-extras
       gitAndTools.gitflow
       git-crypt
       pre-commit
-    ]
-    ++ [
+    ] ++ [
       pkg-config
       gnumake
       cmake
@@ -400,16 +402,14 @@ in {
       binutils
       autoconf
       ccls
-    ]
-    ++ (lib.optionals (my.desktop) [ nyxt ])
+    ] ++ (lib.optionals (my.desktop) [ nyxt ])
     ++ (lib.optionals (my.lang.tex.enable) [
       mupdf
       djview
       pandoc
       libertine
       texlive.combined.scheme-full
-    ])
-    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
     ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
@@ -626,9 +626,7 @@ in {
     mouse = { hide-when-typing = "yes"; };
   };
   services.fnott.enable = my.wayland;
-  programs.notmuch = {
-    enable = true;
-  };
+  programs.notmuch = { enable = true; };
   services.mbsync.postExec = "notmuch new";
   services.mbsync.enable = true;
 }
