@@ -19,28 +19,20 @@ let
   ]) ++ (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
     ant
-    clojure
+    android-tools
     eclipse-mat
     gradle
     groovy
     jetbrains.idea-community
     kotlin
-    leiningen
-    babashka
     lombok
     maven
-    metals
-    mill
     nailgun
     netbeans
-    dotty
-    sbt-with-scala-native
-    spring-boot-cli
     umlet
     uncrustify
     visualvm
-    ruby
-    gem
+  ];
   clojurePackages = with pkgs; [ babashka leiningen clojure ];
   scalaPackages = with pkgs; [
     metals
