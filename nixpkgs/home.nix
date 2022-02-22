@@ -43,7 +43,6 @@ let
   ];
   fontPackages = with pkgs; [
     paratype-pt-mono
-    iosevka
     uw-ttyp0
     terminus_font_ttf
     gentium
@@ -81,7 +80,7 @@ in {
   programs.lf.enable = true;
   programs.jq.enable = true;
   programs.eclipse = {
-    enable = true;
+    enable = my.lang.java.enable;
     enableLombok = true;
     package = pkgs.eclipses.eclipse-java;
     plugins = with pkgs.eclipses.plugins; [ vrapper spotbugs color-theme ];
@@ -98,7 +97,7 @@ in {
     shortcut = "a";
   };
   programs.urxvt = {
-    enable = true;
+    enable = my.x11;
     package = pkgs.rxvt_unicode-with-plugins;
     iso14755 = true;
     fonts = [ "xft:Ttyp0:size=10" ];
@@ -132,30 +131,31 @@ in {
       "internalBorder" = 24;
       "depth" = 32;
       "background" = "rgba:0000/0000/0200/c800";
-      "foreground" = "#aeaeae";
-      "color0" = "#101010";
-      "color8" = "#353535";
-      "color1" = "#AE0050";
-      "color9" = "#FA3A99";
-      "color2" = "#69AE11";
-      "color10" = "#44FA80";
-      "color3" = "#C47F2C";
-      "color11" = "#FABE9A";
-      "color4" = "#4040AE";
-      "color12" = "#4F4FEA";
-      "color5" = "#7E43AE";
-      "color13" = "#AB88DE";
-      "color6" = "#4979AE";
-      "color14" = "#4EB9FA";
-      "color7" = "#A999AE";
-      "color15" = "#D3D0D0";
+      "foreground" = "#f3f3d3";
+
+      "color0" = "#000000"; # Color: Black        ~ 0
+      "color8" = "#878781"; # Color: BrightBlack  ~ 8
+      "color1" = "#AD4F4F"; # Color: Red          ~ 1
+      "color9" = "#FFDDDD"; # Color: BrightRed    ~ 9
+      "color2" = "#468747"; # Color: Green        ~ 2
+      "color10" = "#EBFFEB"; # Color: BrightGreen  ~ 10
+      "color3" = "#8F7734"; # Color: Yellow       ~ 3
+      "color11" = "#EDEEA5"; # Color: BrightYellow ~ 11
+      "color4" = "#268BD2"; # Color: Blue         ~ 4
+      "color12" = "#EBFFFF"; # Color: BrightBlue   ~ 12
+      "color5" = "#888ACA"; # Color: Magenta      ~ 5
+      "color13" = "#A1EEED"; # Color: BrightCyan   ~ 14
+      "color6" = "#6AA7A8"; # Color: Cyan         ~ 6
+      "color14" = "#96D197"; # Color: MidGreen     ~ 13
+      "color7" = "#F3F3D3"; # Color: White        ~ 7
+      "color15" = "#FFFFEB"; # Color: BrightWhite  ~ 15
     };
   };
   programs.emacs = {
     overrides = self: super: rec { };
     enable = true;
     package = (pkgs.emacs.override {
-      withGTK3 = false;
+      withGTK3 = true;
       withGTK2 = false;
       srcRepo = false;
     }).overrideAttrs (attrs: {
@@ -166,7 +166,7 @@ in {
         "--with-nativecomp"
         "--without-toolkit-scroll-bars"
         "--with-xft"
-        "--with-x-toolkit=athena"
+        "--with-x-toolkit=gtk3"
       ];
     });
     extraPackages = epkgs: [
@@ -241,6 +241,8 @@ in {
   };
   programs.firefox = {
     enable = true;
+    # package = if my.wayland then pkgs.firefox-esr-wayland else pkgs.firefox-esr;
+    package = pkgs.firefox-esr;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       https-everywhere
       tridactyl
@@ -256,8 +258,7 @@ in {
         ("https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css")));
       userContent = "";
       settings = {
-        "extensions.pocket.enabled" = false;
-        # Extensions are managed with Nix, don't auto update anything
+        "full-screen-api.ignore-widgets" = true;
         "extensions.update.autoUpdateDefault" = false;
         "extensions.update.enabled" = false;
         "signon.rememberSignons" = false;
@@ -295,7 +296,6 @@ in {
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
     ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
-    ln --symbolic --force "${pkgs.jdk17_headless.out}/lib/openjdk"  $HOME/.jdk/17-headless
     ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11-graal
   '';
   home.activation.installFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -330,13 +330,15 @@ in {
       pkgs.pass.withExtensions (exts: [ exts.pass-otp exts.pass-import ]);
   };
   home.sessionVariables = {
+    NIX_SHELL_PRESERVE_PROMPT = 1;
     XKB_DEFAULT_LAYOUT = config.home.keyboard.layout;
     XKB_DEFAULT_OPTIONS =
+      builtins.concatStringsSep "," config.home.keyboard.options;
+    EDITOR = "vi";
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
     JDK_16 = "$HOME/.jdk/16";
     JDK_17 = "$HOME/.jdk/17";
-    JDK_17H = "$HOME/.jdk/17-headless";
     GRAALVM_11 = "$HOME/.jdk/11-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     _JAVA_OPTIONS =
@@ -380,13 +382,15 @@ in {
       libressl
       libqrencode
       paperkey
-      xclip
-      wmname
       python3Plus
-    ]
-    ++ fontPackages
+      python2Plus
+      jwhois
+    ] ++ fontPackages ++ (lib.optionals (my.wayland) [ sway cage grim slurp ])
+    ++ (lib.optionals (my.x11) [ wmname xclip ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt ]
-    ++ (whenOnLocal (with perl532Packages; [
+    ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
+      ModernPerl
+      Moose
       Appcpanminus
       PerlCritic
       PerlTidy
@@ -395,8 +399,8 @@ in {
       BUtils
       Appperlbrew
       rakudo
-    ]) [ ])
-    ++ [pkg-config roswell sbcl clisp]
+      perl532
+    ]))
     ++ (whenOnLocal [ mpv ffmpeg-full aria python39Packages.youtube-dl ] [ ])
     ++ (whenOnLocal [ signal-desktop ] [ ])
     ++ [ aspell aspellDicts.ru aspellDicts.en aspellDicts.es ] ++ [
@@ -407,6 +411,7 @@ in {
       git-crypt
       pre-commit
     ] ++ [
+      pkg-config
       gnumake
       cmake
       gcc
@@ -417,12 +422,17 @@ in {
       binutils
       autoconf
       ccls
-    ]
-    ++ (whenOnLocal [ pandoc libertine texlive.combined.scheme-full ] [ ])
-    ++ (whenOnLocal [ nyxt ] [ ])
-    ++ (whenOnLocal sbclPackages [ ])
-    ++ jdkRelatedPackages
-    ++ (whenOnLocal [android-tools] []);
+    ] ++ (whenOnLocal [ nyxt ] [ ]) ++ (lib.optionals (my.lang.tex.enable) [
+      mupdf
+      djview
+      pandoc
+      libertine
+      texlive.combined.scheme-full
+    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
+    ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
+    ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
+    ++ (lib.optionals (my.lang.scala.enable) scalaPackages);
   fonts.fontconfig.enable = true;
   gtk = {
     font.package = pkgs.paratype-pt-mono;
@@ -434,19 +444,12 @@ in {
       gtk-xft-hinting = 1;
       gtk-xft-hintstyle = "hintfull";
       gtk-xft-rgba = "rgb";
+      gtk-fallback-icon-theme = "gnome";
       gtk-button-images = 0;
       gtk-cursor-theme-size = 0;
       gtk-enable-animations = false;
       gtk-enable-event-sounds = 0;
       gtk-enable-input-feedback-sounds = 0;
-    };
-    theme = {
-      package = pkgs.onestepback;
-      name = "OneStepBack";
-    };
-    iconTheme = {
-      package = pkgs.tela-icon-theme;
-      name = "Tela";
     };
   };
   xresources.properties = {
@@ -460,24 +463,19 @@ in {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
   xsession = {
-    enable = true;
+    enable = my.x11;
     windowManager.command = "~/.stumpwm.d/start.sh";
   };
   programs.keychain.enable = true;
-  programs.keychain.enableXsessionIntegration = true;
+  programs.keychain.enableXsessionIntegration = my.x11;
   programs.keychain.enableBashIntegration = true;
-  services.gpg-agent = {
-    enable = true;
-    defaultCacheTtl = 1800;
-    enableSshSupport = true;
-  };
-  services.cbatticon.enable = onLocal;
-  services.emacs.enable = onLocal;
-  services.keynav.enable = onLocal;
-  services.network-manager-applet.enable = onLocal;
-  services.pasystray.enable = onLocal;
-  services.dunst.enable = onLocal;
-  services.picom.enable = true;
+  services.cbatticon.enable = my.x11;
+  services.emacs.enable = true;
+  services.keynav.enable = my.x11;
+  services.network-manager-applet.enable = my.x11;
+  services.pasystray.enable = my.x11;
+  services.dunst.enable = my.x11;
+  services.picom.enable = my.x11;
   services.dunst.settings = {
     global = {
       frame_color = "#959DCB";
@@ -534,7 +532,7 @@ in {
     ];
   '';
   services.random-background = {
-    enable = onLocal;
+    enable = my.x11;
     imageDirectory = "%h/.config/wp";
   };
   home.file = {
@@ -547,7 +545,7 @@ in {
     ".screenrc".source = ~/.config/screenrc;
   };
   services.gammastep = {
-    enable = true;
+    enable = my.x11;
     longitude = -55.89;
     latitude = -27.36;
   };
@@ -606,6 +604,7 @@ in {
   accounts.email.accounts = (import ./mail.nix);
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
+  services.xcape.enable = my.x11;
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
     pinentryFlavor = "emacs";
