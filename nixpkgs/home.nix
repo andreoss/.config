@@ -59,6 +59,19 @@ let
     sudo-font
     dina-font
   ];
+  my = {
+    wayland = true;
+    x11 = false;
+    lang.perl.enable = true;
+    lang.perl.packages = pkgs.perl532Packages;
+    lang.java.enable = true;
+    lang.lisp.enable = true;
+    lang.tex.enable = true;
+    lang.scala.enable = true;
+    lang.clojure.enable = true;
+    lang.ruby.enable = true;
+    lang.ruby.packages = with pkgs; [ ruby gem ];
+  };
 in {
   nixpkgs.config = {
     packageOverrides = pkgs: {
