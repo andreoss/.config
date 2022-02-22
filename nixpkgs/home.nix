@@ -41,6 +41,7 @@ let
     visualvm
     ruby
     gem
+  clojurePackages = with pkgs; [ babashka leiningen clojure ];
   scalaPackages = with pkgs; [
     metals
     mill
