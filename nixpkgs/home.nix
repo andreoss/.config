@@ -271,7 +271,11 @@ in {
   };
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
+  home.keyboard.layout = "us,ru";
+  home.keyboard.options =
+    [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
   home.stateVersion = "21.11";
+  home.sessionPath = [ "$HOME/.local/bin" ];
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
     install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
@@ -314,6 +318,8 @@ in {
       pkgs.pass.withExtensions (exts: [ exts.pass-otp exts.pass-import ]);
   };
   home.sessionVariables = {
+    XKB_DEFAULT_LAYOUT = config.home.keyboard.layout;
+    XKB_DEFAULT_OPTIONS =
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
     JDK_16 = "$HOME/.jdk/16";
