@@ -574,13 +574,6 @@ in {
       exec firejail wfica "$@"
     '';
   };
-  home.file.".local/bin/xterm" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-      exec urxvt "$@"
-    '';
-  };
   home.file.".local/bin/xscreen" = {
     executable = true;
     text = ''
