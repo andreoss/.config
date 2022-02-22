@@ -41,6 +41,12 @@ let
     visualvm
     ruby
     gem
+  scalaPackages = with pkgs; [
+    metals
+    mill
+    nailgun
+    dotty
+    sbt-with-scala-native
   ];
   fontPackages = with pkgs; [
     paratype-pt-mono
