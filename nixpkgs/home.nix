@@ -329,6 +329,7 @@ in {
     _JAVA_AWT_WM_NONREPARENTING = "1";
     _JAVA_OPTIONS =
       "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
+    WLR_NO_HARDWARE_CURSORS = 1;
     MAVEN_OPTS =
       "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
   };
