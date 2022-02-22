@@ -606,6 +606,38 @@ in {
   accounts.email.accounts = (import ./mail.nix);
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
+  programs.foot.enable = my.wayland;
+  programs.foot.settings = {
+    main = {
+      term = "xterm-256color";
+      font = "Ttyp0";
+      dpi-aware = "yes";
+    };
+    colors = {
+      "foreground" = "f3f3d3";
+      "background" = "000000";
+
+      regular0 = "1E1E1E"; # BLACK
+      regular1 = "AE0000"; # RED
+      regular2 = "468747"; # GREEN
+      regular3 = "8F7734"; # YELLOW
+      regular4 = "268BD2"; # BLUE
+      regular5 = "888ACA"; # MAGENTA
+      regular6 = "7DCFFF"; # CYAN
+      regular7 = "F3F3D3"; # WHITE
+
+      bright0 = "414868"; # BRIGHT BLACK
+      bright1 = "FFEBEB"; # BRIGHT RED
+      bright2 = "96D197"; # BRIGHT GREEN
+      bright3 = "EDEEA5"; # BRIGHT YELLOW
+      bright4 = "EBFFFF"; # BRIGHT BLUE
+      bright5 = "BB9AF7"; # BRIGHT MAGENTA
+      bright6 = "A1EEED"; # BRIGHT CYAN
+      bright7 = "FFFFEB"; # BRIGHT WHITE
+
+    };
+    mouse = { hide-when-typing = "yes"; };
+  };
   programs.notmuch = {
     enable = true;
   };
