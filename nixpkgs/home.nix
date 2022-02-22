@@ -553,11 +553,11 @@ in {
       exec emacs --quick --no-window-system --load="${../mini-init.el}" "$@"
     '';
   };
-  home.file.".local/bin/firefox" = {
+  home.file.".local/bin/mozilla" = {
     executable = true;
     text = ''
       #!/bin/sh
-      exec firejail "${pkgs.firefox.out}/bin/firefox" "$@"
+      exec firefox "$@"
     '';
   };
   home.file.".local/bin/jetbrains" = {
