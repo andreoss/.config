@@ -240,7 +240,6 @@ in {
     # package = if my.wayland then pkgs.firefox-esr-wayland else pkgs.firefox-esr;
     package = pkgs.firefox-esr;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-      https-everywhere
       tridactyl
       ublock-origin
       umatrix
@@ -383,8 +382,7 @@ in {
       ffmpeg-full
       aria
       python39Packages.youtube-dl
-    ]) ++ (lib.optionals (my.desktop) [ signal-desktop ])
-    ++ [ aspell aspellDicts.ru aspellDicts.en aspellDicts.es ] ++ [
+    ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
       mercurialFull
       gitAndTools.git-codeowners
       gitAndTools.git-extras
@@ -595,7 +593,6 @@ in {
   services.xcape.enable = my.x11;
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
-    pinentryFlavor = "emacs";
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
@@ -604,12 +601,12 @@ in {
   programs.foot.settings = {
     main = {
       term = "xterm-256color";
-      font = "Ttyp0";
+      font = "PT Mono";
       dpi-aware = "yes";
     };
     colors = {
-      "foreground" = "f3f3d3";
-      "background" = "000000";
+      "foreground" = "121212";
+      "background" = "ffffae";
 
       regular0 = "1E1E1E"; # BLACK
       regular1 = "AE0000"; # RED
