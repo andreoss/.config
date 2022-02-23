@@ -49,6 +49,7 @@ let
     x11 = false;
     desktop = true;
     lang.perl.enable = true;
+    lang.cpp.enable = true;
     lang.perl.packages = pkgs.perl532Packages;
     lang.java.enable = true;
     lang.lisp.enable = true;
@@ -390,19 +391,25 @@ in {
       gitAndTools.gitflow
       git-crypt
       pre-commit
-    ] ++ [
-      pkg-config
-      gnumake
-      cmake
-      gcc
-      cppcheck
-      clang-analyzer
-      valgrind
-      indent
-      binutils
+      aspell
+      aspellDicts.ru
+      aspellDicts.en
+      aspellDicts.es
+    ] ++ (lib.optionals (my.cpp.lang) [
       autoconf
+      binutils
       ccls
-    ] ++ (lib.optionals (my.desktop) [ nyxt ])
+      clang-analyzer
+      cmake
+      cppcheck
+      gcc
+      gdb
+      gnumake
+      indent
+      ninja
+      pkg-config
+      valgrind
+    ]) ++ (lib.optionals (my.desktop) [ nyxt ])
     ++ (lib.optionals (my.lang.tex.enable) [
       mupdf
       djview
