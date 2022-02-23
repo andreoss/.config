@@ -606,7 +606,7 @@ in {
     };
     colors = {
       "foreground" = "121212";
-      "background" = "ffffae";
+      "background" = "FFFFAE";
 
       regular0 = "1E1E1E"; # BLACK
       regular1 = "AE0000"; # RED
