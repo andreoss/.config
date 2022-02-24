@@ -276,6 +276,13 @@ in {
         "browser.cache.disk.enable" = false;
         "browser.cache.offline.enable" = false;
         "browser.search.searchEnginesURL" = "";
+        "extensions.pocket.enabled" = false;
+        "extensions.abuseReport.enabled" = false;
+        "devtools.application.enabled" = false;
+        "devtools.debugger.enabled" = false;
+        "devtools.inspector.enabled" = false;
+        "devtools.performance.enabled" = false;
+        "devtools.styleeditor.enabled" = false;
       };
     };
   };
@@ -393,7 +400,7 @@ in {
       aspellDicts.ru
       aspellDicts.en
       aspellDicts.es
-    ] ++ (lib.optionals (my.cpp.lang) [
+    ] ++ (lib.optionals (my.lang.cpp.enable) [
       autoconf
       binutils
       ccls
