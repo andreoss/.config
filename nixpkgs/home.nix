@@ -1,4 +1,4 @@
-{ config, pkgs, lib, fetchurl, stdenv, ... }:
+{config, pkgs, lib, fetchurl, stdenv, ... }:
 let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
@@ -128,7 +128,6 @@ in {
       "depth" = 32;
       "background" = "rgba:0000/0000/0200/c800";
       "foreground" = "#f3f3d3";
-
       "color0" = "#000000"; # Color: Black        ~ 0
       "color8" = "#878781"; # Color: BrightBlack  ~ 8
       "color1" = "#AD4F4F"; # Color: Red          ~ 1
@@ -151,18 +150,22 @@ in {
     overrides = self: super: rec { };
     enable = true;
     package = (pkgs.emacs.override {
-      withGTK3 = true;
-      withGTK2 = false;
-      srcRepo = false;
+      withToolkitScrollBars = true;
+      srcRepo = true;
     }).overrideAttrs (attrs: {
+      src = pkgs.fetchFromGitHub {
+        repo = "emacs";
+        owner = "flatwhatson";
+        rev = "pgtk-nativecomp";
+        sha256 = "sha256-TjrPF3ugnLcOmwQQuWv0RwRxy1XXIasuNNJKjpe3y7k=";
+      };
+      patches = [];
       configureFlags = [
         "--disable-build-details"
         "--with-cairo"
         "--with-modules"
         "--with-nativecomp"
-        "--without-toolkit-scroll-bars"
-        "--with-xft"
-        "--with-x-toolkit=gtk3"
+        "--with-pgtk"
       ];
     });
     extraPackages = epkgs: [
@@ -249,8 +252,8 @@ in {
       id = 0;
       extraConfig = builtins.readFile (builtins.fetchurl
         "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js");
-      userChrome = (builtins.readFile (builtins.fetchurl
-        ("https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css")));
+      # userChrome = (builtins.readFile (builtins.fetchurl
+      #   ("https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css")));
       userContent = "";
       settings = {
         "accessibility.force_disabled" = 1;
@@ -283,6 +286,7 @@ in {
         "devtools.inspector.enabled" = false;
         "devtools.performance.enabled" = false;
         "devtools.styleeditor.enabled" = false;
+        "pdfjs.disabled" = true;
       };
     };
   };
@@ -364,13 +368,14 @@ in {
       wget
       curl
       libressl
-      libqrencode
+      qrencode
       paperkey
       python3Plus
       python2Plus
       jwhois
-    ] ++ fontPackages ++ (lib.optionals (my.wayland) [ sway cage grim slurp ])
-    ++ (lib.optionals (my.x11) [ wmname xclip ])
+    ] ++ fontPackages
+    ++ (lib.optionals (my.wayland) [ sway cage grim slurp rofi-wayland ])
+    ++ (lib.optionals (my.x11) [ wmname xclip rofi ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
@@ -414,22 +419,26 @@ in {
       ninja
       pkg-config
       valgrind
-    ]) ++ (lib.optionals (my.desktop) [ nyxt ])
+    ])
+    ++ (lib.optionals (my.desktop) [ nyxt ])
     ++ (lib.optionals (my.lang.tex.enable) [
       mupdf
+      zathura
       djview
       pandoc
       libertine
+      abiword
       texlive.combined.scheme-full
-    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ])
+    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
     ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
     ++ (lib.optionals (my.lang.scala.enable) scalaPackages);
   fonts.fontconfig.enable = true;
   gtk = {
-    font.package = pkgs.paratype-pt-mono;
-    font.name = "PT Mono 11";
+    font.package = pkgs.terminus_font_ttf;
+    font.name = "Terminus 11";
     enable = true;
     gtk2.extraConfig = "";
     gtk3.extraConfig = {
@@ -449,7 +458,7 @@ in {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
     "Emacs*geometry" = "80x30";
-    "Emacs*font" = "PT Mono";
+    "Emacs*font" = "Terminus";
     "Emacs*scrollBar" = "on";
     "Emacs*scrollBarWidth" = 6;
     "XTerm*faceName" = "dejavu sans mono";
@@ -486,7 +495,7 @@ in {
       background = "#F07178";
       foreground = "#959DCB";
     };
-    global.font = "PT Mono";
+    global.font = "Terminus";
     global.alignment = "right";
     global.word_warp = "true";
     global.line_height = 3;
@@ -603,41 +612,41 @@ in {
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
+    pinentryFlavor = "gtk2";
   };
-  programs.foot.enable = my.wayland;
-  programs.foot.settings = {
-    main = {
-      term = "xterm-256color";
-      font = "PT Mono";
-      dpi-aware = "yes";
+  programs.foot = {
+    enable = my.wayland;
+    settings = {
+      main = {
+        term = "xterm-256color";
+        font = "Terminus";
+        dpi-aware = "yes";
+      };
+      colors = {
+        "foreground" = "121212";
+        "background" = "FFFFAE";
+        regular0 = "1E1E1E"; # BLACK
+        regular1 = "AE0000"; # RED
+        regular2 = "00AE00"; # GREEN
+        regular3 = "8F7734"; # YELLOW
+        regular4 = "0000AE"; # BLUE
+        regular5 = "888ACA"; # MAGENTA
+        regular6 = "AECFFF"; # CYAN
+        regular7 = "A3A3AE"; # WHITE
+        bright0  = "414868"; # BLACK
+        bright1  = "AF5F5F"; # RED
+        bright2  = "5FAE5F"; # GREEN
+        bright3  = "EDEEA5"; # YELLOW
+        bright4  = "5F5FAE"; # BLUE
+        bright5  = "BB9AF7"; # MAGENTA
+        bright6  = "A1EEED"; # CYAN
+        bright7  = "AFAFAF"; # WHITE
+      };
+      mouse = { hide-when-typing = "yes"; };
     };
-    colors = {
-      "foreground" = "121212";
-      "background" = "FFFFAE";
-
-      regular0 = "1E1E1E"; # BLACK
-      regular1 = "AE0000"; # RED
-      regular2 = "468747"; # GREEN
-      regular3 = "8F7734"; # YELLOW
-      regular4 = "268BD2"; # BLUE
-      regular5 = "888ACA"; # MAGENTA
-      regular6 = "7DCFFF"; # CYAN
-      regular7 = "F3F3D3"; # WHITE
-
-      bright0 = "414868"; # BRIGHT BLACK
-      bright1 = "FFEBEB"; # BRIGHT RED
-      bright2 = "96D197"; # BRIGHT GREEN
-      bright3 = "EDEEA5"; # BRIGHT YELLOW
-      bright4 = "EBFFFF"; # BRIGHT BLUE
-      bright5 = "BB9AF7"; # BRIGHT MAGENTA
-      bright6 = "A1EEED"; # BRIGHT CYAN
-      bright7 = "FFFFEB"; # BRIGHT WHITE
-
-    };
-    mouse = { hide-when-typing = "yes"; };
   };
   services.fnott.enable = my.wayland;
   programs.notmuch = { enable = true; };
   services.mbsync.postExec = "notmuch new";
-  services.mbsync.enable = true;
+  services.mbsync.enable = false;
 }
