@@ -78,8 +78,6 @@ in {
   programs.eclipse = {
     enable = my.lang.java.enable;
     enableLombok = true;
-    package = pkgs.eclipses.eclipse-java;
-    plugins = with pkgs.eclipses.plugins; [ vrapper spotbugs color-theme ];
     package = pkgs.eclipses.eclipse-jee;
     plugins = with pkgs.eclipses.plugins; [
       vrapper
