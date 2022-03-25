@@ -157,23 +157,8 @@ in {
     overrides = self: super: rec { };
     enable = true;
     package = (pkgs.emacs.override {
-      withToolkitScrollBars = true;
-      srcRepo = true;
+      withToolkitScrollBars = false;
     }).overrideAttrs (attrs: {
-      src = pkgs.fetchFromGitHub {
-        repo = "emacs";
-        owner = "flatwhatson";
-        rev = "pgtk-nativecomp";
-        sha256 = "sha256-TjrPF3ugnLcOmwQQuWv0RwRxy1XXIasuNNJKjpe3y7k=";
-      };
-      patches = [];
-      configureFlags = [
-        "--disable-build-details"
-        "--with-cairo"
-        "--with-modules"
-        "--with-nativecomp"
-        "--with-pgtk"
-      ];
     });
     extraPackages = epkgs: [
       epkgs.exwm
