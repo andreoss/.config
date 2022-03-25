@@ -621,7 +621,7 @@ in {
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
-    pinentryFlavor = "gtk2";
+    pinentryFlavor = "gnome3";
   };
   programs.foot = {
     enable = my.wayland;
