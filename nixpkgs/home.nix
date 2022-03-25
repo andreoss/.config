@@ -306,6 +306,12 @@ in {
     [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
   home.stateVersion = "21.11";
   home.sessionPath = [ "$HOME/.local/bin" ];
+  home.activation.gnomeShellXkb = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      type dconf       2>/dev/null|| exit 1
+      type gnome-shell 2>/dev/null|| exit 1
+      dconf write /org/gnome/desktop/input-sources/xkb-options '${builtins.toJSON config.home.keyboard.options}'
+      dconf write /org/gnome/desktop/input-sources/sources "${"[" + builtins.concatStringsSep ", " (builtins.map (x: "('xkb', '${x}')") (lib.strings.splitString "," config.home.keyboard.layout)) + "]"}"
+  '';
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
     install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
