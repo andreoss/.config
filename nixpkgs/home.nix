@@ -80,6 +80,15 @@ in {
     enableLombok = true;
     package = pkgs.eclipses.eclipse-java;
     plugins = with pkgs.eclipses.plugins; [ vrapper spotbugs color-theme ];
+    package = pkgs.eclipses.eclipse-jee;
+    plugins = with pkgs.eclipses.plugins; [
+      vrapper
+      spotbugs
+      color-theme
+      cdt
+      jsonedit
+      drools
+    ];
   };
   programs.matplotlib.enable = true;
   qt = {
