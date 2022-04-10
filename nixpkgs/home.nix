@@ -52,11 +52,12 @@ let
     lang.cpp.enable = true;
     lang.perl.packages = pkgs.perl532Packages;
     lang.java.enable = true;
+    lang.go.enable = true;
     lang.lisp.enable = true;
     lang.tex.enable = true;
     lang.scala.enable = true;
     lang.clojure.enable = true;
-    lang.ruby.enable = true;
+    lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
   };
 in {
@@ -172,6 +173,7 @@ in {
       epkgs.vterm
       epkgs.pdf-tools
       epkgs.telega
+      epkgs.go-imports
     ];
   };
   programs.feh.enable = true;
@@ -224,10 +226,11 @@ in {
     package = pkgs.ungoogled-chromium;
     extensions = [
       "cjpalhdlnbpafiamejdnhcphjbkeiagm"
+      "dbepggeogbaibhgnhhndojpepiihcmeb"
       "gcbommkclmclpchllfjekcdonpmejbdp"
       "haiffjcadagjlijoggckpgfnoeiflnem"
-      "dbepggeogbaibhgnhhndojpepiihcmeb"
       "ldpochfccmkkmhdbclfhpagapcfdljkj"
+      "oomoeacogjkolheacgdkkkhbjipaomkn"
     ];
   };
   programs.firefox = {
@@ -431,6 +434,7 @@ in {
     ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
+    ++ (lib.optionals (my.lang.go.enable) [gotools gocode])
     ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
     ++ (lib.optionals (my.lang.scala.enable) scalaPackages);
   fonts.fontconfig.enable = true;
@@ -647,4 +651,5 @@ in {
   programs.notmuch = { enable = true; };
   services.mbsync.postExec = "notmuch new";
   services.mbsync.enable = false;
+  programs.go.enable = true;
 }
