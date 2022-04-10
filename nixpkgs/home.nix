@@ -87,6 +87,7 @@ in {
       cdt
       jsonedit
       drools
+      jdt-codemining
     ];
   };
   programs.matplotlib.enable = true;
@@ -305,7 +306,8 @@ in {
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
     ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
-    ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11-graal
+    ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11g
+    ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/17g
   '';
   programs.bash = {
     enable = true;
@@ -328,10 +330,11 @@ in {
     JDK_11 = "$HOME/.jdk/11";
     JDK_16 = "$HOME/.jdk/16";
     JDK_17 = "$HOME/.jdk/17";
-    GRAALVM_11 = "$HOME/.jdk/11-graal";
+    GVM_11 = "$HOME/.jdk/11g";
+    GVM_17 = "$HOME/.jdk/17g";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    _JAVA_OPTIONS =
-      "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
+    # _JAVA_OPTIONS =
+    #   "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
     WLR_NO_HARDWARE_CURSORS = 1;
     MAVEN_OPTS =
       "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
@@ -371,11 +374,12 @@ in {
       libressl
       qrencode
       paperkey
+      oathToolkit
       python3Plus
       python2Plus
       jwhois
     ] ++ fontPackages
-    ++ (lib.optionals (my.wayland) [ sway cage grim slurp rofi-wayland ])
+    ++ (lib.optionals (my.wayland) [ sway cage grim slurp rofi-wayland wl-clipboard])
     ++ (lib.optionals (my.x11) [ wmname xclip rofi ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
