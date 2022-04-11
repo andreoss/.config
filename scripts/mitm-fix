@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+UNSAFE=(
+        github.com
+        cache.nixos.org
+        raw.githubusercontent.com
+)
+
+RESULT="$HOME/.config/ssl/mitm.pem"
+mkdir -p "$(dirname "$RESULT")" || exit 1
+for SERVER in "${UNSAFE[@]}"
+do
+    openssl s_client -connect "$SERVER:443" -showcerts </dev/null | openssl x509 -outform pem
+done > "$RESULT"
+
+echo "Add 'export NIX_SSL_CERT_FILE=$RESULT' to ~/.config/shrc-private."
