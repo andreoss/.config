@@ -1,0 +1,34 @@
+#!/bin/sh
+set -ue
+find_cmd() {
+    cmd=$1
+    found=$(which "$cmd" | xargs readlink -f 2>/dev/null)
+    if [ ! -f "$found" ]
+    then
+        >/dev/stderr echo "Not found $cmd"
+        exit 1
+    fi
+    echo "$found"
+}
+WFICA=$(find_cmd wfica)
+FOUND=$(find "$HOME/Downloads" -name '*.ica' -type f -printf '%T+\t%p\n' \
+    | sort -r                                                            \
+    | head -n 1                                                          \
+    | cut -f2
+)
+if [ ! -f "$FOUND" ]
+then
+    >/dev/stderr echo "Not found: *.ica"
+    exit 1
+fi
+XHOME=$(mktemp --directory)
+mkdir -p "$XHOME"
+mkdir -p "$XHOME/.ICAClient"
+touch "$XHOME/.ICAClient/.eula_accepted"
+cp --verbose "$FOUND" "$XHOME/desktop.ica"
+exec firejail           \
+     --name=citrix      \
+     --private="$XHOME" \
+     --nosound          \
+     --novideo          \
+     "$WFICA" "desktop.ica"
