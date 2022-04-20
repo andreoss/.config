@@ -415,6 +415,7 @@ in {
       binutils
       ccls
       clang-analyzer
+      clang-tools
       cmake
       cppcheck
       gcc
