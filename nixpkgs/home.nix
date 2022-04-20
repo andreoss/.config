@@ -381,7 +381,6 @@ in {
     ] ++ fontPackages
     ++ (lib.optionals (my.wayland) [ sway cage grim slurp rofi-wayland wl-clipboard])
     ++ (lib.optionals (my.x11) [ wmname xclip rofi ])
-    ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
