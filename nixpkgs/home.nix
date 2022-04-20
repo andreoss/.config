@@ -622,37 +622,6 @@ in {
     enableSshSupport = true;
     pinentryFlavor = "gnome3";
   };
-  programs.foot = {
-    enable = my.wayland;
-    settings = {
-      main = {
-        term = "xterm-256color";
-        font = "Terminus";
-        dpi-aware = "yes";
-      };
-      colors = {
-        "foreground" = "121212";
-        "background" = "FFFFAE";
-        regular0 = "1E1E1E"; # BLACK
-        regular1 = "AE0000"; # RED
-        regular2 = "00AE00"; # GREEN
-        regular3 = "8F7734"; # YELLOW
-        regular4 = "0000AE"; # BLUE
-        regular5 = "888ACA"; # MAGENTA
-        regular6 = "AECFFF"; # CYAN
-        regular7 = "A3A3AE"; # WHITE
-        bright0  = "414868"; # BLACK
-        bright1  = "AF5F5F"; # RED
-        bright2  = "5FAE5F"; # GREEN
-        bright3  = "EDEEA5"; # YELLOW
-        bright4  = "5F5FAE"; # BLUE
-        bright5  = "BB9AF7"; # MAGENTA
-        bright6  = "A1EEED"; # CYAN
-        bright7  = "AFAFAF"; # WHITE
-      };
-      mouse = { hide-when-typing = "yes"; };
-    };
-  };
   services.fnott.enable = my.wayland;
   programs.notmuch = { enable = true; };
   services.mbsync.postExec = "notmuch new";
