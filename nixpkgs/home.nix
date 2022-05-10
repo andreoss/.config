@@ -380,8 +380,8 @@ in {
       python2Plus
       jwhois
     ] ++ fontPackages
-    ++ (lib.optionals (my.wayland) [ sway cage grim slurp rofi-wayland wl-clipboard])
-    ++ (lib.optionals (my.x11) [ wmname xclip rofi ])
+    ++ (lib.optionals (my.desktop) [ sway cage grim slurp wl-clipboard])
+    ++ (lib.optionals (my.desktop) [ wmname xclip ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
