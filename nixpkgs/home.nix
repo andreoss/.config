@@ -546,13 +546,15 @@ in {
     imageDirectory = "%h/.config/wp";
   };
   home.file = {
-    ".ideavimrc".source = ~/.config/ideavimrc;
-    ".inputrc".source = ~/.config/inputrc;
-    ".npmrc".source = ~/.config/npmrc;
-    ".ratpoisonrc".source = ~/.config/ratpoisonrc;
-    ".sbclrc".source = ~/.config/sbclrc;
-    ".indent.pro".source = ~/.config/indent.pro;
-    ".screenrc".source = ~/.config/screenrc;
+    ".ideavimrc".source = ./../ideavimrc;
+    ".inputrc".source = ./../inputrc;
+    ".npmrc".source = ./../npmrc;
+    ".ratpoisonrc".source = ./../ratpoisonrc;
+    ".sbclrc".source = ./../sbclrc;
+    ".indent.pro".source = ./../indent.pro;
+    ".screenrc".source = ./../screenrc;
+    ".local/bin/citrix".source = ./../scripts/citrix;
+    ".local/share/JetBrains/consentOptions/accepted".text = "";
   };
   services.gammastep = {
     enable = my.x11;
