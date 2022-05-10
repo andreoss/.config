@@ -230,6 +230,7 @@ in {
       "cjpalhdlnbpafiamejdnhcphjbkeiagm"
       "dbepggeogbaibhgnhhndojpepiihcmeb"
       "gcbommkclmclpchllfjekcdonpmejbdp"
+      "ghniladkapjacfajiooekgkfopkjblpn"
       "haiffjcadagjlijoggckpgfnoeiflnem"
       "ldpochfccmkkmhdbclfhpagapcfdljkj"
       "oomoeacogjkolheacgdkkkhbjipaomkn"
@@ -237,12 +238,12 @@ in {
   };
   programs.firefox = {
     enable = true;
-    # package = if my.wayland then pkgs.firefox-esr-wayland else pkgs.firefox-esr;
     package = pkgs.firefox;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       tridactyl
       ublock-origin
       umatrix
+      bukubrow
       browserpass
     ];
     profiles."default" = {
@@ -345,6 +346,8 @@ in {
       ack
       atool
       screen
+      buku
+      bukubrow
       cloc
       coreutils
       davmail
