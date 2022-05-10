@@ -238,7 +238,7 @@ in {
   programs.firefox = {
     enable = true;
     # package = if my.wayland then pkgs.firefox-esr-wayland else pkgs.firefox-esr;
-    package = pkgs.firefox-esr;
+    package = pkgs.firefox;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       tridactyl
       ublock-origin
@@ -617,7 +617,6 @@ in {
     enableSshSupport = true;
     pinentryFlavor = "gnome3";
   };
-  services.fnott.enable = my.wayland;
   programs.notmuch = { enable = true; };
   services.mbsync.postExec = "notmuch new";
   services.mbsync.enable = false;
