@@ -420,6 +420,7 @@ in {
       ccls
       clang-analyzer
       clang-tools
+      cling
       cmake
       cppcheck
       gcc
