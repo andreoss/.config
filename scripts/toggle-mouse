@@ -1,0 +1,36 @@
+#!/bin/sh
+set -u
+list_all_ids() { xinput list --id-only; }
+device_by_id() { xinput list --short "$1";}
+device_property() {
+    xinput list-props "$1" | while read -r prop
+    do
+        case "$prop" in
+            *"$2"*:*[01])
+                echo "${prop#*:}" | xargs
+                return 0
+                ;;
+        esac
+    done || (echo "unknown" && return 1)
+}
+enable_device() { xinput enable  "$1";}
+disable_device() { xinput disable "$1";}
+toggle_device() {
+    case $(device_property "$1" "Device Enabled") in
+        1)
+            disable_device "$1"
+            ;;
+        0)
+            enable_device "$1"
+            ;;
+    esac
+}
+
+for id in $(list_all_ids)
+do
+    case $(device_by_id "$id") in
+        *TrackPoint* | *Touch* )
+            toggle_device "$id"
+        ;;
+    esac
+done
