@@ -382,6 +382,7 @@ in {
       python3Plus
       python2Plus
       jwhois
+      psmisc
     ] ++ fontPackages
     ++ (lib.optionals (my.desktop) [ sway cage grim slurp wl-clipboard])
     ++ (lib.optionals (my.desktop) [ wmname xclip ])
