@@ -191,26 +191,26 @@ in {
     };
     extraConfig = { init = { defaultBranch = "master"; }; };
     aliases = {
-      fe = "fetch";
-      fa = "fetch --all";
+      alias = ''!f() { git config --get-regexp "^alias.''${1}$" ;}; f'';
       au = "add -u";
+      branch = "branch --sort=-committerdate";
       cc = "clone";
       ci = "commit";
+      cn = "!f() { git checkout -b \${1} origin/master ; }; f";
       co = "checkout";
-      st = "status";
+      fa = "fetch --all";
+      fe = "fetch";
+      last = "log -1 HEAD";
       ll = "log --oneline";
       l = "log --graph --oneline --abbrev-commit --decorate=short";
       me = "merge";
       pu = "pull";
       pure = "pull --rebase";
       ri = "rebase --interactive";
-      xx = "reset HEAD";
-      cn = "!f() { git checkout -b \${1} origin/master ; }; f";
-      last = "log -1 HEAD";
-      unstage = "reset HEAD -- ";
-      alias = ''!f() { git config --get-regexp "^alias.''${1}$" ;}; f'';
-      branch = "branch --sort=-committerdate";
       spull = "!git stash && git pull && git stash pop";
+      st = "status";
+      unstage = "reset HEAD -- ";
+      xx = "reset HEAD";
     };
     extraConfig = {
       pull.rebase = true;
