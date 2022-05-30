@@ -46,20 +46,20 @@ let
     dina-font
   ];
   my = {
-    wayland = true;
-    x11 = false;
-    desktop = true;
     lang.perl.enable = true;
-    lang.cpp.enable = true;
     lang.perl.packages = pkgs.perl532Packages;
-    lang.java.enable = true;
-    lang.go.enable = true;
-    lang.lisp.enable = true;
-    lang.tex.enable = true;
-    lang.scala.enable = true;
     lang.clojure.enable = true;
+    lang.cpp.enable = true;
+    lang.go.enable = true;
+    lang.java.enable = true;
+    lang.lisp.enable = true;
     lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
+    lang.scala.enable = true;
+    lang.tex.enable = true;
+    desktop = true;
+    wayland = false;
+    x11 = true;
   };
 in {
   nixpkgs.config = {
