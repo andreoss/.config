@@ -226,13 +226,13 @@ in {
     enable = true;
     package = pkgs.chromium;
     extensions = [
-      "naepdomgkenhinolocfifgehidddafch"
       "cjpalhdlnbpafiamejdnhcphjbkeiagm"
       "dbepggeogbaibhgnhhndojpepiihcmeb"
       "gcbommkclmclpchllfjekcdonpmejbdp"
       "ghniladkapjacfajiooekgkfopkjblpn"
       "haiffjcadagjlijoggckpgfnoeiflnem"
       "ldpochfccmkkmhdbclfhpagapcfdljkj"
+      "naepdomgkenhinolocfifgehidddafch"
       "oomoeacogjkolheacgdkkkhbjipaomkn"
     ];
   };
