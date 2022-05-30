@@ -2,7 +2,8 @@
 let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
-  python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
+  python2Plus = pkgs.python27.withPackages
+    (ps: with ps; [ pep8 pip ]);
   sbclPackages = (with pkgs.lispPackages; [
     dbus
     external-program
