@@ -405,6 +405,7 @@ in {
       ffmpeg-full
       aria
       python39Packages.youtube-dl
+      python39Packages.yt-dlp
     ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
       mercurialFull
       gitAndTools.git-codeowners
