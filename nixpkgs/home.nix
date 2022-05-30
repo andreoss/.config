@@ -293,7 +293,7 @@ in {
   home.keyboard.layout = "us,ru";
   home.keyboard.options =
     [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
-  home.stateVersion = "21.11";
+  home.stateVersion = "22.05";
   home.sessionPath = [ "$HOME/.local/bin" ];
   home.activation.gnomeShellXkb = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       type dconf       2>/dev/null|| exit 1
