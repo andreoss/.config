@@ -345,44 +345,45 @@ in {
     [
       ack
       atool
-      screen
       buku
       bukubrow
       cloc
       coreutils
+      curl
       davmail
       docker
+      entr
       file
       imagemagick7Big
+      jwhois
+      libressl
       lsof
-      mtr
-      sysstat
-      nix
-      nix-tree
-      nixfmt
-      rnix-lsp
-      openshift
       minikube
+      mtr
+      nix
+      nixfmt
+      nix-tree
+      oathToolkit
+      openshift
       openvpn
+      paperkey
       pavucontrol
+      psmisc
       pulsemixer
+      python2Plus
+      python3Plus
+      qrencode
       ripgrep
+      rnix-lsp
+      screen
       sdcv
       shellcheck
       shfmt
-      zip
-      unzip
+      sysstat
       unar
+      unzip
       wget
-      curl
-      libressl
-      qrencode
-      paperkey
-      oathToolkit
-      python3Plus
-      python2Plus
-      jwhois
-      psmisc
+      zip
     ] ++ fontPackages
     ++ (lib.optionals (my.desktop) [ sway cage grim slurp wl-clipboard])
     ++ (lib.optionals (my.desktop) [ wmname xclip ])
