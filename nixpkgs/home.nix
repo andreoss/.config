@@ -240,11 +240,11 @@ in {
     enable = true;
     package = pkgs.firefox;
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      browserpass
+      bukubrow
       tridactyl
       ublock-origin
       umatrix
-      bukubrow
-      browserpass
     ];
     profiles."default" = {
       id = 0;
