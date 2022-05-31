@@ -295,12 +295,6 @@ in {
     [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
   home.stateVersion = "22.05";
   home.sessionPath = [ "$HOME/.local/bin" ];
-  home.activation.gnomeShellXkb = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      type dconf       2>/dev/null|| exit 1
-      type gnome-shell 2>/dev/null|| exit 1
-      dconf write /org/gnome/desktop/input-sources/xkb-options '${builtins.toJSON config.home.keyboard.options}'
-      dconf write /org/gnome/desktop/input-sources/sources "${"[" + builtins.concatStringsSep ", " (builtins.map (x: "('xkb', '${x}')") (lib.strings.splitString "," config.home.keyboard.layout)) + "]"}"
-  '';
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
     install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
@@ -628,4 +622,17 @@ in {
   services.mbsync.postExec = "notmuch new";
   services.mbsync.enable = false;
   programs.go.enable = true;
+  dconf.settings = {
+    "org/gnome/desktop/background" = {
+      picture-uri = "${../wp/1.jpeg}";
+      picture-options = "centered";
+    };
+    "org/gnome/desktop/sound" = {
+        event-sounds=false;
+    };
+    "org/gnome/desktop/input-sources" = {
+      xkb-options = config.home.keyboard.options;
+      sources = builtins.map (x: "('xkb', '${x}')") (lib.strings.splitString "," config.home.keyboard.layout);
+    };
+  };
 }
