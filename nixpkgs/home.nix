@@ -69,7 +69,6 @@ in {
         };
     };
   };
-  programs.command-not-found.enable = true;
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
@@ -621,6 +620,7 @@ in {
   services.mbsync.postExec = "notmuch new";
   services.mbsync.enable = false;
   programs.go.enable = true;
+  programs.nix-index.enable = true;
   dconf.settings = {
     "org/gnome/desktop/background" = {
       picture-uri = "${../wp/1.jpeg}";
