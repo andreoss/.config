@@ -34,7 +34,6 @@ let
     mill
     nailgun
     dotty
-    sbt-with-scala-native
   ];
   fontPackages = with pkgs; [
     paratype-pt-mono
@@ -634,5 +633,10 @@ in {
       xkb-options = config.home.keyboard.options;
       sources = builtins.map (x: "('xkb', '${x}')") (lib.strings.splitString "," config.home.keyboard.layout);
     };
+  };
+  programs.sbt = {
+    enable = true;
+    package=  pkgs.sbt-with-scala-native;
+    plugins = [];
   };
 }
