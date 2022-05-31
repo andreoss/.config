@@ -639,4 +639,6 @@ in {
     package=  pkgs.sbt-with-scala-native;
     plugins = [];
   };
+  systemd.user.startServices = true;
+  systemd.user.servicesStartTimeoutMs = 10000;
 }
