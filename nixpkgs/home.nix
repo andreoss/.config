@@ -481,8 +481,6 @@ in {
   services.cbatticon.enable = my.x11;
   services.emacs.enable = true;
   services.keynav.enable = my.x11;
-  services.network-manager-applet.enable = my.x11;
-  services.pasystray.enable = my.x11;
   services.dunst.enable = my.x11;
   services.picom.enable = my.x11;
   services.dunst.settings = {
