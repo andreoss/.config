@@ -1,5 +1,5 @@
 #!/bin/sh
-__date() { date "+%F %X%z %Z"; }
+__date() { date "+%F %X%z %Z %A"; }
 LC_TIME=ru_RU.UTF-8 TZ=Europe/Moscow __date
 LC_TIME=en_GB.UTF-8 TZ=America/New_York __date
 LC_TIME=es_ES.UTF-8 TZ=America/Asuncion __date
