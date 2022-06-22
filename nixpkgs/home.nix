@@ -119,7 +119,7 @@ in {
     shortcut = "a";
   };
   programs.urxvt = {
-    enable = my.x11;
+    enable = true;
     package = pkgs.rxvt_unicode-with-plugins;
     iso14755 = true;
     fonts = [ "xft:Ttyp0:size=10" ];
@@ -164,9 +164,9 @@ in {
       "keysym.M-u" = "perl:url-select:select_next";
       "letterSpace" = -1;
       "loginShell" = "true";
+      "perl-ext-common" = "selection-to-clipboard,url-select,resize-font,keyboard-select";
       "perl-lib" = "${pkgs.rxvt-unicode}/lib/urxvt/perl/";
       "secondaryScroll" = "true";
-      "perl-ext-common" = "selection-to-clipboard,url-select,resize-font,keyboard-select";
       "urgentOnBell" = "true";
       "url-select.underline" = "true";
     };
@@ -399,7 +399,6 @@ in {
       dig.dnsutils
       zip
     ] ++ fontPackages
-    ++ (lib.optionals (my.desktop) [ sway cage grim slurp wl-clipboard])
     ++ (lib.optionals (my.desktop) [ wmname xclip ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
@@ -496,8 +495,11 @@ in {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
   xsession = {
-    enable = my.x11;
-    windowManager.command = "~/.stumpwm.d/start.sh";
+    enable = true;
+    scriptPath = ".xsession";
+    windowManager.command = ''
+    ${pkgs.icewm}/bin/icewm-session
+    '';
   };
   programs.keychain.enable = true;
   programs.keychain.enableXsessionIntegration = my.x11;
@@ -529,9 +531,9 @@ in {
     global.word_warp = "true";
     global.line_height = 3;
     global.geometry = "384x5-30+20";
-    urgency_low.timeout = 10;
+    urgency_low.timeout = 5;
     urgency_normal.timeout = 10;
-    urgency_critical.timeout = 10;
+    urgency_critical.timeout = 25;
   };
   services.picom.package = pkgs.nur.repos.reedrw.picom-next-ibhagwan;
   services.picom.experimentalBackends = true;
