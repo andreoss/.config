@@ -61,6 +61,11 @@ let
     x11 = true;
   };
 in {
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+  ];
   nixpkgs.config = {
     packageOverrides = pkgs: {
       nur = import (builtins.fetchTarball {
@@ -155,7 +160,7 @@ in {
   programs.emacs = {
     overrides = self: super: rec { };
     enable = true;
-    package = (pkgs.emacs.override {
+    package = (pkgs.emacsGit.override {
       withToolkitScrollBars = false;
     }).overrideAttrs (attrs: {
     });
