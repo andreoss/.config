@@ -443,6 +443,7 @@ in {
       cling
       cmake
       cppcheck
+      cpplint
       gcc
       gdb
       gnumake
