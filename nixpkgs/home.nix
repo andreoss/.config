@@ -195,6 +195,7 @@ in {
   };
   programs.feh.enable = true;
   programs.man.enable = true;
+  programs.info.enable = true;
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
