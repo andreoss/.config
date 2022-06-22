@@ -546,7 +546,7 @@ in {
     blur:
     {
         method = "kawase";
-        strength = 2;
+        strength = 4;
         background = false;
         background-frame = false;
         background-fixed = false;
