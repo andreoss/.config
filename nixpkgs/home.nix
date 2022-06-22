@@ -520,15 +520,15 @@ in {
       separator_color = "#959DCB";
     };
     urgency_low = {
-      background = "#181818";
+      background = "#585858";
       foreground = "#EAEAEA";
     };
     urgency_normal = {
-      background = "#581818";
-      foreground = "#eaeaea";
+      background = "#181818";
+      foreground = "#EAEAEA";
     };
     urgency_critical = {
-      background = "#F07178";
+      background = "#AA222E";
       foreground = "#959DCB";
     };
     global.font = "Terminus";
