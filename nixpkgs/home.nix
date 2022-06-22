@@ -446,6 +446,8 @@ in {
     font.package = pkgs.terminus_font_ttf;
     font.name = "Terminus 11";
     enable = true;
+    iconTheme.name = "Adwaita";
+    iconTheme.package = pkgs.gnome.adwaita-icon-theme;
     gtk2.extraConfig = "";
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
