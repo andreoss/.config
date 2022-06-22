@@ -327,6 +327,9 @@ in {
     enableVteIntegration = true;
     initExtra = builtins.readFile ~/.config/shrc;
   };
+  programs.ssh = {
+    enable = true;
+  };
   programs.gpg.enable = true;
   programs.password-store = {
     enable = true;
