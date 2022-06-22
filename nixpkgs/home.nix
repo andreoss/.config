@@ -374,6 +374,8 @@ in {
       unar
       unzip
       wget
+      rsync
+      dig.dnsutils
       zip
     ] ++ fontPackages
     ++ (lib.optionals (my.desktop) [ sway cage grim slurp wl-clipboard])
