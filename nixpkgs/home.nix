@@ -470,7 +470,7 @@ in {
   fonts.fontconfig.enable = true;
   gtk = {
     font.package = pkgs.terminus_font_ttf;
-    font.name = "Terminus 11";
+    font.name = "Terminus 9";
     enable = true;
     iconTheme.name = "Adwaita";
     iconTheme.package = pkgs.gnome.adwaita-icon-theme;
