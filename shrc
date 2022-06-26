@@ -143,6 +143,14 @@ alias gs='git status'
 alias gc='git commit'
 alias p=perl6
 alias nm=notmuch
+alias iec='numfmt --to=iec'
+alias du='__du'
+
+__du() {
+    \du --bytes --summarize "$@" \
+        | sort --reverse --numeric-sort \
+        | numfmt --to=iec
+}
 
 __short_pwd() {
     DIR=
