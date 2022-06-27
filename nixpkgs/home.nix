@@ -174,7 +174,7 @@ in {
   programs.emacs = {
     overrides = self: super: rec { };
     enable = true;
-    package = (pkgs.emacsGit.override {
+    package = (pkgs.emacs.override {
       withToolkitScrollBars = false;
     }).overrideAttrs (attrs: {
     });
@@ -390,6 +390,7 @@ in {
       python3Plus
       qrencode
       ripgrep
+      ascii
       rnix-lsp
       screen
       sdcv
@@ -446,6 +447,7 @@ in {
       cpplint
       gcc
       gdb
+      strace
       gnumake
       indent
       ninja
