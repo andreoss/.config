@@ -1,14 +1,37 @@
 #!/bin/bash
-REMOTE_NAME=origin
-EXPIRY_DATE=$(date +"%Y-%m-%d" -d "-12 months")
+PERIOD=${1:--12 months}
+REMOTE=${2:-origin}
 
-git fetch $REMOTE_NAME --prune
-git for-each-ref --format='%(committerdate:short) %(refname:lstrip=3) %(refname:short)' --sort -committerdate refs/remotes/$REMOTE_NAME | while read date branch remote_branch; do
-    # protected branch
-    if [[ $branch =~ ^master$|^HEAD$ ]]; then
-        printf "%9s | %s | %50s | %s\n" "PROTECTED" $date $branch $remote_branch
-    elif [[ "$date" < "$EXPIRY_DATE" ]]; then
-        printf "%9s | %s | %50s | %s\n" "DELETE" $date $branch $remote_branch
-        #git push $REMOTE_NAME --delete $branch
-    fi
+EXPIRY_DATE=$(date +"%Y-%m-%d" -d "$PERIOD")
+FORMAT='%(committerdate:short) %(refname:lstrip=3) %(authoremail)'
+FORMAT_VARS=(DATE BRANCH AUTHOR)
+git fetch "$REMOTE" --prune
+
+print_branch() {
+    printf "%s %30s %-30s\n" "$DATE" "$AUTHOR" "$BRANCH"
+}
+
+I_KNOW_WHAT_I_DO=${I_KNOW_WHAT_I_DO:-NO}
+
+git for-each-ref \
+    --format="$FORMAT" \
+    --sort -committerdate \
+    "refs/remotes/$REMOTE" \
+    | while read -r "${FORMAT_VARS[@]}"
+do
+    case "$BRANCH" in
+        master|develop|HEAD*|release*)
+            ;;
+        *)
+            if [[ "$DATE" < "$EXPIRY_DATE" ]]
+            then
+                print_branch
+                case "$I_KNOW_WHAT_I_DO" in
+                    yes)
+                        git push "$REMOTE" --delete "$BRANCH"
+                        ;;
+                esac
+            fi
+            ;;
+    esac
 done
