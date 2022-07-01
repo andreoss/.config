@@ -670,6 +670,16 @@ in {
     package=  pkgs.sbt-with-scala-native;
     plugins = [];
   };
+    programs.mpv = {
+    enable = true;
+    config = {
+    };
+    scripts = with pkgs.mpvScripts; [
+      mpris
+      mpv-playlistmanager
+      thumbnail
+    ];
+  };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
   programs.home-manager.enable  =true;
