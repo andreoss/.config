@@ -436,6 +436,7 @@ in {
       python39Packages.youtube-dl
       python39Packages.yt-dlp
     ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
+      fossil
       mercurialFull
       gitAndTools.git-codeowners
       gitAndTools.git-extras
