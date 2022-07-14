@@ -406,6 +406,7 @@ in {
       unar
       unzip
       wget
+      pv
       rsync
       dig.dnsutils
       zip
