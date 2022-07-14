@@ -307,6 +307,10 @@ in {
         "privacy.cpd.siteSettings" = true;
         "signon.rememberSignons" = false;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "font.default.x-western" = "Terminus";
+        "font.name.monospace.x-western" = "Terminus";
+        "font.name.sans-serif.x-western" = "Terminus";
+        "font.name.serif.x-western" = "Terminus";
       };
     };
   };
