@@ -449,6 +449,8 @@ in {
       gdb
       strace
       gnumake
+      automake
+      lcov
       indent
       ninja
       pkg-config
