@@ -492,6 +492,11 @@ in {
       gtk-enable-event-sounds = 0;
       gtk-enable-input-feedback-sounds = 0;
     };
+    gtk3.bookmarks = [
+      "file://${config.home.homeDirectory}/Books/"
+      "file://${config.home.homeDirectory}/Work/"
+      "file://${config.home.homeDirectory}/Documents/"
+    ];
   };
   xresources.properties = {
     "Emacs*toolBar" = 0;
