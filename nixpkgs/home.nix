@@ -646,7 +646,7 @@ in {
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
-    pinentryFlavor = "gnome3";
+    pinentryFlavor = "gtk2";
   };
   programs.notmuch = { enable = true; };
   services.mbsync.postExec = "notmuch new";
