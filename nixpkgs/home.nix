@@ -430,7 +430,6 @@ in {
       rakudo
       perl532
     ])) ++ (lib.optionals (my.desktop) [
-      mpv
       ffmpeg-full
       aria
       python39Packages.youtube-dl
