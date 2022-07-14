@@ -169,7 +169,7 @@ in {
       "keysym.M-u" = "perl:url-select:select_next";
       "letterSpace" = -1;
       "loginShell" = "true";
-      "perl-ext-common" = "selection-to-clipboard,url-select,resize-font,keyboard-select";
+      "perl-ext-common" = "context,selection-to-clipboard,url-select,resize-font,keyboard-select";
       "perl-lib" = "${pkgs.rxvt-unicode}/lib/urxvt/perl/";
       "secondaryScroll" = "true";
       "urgentOnBell" = "true";
