@@ -157,9 +157,9 @@ in {
       "color15" = "#FFFFEB"; # Color: BrightWhite  ~ 15
       "cursorBlink" = "true";
       "cursorColor" = "#AFBFBF";
+      "internalBorder" = 16;
       "depth" = 32;
       "foreground" = "#F3F3D3";
-      "internalBorder" = 24;
       "keysym.C-0" = "resize-font:reset";
       "keysym.C-equal" = "resize-font:bigger";
       "keysym.C-minus" = "resize-font:smaller";
