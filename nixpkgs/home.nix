@@ -376,6 +376,7 @@ in {
       lsof
       minikube
       mtr
+      nvi
       nix
       nixfmt
       nix-tree
@@ -603,13 +604,6 @@ in {
     text = ''
       #!/bin/sh
       exit 1
-    '';
-  };
-  home.file.".local/bin/vi" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-      exec emacs --quick --no-window-system --load="${../mini-init.el}" "$@"
     '';
   };
   home.file.".local/bin/mozilla" = {
