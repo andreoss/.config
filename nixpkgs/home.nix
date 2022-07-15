@@ -57,7 +57,6 @@ let
     lang.scala.enable = true;
     lang.tex.enable = true;
     desktop = true;
-    wayland = false;
     x11 = true;
   };
   androidComposition = pkgs.androidenv.composeAndroidPackages {
