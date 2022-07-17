@@ -469,7 +469,7 @@ in {
     ])
     ++ (lib.optionals (my.desktop) [ nyxt ])
     ++ (lib.optionals (my.lang.tex.enable) [
-      mupdf
+      llpp
       zathura
       djview
       pandoc
