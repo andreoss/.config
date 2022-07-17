@@ -376,6 +376,7 @@ in {
       curl
       davmail
       docker
+      dockfmt
       entr
       file
       imagemagick7Big
