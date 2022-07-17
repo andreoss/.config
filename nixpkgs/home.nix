@@ -267,9 +267,6 @@ in {
       id = 0;
       extraConfig = builtins.readFile (builtins.fetchurl
         "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js");
-      # userChrome = (builtins.readFile (builtins.fetchurl
-      #   ("https://raw.githubusercontent.com/dannycolin/fx-compact-mode/main/userChrome.css")));
-      userContent = "";
       settings = {
         "accessibility.force_disabled" = 1;
         "browser.bookmarks.autoExportHTML" = true;
