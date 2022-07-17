@@ -313,6 +313,7 @@ in {
       };
     };
   };
+  home.enableNixpkgsReleaseCheck = true;
   home.username = builtins.getEnv "USER";
   home.homeDirectory = builtins.getEnv "HOME";
   home.keyboard.layout = "us,ru";
@@ -636,30 +637,24 @@ in {
       picture-uri = "${../wp/1.jpeg}";
       picture-options = "centered";
     };
-    "org/gnome/desktop/sound" = {
-      event-sounds=false;
-    };
+    "org/gnome/desktop/sound" = { event-sounds = false; };
     "org/gnome/desktop/input-sources" = {
       xkb-options = config.home.keyboard.options;
-      sources = builtins.map (x: "('xkb', '${x}')") (lib.strings.splitString "," config.home.keyboard.layout);
+      sources = builtins.map (x: "('xkb', '${x}')")
+        (lib.strings.splitString "," config.home.keyboard.layout);
     };
   };
   programs.sbt = {
     enable = true;
-    package=  pkgs.sbt-with-scala-native;
-    plugins = [];
+    package = pkgs.sbt-with-scala-native;
+    plugins = [ ];
   };
-    programs.mpv = {
+  programs.mpv = {
     enable = true;
-    config = {
-    };
-    scripts = with pkgs.mpvScripts; [
-      mpris
-      mpv-playlistmanager
-      thumbnail
-    ];
+    config = { };
+    scripts = with pkgs.mpvScripts; [ mpris mpv-playlistmanager thumbnail ];
   };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
-  programs.home-manager.enable  =true;
+  programs.home-manager.enable = true;
 }
