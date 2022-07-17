@@ -172,26 +172,21 @@ in {
     };
   };
   programs.emacs = {
-    overrides = self: super: rec { };
     enable = true;
-    package = (pkgs.emacs.override {
-      withToolkitScrollBars = false;
-    }).overrideAttrs (attrs: {
-    });
-    extraPackages = epkgs: [
-      epkgs.exwm
-      epkgs.elpher
-      epkgs.elfeed
-      epkgs.magit
-      epkgs.better-defaults
-      epkgs.forge
-      epkgs.evil
-      epkgs.evil-collection
-      epkgs.vterm
-      epkgs.pdf-tools
-      epkgs.telega
-      epkgs.go-imports
-    ];
+    package = pkgs.emacs.override { withToolkitScrollBars = false; };
+    extraPackages = elpa: with elpa; [
+        exwm
+        elpher
+        elfeed
+        magit
+        forge
+        evil
+        evil-collection
+        vterm
+        pdf-tools
+        telega
+        go-imports
+      ];
   };
   programs.feh.enable = true;
   programs.man.enable = true;
