@@ -127,13 +127,13 @@ in {
       scrollOnKeystroke = true;
     };
     extraConfig = {
-      "context.names"  = "sudo,ssh,python,gdb";
-      "context.sudo.background"   = "[90]#8F0000";
-      "context.ssh.background "   = "[90]#28488A";
+      "context.names" = "sudo,ssh,python,gdb";
+      "context.sudo.background" = "[90]#8F0000";
+      "context.ssh.background " = "[90]#28488A";
       "context.python.background" = "[90]#245488";
-      "context.gdb.background"    = "[90]#236823";
-      "background"                = "[80]#000000";
-      "color0"                    = "[90]#000000"; # Color: Black        ~ 0
+      "context.gdb.background" = "[90]#236823";
+      "background" = "[80]#000000";
+      "color0" = "[90]#000000"; # Color: Black        ~ 0
       "color1" = "#AA1F1F"; # Color: Red          ~ 1
       "color2" = "#468747"; # Color: Green        ~ 2
       "color3" = "#8F7734"; # Color: Yellow       ~ 3
