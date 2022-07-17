@@ -533,7 +533,6 @@ in {
   services.emacs.enable = true;
   services.keynav.enable = my.x11;
   services.dunst.enable = my.x11;
-  services.picom.enable = my.x11;
   services.dunst.settings = {
     global = {
       frame_color = "#959DCB";
@@ -560,35 +559,6 @@ in {
     urgency_normal.timeout = 10;
     urgency_critical.timeout = 25;
   };
-  services.picom.package = pkgs.nur.repos.reedrw.picom-next-ibhagwan;
-  services.picom.experimentalBackends = true;
-  services.picom.backend = "glx";
-  services.picom.opacityRule = [ "50:class_g  = 'Dunst'" ];
-  services.picom.extraOptions = ''
-    detect-client-opacity = false;
-    detect-rounded-corners = true;
-    blur:
-    {
-        method = "kawase";
-        strength = 4;
-        background = false;
-        background-frame = false;
-        background-fixed = false;
-    };
-    blur-background-exclude = [
-        "class_g = 'keynav'"
-    ];
-    corner-radius = 1;
-    rounded-corners-exclude = [
-        "window_type = 'dock'",
-        "_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'",
-        "class_g = 'keynav'",
-    ];
-    round-borders = 1;
-    round-borders-exclude = [
-        "class_g = 'keynav'"
-    ];
-  '';
   services.random-background = {
     enable = my.x11;
     imageDirectory = "%h/.config/wp";
@@ -669,7 +639,7 @@ in {
       picture-options = "centered";
     };
     "org/gnome/desktop/sound" = {
-        event-sounds=false;
+      event-sounds=false;
     };
     "org/gnome/desktop/input-sources" = {
       xkb-options = config.home.keyboard.options;
