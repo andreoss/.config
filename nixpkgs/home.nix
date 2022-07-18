@@ -466,11 +466,10 @@ in {
       libertine
       abiword
       texlive.combined.scheme-full
-    ])
-    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
-    ++ (lib.optionals (my.lang.go.enable) [gotools gocode])
+    ++ (lib.optionals (my.lang.go.enable) [ gotools gocode ])
     ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
     ++ (lib.optionals (my.lang.scala.enable) scalaPackages);
   fonts.fontconfig.enable = true;
