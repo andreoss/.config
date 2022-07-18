@@ -581,7 +581,7 @@ in {
     enable = true;
     scriptPath = ".xsession";
     windowManager.command = ''
-    ${pkgs.icewm}/bin/icewm-session
+      ${pkgs.icewm}/bin/icewm-session
     '';
   };
   programs.keychain.enable = true;
