@@ -173,7 +173,10 @@ in {
   };
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs.override { withToolkitScrollBars = false; };
+    package = pkgs.emacs.override {
+      withToolkitScrollBars = false;
+      nativeComp = true;
+    };
     extraPackages = elpa: with elpa; [
         exwm
         elpher
