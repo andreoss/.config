@@ -53,6 +53,7 @@ let
     lang.tex.enable = true;
     desktop = true;
     x11 = true;
+    mail = (lib.pathExists ./mail.nix);
   };
   androidComposition = pkgs.androidenv.composeAndroidPackages {
     abiVersions = [ "armeabi-v7a" "arm64-v8a" "x86_64" ];
