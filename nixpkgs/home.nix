@@ -12,8 +12,8 @@ let
     stumpwm
   ]) ++ (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
-    android-tools
     ant
+    android-tools
     eclipse-mat
     gradle
     groovy
@@ -40,7 +40,7 @@ let
   ];
   my = {
     lang.perl.enable = true;
-    lang.perl.packages = pkgs.perl536Packages;
+    lang.perl.packages = pkgs.perl532Packages;
     lang.clojure.enable = true;
     lang.cpp.enable = true;
     lang.go.enable = true;
@@ -92,9 +92,8 @@ in {
   programs.eclipse = {
     enable = my.lang.java.enable;
     enableLombok = true;
-    package = pkgs.eclipses.eclipse-java;
+    package = pkgs.eclipses.eclipse-platform;
     plugins = with pkgs.eclipses.plugins; [
-      scala
       vrapper
       spotbugs
       color-theme
@@ -185,21 +184,20 @@ in {
     enable = true;
     package = pkgs.emacs.override {
       withToolkitScrollBars = false;
-      withAthena = true;
       nativeComp = true;
     };
     extraPackages = elpa: with elpa; [
-        elfeed
+        exwm
         elpher
+        elfeed
+        magit
+        forge
         evil
         evil-collection
-        exwm
-        forge
-        go-imports
-        magit
+        vterm
         pdf-tools
         telega
-        vterm
+        go-imports
       ];
   };
   programs.feh.enable = true;
@@ -372,7 +370,7 @@ in {
       settings = {
         "accessibility.force_disabled" = 1;
         "browser.bookmarks.autoExportHTML" = false;
-        "browser.places.importBookmarksHTML" = true;
+        browser.places.importBookmarksHTML" = true;
         "browser.bookmarks.file" = builtins.toString ../bookmarks.html;
         "browser.bookmarks.restore_default_bookmarks" = true;
         "browser.cache.disk.enable" = false;
@@ -513,7 +511,7 @@ in {
       BUtils
       Appperlbrew
       rakudo
-      perl536
+      perl532
     ])) ++ (lib.optionals (my.desktop) [
       ffmpeg-full
       aria
@@ -552,7 +550,7 @@ in {
       pkg-config
       valgrind
       tinycc
-    ])
+    ]) ++ (lib.optionals (my.desktop) [ nyxt ])
     ++ (lib.optionals (my.lang.tex.enable) [
       llpp
       zathura
@@ -603,7 +601,7 @@ in {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
     "Emacs*geometry" = "80x30";
-    "Emacs*font" = "Terminus";
+    "Emacs*font" = "Dina";
     "Emacs*scrollBar" = "on";
     "Emacs*scrollBarWidth" = 6;
     "XTerm*faceName" = "dejavu sans mono";
@@ -613,8 +611,6 @@ in {
     enable = true;
     scriptPath = ".xsession";
     windowManager.command = ''
-      ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
-      ${pkgs.volumeicon}/bin/volumeicon &
       ${pkgs.icewm}/bin/icewm-session
     '';
   };
@@ -650,6 +646,10 @@ in {
     urgency_low.timeout = 5;
     urgency_normal.timeout = 10;
     urgency_critical.timeout = 25;
+  };
+  services.random-background = {
+    enable = my.x11;
+    imageDirectory = "%h/.config/wp";
   };
   home.file = {
     ".ideavimrc".source = ./../ideavimrc;
@@ -705,10 +705,12 @@ in {
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
-  accounts.email.accounts =
-    if (lib.pathExists ./mail.nix) then (import ./mail.nix) else {};
-  programs.mbsync.enable = lib.pathExists ./mail.nix;
-  programs.msmtp.enable = lib.pathExists ./mail.nix;
+  accounts.email.accounts = lib.optionals my.mail (import ./mail.nix);
+  programs.mbsync.enable = my.mail;
+  programs.msmtp.enable = my.mail;
+  programs.notmuch = { enable = my.mail; };
+  services.mbsync.postExec = "notmuch new";
+  services.mbsync.enable = my.mail;
   services.xcape.enable = my.x11;
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
@@ -717,9 +719,6 @@ in {
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
   };
-  programs.notmuch = { enable = lib.pathExists ./mail.nix; };
-  services.mbsync.postExec = "notmuch new";
-  services.mbsync.enable = lib.pathExists ./mail.nix;
   programs.go.enable = true;
   programs.nix-index.enable = true;
   dconf.settings = {
@@ -746,13 +745,4 @@ in {
   };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
-  programs.home-manager.enable = true;
-  programs.autorandr = {
-    enable = true;
-    hooks = {
-      postswitch = {
-        "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
-      };
-    };
-  };
 }
