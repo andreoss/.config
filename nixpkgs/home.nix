@@ -421,6 +421,11 @@ in {
     initExtra = builtins.readFile ~/.config/shrc;
   };
   programs.ssh = { enable = true; };
+  programs.keychain = {
+    enable = true;
+    enableXsessionIntegration = my.x11;
+    enableBashIntegration = true;
+  };
   programs.gpg.enable = true;
   programs.password-store = {
     enable = true;
@@ -614,9 +619,6 @@ in {
       ${pkgs.icewm}/bin/icewm-session
     '';
   };
-  programs.keychain.enable = true;
-  programs.keychain.enableXsessionIntegration = my.x11;
-  programs.keychain.enableBashIntegration = true;
   services.cbatticon.enable = my.x11;
   services.emacs.enable = true;
   services.keynav.enable = my.x11;
