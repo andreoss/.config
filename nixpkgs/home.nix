@@ -14,7 +14,6 @@ let
   jdkRelatedPackages = with pkgs; [
     ant
     android-tools
-    eclipse-mat
     gradle
     groovy
     jetbrains.idea-community
@@ -186,7 +185,8 @@ in {
       withToolkitScrollBars = false;
       nativeComp = true;
     };
-    extraPackages = elpa: with elpa; [
+    extraPackages = elpa:
+      with elpa; [
         exwm
         elpher
         elfeed
@@ -241,6 +241,10 @@ in {
       rebase.autosquash = true;
       rerere.enabled = true;
     };
+    includes = [{
+      path = ../git/config.work;
+      condition = "gitdir:~/work";
+    }];
   };
   programs.browserpass = {
     enable = true;
@@ -277,27 +281,26 @@ in {
           Enabled = false;
           Locked = true;
         };
-        DisableFeedbackCommands= true ;
-        DisableFirefoxAccounts= true ;
-        DisableFirefoxScreenshots= true ;
-        DisableFirefoxStudies= true ;
-        DisableForgetButton= true ;
-        DisableFormHistory= true ;
-        DisableMasterPasswordCreation= true ;
-        DisablePasswordReveal= true ;
+        DisableFeedbackCommands = true;
+        DisableFirefoxAccounts = true;
+        DisableFirefoxScreenshots = true;
+        DisableFirefoxStudies = true;
+        DisableForgetButton = true;
+        DisableFormHistory = true;
+        DisableMasterPasswordCreation = true;
+        DisablePasswordReveal = true;
         DisablePocket = true;
         DisablePrivateBrowsing = true;
-        DisableProfileImport= true ;
-        DisableProfileRefresh= true ;
-        DisableSafeMode= true ;
-        DisableSetDesktopBackground= true ;
-        DisableSystemAddonUpdate= true ;
+        DisableProfileImport = true;
+        DisableProfileRefresh = true;
+        DisableSafeMode = true;
+        DisableSetDesktopBackground = true;
+        DisableSystemAddonUpdate = true;
         DisableTelemetry = true;
-        CaptivePortal = false;
-        ManagedBookmarks = [];
-        Bookmarks = [];
-        "Extensions"= {
-          "Install"= [
+        ManagedBookmarks = [ ];
+        Bookmarks = [ ];
+        "Extensions" = {
+          "Install" = [
             "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin"
             "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim"
             "https://addons.mozilla.org/firefox/downloads/latest/umatrix"
@@ -315,49 +318,55 @@ in {
         OfferToSaveLogins = false;
         PasswordManagerEnabled = false;
         SanitizeOnShutdown = true;
-        SearchEngines =  {
+        SearchEngines = {
           Default = "DuckDuckGo";
           Remove = [ "Google" "Bing" "Amazon.com" ];
-          Add =  [
+          Add = [
             {
-              "Name" =  "Invidious";
-              "Description" =  "Search for videos, channels, and playlists on Invidious";
-              "URLTemplate" =  "https://invidious.snopyta.org/search?q={searchTerms}";
-              "Method" =  "GET";
-              "IconURL" =  "https://invidious.snopyta.org/favicon.ico";
-              "Alias" =  "invidious";
+              "Name" = "Invidious";
+              "Description" =
+                "Search for videos, channels, and playlists on Invidious";
+              "URLTemplate" =
+                "https://invidious.snopyta.org/search?q={searchTerms}";
+              "Method" = "GET";
+              "IconURL" = "https://invidious.snopyta.org/favicon.ico";
+              "Alias" = "invidious";
             }
             {
-              "Name" =  "GitHub";
-              "Description" =  "Search GitHub";
-              "URLTemplate" =  "https://github.com/search?q={searchTerms}";
-              "Method" =  "GET";
-              "IconURL" =  "https://github.com/favicon.ico";
-              "Alias" =  "github";
+              "Name" = "GitHub";
+              "Description" = "Search GitHub";
+              "URLTemplate" = "https://github.com/search?q={searchTerms}";
+              "Method" = "GET";
+              "IconURL" = "https://github.com/favicon.ico";
+              "Alias" = "github";
             }
             {
-              "Name" =  "Wikipedia (es)";
-              "Description" =  "Wikipedia (es)";
-              "URLTemplate" =  "https://es.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search={searchTerms}&amp;namespace=100|104|0";
-              "Method" =  "GET";
-              "IconURL" =  "https://es.wikipedia.org/static/favicon/wikipedia.ico";
-              "Alias" =  "wikipedia-es";
+              "Name" = "Wikipedia (es)";
+              "Description" = "Wikipedia (es)";
+              "URLTemplate" =
+                "https://es.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search={searchTerms}&amp;namespace=100|104|0";
+              "Method" = "GET";
+              "IconURL" =
+                "https://es.wikipedia.org/static/favicon/wikipedia.ico";
+              "Alias" = "wikipedia-es";
             }
             {
-              "Name" =  "NixOS options";
-              "Description" =  "Search NixOS options by name or description.";
-              "URLTemplate" =  "https://search.nixos.org/options?query={searchTerms}";
-              "Method" =  "GET";
-              "IconURL" =  "https://nixos.org/favicon.png";
-              "Alias" =  "nixos-options";
+              "Name" = "NixOS options";
+              "Description" = "Search NixOS options by name or description.";
+              "URLTemplate" =
+                "https://search.nixos.org/options?query={searchTerms}";
+              "Method" = "GET";
+              "IconURL" = "https://nixos.org/favicon.png";
+              "Alias" = "nixos-options";
             }
             {
-              "Name" =  "NixOS packages";
-              "Description" =  "Search NixOS options by name or description.";
-              "URLTemplate" =  "https://search.nixos.org/packages?query={searchTerms}";
-              "Method" =  "GET";
-              "IconURL" =  "https://nixos.org/favicon.png";
-              "Alias" =  "nixos-packages";
+              "Name" = "NixOS packages";
+              "Description" = "Search NixOS options by name or description.";
+              "URLTemplate" =
+                "https://search.nixos.org/packages?query={searchTerms}";
+              "Method" = "GET";
+              "IconURL" = "https://nixos.org/favicon.png";
+              "Alias" = "nixos-packages";
             }
           ];
         };
@@ -370,7 +379,7 @@ in {
       settings = {
         "accessibility.force_disabled" = 1;
         "browser.bookmarks.autoExportHTML" = false;
-        browser.places.importBookmarksHTML" = true;
+        "browser.places.importBookmarksHTML" = true;
         "browser.bookmarks.file" = builtins.toString ../bookmarks.html;
         "browser.bookmarks.restore_default_bookmarks" = true;
         "browser.cache.disk.enable" = false;
@@ -563,14 +572,12 @@ in {
       pandoc
       libertine
       texlive.combined.scheme-full
-    ])
-    ++ (lib.optionals (my.lang.office.enable) [
+    ]) ++ (lib.optionals (my.lang.office.enable) [
       libreoffice-fresh
       abiword
       freerdp
       davmail
-    ])
-    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
     ++ (lib.optionals (my.lang.go.enable) [ gotools gocode ])
@@ -723,6 +730,16 @@ in {
   };
   programs.go.enable = true;
   programs.nix-index.enable = true;
+  programs.sbt = {
+    enable = true;
+    package = pkgs.sbt-with-scala-native;
+    plugins = [ ];
+  };
+  programs.mpv = {
+    enable = true;
+    config = { };
+    scripts = with pkgs.mpvScripts; [ thumbnail ];
+  };
   dconf.settings = {
     "org/gnome/desktop/background" = {
       picture-uri = "${../wp/1.jpeg}";
@@ -735,16 +752,6 @@ in {
         (lib.strings.splitString "," config.home.keyboard.layout);
     };
   };
-  programs.sbt = {
-    enable = true;
-    package = pkgs.sbt-with-scala-native;
-    plugins = [ ];
-  };
-  programs.mpv = {
-    enable = true;
-    config = { };
-    scripts = with pkgs.mpvScripts; [ mpris mpv-playlistmanager thumbnail ];
-  };
-  systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
+  systemd.user.startServices = true;
 }
