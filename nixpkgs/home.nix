@@ -537,6 +537,7 @@ in {
       gitAndTools.git-codeowners
       gitAndTools.git-extras
       gitAndTools.gitflow
+      git-secret
       git-crypt
       pre-commit
       aspell
