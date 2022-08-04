@@ -434,6 +434,7 @@ in {
   home.packages = with pkgs;
     [
       ack
+      silver-searcher
       atool
       buku
       bukubrow
