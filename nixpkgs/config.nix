@@ -1,1 +1,3 @@
-{ allowUnfree = false; }
+{
+  allowUnfree = false;
+}
