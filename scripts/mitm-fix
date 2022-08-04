@@ -2,9 +2,6 @@
 set -e
 UNSAFE=(
         github.com
-        api.github.com
-        codeload.github.com
-        gitlab.com
         cache.nixos.org
         raw.githubusercontent.com
 )
