@@ -1,4 +1,4 @@
-{ config, pkgs, lib, fetchurl, stdenv, ... }:
+{ config, pkgs, lib, stdenv, ... }:
 let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
@@ -90,7 +90,7 @@ in {
   programs.eclipse = {
     enable = my.lang.java.enable;
     enableLombok = true;
-    package = pkgs.eclipses.eclipse-jee;
+    package = pkgs.eclipses.eclipse-platform;
     plugins = with pkgs.eclipses.plugins; [
       vrapper
       spotbugs
@@ -99,6 +99,13 @@ in {
       jsonedit
       drools
       jdt-codemining
+      (buildEclipseUpdateSite rec {
+        name = "IntelliJIdeaKeymap4Eclipse";
+        src = pkgs.fetchzip {
+          url = "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
+          sha256 = "sha256-L43JWpYy/9JvOLi9t+UioT/uQbBLL08pgHrW8SuGQ8M=";
+        };
+      })
     ];
   };
   programs.matplotlib.enable = true;
