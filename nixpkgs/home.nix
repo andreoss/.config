@@ -290,7 +290,6 @@ in {
             "https://addons.mozilla.org/firefox/downloads/latest/umatrix"
             "https://addons.mozilla.org/firefox/downloads/latest/browserpass-ce"
             "https://addons.mozilla.org/firefox/downloads/latest/decentraleyes"
-            "https://addons.mozilla.org/firefox/downloads/latest/flagfox"
           ];
         };
         ExtensionSettings = {
