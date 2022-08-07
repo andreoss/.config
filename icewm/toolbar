@@ -1,2 +1,4 @@
 prog  "URxvt"  xterm     urxvt
 prog  "Emacs"  emacs     emacsclient -c
+prog  "Emacs - Shell"  emacs     emacsclient -c -e '(shell)'
+prog  "Emacs - Vterm"  emacs     emacsclient -c -e '(vterm)'
