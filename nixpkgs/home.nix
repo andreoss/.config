@@ -367,13 +367,13 @@ in {
         "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js");
       settings = {
         "accessibility.force_disabled" = 1;
-        "browser.bookmarks.autoExportHTML" = true;
+        "browser.bookmarks.autoExportHTML" = false;
+        browser.places.importBookmarksHTML" = true;
         "browser.bookmarks.file" = builtins.toString ../bookmarks.html;
         "browser.bookmarks.restore_default_bookmarks" = true;
         "browser.cache.disk.enable" = false;
         "browser.cache.offline.enable" = false;
         "browser.link.open_newwindow" = 2;
-        "browser.places.importBookmarksHTML" = true;
         "browser.privatebrowsing.autostart" = true;
         "browser.search.searchEnginesURL" = "";
         "browser.startup.homepage" = "about:blank";
