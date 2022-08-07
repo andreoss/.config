@@ -293,6 +293,11 @@ in {
             "https://addons.mozilla.org/firefox/downloads/latest/flagfox"
           ];
         };
+        ExtensionSettings = {
+          "*" = {
+            installation_mode = "force_installed";
+          };
+        };
         NetworkPrediction = false;
         NewTabPage = false;
         OfferToSaveLogins = false;
