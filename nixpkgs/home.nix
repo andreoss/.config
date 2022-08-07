@@ -265,6 +265,16 @@ in {
       extraPolicies = {
         NoDefaultBookmarks = true;
         DisableBuiltinPDFViewer = true;
+        PDFjs = {
+          Enabled = false;
+        };
+        Permissions = {
+          Locked = true;
+        };
+        PictureInPicture = {
+          Enabled = false;
+          Locked = true;
+        };
         DisableFeedbackCommands= true ;
         DisableFirefoxAccounts= true ;
         DisableFirefoxScreenshots= true ;
