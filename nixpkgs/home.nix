@@ -284,13 +284,14 @@ in {
         DisableMasterPasswordCreation= true ;
         DisablePasswordReveal= true ;
         DisablePocket = true;
-        DisablePrivateBrowsing= true ;
+        DisablePrivateBrowsing = true;
         DisableProfileImport= true ;
         DisableProfileRefresh= true ;
         DisableSafeMode= true ;
         DisableSetDesktopBackground= true ;
         DisableSystemAddonUpdate= true ;
         DisableTelemetry = true;
+        CaptivePortal = false;
         ManagedBookmarks = [];
         Bookmarks = [];
         "Extensions"= {
