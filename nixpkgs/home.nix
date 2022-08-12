@@ -401,7 +401,7 @@ in {
   home.keyboard.layout = "us,ru";
   home.keyboard.options =
     [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
-  home.stateVersion = "22.11";
+  home.stateVersion = "22.05";
   home.sessionPath = [ "$HOME/.local/bin" ];
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
