@@ -71,7 +71,7 @@ TaskBarTaskGrouping = 0
 TaskBarWorkspacesLeft=1
 VerticalEdgeSwitch=0
 WarpPointer=1
-WorkspaceNames="   ", "   ", "   ", "   "
+WorkspaceNames="   ", "   ", "   ", "   ", " ",  " "
 
 EnableAddressBar=1
 KeySysAddressBar="Alt+Ctrl+Space"
