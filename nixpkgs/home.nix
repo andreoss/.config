@@ -368,7 +368,7 @@ in {
       settings = {
         "accessibility.force_disabled" = 1;
         "browser.bookmarks.autoExportHTML" = false;
-        browser.places.importBookmarksHTML" = true;
+        "browser.places.importBookmarksHTML" = true;
         "browser.bookmarks.file" = builtins.toString ../bookmarks.html;
         "browser.bookmarks.restore_default_bookmarks" = true;
         "browser.cache.disk.enable" = false;
