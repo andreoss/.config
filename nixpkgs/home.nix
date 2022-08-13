@@ -696,9 +696,10 @@ in {
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
-  accounts.email.accounts = (import ./mail.nix);
-  programs.mbsync.enable = true;
-  programs.msmtp.enable = true;
+  accounts.email.accounts =
+    if (lib.pathExists ./mail.nix) then (import ./mail.nix) else {};
+  programs.mbsync.enable = lib.pathExists ./mail.nix;
+  programs.msmtp.enable = lib.pathExists ./mail.nix;
   services.xcape.enable = my.x11;
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
@@ -707,9 +708,9 @@ in {
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
   };
-  programs.notmuch = { enable = true; };
+  programs.notmuch = { enable = lib.pathExists ./mail.nix; };
   services.mbsync.postExec = "notmuch new";
-  services.mbsync.enable = false;
+  services.mbsync.enable = lib.pathExists ./mail.nix;
   programs.go.enable = true;
   programs.nix-index.enable = true;
   dconf.settings = {
