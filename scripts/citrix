@@ -26,6 +26,7 @@ mkdir -p "$XHOME"
 mkdir -p "$XHOME/.ICAClient"
 touch "$XHOME/.ICAClient/.eula_accepted"
 cp --verbose "$FOUND" "$XHOME/desktop.ica"
+firejail --list | awk -F: '/name=citrix/ {print $1}' | xargs -i firejail --shutdown={}
 exec firejail           \
      --timeout=12:00:00 \
      --name=citrix      \
