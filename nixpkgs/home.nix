@@ -549,7 +549,7 @@ in {
       pkg-config
       valgrind
       tinycc
-    ]) ++ (lib.optionals (my.desktop) [ nyxt ])
+    ])
     ++ (lib.optionals (my.lang.tex.enable) [
       llpp
       zathura
