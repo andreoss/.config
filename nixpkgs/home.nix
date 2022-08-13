@@ -604,6 +604,8 @@ in {
     enable = true;
     scriptPath = ".xsession";
     windowManager.command = ''
+      ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.png}
+      ${pkgs.volumeicon}/bin/volumeicon &
       ${pkgs.icewm}/bin/icewm-session
     '';
   };
@@ -639,10 +641,6 @@ in {
     urgency_low.timeout = 5;
     urgency_normal.timeout = 10;
     urgency_critical.timeout = 25;
-  };
-  services.random-background = {
-    enable = my.x11;
-    imageDirectory = "%h/.config/wp";
   };
   home.file = {
     ".ideavimrc".source = ./../ideavimrc;
