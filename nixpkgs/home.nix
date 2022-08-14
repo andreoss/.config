@@ -604,7 +604,7 @@ in {
     enable = true;
     scriptPath = ".xsession";
     windowManager.command = ''
-      ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.png}
+      ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
       ${pkgs.volumeicon}/bin/volumeicon &
       ${pkgs.icewm}/bin/icewm-session
     '';
