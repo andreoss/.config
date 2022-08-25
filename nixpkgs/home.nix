@@ -12,8 +12,8 @@ let
     stumpwm
   ]) ++ (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
-    ant
     android-tools
+    ant
     eclipse-mat
     gradle
     groovy
@@ -90,8 +90,9 @@ in {
   programs.eclipse = {
     enable = my.lang.java.enable;
     enableLombok = true;
-    package = pkgs.eclipses.eclipse-platform;
+    package = pkgs.eclipses.eclipse-java;
     plugins = with pkgs.eclipses.plugins; [
+      scala
       vrapper
       spotbugs
       color-theme
