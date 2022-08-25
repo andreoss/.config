@@ -594,7 +594,7 @@ in {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
     "Emacs*geometry" = "80x30";
-    "Emacs*font" = "Dina";
+    "Emacs*font" = "Terminus";
     "Emacs*scrollBar" = "on";
     "Emacs*scrollBarWidth" = 6;
     "XTerm*faceName" = "dejavu sans mono";
