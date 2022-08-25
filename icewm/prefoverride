@@ -15,7 +15,7 @@ LabelFontNameXft           = "Dina:size=8"
 
 TimeFormat="%x %-I:%M %Z"
 TimeFormatAlt="%x %-I:%M %Z"
-DateFormat="%x %X %Z"
+DateFormat="%W/%j %c %Z"
 
 AllowFullscreen=1
 Alpha=1
