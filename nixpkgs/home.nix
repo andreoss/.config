@@ -740,4 +740,12 @@ in {
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
   programs.home-manager.enable = true;
+  programs.autorandr = {
+    enable = true;
+    hooks = {
+      postswitch = {
+        "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
+      };
+    };
+  };
 }
