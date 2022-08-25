@@ -55,7 +55,9 @@ TaskBarShowAPMTime=0
 TaskBarShowAPMTime=0
 TaskBarShowClock=1
 TaskBarShowCollapseButton=0
-TaskBarShowCPUStatus = 0
+TaskBarShowCPUStatus = 1
+CPUStatusCommand="xterm -name top -title Process\ Status -e top"
+
 TaskBarShowMailboxStatus=0
 TaskBarShowMailboxStatus=0
 TaskBarShowMailboxStatus=0
