@@ -182,20 +182,21 @@ in {
     enable = true;
     package = pkgs.emacs.override {
       withToolkitScrollBars = false;
+      withAthena = true;
       nativeComp = true;
     };
     extraPackages = elpa: with elpa; [
-        exwm
-        elpher
         elfeed
-        magit
-        forge
+        elpher
         evil
         evil-collection
-        vterm
+        exwm
+        forge
+        go-imports
+        magit
         pdf-tools
         telega
-        go-imports
+        vterm
       ];
   };
   programs.feh.enable = true;
