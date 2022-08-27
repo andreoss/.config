@@ -39,7 +39,7 @@ let
   ];
   my = {
     lang.perl.enable = true;
-    lang.perl.packages = pkgs.perl532Packages;
+    lang.perl.packages = pkgs.perl536Packages;
     lang.clojure.enable = true;
     lang.cpp.enable = true;
     lang.go.enable = true;
