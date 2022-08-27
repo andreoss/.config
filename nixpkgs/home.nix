@@ -46,6 +46,7 @@ let
     lang.go.enable = true;
     lang.java.enable = true;
     lang.lisp.enable = true;
+    lang.office.enable = true;
     lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
     lang.scala.enable = true;
@@ -458,7 +459,6 @@ in {
       cloc
       coreutils
       curl
-      davmail
       docker
       dockfmt
       entr
@@ -558,9 +558,15 @@ in {
       djview
       pandoc
       libertine
-      abiword
       texlive.combined.scheme-full
-    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ])
+    ++ (lib.optionals (my.lang.office.enable) [
+      libreoffice-fresh
+      abiword
+      freerdp
+      davmail
+    ])
+    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
     ++ (lib.optionals (my.lang.go.enable) [ gotools gocode ])
