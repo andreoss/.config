@@ -12,8 +12,8 @@ let
     stumpwm
   ]) ++ (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
-    ant
     android-tools
+    ant
     gradle
     groovy
     jetbrains.idea-community
@@ -52,7 +52,6 @@ let
     lang.tex.enable = true;
     desktop = true;
     x11 = true;
-    mail = (lib.pathExists ./mail.nix);
   };
   androidComposition = pkgs.androidenv.composeAndroidPackages {
     abiVersions = [ "armeabi-v7a" "arm64-v8a" "x86_64" ];
@@ -91,8 +90,9 @@ in {
   programs.eclipse = {
     enable = my.lang.java.enable;
     enableLombok = true;
-    package = pkgs.eclipses.eclipse-platform;
+    package = pkgs.eclipses.eclipse-java;
     plugins = with pkgs.eclipses.plugins; [
+      scala
       vrapper
       spotbugs
       color-theme
@@ -183,21 +183,21 @@ in {
     enable = true;
     package = pkgs.emacs.override {
       withToolkitScrollBars = false;
+      withAthena = true;
       nativeComp = true;
     };
-    extraPackages = elpa:
-      with elpa; [
-        exwm
-        elpher
+    extraPackages = elpa: with elpa; [
         elfeed
-        magit
-        forge
+        elpher
         evil
         evil-collection
-        vterm
+        exwm
+        forge
+        go-imports
+        magit
         pdf-tools
         telega
-        go-imports
+        vterm
       ];
   };
   programs.feh.enable = true;
@@ -281,26 +281,27 @@ in {
           Enabled = false;
           Locked = true;
         };
-        DisableFeedbackCommands = true;
-        DisableFirefoxAccounts = true;
-        DisableFirefoxScreenshots = true;
-        DisableFirefoxStudies = true;
-        DisableForgetButton = true;
-        DisableFormHistory = true;
-        DisableMasterPasswordCreation = true;
-        DisablePasswordReveal = true;
+        DisableFeedbackCommands= true ;
+        DisableFirefoxAccounts= true ;
+        DisableFirefoxScreenshots= true ;
+        DisableFirefoxStudies= true ;
+        DisableForgetButton= true ;
+        DisableFormHistory= true ;
+        DisableMasterPasswordCreation= true ;
+        DisablePasswordReveal= true ;
         DisablePocket = true;
         DisablePrivateBrowsing = true;
-        DisableProfileImport = true;
-        DisableProfileRefresh = true;
-        DisableSafeMode = true;
-        DisableSetDesktopBackground = true;
-        DisableSystemAddonUpdate = true;
+        DisableProfileImport= true ;
+        DisableProfileRefresh= true ;
+        DisableSafeMode= true ;
+        DisableSetDesktopBackground= true ;
+        DisableSystemAddonUpdate= true ;
         DisableTelemetry = true;
-        ManagedBookmarks = [ ];
-        Bookmarks = [ ];
-        "Extensions" = {
-          "Install" = [
+        CaptivePortal = false;
+        ManagedBookmarks = [];
+        Bookmarks = [];
+        "Extensions"= {
+          "Install"= [
             "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin"
             "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim"
             "https://addons.mozilla.org/firefox/downloads/latest/umatrix"
@@ -318,55 +319,49 @@ in {
         OfferToSaveLogins = false;
         PasswordManagerEnabled = false;
         SanitizeOnShutdown = true;
-        SearchEngines = {
+        SearchEngines =  {
           Default = "DuckDuckGo";
           Remove = [ "Google" "Bing" "Amazon.com" ];
-          Add = [
+          Add =  [
             {
-              "Name" = "Invidious";
-              "Description" =
-                "Search for videos, channels, and playlists on Invidious";
-              "URLTemplate" =
-                "https://invidious.snopyta.org/search?q={searchTerms}";
-              "Method" = "GET";
-              "IconURL" = "https://invidious.snopyta.org/favicon.ico";
-              "Alias" = "invidious";
+              "Name" =  "Invidious";
+              "Description" =  "Search for videos, channels, and playlists on Invidious";
+              "URLTemplate" =  "https://invidious.snopyta.org/search?q={searchTerms}";
+              "Method" =  "GET";
+              "IconURL" =  "https://invidious.snopyta.org/favicon.ico";
+              "Alias" =  "invidious";
             }
             {
-              "Name" = "GitHub";
-              "Description" = "Search GitHub";
-              "URLTemplate" = "https://github.com/search?q={searchTerms}";
-              "Method" = "GET";
-              "IconURL" = "https://github.com/favicon.ico";
-              "Alias" = "github";
+              "Name" =  "GitHub";
+              "Description" =  "Search GitHub";
+              "URLTemplate" =  "https://github.com/search?q={searchTerms}";
+              "Method" =  "GET";
+              "IconURL" =  "https://github.com/favicon.ico";
+              "Alias" =  "github";
             }
             {
-              "Name" = "Wikipedia (es)";
-              "Description" = "Wikipedia (es)";
-              "URLTemplate" =
-                "https://es.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search={searchTerms}&amp;namespace=100|104|0";
-              "Method" = "GET";
-              "IconURL" =
-                "https://es.wikipedia.org/static/favicon/wikipedia.ico";
-              "Alias" = "wikipedia-es";
+              "Name" =  "Wikipedia (es)";
+              "Description" =  "Wikipedia (es)";
+              "URLTemplate" =  "https://es.wikipedia.org/w/api.php?action=opensearch&amp;format=xml&amp;search={searchTerms}&amp;namespace=100|104|0";
+              "Method" =  "GET";
+              "IconURL" =  "https://es.wikipedia.org/static/favicon/wikipedia.ico";
+              "Alias" =  "wikipedia-es";
             }
             {
-              "Name" = "NixOS options";
-              "Description" = "Search NixOS options by name or description.";
-              "URLTemplate" =
-                "https://search.nixos.org/options?query={searchTerms}";
-              "Method" = "GET";
-              "IconURL" = "https://nixos.org/favicon.png";
-              "Alias" = "nixos-options";
+              "Name" =  "NixOS options";
+              "Description" =  "Search NixOS options by name or description.";
+              "URLTemplate" =  "https://search.nixos.org/options?query={searchTerms}";
+              "Method" =  "GET";
+              "IconURL" =  "https://nixos.org/favicon.png";
+              "Alias" =  "nixos-options";
             }
             {
-              "Name" = "NixOS packages";
-              "Description" = "Search NixOS options by name or description.";
-              "URLTemplate" =
-                "https://search.nixos.org/packages?query={searchTerms}";
-              "Method" = "GET";
-              "IconURL" = "https://nixos.org/favicon.png";
-              "Alias" = "nixos-packages";
+              "Name" =  "NixOS packages";
+              "Description" =  "Search NixOS options by name or description.";
+              "URLTemplate" =  "https://search.nixos.org/packages?query={searchTerms}";
+              "Method" =  "GET";
+              "IconURL" =  "https://nixos.org/favicon.png";
+              "Alias" =  "nixos-packages";
             }
           ];
         };
@@ -472,6 +467,7 @@ in {
       cloc
       coreutils
       curl
+      davmail
       docker
       dockfmt
       entr
@@ -525,7 +521,7 @@ in {
       BUtils
       Appperlbrew
       rakudo
-      perl532
+      perl536
     ])) ++ (lib.optionals (my.desktop) [
       ffmpeg-full
       aria
@@ -537,7 +533,6 @@ in {
       gitAndTools.git-codeowners
       gitAndTools.git-extras
       gitAndTools.gitflow
-      git-secret
       git-crypt
       pre-commit
       aspell
@@ -565,7 +560,7 @@ in {
       pkg-config
       valgrind
       tinycc
-    ]) ++ (lib.optionals (my.desktop) [ nyxt ])
+    ])
     ++ (lib.optionals (my.lang.tex.enable) [
       llpp
       zathura
@@ -624,9 +619,14 @@ in {
     enable = true;
     scriptPath = ".xsession";
     windowManager.command = ''
+      ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
+      ${pkgs.volumeicon}/bin/volumeicon &
       ${pkgs.icewm}/bin/icewm-session
     '';
   };
+  programs.keychain.enable = true;
+  programs.keychain.enableXsessionIntegration = my.x11;
+  programs.keychain.enableBashIntegration = true;
   services.cbatticon.enable = my.x11;
   services.emacs.enable = true;
   services.keynav.enable = my.x11;
@@ -656,10 +656,6 @@ in {
     urgency_low.timeout = 5;
     urgency_normal.timeout = 10;
     urgency_critical.timeout = 25;
-  };
-  services.random-background = {
-    enable = my.x11;
-    imageDirectory = "%h/.config/wp";
   };
   home.file = {
     ".ideavimrc".source = ./../ideavimrc;
@@ -715,12 +711,10 @@ in {
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
-  accounts.email.accounts = lib.optionals my.mail (import ./mail.nix);
-  programs.mbsync.enable = my.mail;
-  programs.msmtp.enable = my.mail;
-  programs.notmuch = { enable = my.mail; };
-  services.mbsync.postExec = "notmuch new";
-  services.mbsync.enable = my.mail;
+  accounts.email.accounts =
+    if (lib.pathExists ./mail.nix) then (import ./mail.nix) else {};
+  programs.mbsync.enable = lib.pathExists ./mail.nix;
+  programs.msmtp.enable = lib.pathExists ./mail.nix;
   services.xcape.enable = my.x11;
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
@@ -729,18 +723,10 @@ in {
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
   };
+  programs.notmuch = { enable = lib.pathExists ./mail.nix; };
+  services.mbsync.enable = lib.pathExists ./mail.nix;
   programs.go.enable = true;
   programs.nix-index.enable = true;
-  programs.sbt = {
-    enable = true;
-    package = pkgs.sbt-with-scala-native;
-    plugins = [ ];
-  };
-  programs.mpv = {
-    enable = true;
-    config = { };
-    scripts = with pkgs.mpvScripts; [ thumbnail ];
-  };
   dconf.settings = {
     "org/gnome/desktop/background" = {
       picture-uri = "${../wp/1.jpeg}";
