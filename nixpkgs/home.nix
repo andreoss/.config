@@ -562,7 +562,6 @@ in {
       tinycc
     ])
     ++ (lib.optionals (my.lang.tex.enable) [
-      llpp
       zathura
       djview
       pandoc
@@ -754,6 +753,20 @@ in {
     hooks = {
       postswitch = {
         "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
+        "fix-dpi" = ''
+               case "$AUTORANDR_CURRENT_PROFILE" in
+                 docked)
+                   DPI=192
+                   ;;
+                 mobile)
+                   DPI=96
+                   ;;
+                 *)
+                   echo "Unknown profle: $AUTORANDR_CURRENT_PROFILE"
+                   exit 1
+               esac
+               echo "Xft.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+            '';
       };
     };
   };
