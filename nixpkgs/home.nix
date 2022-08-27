@@ -624,9 +624,6 @@ in {
       ${pkgs.icewm}/bin/icewm-session
     '';
   };
-  programs.keychain.enable = true;
-  programs.keychain.enableXsessionIntegration = my.x11;
-  programs.keychain.enableBashIntegration = true;
   services.cbatticon.enable = my.x11;
   services.emacs.enable = true;
   services.keynav.enable = my.x11;
