@@ -753,6 +753,25 @@ in {
         (lib.strings.splitString "," config.home.keyboard.layout);
     };
   };
-  systemd.user.servicesStartTimeoutMs = 10000;
+  programs.sbt = {
+    enable = true;
+    package = pkgs.sbt-with-scala-native;
+    plugins = [ ];
+  };
+  programs.mpv = {
+    enable = true;
+    config = { };
+    scripts = with pkgs.mpvScripts; [ mpris mpv-playlistmanager thumbnail ];
+  };
   systemd.user.startServices = true;
+  systemd.user.servicesStartTimeoutMs = 10000;
+  programs.home-manager.enable = true;
+  programs.autorandr = {
+    enable = true;
+    hooks = {
+      postswitch = {
+        "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
+      };
+    };
+  };
 }
