@@ -38,19 +38,19 @@ let
     dina-font
   ];
   my = {
-    lang.perl.enable = true;
-    lang.perl.packages = pkgs.perl536Packages;
+    desktop = true;
     lang.clojure.enable = true;
     lang.cpp.enable = true;
     lang.go.enable = true;
     lang.java.enable = true;
     lang.lisp.enable = true;
     lang.office.enable = true;
+    lang.perl.enable = true;
+    lang.perl.packages = pkgs.perl536Packages;
     lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
     lang.scala.enable = true;
     lang.tex.enable = true;
-    desktop = true;
     x11 = true;
   };
   androidComposition = pkgs.androidenv.composeAndroidPackages {
@@ -742,8 +742,11 @@ in {
   };
   programs.mpv = {
     enable = true;
-    config = { };
-    scripts = with pkgs.mpvScripts; [ mpris mpv-playlistmanager thumbnail ];
+    config = {
+      "save-position-on-quit" = true;
+      "osc" = "no";
+    };
+    scripts = with pkgs.mpvScripts; [ thumbnail ];
   };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
