@@ -756,6 +756,9 @@ in {
     hooks = {
       postswitch = {
         "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
+        "background" = ''
+               ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
+        '';
         "fix-dpi" = ''
                case "$AUTORANDR_CURRENT_PROFILE" in
                  docked)
