@@ -467,7 +467,6 @@ in {
       cloc
       coreutils
       curl
-      davmail
       docker
       dockfmt
       entr
