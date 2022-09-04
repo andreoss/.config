@@ -507,7 +507,7 @@ in {
       dig.dnsutils
       zip
     ] ++ fontPackages
-    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill ])
+    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill rox-filer ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
