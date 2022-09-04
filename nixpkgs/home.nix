@@ -628,16 +628,16 @@ in {
   services.dunst.enable = my.x11;
   services.dunst.settings = {
     global = {
-      frame_color = "#959DCB";
-      separator_color = "#959DCB";
+      frame_color = "#121212";
+      separator_color = "#434343";
     };
     urgency_low = {
       background = "#585858";
       foreground = "#EAEAEA";
     };
     urgency_normal = {
-      background = "#181818";
-      foreground = "#EAEAEA";
+      background = "#FFFFEA";
+      foreground = "#121212";
     };
     urgency_critical = {
       background = "#AA222E";
