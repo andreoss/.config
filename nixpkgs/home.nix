@@ -790,4 +790,38 @@ in {
       };
     };
   };
+  systemd.user.services.notmuch = {
+    Unit = {
+      Requires = [ "davmail.service" ];
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.notmuch}/bin/notmuch new";
+      Environment = [ "PATH=${pkgs.isync}/bin:${pkgs.pass}/bin:$PATH" ];
+    };
+  };
+  systemd.user.timers.notmuch = {
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
+    Timer = {
+      OnBootSec = "10m"; # first run 10min after boot up
+      OnCalendar = "*:0/5";
+    };
+  };
+  systemd.user.services.davmail = {
+    Unit = {
+      Description = "Davmail";
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.davmail}/bin/davmail";
+      Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
 }
