@@ -187,18 +187,18 @@ in {
       nativeComp = true;
     };
     extraPackages = elpa: with elpa; [
-        elfeed
-        elpher
-        evil
-        evil-collection
-        exwm
-        forge
-        go-imports
-        magit
-        pdf-tools
-        telega
-        vterm
-      ];
+      elfeed
+      elpher
+      evil
+      evil-collection
+      exwm
+      forge
+      go-imports
+      magit
+      pdf-tools
+      telega
+      vterm
+    ];
   };
   programs.feh.enable = true;
   programs.man.enable = true;
