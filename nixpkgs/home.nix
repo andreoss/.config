@@ -649,8 +649,8 @@ in {
     global.line_height = 3;
     global.geometry = "384x5-30+20";
     urgency_low.timeout = 5;
-    urgency_normal.timeout = 10;
-    urgency_critical.timeout = 25;
+    urgency_normal.timeout = 15;
+    urgency_critical.timeout = 0;
   };
   home.file = {
     ".ideavimrc".source = ./../ideavimrc;
