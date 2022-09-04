@@ -718,7 +718,24 @@ in {
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
   };
-  programs.notmuch = { enable = lib.pathExists ./mail.nix; };
+  programs.notmuch = {
+    enable = lib.pathExists ./mail.nix;
+    new = {
+      tags = [ "new" ];
+    };
+    hooks = {
+      postInsert = '''';
+      preNew  = ''mbsync --all || true'';
+      postNew = ''
+        NEW_MAIL=$(notmuch count tag:new)
+        if [ "$NEW_MAIL" -gt 0 ]
+        then
+           ${pkgs.libnotify}/bin/notify-send "Mail arrived: $(notmuch count tag:new)"
+           notmuch tag +inbox +unread -new -- tag:new
+        fi
+      '';
+    };
+  };
   services.mbsync.enable = lib.pathExists ./mail.nix;
   programs.go.enable = true;
   programs.nix-index.enable = true;
