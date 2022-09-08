@@ -49,6 +49,11 @@ let
     lang.perl.packages = pkgs.perl536Packages;
     lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
+    lang.rust.enable = true;
+    lang.rust.packages = with pkgs; [
+      rust-analyzer
+      rustup
+    ];
     lang.scala.enable = true;
     lang.tex.enable = true;
     x11 = true;
@@ -573,6 +578,7 @@ in {
       davmail
     ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
+    ++ (lib.optionals (my.lang.rust.enable) my.lang.rust.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
     ++ (lib.optionals (my.lang.go.enable) [ gotools gocode ])
     ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
