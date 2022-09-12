@@ -844,4 +844,27 @@ in {
       WantedBy = [ "graphical-session.target" ];
     };
   };
+  services.home-manager.autoUpgrade = {
+    enable = true;
+    frequency = "daily";
+  };
+  services.mpdris2 = {
+    notifications = true;
+    enable = my.desktop;
+  };
+  xdg.userDirs.music = "~/Music";
+  services.mpd = {
+    enable = my.desktop;
+    musicDirectory = ~/Music;
+    extraConfig = ''
+       audio_output {
+          type "pipewire"
+          name "My PipeWire Output"
+       }
+       follow_outside_symlinks "yes"
+       follow_inside_symlinks "yes"
+'';
+
+  };
+  programs.ncmpcpp.enable = my.desktop;
 }
