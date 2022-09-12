@@ -529,8 +529,9 @@ in {
       rakudo
       perl536
     ])) ++ (lib.optionals (my.desktop) [
-      ffmpeg-full
       aria
+      ffmpeg-full
+      mpc_cli
       python39Packages.youtube-dl
       python39Packages.yt-dlp
     ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
