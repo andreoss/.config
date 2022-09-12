@@ -26,6 +26,7 @@ CenterTransientsOnOwner=1
 CornerSizeX=30
 CornerSizeY=30
 
+SmartPlacement=1
 EdgeSwitch=0
 GrabRootWindow=0
 KeySysShowDesktop="Super+d"
