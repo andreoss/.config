@@ -500,6 +500,7 @@ in {
       rnix-lsp
       screen
       sdcv
+      anki-bin
       shellcheck
       shfmt
       sysstat
