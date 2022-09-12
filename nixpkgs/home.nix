@@ -253,23 +253,19 @@ in {
       condition = "gitdir:~/work";
     }];
   };
+  programs.gh = {
+    enable = true;
+    settings = {
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+      git_protocol = "ssh";
+    };
+  };
   programs.browserpass = {
     enable = true;
-    browsers = [ "chromium" "firefox" ];
-  };
-  programs.chromium = {
-    enable = true;
-    package = pkgs.chromium;
-    extensions = [
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm"
-      "dbepggeogbaibhgnhhndojpepiihcmeb"
-      "gcbommkclmclpchllfjekcdonpmejbdp"
-      "ghniladkapjacfajiooekgkfopkjblpn"
-      "haiffjcadagjlijoggckpgfnoeiflnem"
-      "ldpochfccmkkmhdbclfhpagapcfdljkj"
-      "naepdomgkenhinolocfifgehidddafch"
-      "oomoeacogjkolheacgdkkkhbjipaomkn"
-    ];
+    browsers = [ "brave" "chromium" "firefox" ];
   };
   programs.firefox = {
     enable = true;
