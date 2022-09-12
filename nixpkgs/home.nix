@@ -135,16 +135,17 @@ in {
         enable = true;
         style = "plain";
       };
-      lines = 65535;
+      lines = 10000000;
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
     extraConfig = {
-      "context.names" = "sudo,ssh,python,gdb";
+      "context.names" = "sudo,ssh,python,gdb,java";
       "context.sudo.background" = "[90]#8F0000";
       "context.ssh.background " = "[90]#28488A";
       "context.python.background" = "[90]#245488";
       "context.gdb.background" = "[90]#236823";
+      "context.java.background" = "[90]#28381A";
       "background" = "[80]#000000";
       "color0" = "[90]#000000"; # Color: Black        ~ 0
       "color1" = "#AA1F1F"; # Color: Red          ~ 1
