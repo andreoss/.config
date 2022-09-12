@@ -623,7 +623,6 @@ in {
     scriptPath = ".xsession";
     windowManager.command = ''
       ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
-      ${pkgs.volumeicon}/bin/volumeicon &
       ${pkgs.icewm}/bin/icewm-session
     '';
   };
@@ -823,6 +822,19 @@ in {
     };
     Service = {
       ExecStart = "${pkgs.davmail}/bin/davmail";
+      Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+  systemd.user.services.volumeicon = {
+    Unit = {
+      Description = "Volumeicon";
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.volumeicon}/bin/volumeicon";
       Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
     };
     Install = {
