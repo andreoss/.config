@@ -129,7 +129,7 @@ in {
     enable = true;
     package = pkgs.rxvt_unicode-with-plugins;
     iso14755 = true;
-    fonts = [ "xft:Ttyp0:size=10" ];
+    fonts = [ "-xos4-*-*-*-*-*-32-*-*-*-*-*-*-*" ];
     scroll = {
       bar = {
         enable = true;
@@ -613,10 +613,9 @@ in {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
     "Emacs*geometry" = "80x30";
-    "Emacs*font" = "Terminus";
+    "Emacs*font" = "-Xos4-Terminus-bold-normal-normal-*-32-*-*-*-m-*-iso10646-1";
     "Emacs*scrollBar" = "on";
     "Emacs*scrollBarWidth" = 6;
-    "XTerm*faceName" = "dejavu sans mono";
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
   xsession = {
