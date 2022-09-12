@@ -455,8 +455,9 @@ in {
     JDK_11 = "$HOME/.jdk/11";
     JDK_16 = "$HOME/.jdk/16";
     JDK_17 = "$HOME/.jdk/17";
-    GVM_11 = "$HOME/.jdk/11g";
-    GVM_17 = "$HOME/.jdk/17g";
+    GVM_11 = "$HOME/.jdk/11-graal";
+    GVM_17 = "$HOME/.jdk/17-graal";
+    GRAALVM_HOME = "$HOME/.jdk/17-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     # _JAVA_OPTIONS =
     #   "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
