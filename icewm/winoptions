@@ -1,1 +1,6 @@
 URxvt.icon: xterm
+9menu.dTitleBar: 0
+mpv.dTitleBar: 0
+mpv.allWorkspaces: 1
+jetbrains-idea-ce.icon: java
+jetbrains-idea-ce.appTakesFocus: 1
