@@ -204,6 +204,7 @@ in {
       pdf-tools
       telega
       vterm
+      xenops
     ];
   };
   programs.feh.enable = true;
