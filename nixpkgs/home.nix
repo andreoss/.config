@@ -480,6 +480,7 @@ in {
       libressl
       lsof
       minikube
+      minishift
       mtr
       nvi
       nix
