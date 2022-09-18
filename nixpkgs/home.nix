@@ -627,7 +627,16 @@ in {
     scriptPath = ".xsession";
     windowManager.command = ''
       ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
-      ${pkgs.icewm}/bin/icewm-session
+      ${pkgs._9menu}/bin/9menu                   \
+           icewm:${pkgs.icewm}/bin/icewm-session \
+           emacs:emacs                           \
+           stumpwm:~/.stumpwm.d/init.ros           \
+           exit &
+           while :
+           do
+              sleep 1m
+           done
+      wait
     '';
   };
   services.cbatticon.enable = my.x11;
