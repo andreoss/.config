@@ -35,9 +35,12 @@ __source() {
     # shellcheck disable=SC1090
     if [ -f "$1" ]; then . "$1"; fi;
 }
+__warn() {
+    echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+}
 __complain() {
     __is_debug() { [ "${__debug}x" != "x" ]; }
-    __is_debug && echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+    __is_debug && __warn "$*"
 }
 __define_dir() {
     dir="$1"
@@ -236,6 +239,36 @@ case "$TERM" in
       *)    PAGER="less" ;;
 esac
 export PAGER
+
+jdk() {
+    JDK=
+    case "$1" in
+        7 | 8)
+            JDK=JDK_8
+            ;;
+        9 | 10 | 11)
+            JDK=JDK_11
+            ;;
+        12 | 13 | 14 | 15 | 16 | 17)
+            JDK=JDK_17
+            ;;
+        18)
+            JDK=JDK_18
+            ;;
+        graal)
+            JDK=GRAALVM_"$2"
+            ;;
+        *)
+            JDK=JDK_"$1"
+            ;;
+    esac
+    if eval "[ \"x\$$JDK\" == \"x\" ]"
+    then
+        __warn "not defined $JDK"
+    else
+        eval "export JAVA_HOME=\$$JDK"
+    fi
+}
 
 __source "$HOME/.config/shrc-private"
 __source "$HOME/.nix-profile/etc/profile.d/nix.sh"
