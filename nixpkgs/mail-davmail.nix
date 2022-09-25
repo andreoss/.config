@@ -6,7 +6,7 @@ in {
   "${address}" = {
     primary = false;
     address = "${address}";
-    realName = "${name}"
+    realName = "${name}";
     userName = "${address}";
     passwordCommand = "pass show w/${domain}/${address}";
     imap = {
