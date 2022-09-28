@@ -242,32 +242,43 @@ export PAGER
 
 jdk() {
     JDK=
-    case "$1" in
-        7 | 8)
-            JDK=JDK_8
-            ;;
-        9 | 10 | 11)
-            JDK=JDK_11
-            ;;
-        12 | 13 | 14 | 15 | 16 | 17)
-            JDK=JDK_17
-            ;;
-        18)
-            JDK=JDK_18
-            ;;
+    case "${1:----}" in
         graal)
-            JDK=GRAALVM_"$2"
+            JDK=GRAALVM_"${2:?no second arg}"
+            ;;
+        [0-9]*)
+            JDK=JDK_"$1"
+            ;;
+        ---)
+            if [ "$JAVA_HOME" ]
+            then
+               "$JAVA_HOME"/bin/java -version
+            else
+                __warn "not defined: JAVA_HOME"
+                if command -v java
+                then
+                    java -version
+                fi
+            fi
+            return
             ;;
         *)
-            JDK=JDK_"$1"
+            __warn "not suppored $*"
+            return
             ;;
     esac
     if eval "[ \"x\$$JDK\" == \"x\" ]"
     then
         __warn "not defined $JDK"
-    else
-        eval "export JAVA_HOME=\$$JDK"
+        return
     fi
+    if [ ! -d "$(eval "echo \${$JDK}")" ]
+    then
+        __warn "not exists $JDK"
+        return
+    fi
+    eval "export JAVA_HOME=\$$JDK"
+    jdk
 }
 
 __source "$HOME/.config/shrc-private"
