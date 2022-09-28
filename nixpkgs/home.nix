@@ -13,6 +13,7 @@ let
   ]) ++ (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
     android-tools
+    heimdall
     ant
     gradle
     groovy
@@ -32,6 +33,10 @@ let
     paratype-pt-mono
     uw-ttyp0
     terminus_font_ttf
+    terminus_font
+    # (terminus_font.override {
+    #   variants = ["ll2" "dv1" "ij1" "td1" "gq2" "hi2" ];
+    # })
     gentium
     unifont
     sudo-font
@@ -77,6 +82,16 @@ in {
       url =
         "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
     }))
+    (self: super: {
+      heimdall = super.heimdall.overrideAttrs( old: {
+        src = pkgs.fetchFromGitHub {
+          owner  = "deriamis";
+          repo   = "Heimdall";
+          rev    = "master";
+          sha256 = "sha256-b94W+uwgvPK5TZbMgijFin4kYH0llFajcbtoQdZpnYs=";
+        };
+      });
+    })
   ];
   nixpkgs.config = {
     android_sdk.accept_license = true;
@@ -127,9 +142,9 @@ in {
   };
   programs.urxvt = {
     enable = true;
-    package = pkgs.rxvt_unicode-with-plugins;
+    package = pkgs.rxvt-unicode-unwrapped;
     iso14755 = true;
-    fonts = [ "-xos4-*-*-*-*-*-32-*-*-*-*-*-*-*" ];
+    fonts = [ "xft:Terminus" ];
     scroll = {
       bar = {
         enable = true;
@@ -244,7 +259,7 @@ in {
       xx = "reset HEAD";
     };
     extraConfig = {
-      pull.rebase = true;
+      pull.rebase = false;
       rebase.autosquash = true;
       rerere.enabled = true;
     };
@@ -284,6 +299,7 @@ in {
           Enabled = false;
           Locked = true;
         };
+        CaptivePortal = false;
         DisableFeedbackCommands= true ;
         DisableFirefoxAccounts= true ;
         DisableFirefoxScreenshots= true ;
@@ -300,7 +316,6 @@ in {
         DisableSetDesktopBackground= true ;
         DisableSystemAddonUpdate= true ;
         DisableTelemetry = true;
-        CaptivePortal = false;
         ManagedBookmarks = [];
         Bookmarks = [];
         "Extensions"= {
@@ -409,9 +424,12 @@ in {
   home.homeDirectory = builtins.getEnv "HOME";
   home.keyboard.layout = "us,ru";
   home.keyboard.options =
-    [ "eurosign:e" "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
+    [ "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
   home.stateVersion = "22.05";
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.config/scripts"
+  ];
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
     install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
@@ -419,8 +437,8 @@ in {
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
     ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
-    ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/11g
-    ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/17g
+    ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
+    ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
   '';
   programs.bash = {
     enable = true;
@@ -451,15 +469,23 @@ in {
     JDK_11 = "$HOME/.jdk/11";
     JDK_16 = "$HOME/.jdk/16";
     JDK_17 = "$HOME/.jdk/17";
-    GVM_11 = "$HOME/.jdk/11-graal";
-    GVM_17 = "$HOME/.jdk/17-graal";
+    GRAALVM_11 = "$HOME/.jdk/graal-11";
+    GRAALVM_17 = "$HOME/.jdk/graal-17";
     GRAALVM_HOME = "$HOME/.jdk/17-graal";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    # _JAVA_OPTIONS =
-    #   "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
+    _JAVA_OPTIONS =
+      "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
     WLR_NO_HARDWARE_CURSORS = 1;
     MAVEN_OPTS =
       "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
+    XDG_SESSION_PATH="";
+    XDG_SESSION_DESKTOP="";
+    XDG_SESSION_TYPE="";
+    XDG_SESSION_CLASS="";
+    XDG_SESSION_ID="";
+    GDMSESSION="";
+    DESKTOP_SESSION="";
+    XDG_CURRENT_SESSION="";
   };
   home.packages = with pkgs;
     [
@@ -475,7 +501,7 @@ in {
       dockfmt
       entr
       file
-      imagemagick7Big
+      imagemagickBig
       jwhois
       libressl
       lsof
@@ -487,7 +513,7 @@ in {
       nixfmt
       nix-tree
       oathToolkit
-      openshift
+      #openshift
       openvpn
       paperkey
       pavucontrol
@@ -608,8 +634,16 @@ in {
     gtk3.bookmarks = [
       "file://${config.home.homeDirectory}/Books/"
       "file://${config.home.homeDirectory}/Work/"
-      "file://${config.home.homeDirectory}/Documents/"
+      "file://${config.home.homeDirectory}/Finance/"
+      "file://${config.home.homeDirectory}/Official/"
     ];
+  };
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    music = "~/Music";
+    desktop = "~/Desktop";
+    videos = "~/Videos";
   };
   xresources.properties = {
     "Emacs*toolBar" = 0;
@@ -708,7 +742,7 @@ in {
     executable = true;
     text = ''
       #!/bin/sh
-      exec xterm -e screen -D -R -S "$\{1:-primary}" "$*"
+      exec urxvt -e screen -D -R -S "$\{1:-primary}" "$*"
     '';
   };
   home.file.".local/bin/mpa" = {
@@ -725,7 +759,15 @@ in {
     if (lib.pathExists ./mail.nix) then (import ./mail.nix) else {};
   programs.mbsync.enable = lib.pathExists ./mail.nix;
   programs.msmtp.enable = lib.pathExists ./mail.nix;
-  services.xcape.enable = my.x11;
+  services.xcape = {
+    enable = my.x11;
+    mapExpression = {
+      "Control_L" = "Escape";
+      "Control_R" = "Escape";
+      "Shift_L" = "Page_Up";
+      "Shift_R" = "Page_Down";
+    };
+  };
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
     enable = true;
@@ -745,7 +787,7 @@ in {
         NEW_MAIL=$(notmuch count tag:new)
         if [ "$NEW_MAIL" -gt 0 ]
         then
-           ${pkgs.libnotify}/bin/notify-send "Mail arrived: $(notmuch count tag:new)"
+           ${pkgs.libnotify}/bin/notify-send "✉ + $(notmuch count tag:new) / $(notmuch count tag:unread)"
            notmuch tag +inbox +unread -new -- tag:new
         fi
       '';
@@ -805,6 +847,12 @@ in {
       };
     };
   };
+  services.sxhkd = {
+    enable = true;
+    keybindings = {
+      "alt + slash" = "${pkgs.rofi}/bin/rofi -show combi";
+    };
+  };
   systemd.user.services.notmuch = {
     Unit = {
       Requires = [ "davmail.service" ];
@@ -860,7 +908,6 @@ in {
     notifications = true;
     enable = my.desktop;
   };
-  xdg.userDirs.music = "~/Music";
   services.mpd = {
     enable = my.desktop;
     musicDirectory = ~/Music;
@@ -871,8 +918,7 @@ in {
        }
        follow_outside_symlinks "yes"
        follow_inside_symlinks "yes"
-'';
-
+  '';
   };
   programs.ncmpcpp.enable = my.desktop;
 }
