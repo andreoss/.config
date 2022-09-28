@@ -51,8 +51,8 @@ shutdown_active
 
 firejail                      \
     --x11=xephyr              \
-    --xephyr-screen=3000x1800 \
-    --timeout=12:00:00 \
+    --xephyr-screen=3000x2100 \
+    --timeout=99:00:00 \
     --name=citrix      \
     --private="$XHOME" \
     --nosound          \
