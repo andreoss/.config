@@ -220,6 +220,7 @@ in {
       telega
       vterm
       xenops
+      better-defaults
     ];
   };
   programs.feh.enable = true;
