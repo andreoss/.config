@@ -641,9 +641,6 @@ in {
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
-    music = "~/Music";
-    desktop = "~/Desktop";
-    videos = "~/Videos";
   };
   xresources.properties = {
     "Emacs*toolBar" = 0;
