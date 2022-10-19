@@ -498,6 +498,7 @@ in {
       cloc
       coreutils
       curl
+      packer
       docker
       dockfmt
       entr
