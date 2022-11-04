@@ -49,6 +49,7 @@ let
     lang.go.enable = true;
     lang.java.enable = true;
     lang.lisp.enable = true;
+    lang.haskell.enable = true;
     lang.office.enable = true;
     lang.perl.enable = true;
     lang.perl.packages = pkgs.perl536Packages;
@@ -605,7 +606,13 @@ in {
       abiword
       freerdp
       davmail
-    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ])
+    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ++ (lib.optionals (my.lang.haskell.enable) [
+      ghc
+      haskellPackages.stack
+      haskell-language-server
+    ])
     ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.rust.enable) my.lang.rust.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
