@@ -227,6 +227,12 @@ in {
   programs.feh.enable = true;
   programs.man.enable = true;
   programs.info.enable = true;
+  programs.mercurial = {
+    enable = true;
+    userName = "andreoss";
+    userEmail = "andreoss@sdf.org";
+    package = pkgs.mercurialFull;
+  };
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
@@ -564,7 +570,6 @@ in {
       python39Packages.yt-dlp
     ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
       fossil
-      mercurialFull
       gitAndTools.git-codeowners
       gitAndTools.git-extras
       gitAndTools.gitflow
