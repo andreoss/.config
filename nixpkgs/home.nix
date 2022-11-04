@@ -596,7 +596,6 @@ in {
       tinycc
     ])
     ++ (lib.optionals (my.lang.tex.enable) [
-      zathura
       djview
       pandoc
       libertine
@@ -920,4 +919,5 @@ in {
   '';
   };
   programs.ncmpcpp.enable = my.desktop;
+  programs.zathura.enable = my.desktop;
 }
