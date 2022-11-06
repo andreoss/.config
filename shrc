@@ -279,6 +279,7 @@ jdk() {
     fi
     eval "export JAVA_HOME=\$$JDK"
     jdk
+    PATH="$JAVA_HOME/bin:$PATH"
 }
 
 __source "$HOME/.config/shrc-private"
