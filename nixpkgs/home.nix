@@ -886,6 +886,22 @@ in {
       OnCalendar = "*:0/5";
     };
   };
+  systemd.user.services.conky = {
+    Unit = {
+      Description = "Conky";
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.conky}/bin/conky";
+      Environment = [
+        "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH"
+      ];
+      Type = "forking";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
   systemd.user.services.davmail = {
     Unit = {
       Description = "Davmail";
