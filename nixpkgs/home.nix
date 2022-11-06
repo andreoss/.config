@@ -684,7 +684,7 @@ in {
     '';
   };
   services.cbatticon.enable = my.x11;
-  services.emacs.enable = true;
+  services.emacs.enable = false;
   services.keynav.enable = my.x11;
   services.dunst.enable = my.x11;
   services.dunst.settings = {
