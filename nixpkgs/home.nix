@@ -510,6 +510,7 @@ in {
       cloc
       coreutils
       curl
+      telescope
       packer
       docker
       dockfmt
