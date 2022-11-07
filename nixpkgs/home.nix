@@ -859,6 +859,7 @@ in {
                    exit 1
                esac
                echo "Xft.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+               systemctl --user restart conky.service
          '';
       };
     };
@@ -896,7 +897,7 @@ in {
       PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.conky}/bin/conky";
+      ExecStart = "${pkgs.conky}/bin/conky --daemonize";
       Environment = [
         "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH"
       ];
