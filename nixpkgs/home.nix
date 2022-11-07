@@ -438,6 +438,9 @@ in {
     "$HOME/.local/bin"
     "$HOME/.config/scripts"
   ];
+  home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
+  '';
   home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     rm --recursive --force "$HOME/.jdk/"
     install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
