@@ -547,7 +547,7 @@ in {
       dig.dnsutils
       zip
     ] ++ fontPackages
-    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill xord.xdpyinfo rox-filer xdotool ])
+    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill xorg.xdpyinfo rox-filer xdotool ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
