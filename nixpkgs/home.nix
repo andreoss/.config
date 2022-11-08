@@ -3,14 +3,7 @@ let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
-  sbclPackages = (with pkgs.lispPackages; [
-    dbus
-    external-program
-    bordeaux-threads
-    quicklisp
-    swank
-    stumpwm
-  ]) ++ (with pkgs; [ roswell sbcl clisp ]);
+  sbclPackages = (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
     android-tools
     heimdall
@@ -722,6 +715,7 @@ in {
     ".inputrc".source = ./../inputrc;
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
+    ".sbclrc".source = ./../sbclrc;
     ".indent.pro".source = ./../indent.pro;
     ".screenrc".source = ./../screenrc;
     ".local/bin/citrix".source = ./../scripts/citrix;
@@ -858,7 +852,6 @@ in {
                    exit 1
                esac
                echo "Xft.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
-               systemctl --user restart conky.service
          '';
       };
     };
@@ -896,7 +889,7 @@ in {
       PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.conky}/bin/conky --daemonize";
+      ExecStart = "${pkgs.conky}/bin/conky";
       Environment = [
         "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH"
       ];
