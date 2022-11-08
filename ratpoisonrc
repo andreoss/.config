@@ -27,5 +27,3 @@ addhook key windows
 
 definekey top M-Tab focusprev
 definekey top M-S-Tab focus
-
-tmpwm ~/.stumpwm.d/start.sh

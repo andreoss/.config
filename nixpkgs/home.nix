@@ -670,8 +670,9 @@ in {
       ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
       ${pkgs._9menu}/bin/9menu                   \
            icewm:${pkgs.icewm}/bin/icewm-session \
-           emacs:emacs                           \
-           stumpwm:~/.stumpwm.d/init.ros           \
+           cwm:${pkgs.cwm}/bin/cwm               \
+           emacs:~/.emacs.d/exwm                 \
+           stumpwm:~/.stumpwm.d/init.ros         \
            exit &
            while :
            do
@@ -950,4 +951,7 @@ in {
   };
   programs.ncmpcpp.enable = my.desktop;
   programs.zathura.enable = my.desktop;
+  #programs.yt-dlp.enable = my.desktop;
+
+
 }
