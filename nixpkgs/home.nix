@@ -3,14 +3,7 @@ let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
-  sbclPackages = (with pkgs.lispPackages; [
-    dbus
-    external-program
-    bordeaux-threads
-    quicklisp
-    swank
-    stumpwm
-  ]) ++ (with pkgs; [ roswell sbcl clisp ]);
+  sbclPackages = (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
     android-tools
     heimdall
