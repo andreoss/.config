@@ -925,6 +925,9 @@ in {
       WantedBy = [ "graphical-session.target" ];
     };
   };
+  services.xidlehook = {
+    enable = true;
+  };
   services.home-manager.autoUpgrade = {
     enable = true;
     frequency = "daily";
