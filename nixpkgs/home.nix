@@ -889,7 +889,7 @@ in {
       PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.conky}/bin/conky";
+      ExecStart = "${pkgs.conky}/bin/conky --daemonize";
       Environment = [
         "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH"
       ];
