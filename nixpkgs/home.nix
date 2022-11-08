@@ -716,7 +716,6 @@ in {
     ".inputrc".source = ./../inputrc;
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
-    ".sbclrc".source = ./../sbclrc;
     ".indent.pro".source = ./../indent.pro;
     ".screenrc".source = ./../screenrc;
     ".local/bin/citrix".source = ./../scripts/citrix;
