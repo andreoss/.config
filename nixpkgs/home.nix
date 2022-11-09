@@ -3,14 +3,7 @@ let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
-  sbclPackages = (with pkgs.lispPackages; [
-    dbus
-    external-program
-    bordeaux-threads
-    quicklisp
-    swank
-    stumpwm
-  ]) ++ (with pkgs; [ roswell sbcl clisp ]);
+  sbclPackages = (with pkgs; [ roswell sbcl clisp ]);
   jdkRelatedPackages = with pkgs; [
     android-tools
     heimdall
@@ -554,7 +547,7 @@ in {
       dig.dnsutils
       zip
     ] ++ fontPackages
-    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill rox-filer ])
+    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill xorg.xdpyinfo rox-filer xdotool ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
@@ -677,8 +670,9 @@ in {
       ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}
       ${pkgs._9menu}/bin/9menu                   \
            icewm:${pkgs.icewm}/bin/icewm-session \
-           emacs:emacs                           \
-           stumpwm:~/.stumpwm.d/init.ros           \
+           cwm:${pkgs.cwm}/bin/cwm               \
+           emacs:~/.emacs.d/exwm                 \
+           stumpwm:~/.stumpwm.d/init.ros         \
            exit &
            while :
            do
@@ -932,6 +926,9 @@ in {
       WantedBy = [ "graphical-session.target" ];
     };
   };
+  services.xidlehook = {
+    enable = true;
+  };
   services.home-manager.autoUpgrade = {
     enable = true;
     frequency = "daily";
@@ -954,4 +951,7 @@ in {
   };
   programs.ncmpcpp.enable = my.desktop;
   programs.zathura.enable = my.desktop;
+  #programs.yt-dlp.enable = my.desktop;
+
+
 }
