@@ -938,7 +938,7 @@ in {
   };
   services.mpd = {
     enable = my.desktop;
-    musicDirectory = ~/Music;
+    musicDirectory = "${config.home.homeDirectory}/Music";
     extraConfig = ''
        audio_output {
           type "pipewire"
