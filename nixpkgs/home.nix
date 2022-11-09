@@ -851,6 +851,7 @@ in {
                    exit 1
                esac
                echo "Xft.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+               systemctl --user restart conky.service
          '';
       };
     };
