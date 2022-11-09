@@ -859,7 +859,7 @@ in {
   services.sxhkd = {
     enable = true;
     keybindings = {
-      "alt + slash" = "${pkgs.rofi}/bin/rofi -show combi";
+      "alt + slash" = "PATH=$PATH:${pkgs.rofi}/bin rofi -show combi";
     };
   };
   systemd.user.services.notmuch = {
