@@ -563,7 +563,6 @@ in {
       ffmpeg-full
       mpc_cli
       python39Packages.youtube-dl
-      python39Packages.yt-dlp
     ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
       fossil
       gitAndTools.git-codeowners
