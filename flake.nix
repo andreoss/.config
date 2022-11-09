@@ -1,5 +1,5 @@
 {
-  description = "Home Manager Flake";
+  description = "Flakes";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     home-manager = {
@@ -23,17 +23,20 @@
           config.allowUnfree = false;
         }
       );
-
       nixosConfigurations = rec {
       };
-
       homeConfigurations = {
         "a" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./nixpkgs/home.nix ];
+          modules = [
+            {
+              config.home.username = "a";
+              config.home.homeDirectory = "/user";
+            }
+            ./nixpkgs/home.nix
+          ];
         };
       };
-
     };
 }

@@ -420,8 +420,6 @@ in {
     };
   };
   home.enableNixpkgsReleaseCheck = true;
-  home.username = builtins.getEnv "USER";
-  home.homeDirectory = builtins.getEnv "HOME";
   home.keyboard.layout = "us,ru";
   home.keyboard.options =
     [ "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
@@ -950,7 +948,5 @@ in {
   };
   programs.ncmpcpp.enable = my.desktop;
   programs.zathura.enable = my.desktop;
-  #programs.yt-dlp.enable = my.desktop;
-
-
+  programs.yt-dlp.enable = my.desktop;
 }
