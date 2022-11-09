@@ -825,7 +825,7 @@ in {
       "save-position-on-quit" = true;
       "osc" = "no";
     };
-    scripts = with pkgs.mpvScripts; [ thumbnail ];
+    scripts = with pkgs.mpvScripts; [ ];
   };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
