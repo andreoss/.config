@@ -448,7 +448,7 @@ in {
   programs.bash = {
     enable = true;
     enableVteIntegration = true;
-    initExtra = builtins.readFile ~/.config/shrc;
+    initExtra = builtins.readFile ../shrc;
   };
   programs.ssh = { enable = true; };
   programs.keychain = {
