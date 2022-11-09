@@ -388,8 +388,11 @@ in {
     };
     profiles."default" = {
       id = 0;
-      extraConfig = builtins.readFile (builtins.fetchurl
-        "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js");
+      extraConfig = builtins.readFile (builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js";
+        sha256 = "29334e0ee0ec8e0a9b52d2164bd842203186f1686c21109cfc22c8dc18f184c7";
+      }
+      );
       settings = {
         "accessibility.force_disabled" = 1;
         "browser.bookmarks.autoExportHTML" = false;
