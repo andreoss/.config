@@ -510,6 +510,7 @@ in {
       libressl
       lsof
       minikube
+      kubernetes
       minishift
       mtr
       nvi
