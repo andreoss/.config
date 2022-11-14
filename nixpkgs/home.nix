@@ -438,7 +438,6 @@ in {
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
     ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
     ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
-    ln --symbolic --force "${pkgs.openjdk18.out}/lib/openjdk"       $HOME/.jdk/18
     ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
     ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
   '';
