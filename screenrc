@@ -1,0 +1,11 @@
+altscreen on
+autodetach on
+defflow off
+defscrollback 10000
+defutf8 on
+hardstatus off
+shell -bash
+startup_message off
+terminfo rxvt-unicode 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+vbell off
+activity '%c -> %n%f %t'
