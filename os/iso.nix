@@ -43,7 +43,7 @@
   boot.plymouth = {
     enable = true;
     theme = "bgrt";
-    logo = ./wallpapers/1.png;
+    logo = ./../wp/1.jpeg;
     font = "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
   };
   console = {
