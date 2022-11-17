@@ -96,7 +96,7 @@
             services.guix.package = inputs.guix-overlay.packages.x86_64-linux.guix;
           }
           ./os/hm.nix
-          ./os/hardware-configuration-generic-crypt.nix
+          ./os/fs-crypt.nix
           ./os/nix.nix
           ./os/configuration.nix
           ./os/hw.nix
