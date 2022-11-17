@@ -1,10 +1,10 @@
-{ pkgs, self, ... }:
+{ pkgs, lib, self, ... }:
 let user = self.config.primaryUser.name;
 in {
   services.usbguard = {
     enable = true;
     IPCAllowedUsers = [ user "root" ];
-    rules = builtins.readFile ./usb-whitelist;
+    rules = if (lib.pathExists ./usb-whitelist) then (builtins.readFile ./usb-whitelist) else "";
   };
   programs.firejail = {
     enable = true;

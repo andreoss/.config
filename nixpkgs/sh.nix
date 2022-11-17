@@ -16,4 +16,7 @@
   programs.lf.enable = true;
   programs.man.enable = true;
   programs.info.enable = true;
+  home.sessionVariables = {
+    NO_COLOR = true;
+  };
 }
