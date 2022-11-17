@@ -269,9 +269,10 @@ in {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
   accounts.email.accounts =
-    if (lib.pathExists ./mail.nix) then (import ./mail.nix) else {};
-  programs.mbsync.enable = lib.pathExists ./mail.nix;
-  programs.msmtp.enable = lib.pathExists ./mail.nix;
+    if (lib.pathExists ../secrets/mail.nix) then
+      (import ../secrets/mail.nix) else {};
+  programs.mbsync.enable = lib.pathExists ../secrets/mail.nix;
+  programs.msmtp.enable = lib.pathExists ../secrets/mail.nix;
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
     enable = true;
@@ -280,7 +281,7 @@ in {
     pinentryFlavor = "gtk2";
   };
   programs.notmuch = {
-    enable = lib.pathExists ./mail.nix;
+    enable = lib.pathExists ../secrets/mail.nix;
     new = {
       tags = [ "new" ];
     };
@@ -297,7 +298,7 @@ in {
       '';
     };
   };
-  services.mbsync.enable = lib.pathExists ./mail.nix;
+  services.mbsync.enable = lib.pathExists ../secrets/mail.nix;
   programs.go.enable = true;
   programs.nix-index.enable = true;
   programs.mpv = {
