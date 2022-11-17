@@ -83,6 +83,7 @@ in {
   home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
   '';
+  programs.ssh = { enable = true; };
   programs.keychain = {
     enable = true;
     enableXsessionIntegration = true;
@@ -136,6 +137,7 @@ in {
       libressl
       lsof
       minikube
+      kubernetes
       minishift
       mtr
       nvi
