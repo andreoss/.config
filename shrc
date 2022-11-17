@@ -12,14 +12,17 @@ then
    export LC_ALL LANG
 fi
 
-case "$OSTYPE" in
-    linux-gnu*)
-        ulimit -u 10240
-        ulimit -n 16384
-        ulimit -c unlimited
-        ulimit -Sn unlimited && ulimit -Sl unlimited
-        ;;
-esac
+if [ "${USER:-}" != "root" ]
+then
+    case "$OSTYPE" in
+        linux-gnu*)
+            ulimit -u 10240
+            ulimit -n 16384
+            ulimit -c unlimited
+            ulimit -Sn unlimited && ulimit -Sl unlimited
+            ;;
+    esac
+fi
 
 if [ "$BASH" ]
 then
@@ -191,8 +194,14 @@ __vcs_status() {
     fi
 }
 __ps1() {
-    PROMPT='* '
+    if [ "${USER:-}" = "root" ]
+    then
+        PROMPT='# '
+    else
+        PROMPT='* '
+    fi
     DIR="$(__short_pwd)"
+
     if [ "$DIR" ]
     then
         VCS="$(__vcs_status)"

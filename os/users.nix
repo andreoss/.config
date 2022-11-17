@@ -16,6 +16,9 @@
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
+  programs.bash = {
+    promptInit = builtins.readFile ../shrc;
+  };
   environment = {
     noXlibs = false;
     shells = [ pkgs.bash ];
