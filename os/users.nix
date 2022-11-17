@@ -18,6 +18,7 @@
   services.logind.extraConfig = "";
   environment = {
     noXlibs = false;
+    shells = [ pkgs.bash ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
       acpi
@@ -34,8 +35,8 @@
     homeBinInPath = true;
     variables.TOR_SOCKS_PORT = "9150";
     etc = {
-      "inputrc".source = ./../inputrc;
-      "issue".source = lib.mkOverride 0 (pkgs.writeText "issue" "");
+      inputrc.source = ../inputrc;
+      issue.source = lib.mkOverride 0 (pkgs.writeText "issue" "");
     };
     loginShellInit = ''
       [ -d "$HOME/.nix-profile" ] || /nix/var/nix/profiles/per-user/$USER/home-manager/activate &> /dev/null
