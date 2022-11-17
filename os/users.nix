@@ -34,7 +34,7 @@
     homeBinInPath = true;
     variables.TOR_SOCKS_PORT = "9150";
     etc = {
-      "inputrc".source = ./inputrc;
+      "inputrc".source = ./../inputrc;
       "issue".source = lib.mkOverride 0 (pkgs.writeText "issue" "");
     };
     loginShellInit = ''
