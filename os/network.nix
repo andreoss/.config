@@ -59,7 +59,7 @@ in {
     };
   };
   security = {
-    pki.certificateFiles = [ ./certs/root-ca.crt ./certs/cacert.crt ];
+    pki.certificateFiles = [];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
