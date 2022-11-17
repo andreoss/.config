@@ -39,15 +39,10 @@ in {
     wireless.enable = true;
     wireless.dbusControlled = true;
     wireless.scanOnLowSignal = false;
-    wireless.environmentFile =
-      pkgs.writeShellScript "secrets.env" (builtins.readFile ./network.env);
     wireless.userControlled.enable = true;
-    wireless.networks = {
-      W = {
-        hidden = true;
-        psk = "@PSK_W@";
-      };
-    };
+    wireless.networks = import ../secrets/networks.nix;
+    wireless.environmentFile =
+      pkgs.writeShellScript "secrets.env" (builtins.readFile ../secrets/network.env);
     dhcpcd = {
       enable = true;
       extraConfig = ''
