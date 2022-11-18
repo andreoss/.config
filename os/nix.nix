@@ -1,4 +1,4 @@
-{self, ... } : {
+{ self, ... }: {
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" self.config.primaryUser.name ];
