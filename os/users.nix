@@ -24,6 +24,7 @@
     shells = [ pkgs.bash ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
+      git
       acpi
       home-manager
       lm_sensors
