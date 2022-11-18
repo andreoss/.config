@@ -2,8 +2,8 @@
   users.mutableUsers = false;
   users.motd = "";
   users.defaultUserShell = pkgs.bash;
-  users.users.root.initialHashedPassword =
-    lib.mkForce "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
+  users.users.root.initialHashedPassword = lib.mkForce
+    "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
   users.users."${self.config.primaryUser.name}" = {
     uid = 1337;
     initialHashedPassword =
@@ -16,9 +16,7 @@
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
-  programs.bash = {
-    promptInit = builtins.readFile ../shrc;
-  };
+  programs.bash = { promptInit = builtins.readFile ../shrc; };
   environment = {
     noXlibs = false;
     shells = [ pkgs.bash ];

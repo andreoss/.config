@@ -4,7 +4,10 @@ in {
   services.usbguard = {
     enable = true;
     IPCAllowedUsers = [ user "root" ];
-    rules = if (lib.pathExists ./usb-whitelist) then (builtins.readFile ./usb-whitelist) else "";
+    rules = if (lib.pathExists ./usb-whitelist) then
+      (builtins.readFile ./usb-whitelist)
+    else
+      "";
   };
   programs.firejail = {
     enable = true;

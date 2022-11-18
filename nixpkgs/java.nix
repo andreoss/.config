@@ -1,5 +1,4 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-{
+{ config, pkgs, lib, stdenv, self, ... }: {
   home.sessionVariables = {
     JDK_8 = "$HOME/.jdk/8";
     JDK_11 = "$HOME/.jdk/11";
@@ -40,7 +39,8 @@
       (buildEclipseUpdateSite rec {
         name = "IntelliJIdeaKeymap4Eclipse";
         src = pkgs.fetchzip {
-          url = "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
+          url =
+            "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
           sha256 = "sha256-L43JWpYy/9JvOLi9t+UioT/uQbBLL08pgHrW8SuGQ8M=";
         };
       })

@@ -1,7 +1,6 @@
 { config, lib, pkgs, modulesPath, self, ... }:
 let btrfsOptions = self.config.fileSystems.btrfsOptions;
-in
-{
+in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
   boot.initrd.luks.devices."luks-system".device =
     "/dev/disk/by-partuuid/11111111-1111-1111-1111-111111111111";

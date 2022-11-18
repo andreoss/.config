@@ -33,13 +33,10 @@
       notBroken = x: !(x.meta.broken or false);
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-    in
-    rec {
+    in rec {
       config = {
         stateVersion = "22.11";
-        fileSystems = {
-          btrfsOptions = [ "compress=zstd" ];
-        };
+        fileSystems = { btrfsOptions = [ "compress=zstd" ]; };
         androidDev = false;
         pipewireReplacesPulseaudio = true;
         primaryUser = {
@@ -58,42 +55,41 @@
             inputs.emacs-overlay.overlays.emacs
             inputs.guix-overlay.overlays.default
           ];
-        }
-      );
+        });
       homeConfigurations = {
-        "${self.config.primaryUser.name}" = home-manager.lib.homeManagerConfiguration {
-          pkgs = legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit outputs inputs self; };
-          modules = [
-            {
-              config.home.username = self.config.primaryUser.name;
-              config.home.homeDirectory = self.config.primaryUser.home;
-              config.home.stateVersion = self.config.stateVersion;
-            }
-            ./nixpkgs/browser.nix
-            ./nixpkgs/emacs.nix
-            ./nixpkgs/home.nix
-            ./nixpkgs/java.nix
-            ./nixpkgs/sh.nix
-            ./nixpkgs/term.nix
-            ./nixpkgs/vcs.nix
-            ./nixpkgs/xsession.nix
-          ];
-        };
+        "${self.config.primaryUser.name}" =
+          home-manager.lib.homeManagerConfiguration {
+            pkgs = legacyPackages."x86_64-linux";
+            extraSpecialArgs = { inherit outputs inputs self; };
+            modules = [
+              {
+                config.home.username = self.config.primaryUser.name;
+                config.home.homeDirectory = self.config.primaryUser.home;
+                config.home.stateVersion = self.config.stateVersion;
+              }
+              ./nixpkgs/browser.nix
+              ./nixpkgs/emacs.nix
+              ./nixpkgs/home.nix
+              ./nixpkgs/java.nix
+              ./nixpkgs/sh.nix
+              ./nixpkgs/term.nix
+              ./nixpkgs/vcs.nix
+              ./nixpkgs/xsession.nix
+            ];
+          };
       };
       nixosConfigurations.tx = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         pkgs = legacyPackages."x86_64-linux";
-        specialArgs = {inherit inputs self;};
+        specialArgs = { inherit inputs self; };
         modules = [
           inputs.home-manager.nixosModule
           inputs.guix-overlay.nixosModules.guix
-          {
-            system.stateVersion = self.config.stateVersion;
-          }
+          { system.stateVersion = self.config.stateVersion; }
           {
             services.guix.enable = true;
-            services.guix.package = inputs.guix-overlay.packages.x86_64-linux.guix;
+            services.guix.package =
+              inputs.guix-overlay.packages.x86_64-linux.guix;
           }
           ./os/hm.nix
           ./os/fs-crypt.nix
@@ -117,9 +113,7 @@
         pkgs = legacyPackages."x86_64-linux";
         modules = [
           inputs.home-manager.nixosModule
-          {
-            system.stateVersion = self.config.stateVersion;
-          }
+          { system.stateVersion = self.config.stateVersion; }
           ./os/audio.nix
           ./os/configuration.nix
           ./os/hm.nix

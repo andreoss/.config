@@ -1,7 +1,6 @@
-{self, ... } :
+{ self, ... }:
 let user = self.config.primaryUser.name;
-in
-{
+in {
   virtualisation = {
     kvmgt.enable = false;
     lxc.enable = false;

@@ -1,11 +1,8 @@
-{pkgs, ... }:
-{
+{ pkgs, ... }: {
   xresources.properties = {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
-  home.file = {
-    ".screenrc".source = ./../screenrc;
-  };
+  home.file = { ".screenrc".source = ./../screenrc; };
   home.file.".local/bin/xscreen" = {
     executable = true;
     text = ''

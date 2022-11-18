@@ -86,13 +86,8 @@
     ${pkgs.dbus}/bin/dbus-uuidgen --ensure=/etc/machine-id
     ${pkgs.dbus}/bin/dbus-uuidgen --ensure
   '';
-  boot.initrd.kernelModules = [
-    "usb_storage"
-    "uas"
-    "aesni_intel"
-    "cryptd"
-    "dm-snapshot"
-  ];
+  boot.initrd.kernelModules =
+    [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot" ];
   boot.initrd.availableKernelModules = [
     "ahci"
     "ehci_pci"
@@ -107,7 +102,8 @@
     enable = true;
     theme = "bgrt";
     logo = ./../wp/1.jpeg;
-    font = "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
+    font =
+      "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
   };
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=10s
