@@ -1,5 +1,4 @@
-{ config, pkgs, lib, stdenv, ... }:
-{
+{ config, pkgs, lib, stdenv, ... }: {
   home.stateVersion = "22.05";
   home.packages = with pkgs; [ nvi pciutils usbutils ];
   xsession = {
