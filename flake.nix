@@ -113,22 +113,25 @@
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = inputs;
+        specialArgs = { inherit inputs self; };
         pkgs = legacyPackages."x86_64-linux";
         modules = [
           inputs.home-manager.nixosModule
           {
             system.stateVersion = self.config.stateVersion;
           }
+          ./os/audio.nix
+          ./os/configuration.nix
           ./os/hm.nix
+          ./os/hw.nix
           ./os/i18n.nix
           ./os/iso.nix
           ./os/network.nix
           ./os/nix.nix
-          ./os/xserver.nix
+          ./os/security.nix
           ./os/users.nix
-          ./os/audio.nix
-          ./os/hw.nix
+          ./os/virtualisation.nix
+          ./os/xserver.nix
         ];
       };
     };
