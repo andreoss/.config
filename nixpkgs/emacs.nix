@@ -32,5 +32,4 @@
         better-defaults
       ];
   };
-
 }
