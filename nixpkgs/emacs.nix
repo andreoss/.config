@@ -1,5 +1,4 @@
-{ config, pkgs, lib, stdenv, self, inputs, ... }:
-{
+{ config, pkgs, lib, stdenv, self, inputs, ... }: {
   xresources.properties = {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
@@ -16,21 +15,22 @@
       withAthena = true;
       nativeComp = true;
     };
-    extraPackages = elpa: with elpa; [
-      elfeed
-      elpher
-      evil
-      evil-collection
-      exwm
-      forge
-      go-imports
-      magit
-      pdf-tools
-      telega
-      vterm
-      xenops
-      better-defaults
-    ];
+    extraPackages = elpa:
+      with elpa; [
+        elfeed
+        elpher
+        evil
+        evil-collection
+        exwm
+        forge
+        go-imports
+        magit
+        pdf-tools
+        telega
+        vterm
+        xenops
+        better-defaults
+      ];
   };
 
 }
