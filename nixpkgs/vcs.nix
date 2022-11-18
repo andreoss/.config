@@ -1,5 +1,4 @@
-{ config, pkgs, lib, stdenv, ... }:
-{
+{ config, pkgs, lib, stdenv, ... }: {
   programs.mercurial = {
     enable = true;
     userName = "andreoss";
