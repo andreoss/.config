@@ -1,4 +1,3 @@
-{ lib, config, pkgs, home-manager, guix-overlay,  self, ... }:
 { lib, config, pkgs, home-manager, guix-overlay, self, ... }:
 let user = self.config.primaryUser.name;
 in {
@@ -31,4 +30,7 @@ in {
     enableNotifications = true;
     freeMemThreshold = 1;
   };
+  environment.etc."packages".text = with lib;
+    builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
+      (builtins.map (p: "${p.name}") config.environment.systemPackages)));
 }
