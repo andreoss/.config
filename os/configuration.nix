@@ -1,4 +1,5 @@
 { lib, config, pkgs, home-manager, guix-overlay,  self, ... }:
+{ lib, config, pkgs, home-manager, guix-overlay, self, ... }:
 let user = self.config.primaryUser.name;
 in {
   nixpkgs.config = {
@@ -20,8 +21,10 @@ in {
     allowReboot = false;
     dates = "01:00";
     randomizedDelaySec = "10min";
+    flake = "github:andreoss/.config";
   };
-  services.getty.extraArgs = [ "--nohostname" "--noissue" "--noclear" "--nohints" ];
+  services.getty.extraArgs =
+    [ "--nohostname" "--noissue" "--noclear" "--nohints" ];
   services.cron.systemCronJobs = [ "0 2 * * * root fstrim /" ];
   services.earlyoom = {
     enable = true;
