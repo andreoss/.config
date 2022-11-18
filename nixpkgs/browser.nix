@@ -14,7 +14,6 @@ args@{lib, config, pkgs, inputs,...}:
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-esr-unwrapped {
-      forceWayland = false;
       extraPolicies = {
         NoDefaultBookmarks = true;
         DisableBuiltinPDFViewer = true;
