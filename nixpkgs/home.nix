@@ -46,21 +46,18 @@ let
     lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
     lang.rust.enable = true;
-    lang.rust.packages = with pkgs; [
-      rust-analyzer
-      rustup
-    ];
+    lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
     lang.scala.enable = true;
     lang.tex.enable = true;
   };
 in {
   nixpkgs.overlays = [
     (self: super: {
-      heimdall = super.heimdall.overrideAttrs( old: {
+      heimdall = super.heimdall.overrideAttrs (old: {
         src = pkgs.fetchFromGitHub {
-          owner  = "deriamis";
-          repo   = "Heimdall";
-          rev    = "master";
+          owner = "deriamis";
+          repo = "Heimdall";
+          rev = "master";
           sha256 = "sha256-b94W+uwgvPK5TZbMgijFin4kYH0llFajcbtoQdZpnYs=";
         };
       });
@@ -76,12 +73,9 @@ in {
   programs.matplotlib.enable = true;
   programs.ssh = { enable = true; };
   home.enableNixpkgsReleaseCheck = true;
-  home.sessionPath = [
-    "$HOME/.local/bin"
-    "$HOME/.config/scripts"
-  ];
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
   home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
+    [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
   '';
   programs.keychain = {
     enable = true;
@@ -106,14 +100,14 @@ in {
     WLR_NO_HARDWARE_CURSORS = 1;
     MAVEN_OPTS =
       "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
-    XDG_SESSION_PATH="";
-    XDG_SESSION_DESKTOP="";
-    XDG_SESSION_TYPE="";
-    XDG_SESSION_CLASS="";
-    XDG_SESSION_ID="";
-    GDMSESSION="";
-    DESKTOP_SESSION="";
-    XDG_CURRENT_SESSION="";
+    XDG_SESSION_PATH = "";
+    XDG_SESSION_DESKTOP = "";
+    XDG_SESSION_TYPE = "";
+    XDG_SESSION_CLASS = "";
+    XDG_SESSION_ID = "";
+    GDMSESSION = "";
+    DESKTOP_SESSION = "";
+    XDG_CURRENT_SESSION = "";
   };
   home.packages = with pkgs;
     [
@@ -169,8 +163,14 @@ in {
       rsync
       dig.dnsutils
       zip
-    ] ++ fontPackages
-    ++ (lib.optionals (my.desktop) [ wmname xclip xorg.xkill xorg.xdpyinfo rox-filer xdotool ])
+    ] ++ fontPackages ++ (lib.optionals (my.desktop) [
+      wmname
+      xclip
+      xorg.xkill
+      xorg.xdpyinfo
+      rox-filer
+      xdotool
+    ])
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
       ModernPerl
@@ -221,8 +221,7 @@ in {
       pkg-config
       valgrind
       tinycc
-    ])
-    ++ (lib.optionals (my.lang.tex.enable) [
+    ]) ++ (lib.optionals (my.lang.tex.enable) [
       djview
       pandoc
       libertine
@@ -232,14 +231,12 @@ in {
       abiword
       freerdp
       davmail
-    ])
-    ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
+    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.haskell.enable) [
       ghc
       haskellPackages.stack
       haskell-language-server
-    ])
-    ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
+    ]) ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.rust.enable) my.lang.rust.packages)
     ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
     ++ (lib.optionals (my.lang.go.enable) [ gotools gocode ])
@@ -268,9 +265,10 @@ in {
   accounts.email = {
     maildirBasePath = "${config.home.homeDirectory}/Maildir";
   };
-  accounts.email.accounts =
-    if (lib.pathExists ../secrets/mail.nix) then
-      (import ../secrets/mail.nix) else {};
+  accounts.email.accounts = if (lib.pathExists ../secrets/mail.nix) then
+    (import ../secrets/mail.nix)
+  else
+    { };
   programs.mbsync.enable = lib.pathExists ../secrets/mail.nix;
   programs.msmtp.enable = lib.pathExists ../secrets/mail.nix;
   services.gpg-agent = {
@@ -282,12 +280,10 @@ in {
   };
   programs.notmuch = {
     enable = lib.pathExists ../secrets/mail.nix;
-    new = {
-      tags = [ "new" ];
-    };
+    new = { tags = [ "new" ]; };
     hooks = {
-      postInsert = '''';
-      preNew  = ''mbsync --all || true'';
+      postInsert = "";
+      preNew = "mbsync --all || true";
       postNew = ''
         NEW_MAIL=$(notmuch count tag:new)
         if [ "$NEW_MAIL" -gt 0 ]
@@ -310,21 +306,15 @@ in {
     scripts = with pkgs.mpvScripts; [ ];
   };
   systemd.user.services.notmuch = {
-    Unit = {
-      Requires = [ "davmail.service" ];
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
+    Unit = { Requires = [ "davmail.service" ]; };
+    Install = { WantedBy = [ "default.target" ]; };
     Service = {
       ExecStart = "${pkgs.notmuch}/bin/notmuch new";
       Environment = [ "PATH=${pkgs.isync}/bin:${pkgs.pass}/bin:$PATH" ];
     };
   };
   systemd.user.timers.notmuch = {
-    Install = {
-      WantedBy = [ "timers.target" ];
-    };
+    Install = { WantedBy = [ "timers.target" ]; };
     Timer = {
       OnBootSec = "10m"; # first run 10min after boot up
       OnCalendar = "*:0/5";
@@ -339,9 +329,7 @@ in {
       ExecStart = "${pkgs.davmail}/bin/davmail";
       Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
     };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
   services.home-manager.autoUpgrade = {
     enable = true;
@@ -355,13 +343,13 @@ in {
     enable = my.desktop;
     musicDirectory = "${config.home.homeDirectory}/Music";
     extraConfig = ''
-       audio_output {
-          type "pipewire"
-          name "My PipeWire Output"
-       }
-       follow_outside_symlinks "yes"
-       follow_inside_symlinks "yes"
-  '';
+      audio_output {
+         type "pipewire"
+         name "My PipeWire Output"
+      }
+      follow_outside_symlinks "yes"
+      follow_inside_symlinks "yes"
+    '';
   };
   programs.ncmpcpp.enable = my.desktop;
   programs.zathura.enable = my.desktop;
