@@ -1,14 +1,13 @@
 { lib, config, pkgs, self, ... }:
-let
-  wallpaper = ./../wp/1.jpeg;
+let wallpaper = ./../wp/1.jpeg;
 in {
   services.xserver = {
     enable = true;
     xautolock = {
       enable = true;
       time = 10;
-      extraOptions = [  "-detectsleep" ];
-      notifier = "${pkgs.libnotify}/bin/notify-send \"Locking in 10 seconds\"";
+      extraOptions = [ "-detectsleep" ];
+      notifier = ''${pkgs.libnotify}/bin/notify-send "Locking in 10 seconds"'';
       locker = "/run/wrappers/bin/physlock";
       enableNotifier = true;
     };
@@ -27,33 +26,24 @@ in {
       lightdm.autoLogin.timeout = 5;
     };
     displayManager.defaultSession = "none+icewm";
-    displayManager.sessionPackages = with pkgs; [];
+    displayManager.sessionPackages = with pkgs; [ ];
     displayManager.sessionCommands = ''
-         {
-            sleep 1
-            ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${wallpaper}
-         } &
+      {
+         sleep 1
+         ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${wallpaper}
+      } &
     '';
-    windowManager = {
-      icewm.enable = true;
-    };
-    inputClassSections = [
-      ''
+    windowManager = { icewm.enable = true; };
+    inputClassSections = [''
       Identifier     "TrackPoint configuration"
       MatchProduct   "TrackPoint"
       Option         "AccelSpeed" "0.6"
-    ''
-    ];
+    ''];
   };
   fonts = {
     enableDefaultFonts = false;
     enableGhostscriptFonts = true;
-    fonts = with pkgs; [
-      ucs-fonts
-      gyre-fonts
-      terminus_font
-      terminus_font_ttf
-    ];
+    fonts = with pkgs; [ ucs-fonts gyre-fonts terminus_font terminus_font_ttf ];
     fontconfig = {
       hinting.autohint = true;
       useEmbeddedBitmaps = true;
