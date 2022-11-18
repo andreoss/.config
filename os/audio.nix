@@ -1,5 +1,4 @@
-{ self, ... }:
-{
+{ self, ... }: {
   nixpkgs.config = {
     pulseaudio = true;
     mediaSupport = true;
@@ -11,7 +10,5 @@
   services.pipewire.alsa.enable = self.config.pipewireReplacesPulseaudio;
   services.pipewire.pulse.enable = self.config.pipewireReplacesPulseaudio;
   users.groups.pulse-access = { };
-  users.extraGroups.audio.members = [
-    self.config.primaryUser.name
- ];
+  users.extraGroups.audio.members = [ self.config.primaryUser.name ];
 }
