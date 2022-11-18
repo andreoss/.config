@@ -1,5 +1,4 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-{
+{ config, pkgs, lib, stdenv, self, ... }: {
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
@@ -71,12 +70,12 @@
       gtk-enable-event-sounds = 0;
       gtk-enable-input-feedback-sounds = 0;
     };
-     gtk3.bookmarks = [
-       "file://${config.home.homeDirectory}/Books/"
-       "file://${config.home.homeDirectory}/Work/"
-       "file://${config.home.homeDirectory}/Finance/"
-       "file://${config.home.homeDirectory}/Official/"
-     ];
+    gtk3.bookmarks = [
+      "file://${config.home.homeDirectory}/Books/"
+      "file://${config.home.homeDirectory}/Work/"
+      "file://${config.home.homeDirectory}/Finance/"
+      "file://${config.home.homeDirectory}/Official/"
+    ];
   };
   qt = {
     enable = self.config.primaryUser.graphics;
@@ -110,22 +109,23 @@
       postswitch = {
         "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
         "dunst-restart" = "systemctl --user restart dunst.service";
-        "background" = ''${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}'';
+        "background" =
+          "${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}";
         "fix-dpi" = ''
-               case "$AUTORANDR_CURRENT_PROFILE" in
-                 docked)
-                   DPI=192
-                   ;;
-                 mobile)
-                   DPI=96
-                   ;;
-                 *)
-                   echo "Unknown profile: $AUTORANDR_CURRENT_PROFILE"
-                   exit 1
-               esac
-               echo "Xft.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
-               systemctl --user restart conky.service
-         '';
+          case "$AUTORANDR_CURRENT_PROFILE" in
+            docked)
+              DPI=192
+              ;;
+            mobile)
+              DPI=96
+              ;;
+            *)
+              echo "Unknown profile: $AUTORANDR_CURRENT_PROFILE"
+              exit 1
+          esac
+          echo "Xft.dpi: $DPI" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          systemctl --user restart conky.service
+        '';
       };
     };
   };
@@ -142,14 +142,10 @@
     };
     Service = {
       ExecStart = "${pkgs.conky}/bin/conky --daemonize --config=${../conkyrc}";
-      Environment = [
-        "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH"
-      ];
+      Environment = [ "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH" ];
       Type = "forking";
     };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
   systemd.user.services.volumeicon = {
     Unit = {
@@ -160,8 +156,6 @@
       ExecStart = "${pkgs.volumeicon}/bin/volumeicon";
       Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
     };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
 }
