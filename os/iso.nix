@@ -1,8 +1,5 @@
-{ config, inputs, lib, pkgs, modulesPath, ... }:
-{
-  imports = [
-    (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
-  ];
+{ config, inputs, lib, pkgs, modulesPath, ... }: {
+  imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
   isoImage = {
     efiSplashImage = ./../wp/1.jpeg;
     splashImage = ./../wp/1.jpeg;
@@ -44,7 +41,8 @@
     enable = true;
     theme = "bgrt";
     logo = ./../wp/1.jpeg;
-    font = "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
+    font =
+      "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
   };
   console = {
     packages = [ pkgs.terminus_font ];
