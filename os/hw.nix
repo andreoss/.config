@@ -1,5 +1,4 @@
-{ self, ... }:
-{
+{ self, ... }: {
   hardware.opengl.enable = true;
   hardware.openrazer = {
     enable = false;
