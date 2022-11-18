@@ -41,8 +41,8 @@ in {
     wireless.scanOnLowSignal = false;
     wireless.userControlled.enable = true;
     wireless.networks = import ../secrets/networks.nix;
-    wireless.environmentFile =
-      pkgs.writeShellScript "secrets.env" (builtins.readFile ../secrets/network.env);
+    wireless.environmentFile = pkgs.writeShellScript "secrets.env"
+      (builtins.readFile ../secrets/network.env);
     dhcpcd = {
       enable = true;
       extraConfig = ''
@@ -54,7 +54,7 @@ in {
     };
   };
   security = {
-    pki.certificateFiles = [];
+    pki.certificateFiles = [ ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
@@ -100,15 +100,9 @@ in {
       };
     };
   };
-  systemd.services.unbound = {
-    partOf = [ "network.target" ];
-  };
-  systemd.services.dnscrypt-proxy2 = {
-    partOf = [ "network.target" ];
-  };
-  systemd.services.wpa_supplicant = {
-    partOf = [ "network.target" ];
-  };
+  systemd.services.unbound = { partOf = [ "network.target" ]; };
+  systemd.services.dnscrypt-proxy2 = { partOf = [ "network.target" ]; };
+  systemd.services.wpa_supplicant = { partOf = [ "network.target" ]; };
   systemd.services.macchanger-wlan = {
     enable = true;
     description = "macchanger on wlan0";
