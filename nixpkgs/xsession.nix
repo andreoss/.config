@@ -1,4 +1,6 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
+{ config, pkgs, lib, stdenv, self, ... }:
+let palette = import ../os/palette.nix;
+in {
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
@@ -18,28 +20,28 @@
   };
   services.gammastep = {
     enable = self.config.primaryUser.graphics;
-    longitude = -55.89;
-    latitude = -27.36;
+    longitude = -55.0;
+    latitude = -27.0;
   };
   services.cbatticon.enable = self.config.primaryUser.graphics;
   services.keynav.enable = self.config.primaryUser.graphics;
   services.dunst.enable = self.config.primaryUser.graphics;
   services.dunst.settings = {
     global = {
-      frame_color = "#121212";
-      separator_color = "#434343";
+      frame_color = palette.black1;
+      separator_color = palette.gray4;
     };
     urgency_low = {
-      background = "#585858";
-      foreground = "#EAEAEA";
+      background = palette.white1;
+      foreground = palette.gray3;
     };
     urgency_normal = {
-      background = "#FFFFEA";
-      foreground = "#121212";
+      background = palette.white2;
+      foreground = palette.black1;
     };
     urgency_critical = {
-      background = "#AA222E";
-      foreground = "#959DCB";
+      background = palette.red1;
+      foreground = palette.black1;
     };
     global.font = "Terminus";
     global.alignment = "right";
