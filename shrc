@@ -133,6 +133,7 @@ alias lh='ls -asht'
 alias cx='chmod +x'
 alias what='command -v'
 alias rsync='rsync --progress'
+alias mc='mc --nocolor'
 alias xc='xclip -o | xclip -i -selection clipboard'
 alias q=exit
 alias j=jobs
