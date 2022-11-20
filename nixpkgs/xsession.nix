@@ -131,10 +131,17 @@ in {
       };
     };
   };
+  programs.rofi  = {
+    enable  = true;
+    cycle = true;
+    terminal = "urxvt";
+    theme = "gruvbox-light-soft";
+  };
   services.sxhkd = {
     enable = self.config.primaryUser.graphics;
     keybindings = {
-      "alt + slash" = "PATH=$PATH:${pkgs.rofi}/bin rofi -show combi";
+      "alt + slash" = "rofi -show-icons -show combi";
+      "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
     };
   };
   systemd.user.services.conky = {
@@ -160,4 +167,10 @@ in {
     };
     Install = { WantedBy = [ "graphical-session.target" ]; };
   };
+  home.activation.sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+     pkill -c -USR1 sxhkd
+  '';
+  home.activation.icewmRestart = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${pkgs.icewm}/bin/icesh restart
+  '';
 }
