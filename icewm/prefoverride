@@ -13,8 +13,8 @@ ClockFontNameXft           = "Terminus:size=8"
 ApmFontNameXft             = "Terminus:size=8"
 LabelFontNameXft           = "Terminus:size=8"
 
-TimeFormat="%x %-I:%M %Z"
-TimeFormatAlt="%x %-I:%M %Z"
+TimeFormat="%x %-I:%M"
+TimeFormatAlt="%x %-I:%M"
 DateFormat="%W/%j %c %Z"
 
 AllowFullscreen=1
@@ -44,7 +44,7 @@ QuickSwitchToUrgent=1
 ShowEllipsis = 1
 ShowProgramsMenu=0
 SmartPlacement=1
-TaskBarAtTop=0
+TaskBarAtTop=1
 TaskBarAutoHide=0
 TaskBarMailboxStatusBeepOnNewMail=0
 TaskBarShowAllWindows=0
@@ -77,9 +77,9 @@ WarpPointer=1
 
 WorkspaceNames=" ", " ", " ", " ", " ",  " "
 
-EnableAddressBar=1
+EnableAddressBar=0
 KeySysAddressBar="Alt+Ctrl+Space"
-ShowAddressBar=1
+ShowAddressBar=0
 
 KeySysCascade="Super+Alt+F4"
 
@@ -91,4 +91,4 @@ KeySysArrangeIcons="Super+Alt+F8"
 
 ColorClock="rgb:c6/c6/c6"
 ColorClockText="rgb:00/00/00"
-TaskBarClockLeds=1
+TaskBarClockLeds=0
