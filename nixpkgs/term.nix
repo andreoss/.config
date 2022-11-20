@@ -1,4 +1,6 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+let palette = import ../os/palette.nix;
+in {
   xresources.properties = {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
@@ -34,36 +36,36 @@
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
-    extraConfig = {
+    extraConfig = (with palette; {
       "context.names" = "sudo,ssh,python,gdb,java,vi";
-      "context.sudo.background" = "[90]#8F0000";
-      "context.ssh.background " = "[90]#28488A";
-      "context.python.background" = "[90]#245488";
-      "context.gdb.background" = "[90]#236823";
-      "context.java.background" = "[90]#28381A";
-      "context.vi.background" = "[90]#38383A";
-      "background" = "[80]#000000";
-      "color0" = "[90]#000000"; # Color: Black        ~ 0
-      "color1" = "#AA1F1F"; # Color: Red          ~ 1
-      "color2" = "#468747"; # Color: Green        ~ 2
-      "color3" = "#8F7734"; # Color: Yellow       ~ 3
-      "color4" = "#568BD2"; # Color: Blue         ~ 4
-      "color5" = "#888ACA"; # Color: Magenta      ~ 5
-      "color6" = "#6AA7A8"; # Color: Cyan         ~ 6
-      "color7" = "#F3F3D3"; # Color: White        ~ 7
-      "color8" = "#878781"; # Color: BrightBlack  ~ 8
-      "color9" = "#FFADAD"; # Color: BrightRed    ~ 9
-      "color10" = "#EBFFEB"; # Color: BrightGreen  ~ 10
-      "color11" = "#EDEEA5"; # Color: BrightYellow ~ 11
-      "color12" = "#EBFFFF"; # Color: BrightBlue   ~ 12
-      "color13" = "#A1EEED"; # Color: BrightCyan   ~ 14
-      "color14" = "#96D197"; # Color: MidGreen     ~ 13
-      "color15" = "#FFFFEB"; # Color: BrightWhite  ~ 15
+      "context.sudo.background" = "[90]${red3}";
+      "context.ssh.background " = "[90]${blue4}";
+      "context.python.background" = "[90]${blue3}";
+      "context.gdb.background" = "[90]${green2}";
+      "context.java.background" = "[90]${gray2}";
+      "context.vi.background" = "[90]${gray1}";
+      "background" = "[80]${black1}";
+      "color0" = "[90]${black1}";
+      "color1" = red1;
+      "color2" = green2;
+      "color3" = yellow1;
+      "color4" = blue1;
+      "color5" = magenta;
+      "color6" = cyan1;
+      "color7" = white1;
+      "color8" = black2;
+      "color9" = red2;
+      "color10" = green3;
+      "color11" = yellow2;
+      "color12" = blue5;
+      "color13" = cyan2;
+      "color14" = green2;
+      "color15" = white2;
       "cursorBlink" = "true";
-      "cursorColor" = "#AFBFBF";
+      "cursorColor" = gray4;
       "internalBorder" = 16;
       "depth" = 32;
-      "foreground" = "#F3F3D3";
+      "foreground" = white3;
       "keysym.C-0" = "resize-font:reset";
       "keysym.C-equal" = "resize-font:bigger";
       "keysym.C-minus" = "resize-font:smaller";
@@ -79,6 +81,6 @@
       "secondaryScroll" = "true";
       "urgentOnBell" = "true";
       "url-select.underline" = "true";
-    };
+    });
   };
 }
