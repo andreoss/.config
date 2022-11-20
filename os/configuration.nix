@@ -16,7 +16,7 @@ in {
   programs.dconf.enable = true;
   system.copySystemConfiguration = false;
   system.autoUpgrade = {
-    enable = true;
+    enable = false; # does not work with git-crypt
     allowReboot = false;
     dates = "01:00";
     randomizedDelaySec = "10min";
