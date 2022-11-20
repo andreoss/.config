@@ -22,12 +22,12 @@
     shells = [ pkgs.bash ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
-      git
       acpi
-      home-manager
+      git
       lm_sensors
       man-pages
       man-pages-posix
+      mc
       nvi
       psmisc
       stdmanpages
