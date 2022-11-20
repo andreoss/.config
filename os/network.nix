@@ -2,6 +2,11 @@
 let
   change-mac = pkgs.writeShellScript "change-mac" ''
     card="$1"
+    if [ -z "$1" -o ! -e "/sys/class/net/$card" ]
+    then
+      echo "No such device: $card"
+      exit 1
+    fi
     ${pkgs.iproute2}/bin/ip link set "$card" down &&
     ${pkgs.macchanger}/bin/macchanger -b -r "$card"
     ${pkgs.iproute2}/bin/ip link set "$card" up
