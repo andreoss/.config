@@ -1,5 +1,6 @@
 { config, pkgs, lib, stdenv, self, ... }:
 let
+  palette = import ../os/palette.nix;
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
@@ -353,7 +354,13 @@ in {
     '';
   };
   programs.ncmpcpp.enable = my.desktop;
-  programs.zathura.enable = my.desktop;
+  programs.zathura = {
+    enable = my.desktop;
+    options = {
+      default-bg = palette.white2;
+      default-fg = palette.black1;
+    };
+  };
   programs.yt-dlp.enable = my.desktop;
   programs.home-manager.enable = true;
   systemd.user.startServices = true;
