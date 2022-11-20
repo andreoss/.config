@@ -17,7 +17,6 @@ in {
   nixpkgs.config = { android_sdk.accept_license = true; };
   home.sessionVariables = {
     ANDROID_SDK_ROOT = "${androidComposition.androidsdk}/libexec/android-sdk";
-    ANDROID_NDK_ROOT =
-      "${androidComposition.androidsdk}/libexec/android-sdk/ndk-bundle";
+    ANDROID_NDK_ROOT = "${androidComposition.androidsdk}/libexec/android-sdk/ndk-bundle";
   };
 }

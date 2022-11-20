@@ -10,6 +10,7 @@ args@{ lib, config, pkgs, inputs, ... }: {
     enable = true;
     browsers = [ "brave" "chromium" "firefox" ];
   };
+  programs.librewolf.enable = true;
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-esr-unwrapped {

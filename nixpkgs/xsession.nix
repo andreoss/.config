@@ -1,6 +1,7 @@
 { config, pkgs, lib, stdenv, self, ... }:
 let palette = import ../os/palette.nix;
 in {
+  config = {
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
@@ -173,4 +174,23 @@ in {
   home.activation.icewmRestart = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     ${pkgs.icewm}/bin/icesh restart
   '';
+  home.packages =
+    with pkgs; [
+      paratype-pt-mono
+      uw-ttyp0
+      terminus_font_ttf
+      terminus_font
+      gentium
+      unifont
+      sudo-font
+      dina-font
+    ] ++ (lib.optionals (self.config.primaryUser.graphics) [
+      wmname
+      xclip
+      xorg.xkill
+      xorg.xdpyinfo
+      rox-filer
+      xdotool
+    ]);
+  };
 }
