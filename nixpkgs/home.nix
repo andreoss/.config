@@ -183,6 +183,7 @@ in {
       BUtils
       Appperlbrew
       rakudo
+      zef
       perl536
     ])) ++ (lib.optionals (my.desktop) [
       aria
