@@ -1,14 +1,18 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
   xresources.properties = {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
-  home.file = { ".screenrc".source = ./../screenrc; };
-  home.file.".local/bin/xscreen" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-      exec urxvt -e screen -D -R -S "$\{1:-primary}" "$*"
-    '';
+  home.file = {
+    ".screenrc".source = ./../screenrc;
+    ".urxvt/ext/context".text =
+      builtins.readFile "${inputs.urxvt-context-ext}/context";
+    ".local/bin/xscreen" = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+        exec urxvt -e screen -D -R -S "$\{1:-primary}" "$*"
+      '';
+    };
   };
   programs.tmux = {
     enable = true;

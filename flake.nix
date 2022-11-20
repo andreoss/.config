@@ -5,6 +5,10 @@
       url = "github:andreoss/.emacs.d/master";
       flake = false;
     };
+    urxvt-context-ext = {
+      url = "github:andreoss/urxvt-context/master";
+      flake = false;
+    };
     hosts = {
       url = "github:StevenBlack/hosts/master";
       flake = false;
