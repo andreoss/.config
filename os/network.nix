@@ -12,7 +12,6 @@ in {
     timeServers = [ ];
     extraHosts =
       builtins.readFile "${inputs.hosts}/alternates/gambling-porn-social/hosts";
-    hostName = "tx";
     networkmanager = {
       enable = lib.mkForce false;
       insertNameservers = [ "127.0.0.1" ];

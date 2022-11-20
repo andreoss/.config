@@ -47,6 +47,37 @@
           graphics = true;
         };
       };
+      baseSystem = host:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          pkgs = legacyPackages."x86_64-linux";
+          specialArgs = { inherit inputs self; };
+          modules = [
+            inputs.home-manager.nixosModule
+            inputs.guix-overlay.nixosModules.guix
+            { system.stateVersion = self.config.stateVersion; }
+            { networking.hostName = host.hostname; }
+            {
+              services.guix.enable = true;
+              services.guix.package =
+                inputs.guix-overlay.packages.x86_64-linux.guix;
+            }
+            ./os/hm.nix
+            ./os/fs-crypt.nix
+            ./os/nix.nix
+            ./os/configuration.nix
+            ./os/hw.nix
+            ./os/security.nix
+            ./os/audio.nix
+            ./os/users.nix
+            ./os/virtualisation.nix
+            ./os/xserver.nix
+            ./os/network.nix
+            ./os/i18n.nix
+            ./os/boot.nix
+            ./os/boot-loader.nix
+          ] ++ host.modules;
+        };
       legacyPackages = forAllSystems (system:
         import nixpkgs {
           inherit system;
@@ -78,34 +109,13 @@
             ];
           };
       };
-      nixosConfigurations.tx = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        pkgs = legacyPackages."x86_64-linux";
-        specialArgs = { inherit inputs self; };
-        modules = [
-          inputs.home-manager.nixosModule
-          inputs.guix-overlay.nixosModules.guix
-          { system.stateVersion = self.config.stateVersion; }
-          {
-            services.guix.enable = true;
-            services.guix.package =
-              inputs.guix-overlay.packages.x86_64-linux.guix;
-          }
-          ./os/hm.nix
-          ./os/fs-crypt.nix
-          ./os/nix.nix
-          ./os/configuration.nix
-          ./os/hw.nix
-          ./os/security.nix
-          ./os/audio.nix
-          ./os/users.nix
-          ./os/virtualisation.nix
-          ./os/xserver.nix
-          ./os/network.nix
-          ./os/i18n.nix
-          ./os/boot.nix
-          ./os/boot-loader.nix
-        ];
+      nixosConfigurations.tx = baseSystem {
+        hostname = "tx";
+        modules = [ ./os/fs-crypt.nix ];
+      };
+      nixosConfigurations.ts = baseSystem {
+        hostname = "ts";
+        modules = [ ./secrets/fs-ts.nix ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
