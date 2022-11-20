@@ -2,6 +2,8 @@
 /*/
 !/.gitignore
 !/.gitmodules
-!/nixpkgs/*.nix
+!/*/*.nix
+!/*/*.c
+!/*/*.sh
 !/*rc
 !.git-crypt
