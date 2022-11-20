@@ -5,50 +5,18 @@ let
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
   sbclPackages = (with pkgs; [ roswell sbcl clisp ]);
-  jdkRelatedPackages = with pkgs; [
-    android-tools
-    heimdall
-    ant
-    gradle
-    groovy
-    jetbrains.idea-community
-    kotlin
-    lombok
-    maven
-    nailgun
-    netbeans
-    umlet
-    uncrustify
-    visualvm
-  ];
   clojurePackages = with pkgs; [ babashka leiningen clojure ];
-  scalaPackages = with pkgs; [ metals mill nailgun dotty ];
-  fontPackages = with pkgs; [
-    paratype-pt-mono
-    uw-ttyp0
-    terminus_font_ttf
-    terminus_font
-    gentium
-    unifont
-    sudo-font
-    dina-font
-  ];
   my = {
     desktop = true;
     lang.clojure.enable = true;
     lang.cpp.enable = true;
-    lang.go.enable = true;
-    lang.java.enable = true;
     lang.lisp.enable = true;
     lang.haskell.enable = true;
     lang.office.enable = true;
-    lang.perl.enable = true;
-    lang.perl.packages = pkgs.perl536Packages;
     lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
     lang.rust.enable = true;
     lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
-    lang.scala.enable = true;
     lang.tex.enable = true;
   };
 in {
@@ -73,17 +41,24 @@ in {
   };
   programs.matplotlib.enable = true;
   programs.ssh = { enable = true; };
-  home.enableNixpkgsReleaseCheck = true;
-  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
-  home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
-  '';
   programs.keychain = {
     enable = true;
     enableXsessionIntegration = true;
     enableBashIntegration = true;
   };
   programs.gpg.enable = true;
+  services.gpg-agent = {
+    grabKeyboardAndMouse = true;
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+    pinentryFlavor = "gtk2";
+  };
+  home.enableNixpkgsReleaseCheck = true;
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
+  home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
+  '';
   programs.password-store = {
     enable = true;
     package =
@@ -95,12 +70,7 @@ in {
     XKB_DEFAULT_OPTIONS =
       builtins.concatStringsSep "," config.home.keyboard.options;
     EDITOR = "vi";
-    _JAVA_AWT_WM_NONREPARENTING = "1";
-    _JAVA_OPTIONS =
-      "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
     WLR_NO_HARDWARE_CURSORS = 1;
-    MAVEN_OPTS =
-      "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
     XDG_SESSION_PATH = "";
     XDG_SESSION_DESKTOP = "";
     XDG_SESSION_TYPE = "";
@@ -115,8 +85,6 @@ in {
       ack
       silver-searcher
       atool
-      buku
-      bukubrow
       cloc
       coreutils
       curl
@@ -139,7 +107,7 @@ in {
       nixfmt
       nix-tree
       oathToolkit
-      #openshift
+      openshift
       openvpn
       paperkey
       pavucontrol
@@ -164,43 +132,12 @@ in {
       rsync
       dig.dnsutils
       zip
-    ] ++ fontPackages ++ (lib.optionals (my.desktop) [
-      wmname
-      xclip
-      xorg.xkill
-      xorg.xdpyinfo
-      rox-filer
-      xdotool
-    ])
+    ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
-    ++ (lib.optionals (my.lang.perl.enable) (with my.lang.perl.packages; [
-      ModernPerl
-      Moose
-      Appcpanminus
-      PerlCritic
-      PerlTidy
-      PodTidy
-      HTMLTidy
-      BUtils
-      Appperlbrew
-      rakudo
-      zef
-      perl536
-    ])) ++ (lib.optionals (my.desktop) [
+    ++ (lib.optionals (my.desktop) [
       ffmpeg-full
       mpc_cli
-      python39Packages.youtube-dl
     ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
-      fossil
-      gitAndTools.git-codeowners
-      gitAndTools.git-extras
-      gitAndTools.gitflow
-      git-crypt
-      pre-commit
-      aspell
-      aspellDicts.ru
-      aspellDicts.en
-      aspellDicts.es
     ] ++ (lib.optionals (my.lang.cpp.enable) [
       autoconf
       binutils
@@ -231,7 +168,6 @@ in {
       #libreoffice
       abiword
       freerdp
-      davmail
     ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
     ++ (lib.optionals (my.lang.haskell.enable) [
       ghc
@@ -239,10 +175,8 @@ in {
       haskell-language-server
     ]) ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
     ++ (lib.optionals (my.lang.rust.enable) my.lang.rust.packages)
-    ++ (lib.optionals (my.lang.java.enable) jdkRelatedPackages)
-    ++ (lib.optionals (my.lang.go.enable) [ gotools gocode ])
     ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
-    ++ (lib.optionals (my.lang.scala.enable) scalaPackages);
+  ;
   home.file = {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
@@ -263,41 +197,7 @@ in {
       exec mpv --vo=null "$@"
     '';
   };
-  accounts.email = {
-    maildirBasePath = "${config.home.homeDirectory}/Maildir";
-  };
-  accounts.email.accounts = if (lib.pathExists ../secrets/mail.nix) then
-    (import ../secrets/mail.nix)
-  else
-    { };
-  programs.mbsync.enable = lib.pathExists ../secrets/mail.nix;
-  programs.msmtp.enable = lib.pathExists ../secrets/mail.nix;
-  services.gpg-agent = {
-    grabKeyboardAndMouse = true;
-    enable = true;
-    defaultCacheTtl = 1800;
-    enableSshSupport = true;
-    pinentryFlavor = "gtk2";
-  };
-  programs.notmuch = {
-    enable = lib.pathExists ../secrets/mail.nix;
-    new = { tags = [ "new" ]; };
-    hooks = {
-      postInsert = "";
-      preNew = "mbsync --all || true";
-      postNew = ''
-        NEW_MAIL=$(notmuch count tag:new)
-        if [ "$NEW_MAIL" -gt 0 ]
-        then
-           ${pkgs.libnotify}/bin/notify-send "✉ + $(notmuch count tag:new) / $(notmuch count tag:unread)"
-           notmuch tag +inbox +unread -new -- tag:new
-        fi
-      '';
-    };
-  };
-  services.mbsync.enable = lib.pathExists ../secrets/mail.nix;
-  programs.go.enable = true;
-  programs.nix-index.enable = true;
+  programs.command-not-found.enable = true;
   programs.mpv = {
     enable = true;
     config = {
@@ -305,32 +205,6 @@ in {
       "osc" = "no";
     };
     scripts = with pkgs.mpvScripts; [ ];
-  };
-  systemd.user.services.notmuch = {
-    Unit = { Requires = [ "davmail.service" ]; };
-    Install = { WantedBy = [ "default.target" ]; };
-    Service = {
-      ExecStart = "${pkgs.notmuch}/bin/notmuch new";
-      Environment = [ "PATH=${pkgs.isync}/bin:${pkgs.pass}/bin:$PATH" ];
-    };
-  };
-  systemd.user.timers.notmuch = {
-    Install = { WantedBy = [ "timers.target" ]; };
-    Timer = {
-      OnBootSec = "10m"; # first run 10min after boot up
-      OnCalendar = "*:0/5";
-    };
-  };
-  systemd.user.services.davmail = {
-    Unit = {
-      Description = "Davmail";
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = "${pkgs.davmail}/bin/davmail";
-      Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
-    };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
   services.home-manager.autoUpgrade = {
     enable = true;
