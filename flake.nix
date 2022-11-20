@@ -41,7 +41,6 @@
       config = {
         stateVersion = "22.11";
         fileSystems = { btrfsOptions = [ "compress=zstd" ]; };
-        androidDev = false;
         pipewireReplacesPulseaudio = true;
         primaryUser = {
           name = "a";
@@ -49,6 +48,13 @@
           autoLogin = true;
           emacsFromNix = true;
           graphics = true;
+          mail = true;
+          languages = {
+            java = true;
+            perl = true;
+            scala = true;
+            android = false;
+          };
         };
       };
       baseSystem = host:
@@ -62,9 +68,9 @@
             { system.stateVersion = self.config.stateVersion; }
             { networking.hostName = host.hostname; }
             {
-              services.guix.enable = true;
-              services.guix.package =
-                inputs.guix-overlay.packages.x86_64-linux.guix;
+              services.guix.enable = false;
+              # services.guix.package =
+              #   inputs.guix-overlay.packages.x86_64-linux.guix;
             }
             ./os/hm.nix
             ./os/nix.nix
@@ -103,8 +109,11 @@
               }
               ./nixpkgs/browser.nix
               ./nixpkgs/emacs.nix
+              ./nixpkgs/mail.nix
               ./nixpkgs/home.nix
               ./nixpkgs/java.nix
+              ./nixpkgs/perl.nix
+              ./nixpkgs/scala.nix
               ./nixpkgs/sh.nix
               ./nixpkgs/term.nix
               ./nixpkgs/vcs.nix
@@ -137,7 +146,7 @@
           ./os/nix.nix
           ./os/security.nix
           ./os/users.nix
-          ./os/virtualisation.nix
+          #./os/virtualisation.nix
           ./os/xserver.nix
         ];
       };
