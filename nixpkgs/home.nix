@@ -187,7 +187,6 @@ in {
       zef
       perl536
     ])) ++ (lib.optionals (my.desktop) [
-      aria
       ffmpeg-full
       mpc_cli
       python39Packages.youtube-dl
@@ -363,6 +362,12 @@ in {
   };
   programs.yt-dlp.enable = my.desktop;
   programs.home-manager.enable = true;
+  programs.aria2 = {
+    enable = my.desktop;
+    settings = {
+      seed-ratio = 0.0;
+    };
+  };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;
 }
