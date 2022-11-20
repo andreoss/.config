@@ -8,6 +8,7 @@
     home.stateVersion = self.config.stateVersion;
     imports = [
       ../nixpkgs/home.nix
+      ../nixpkgs/mail.nix
       ../nixpkgs/emacs.nix
       ../nixpkgs/sh.nix
       ../nixpkgs/term.nix
@@ -15,6 +16,10 @@
       ../nixpkgs/java.nix
       ../nixpkgs/browser.nix
       ../nixpkgs/xsession.nix
-    ] ++ lib.optional (self.config.androidDev) [ ../nixpkgs/android.nix ];
+      ../nixpkgs/java.nix
+      ../nixpkgs/perl.nix
+      ../nixpkgs/scala.nix
+    ] ++ (lib.optional (self.config.primaryUser.languages.android) [ ../nixpkgs/android.nix ])
+    ;
   };
 }
