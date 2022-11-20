@@ -2,7 +2,7 @@
 let user = self.config.primaryUser.name;
 in {
   services.usbguard = {
-    enable = true;
+    enable = false;
     IPCAllowedUsers = [ user "root" ];
     rules = if (lib.pathExists ./usb-whitelist) then
       (builtins.readFile ./usb-whitelist)
