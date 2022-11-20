@@ -1,4 +1,4 @@
-{ lib, config, pkgs, home-manager, guix-overlay, self, ... }:
+{ lib, config, pkgs, self, ... }:
 let user = self.config.primaryUser.name;
 in {
   nixpkgs.config = {
