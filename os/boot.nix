@@ -1,4 +1,8 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, ... }:
+let
+  palette = import ./palette.nix;
+in
+{
   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
   boot.extraModulePackages = [ config.boot.kernelPackages.perf ];
   boot.kernelPatches = [ ];
@@ -58,26 +62,26 @@
   console = {
     packages = [ pkgs.terminus_font ];
     font = "ter-132n";
-    earlySetup = false;
+    earlySetup =   false;
     useXkbConfig = true;
-    colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x) [
-      "#000000"
-      "#AE322F"
-      "#859900"
-      "#B58900"
-      "#268BAE"
-      "#D33682"
-      "#2AAF98"
-      "#EAEAAA"
-      "#002B36"
-      "#AE4B16"
-      "#586E75"
-      "#657B83"
-      "#839496"
-      "#6C71EA"
-      "#AEA1A1"
-      "#FFFFAA"
-    ];
+    colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x) (with palette; [
+      black1
+      red1
+      green1
+      yellow1
+      blue1
+      red3
+      cyan1
+      yellow2
+      black2
+      orange1
+      gray1
+      gray2
+      gray3
+      magenta
+      red3
+      white1
+    ]);
   };
   boot.supportedFilesystems =
     lib.mkForce [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" ];
