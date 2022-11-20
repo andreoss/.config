@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stdenv, self, inputs, ... }: {
+{ config, pkgs, lib, stdenv, self, ... }: {
   xresources.properties = {
     "Emacs*toolBar" = 0;
     "Emacs*menuBar" = 0;
@@ -10,7 +10,7 @@
   services.emacs.enable = lib.mkForce false;
   programs.emacs = {
     enable = self.config.primaryUser.emacsFromNix;
-    package = inputs.emacs-overlay.packages.x86_64-linux.emacsGit.override {
+    package = pkgs.emacs.override {
       withToolkitScrollBars = false;
       withAthena = true;
       nativeComp = true;
