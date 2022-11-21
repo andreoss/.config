@@ -11,10 +11,6 @@ let
     ${pkgs.macchanger}/bin/macchanger -b -r "$card"
     ${pkgs.iproute2}/bin/ip link set "$card" up
   '';
-  networks = builtins.tryEval {
-    networks = import ../secrets/networks.nix;
-    environmentFile = pkgs.writeShellScript "secrets.env" (builtins.readFile ../secrets/network.env);
-  };
 in {
   networking = {
     enableIPv6 = lib.mkForce false;
@@ -48,8 +44,9 @@ in {
     wireless.dbusControlled = true;
     wireless.scanOnLowSignal = false;
     wireless.userControlled.enable = true;
-    wireless.networks = if networks.success then networks.value.networks else {};
-    wireless.environmentFile = if networks.success then networks.value.environmentFile else (pkgs.writeShellScript "empty.env" "");
+    wireless.networks = import ../secrets/networks.nix;
+    wireless.environmentFile = pkgs.writeShellScript "secrets.env"
+      (builtins.readFile ../secrets/network.env);
     dhcpcd = {
       enable = true;
       extraConfig = ''
