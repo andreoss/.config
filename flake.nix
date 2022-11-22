@@ -107,17 +107,17 @@
                 config.home.homeDirectory = self.config.primaryUser.home;
                 config.home.stateVersion = self.config.stateVersion;
               }
-              ./nixpkgs/browser.nix
-              ./nixpkgs/emacs.nix
-              ./nixpkgs/mail.nix
-              ./nixpkgs/home.nix
-              ./nixpkgs/java.nix
-              ./nixpkgs/perl.nix
-              ./nixpkgs/scala.nix
-              ./nixpkgs/sh.nix
-              ./nixpkgs/term.nix
-              ./nixpkgs/vcs.nix
-              ./nixpkgs/xsession.nix
+              ./hm/browser.nix
+              ./hm/emacs.nix
+              ./hm/mail.nix
+              ./hm/home.nix
+              ./hm/java.nix
+              ./hm/perl.nix
+              ./hm/scala.nix
+              ./hm/sh.nix
+              ./hm/term.nix
+              ./hm/vcs.nix
+              ./hm/xsession.nix
             ];
           };
       };
