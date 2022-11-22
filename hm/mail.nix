@@ -52,10 +52,11 @@
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
+    home.activation.davmailHeadless =
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        touch "$HOME"/.davmail.properties
+        ${pkgs.perl536}/bin/perl -i -lpE 'BEGIN {my $f=0;} m/ davmail[.]server = /xgsm && s/ (?<=\=) .* $ /true/xgsm && $f++; END { if (!$f) { print "davmail.server=true " } }' "$HOME"/.davmail.properties
+        ${pkgs.systemd}/bin/systemctl --user restart davmail.service
+      '';
   };
-  home.activation.davmailHeadless = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    touch "$HOME"/.davmail.properties
-    perl -i -lpE 'BEGIN {my $f=0;} m/ davmail[.]server = /xgsm && s/ (?<=\=) .* $ /true/xgsm && $f++; END { if (!$f) { print "davmail.server=true " } }' "$HOME"/.davmail.properties
-    systemctl --user restart davmail.service
-  '';
 }
