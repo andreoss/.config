@@ -7,19 +7,19 @@
   home-manager.users."${self.config.primaryUser.name}" = {
     home.stateVersion = self.config.stateVersion;
     imports = [
-      ../nixpkgs/home.nix
-      ../nixpkgs/mail.nix
-      ../nixpkgs/emacs.nix
-      ../nixpkgs/sh.nix
-      ../nixpkgs/term.nix
-      ../nixpkgs/vcs.nix
-      ../nixpkgs/java.nix
-      ../nixpkgs/browser.nix
-      ../nixpkgs/xsession.nix
-      ../nixpkgs/java.nix
-      ../nixpkgs/perl.nix
-      ../nixpkgs/scala.nix
-    ] ++ (lib.optional (self.config.primaryUser.languages.android) [ ../nixpkgs/android.nix ])
+      ../hm/home.nix
+      ../hm/mail.nix
+      ../hm/emacs.nix
+      ../hm/sh.nix
+      ../hm/term.nix
+      ../hm/vcs.nix
+      ../hm/java.nix
+      ../hm/browser.nix
+      ../hm/xsession.nix
+      ../hm/java.nix
+      ../hm/perl.nix
+      ../hm/scala.nix
+    ] ++ (lib.optional (self.config.primaryUser.languages.android) [ ../hm/android.nix ])
     ;
   };
 }
