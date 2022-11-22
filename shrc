@@ -152,6 +152,7 @@ alias p=perl6
 alias nm=notmuch
 alias iec='numfmt --to=iec'
 alias du='__du'
+alias dmesg='dmesg --human'
 
 __du() {
     \du --bytes --summarize "$@" \
