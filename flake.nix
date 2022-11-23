@@ -1,7 +1,7 @@
 {
   description = "Flakes";
   inputs = {
-    emacsd = {
+    emacs-d = {
       url = "github:andreoss/.emacs.d/master";
       flake = false;
     };
