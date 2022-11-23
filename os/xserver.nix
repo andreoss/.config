@@ -54,4 +54,11 @@ in {
       };
     };
   };
+  environment = {
+    etc = {
+      "icewm" = {
+        source = ../icewm;
+      };
+    };
+  };
 }
