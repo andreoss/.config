@@ -10,7 +10,7 @@ in {
     enable = true;
     scriptPath = ".xsession";
     windowManager.command = ''
-       ${pkgs.icewm}/bin/icewm-session &
+       ${pkgs.icewm}/bin/icewm-session --nobg &
        ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg} &
        while :
        do
