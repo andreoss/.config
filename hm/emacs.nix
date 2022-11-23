@@ -1,35 +1,48 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
-  xresources.properties = {
-    "Emacs*toolBar" = 0;
-    "Emacs*menuBar" = 0;
-    "Emacs*geometry" = "80x30";
-    "Emacs*font" = "Terminus";
-    "Emacs*scrollBar" = "on";
-    "Emacs*scrollBarWidth" = 6;
-  };
-  services.emacs.enable = lib.mkForce false;
-  programs.emacs = {
-    enable = self.config.primaryUser.emacsFromNix;
-    package = pkgs.emacs.override {
-      withToolkitScrollBars = false;
-      withAthena = true;
-      nativeComp = true;
+{ config, pkgs, lib, stdenv, self, inputs, ... }: {
+  config = {
+    home.file.".local/bin/me" = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+        exec emacs -Q -nw -l ${../mini-init.el} "$*"
+      '';
     };
-    extraPackages = elpa:
-      with elpa; [
-        elfeed
-        elpher
-        evil
-        evil-collection
-        exwm
-        forge
-        go-imports
-        magit
-        pdf-tools
-        telega
-        vterm
-        xenops
-        better-defaults
-      ];
+    xresources.properties = {
+      "Emacs*toolBar" = 0;
+      "Emacs*menuBar" = 0;
+      "Emacs*geometry" = "80x30";
+      "Emacs*font" = "Terminus";
+      "Emacs*scrollBar" = "on";
+      "Emacs*scrollBarWidth" = 6;
+    };
+    services.emacs.enable = lib.mkForce false;
+    programs.emacs = {
+      enable = self.config.primaryUser.emacsFromNix;
+      package = pkgs.emacs.override {
+        withToolkitScrollBars = false;
+        withAthena = true;
+        nativeComp = true;
+      };
+      extraConfig = ''
+        (load-file "${../mini-init.el}")
+        (load-file "${inputs.emacs-d}/init.el")
+      '';
+      extraPackages = elpa:
+        with elpa; [
+          better-defaults
+          elfeed
+          elpher
+          evil
+          evil-collection
+          exwm
+          forge
+          go-imports
+          magit
+          pdf-tools
+          telega
+          vterm
+          xenops
+        ];
+    };
   };
 }
