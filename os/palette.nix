@@ -19,7 +19,7 @@
   orange1 = "#AE4B16";
   red1 = "#AA1F1F";
   red2 = "#FFADAD";
-  red3 = "#AF9191";
+  red3 = "#7F3933";
   white1 = "#F3F3D3";
   white2 = "#FFFFEB";
   white3 = "#F2F2EB";

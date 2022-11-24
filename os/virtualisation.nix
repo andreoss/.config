@@ -1,8 +1,9 @@
 { self, ... }:
 let user = self.config.primaryUser.name;
 in {
+  security.polkit.enable = true;
   virtualisation = {
-    kvmgt.enable = false;
+    kvmgt.enable = true;
     lxc.enable = false;
     lxc.lxcfs.enable = false;
     lxd.enable = false;
@@ -21,7 +22,7 @@ in {
       enableExtensionPack = false;
       enableHardening = false;
     };
-    libvirtd.enable = false;
+    libvirtd.enable = true;
   };
   users.extraGroups.docker.members = [ user ];
   users.extraGroups.libvirtd.members = [ user ];
