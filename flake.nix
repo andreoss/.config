@@ -138,15 +138,12 @@
           { system.stateVersion = self.config.stateVersion; }
           ./os/audio.nix
           ./os/configuration.nix
-          ./os/hm.nix
+          ./os/hm-iso.nix
           ./os/hw.nix
           ./os/i18n.nix
           ./os/iso.nix
           ./os/network.nix
           ./os/nix.nix
-          ./os/security.nix
-          ./os/users.nix
-          #./os/virtualisation.nix
           ./os/xserver.nix
         ];
       };
