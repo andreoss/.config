@@ -18,8 +18,6 @@ in {
   };
   security.lockKernelModules = true;
   security.forcePageTableIsolation = true;
-  services.physlock.allowAnyUser = true;
-  services.physlock.enable = true;
   security.sudo = {
     enable = true;
     wheelNeedsPassword = true;

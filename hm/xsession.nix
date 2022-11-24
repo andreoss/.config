@@ -8,10 +8,10 @@ in {
   };
   xsession = {
     enable = true;
-    scriptPath = ".xsession";
+    scriptPath = ".xinitrc";
     windowManager.command = ''
        ${pkgs.icewm}/bin/icewm-session --nobg &
-       ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg} &
+       ${pkgs.feh}/bin/feh --no-fehbg --bg-fill {../wp/1.jpeg} &
        while :
        do
           sleep 1m

@@ -62,7 +62,7 @@ in
   console = {
     packages = [ pkgs.terminus_font ];
     font = "ter-132n";
-    earlySetup =   false;
+    earlySetup = true;
     useXkbConfig = true;
     colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x) (with palette; [
       black1
@@ -102,13 +102,6 @@ in
     "usb_storage"
     "xhci_pci"
   ];
-  boot.plymouth = {
-    enable = true;
-    theme = "bgrt";
-    logo = ./../wp/1.jpeg;
-    font =
-      "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
-  };
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=10s
     DefaultTimeoutStopSec=10s

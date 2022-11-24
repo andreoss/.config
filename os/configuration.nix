@@ -30,6 +30,8 @@ in {
     enableNotifications = true;
     freeMemThreshold = 1;
   };
+  services.physlock.allowAnyUser = true;
+  services.physlock.enable = true;
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
       (builtins.map (p: "${p.name}") config.environment.systemPackages)));

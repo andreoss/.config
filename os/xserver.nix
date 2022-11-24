@@ -16,24 +16,7 @@ in {
       touchpad.naturalScrolling = true;
       touchpad.tapping = true;
     };
-    displayManager = {
-      autoLogin.enable = self.config.primaryUser.autoLogin;
-      autoLogin.user = self.config.primaryUser.name;
-      lightdm.enable = true;
-      lightdm.background = wallpaper;
-      lightdm.greeters.enso.blur = true;
-      lightdm.greeters.enso.enable = true;
-      lightdm.autoLogin.timeout = 5;
-    };
-    displayManager.defaultSession = "none+icewm";
-    displayManager.sessionPackages = with pkgs; [ ];
-    displayManager.sessionCommands = ''
-      {
-         sleep 1
-         ${pkgs.feh}/bin/feh --no-fehbg --bg-center ${wallpaper}
-      } &
-    '';
-    windowManager = { icewm.enable = true; };
+    displayManager = { startx.enable = true; };
     inputClassSections = [''
       Identifier     "TrackPoint configuration"
       MatchProduct   "TrackPoint"
@@ -54,10 +37,27 @@ in {
       };
     };
   };
-  environment = {
-    etc = {
-      "icewm" = {
-        source = ../icewm;
+  environment = { etc = { "icewm" = { source = ../icewm; }; }; };
+  systemd.services."autovt@tty1".enable = false;
+  systemd.services = {
+    "startx" = {
+      enable = true;
+      restartIfChanged = true;
+      description = "startx";
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        User = self.config.primaryUser.name;
+        WorkingDirectory = "~";
+        PAMName = "login";
+        TTYPath = "/dev/tty1";
+        UtmpIdentifier = "tty1";
+        UtmpMode = "user";
+        UnsetEnvirnment = "TERM";
+        ExecStartPre = "/run/wrappers/bin/physlock";
+        ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3";
+        StandardInput = "tty";
+        StandardOutput = "journal";
+        Restart = "always";
       };
     };
   };
