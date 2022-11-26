@@ -3,7 +3,7 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" self.config.primaryUser.name ];
     settings.auto-optimise-store = true;
-    settings.build-cores = 1;
+    settings.build-cores = 4;
     settings.require-sigs = true;
     optimise.automatic = true;
     gc = {
