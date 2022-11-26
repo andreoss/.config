@@ -1,14 +1,6 @@
 { lib, config, pkgs, self, ... }:
 let user = self.config.primaryUser.name;
 in {
-  nixpkgs.config = {
-    allowUnfree = false;
-    packageOverrides = pkgs: {
-      grub2 = (pkgs.grub2.override { }).overrideAttrs (attrs: {
-        patches = [ ./01-quite.patch ./02-no-uuid.patch ] ++ attrs.patches;
-      });
-    };
-  };
   services.dbus = {
     enable = true;
     packages = [ pkgs.gcr ];
@@ -30,8 +22,10 @@ in {
     enableNotifications = true;
     freeMemThreshold = 1;
   };
-  services.physlock.allowAnyUser = true;
-  services.physlock.enable = true;
+  services.physlock = {
+    enable = true;
+    allowAnyUser = true;
+  };
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
       (builtins.map (p: "${p.name}") config.environment.systemPackages)));
