@@ -38,7 +38,7 @@ in {
     };
   };
   environment = { etc = { "icewm" = { source = ../icewm; }; }; };
-  systemd.services."autovt@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = lib.mkForce false;
   systemd.services = {
     "startx" = {
       enable = true;
@@ -53,8 +53,8 @@ in {
         UtmpIdentifier = "tty1";
         UtmpMode = "user";
         UnsetEnvirnment = "TERM";
-        ExecStartPre = "/run/wrappers/bin/physlock";
-        ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3";
+        #ExecStartPost = "/run/wrappers/bin/physlock";
+        ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3 -depth 16";
         StandardInput = "tty";
         StandardOutput = "journal";
         Restart = "always";
