@@ -18,11 +18,6 @@
     services.emacs.enable = lib.mkForce false;
     programs.emacs = {
       enable = self.config.primaryUser.emacsFromNix;
-      package = pkgs.emacs.override {
-        withToolkitScrollBars = false;
-        withAthena = true;
-        nativeComp = true;
-      };
       extraConfig = ''
         (load-file "${../mini-init.el}")
         (make-thread #'(lambda ()
