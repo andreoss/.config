@@ -16,7 +16,7 @@ in {
   security.wrappers = {
     firejail.source = "${pkgs.firejail.out}/bin/firejail";
   };
-  security.lockKernelModules = true;
+  security.lockKernelModules = false;
   security.forcePageTableIsolation = true;
   security.sudo = {
     enable = true;

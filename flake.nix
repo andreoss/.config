@@ -57,21 +57,29 @@
           };
         };
       };
+      legacyPackages = forAllSystems (system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = false;
+          overlays = [
+            inputs.emacs-overlay.overlays.emacs
+            inputs.guix-overlay.overlays.default
+            (import ./overlays/kernel.nix)
+            (import ./overlays/grub.nix)
+            (import ./overlays/emacs.nix)
+          ];
+        });
       baseSystem = host:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           pkgs = legacyPackages."x86_64-linux";
-          specialArgs = { inherit inputs self; };
+          specialArgs = { inherit outputs inputs self; };
           modules = [
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
             { system.stateVersion = self.config.stateVersion; }
             { networking.hostName = host.hostname; }
-            {
-              services.guix.enable = false;
-              # services.guix.package =
-              #   inputs.guix-overlay.packages.x86_64-linux.guix;
-            }
+            { services.guix.enable = false; }
             ./os/hm.nix
             ./os/nix.nix
             ./os/configuration.nix
@@ -87,15 +95,6 @@
             ./os/boot-loader.nix
           ] ++ host.modules;
         };
-      legacyPackages = forAllSystems (system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = false;
-          overlays = [
-            inputs.emacs-overlay.overlays.emacs
-            inputs.guix-overlay.overlays.default
-          ];
-        });
       homeConfigurations = {
         "${self.config.primaryUser.name}" =
           home-manager.lib.homeManagerConfiguration {

@@ -3,7 +3,7 @@ let
   palette = import ./palette.nix;
 in
 {
-  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.extraModulePackages = [ config.boot.kernelPackages.perf ];
   boot.kernelPatches = [ ];
   boot.blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
@@ -84,14 +84,14 @@ in
     ]);
   };
   boot.supportedFilesystems =
-    lib.mkForce [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" ];
+    lib.mkForce [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" "ext4" ];
   system.activationScripts.uuidgen = ''
     rm --force /etc/machine-id /var/lib/dbus/machine-id
     ${pkgs.dbus}/bin/dbus-uuidgen --ensure=/etc/machine-id
     ${pkgs.dbus}/bin/dbus-uuidgen --ensure
   '';
   boot.initrd.kernelModules =
-    [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot" ];
+    [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot"];
   boot.initrd.availableKernelModules = [
     "ahci"
     "ehci_pci"
