@@ -10,13 +10,12 @@ in {
     enable = true;
     scriptPath = ".xinitrc";
     windowManager.command = ''
-       ${pkgs.icewm}/bin/icewm-session --nobg &
        ${pkgs.feh}/bin/feh --no-fehbg --bg-fill ${../wp/1.jpeg} &
-       while :
-       do
-          sleep 1m
-       done
-      wait
+
+       PATH=$PATH:${pkgs.icewm}/bin
+       export PATH
+       icewm-session --nobg &
+       wait
     '';
   };
   services.gammastep = {
