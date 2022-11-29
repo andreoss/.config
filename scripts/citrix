@@ -5,72 +5,71 @@ set -ue
 set -x
 
 shutdown_active() {
-        firejail --list |
-                awk -F: '/name=citrix/ {print $1}' |
-                xargs -i firejail --shutdown={}
+	firejail --list |
+		awk -F: '/name=citrix/ {print $1}' |
+		xargs -i firejail --shutdown={}
 }
 trap shutdown_active EXIT
 
 XHOME=
+GEOM=$(
+	xwininfo -root |
+		perl -nE '/-geometry \s+ (\d+)+x(\d+)/x && printf "%dx%d\n", $1 * 0.8, $2 * 0.8'
+)
 
 create_home() {
-        XHOME=$(mktemp --directory)
-        mkdir -p "$XHOME"
-        mkdir -p "$XHOME/.ICAClient"
-        touch "$XHOME/.ICAClient/.eula_accepted"
+	XHOME=$(mktemp --directory)
+	mkdir -p "$XHOME"
+	mkdir -p "$XHOME/.ICAClient"
+	cp --verbose "$HOME"/.ICAClient/wfclient.ini "$XHOME"/.ICAClient/wfclient.ini
+	touch "$XHOME/.ICAClient/.eula_accepted"
 }
-
 find_cmd() {
-        cmd=$1
-        found=$(which "$cmd" | xargs readlink -f 2>/dev/null)
-        if [ ! -f "$found" ]; then
-                echo >/dev/stderr "Not found $cmd"
-                exit 1
-        fi
-        echo "$found"
+	cmd=$1
+	found=$(which "$cmd" | xargs readlink -f 2>/dev/null)
+	if [ ! -f "$found" ]; then
+		echo >/dev/stderr "Not found $cmd"
+		exit 1
+	fi
+	echo "$found"
 }
 
 WFICA=$(find_cmd wfica)
 FOUND=$(
-        find "$HOME/Downloads" -name '*.ica' -type f -printf '%T+\t%p\n' |
-                sort -r |
-                head -n 1 |
-                cut -f2
+	find "$HOME/Downloads" -name '*.ica' -type f -printf '%T+\t%p\n' |
+		sort -r |
+		head -n 1 |
+		cut -f2
 )
 if [ ! -f "$FOUND" ]; then
-        echo >/dev/stderr "Not found: *.ica"
-        exit 1
+	echo >/dev/stderr "Not found: *.ica"
+	exit 1
 fi
+
+shutdown_active
 
 create_home
 
 cp --verbose "$FOUND" "$XHOME/desktop.ica"
 
-shutdown_active
-
-xwininfo -root
-GEOM=$(
-        xwininfo -root |
-                perl -nE '/-geometry \s+ (\d+)+x(\d+)/x && printf "%dx%d\n", $1 * 0.8, $2 * 0.8'
-)
-
 firejail \
-        --x11=xephyr \
-        --xephyr-screen="$GEOM" \
-        --name=citrix \
-        --private="$XHOME" \
-        --nosound \
-        --novideo \
-        --private-dev \
-        --machine-id \
-        "$WFICA" "desktop.ica" &
+	--name=citrix \
+	--x11=xephyr \
+	--xephyr-screen="$GEOM" \
+	--private="$XHOME" \
+	--nosound \
+	--novideo \
+	--private-dev \
+	--cpu=0,1 \
+	--machine-id \
+	"$WFICA" "desktop.ica" &
 
 XPID=${!}
 
 while kill -0 "$XPID"; do
-        if firejail --join=citrix ratpoison; then
-                break
-        fi
+	if firejail --join=citrix ratpoison; then
+		break
+	fi
 done
 
 wait
