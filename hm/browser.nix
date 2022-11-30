@@ -13,7 +13,7 @@ args@{ lib, config, pkgs, inputs, ... }: {
   programs.librewolf.enable = true;
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox pkgs.firefox-esr-unwrapped {
+    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
       extraPolicies = {
         NoDefaultBookmarks = true;
         DisableBuiltinPDFViewer = true;
