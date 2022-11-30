@@ -1,4 +1,4 @@
-{ self, ... }: {
+{ pkgs, lib, config, self, ... }: {
   hardware.opengl.enable = true;
   hardware.openrazer = {
     enable = false;
@@ -8,4 +8,18 @@
   programs.light.enable = true;
   hardware.acpilight.enable = true;
   services.acpid.enable = true;
+  services.acpid.acEventCommands = ''
+          case "$1" in
+               ac*0)
+                 ${pkgs.acpilight}/bin/xbacklight -set 80
+                ;;
+               ac*1)
+                 ${pkgs.acpilight}/bin/xbacklight -set 100
+                ;;
+          esac
+  '';
+  powerManagement.enable = false;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
