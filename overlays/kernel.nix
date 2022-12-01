@@ -8,13 +8,7 @@ final: prev: {
       url = "https://git.kernel.org/torvalds/t/linux-6.1-rc7.tar.gz";
       hash = "sha256-5S9SY7BhSIux8aWREkZE93bwiG3sDSIB8bxMG9eNFJc=";
     };
-  }).overrideAttrs (attrs: {
-    postConfigure = ''
-       export PATH=$PATH:${prev.pkgs.kmod}/bin
-       make $makeFlags "''${makeFlagsArray[@]}" localyesconfig
-    '';
-
-  });
+  }).overrideAttrs (attrs: {});
   linuxPackages =
     prev.pkgs.recurseIntoAttrs (prev.pkgs.linuxPackagesFor final.linux);
 }
