@@ -17,7 +17,7 @@ in {
       x11 = false;
     };
     virtualbox.host = {
-      enable = true;
+      enable = false;
       headless = false;
       enableExtensionPack = false;
       enableHardening = false;
