@@ -92,7 +92,7 @@ in
   '';
   boot.initrd.kernelModules =
     [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot"];
-  boot.initrd.availableKernelModules = [
+  boot.initrd.availableKernelModules = lib.mkForce [
     "ahci"
     "ehci_pci"
     "rtsx_pci_sdmmc"
