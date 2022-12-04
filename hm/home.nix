@@ -201,8 +201,10 @@ in {
   programs.mpv = {
     enable = true;
     config = {
-      "save-position-on-quit" = true;
-      "osc" = "no";
+      save-position-on-quit = true;
+      osc = "yes";
+      osd-font-size = 24;
+      osd-color = palette.white2;
     };
     scripts = with pkgs.mpvScripts; [ ];
   };
