@@ -19,7 +19,6 @@
     programs.emacs = {
       enable = self.config.primaryUser.emacsFromNix;
       extraConfig = ''
-        (load-file "${../mini-init.el}")
         (make-thread #'(lambda ()
             (load-file "${inputs.emacs-d}/init.el")
             (run-hooks (quote after-init-hook))
