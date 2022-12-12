@@ -1,5 +1,5 @@
 { config, lib, pkgs, modulesPath, self, ... }:
-let btrfsOptions = self.config.fileSystems.btrfsOptions;
+let btrfsOptions = config.ao.fileSystems.btrfsOptions;
 in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
   boot.initrd.luks.devices."luks-system".device =
@@ -29,6 +29,7 @@ in {
       fsType = "btrfs";
       options = [ "subvol=guix-var" ] ++ btrfsOptions;
     };
+
     "/user" = {
       device = "/dev/disk/by-uuid/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
       fsType = "btrfs";
@@ -44,5 +45,20 @@ in {
       fsType = "vfat";
     };
   };
-  swapDevices = [ ];
+  systemd.services = {
+    create-swapfile = {
+      serviceConfig.Type = "oneshot";
+      wantedBy = [ "nix-var-swap.swap" ];
+      script = ''
+        ${pkgs.coreutils}/bin/truncate -s 0 /nix/var/swap
+        ${pkgs.e2fsprogs}/bin/chattr +C /nix/var/swap
+        ${pkgs.btrfs-progs}/bin/btrfs property set /nix/var/swap compression none
+      '';
+    };
+  };
+  zramSwap.enable = false;
+  swapDevices = [{
+    device = "/nix/var/swap";
+    size = (1024 * 16) + (1024 * 2); # RAM size + 2 GB
+  }];
 }
