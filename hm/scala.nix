@@ -1,7 +1,7 @@
 { config, pkgs, lib, stdenv, self, ... }: {
-  config = lib.attrsets.optionalAttrs (self.config.primaryUser.languages.scala) {
+  config = {
     programs.sbt = {
-      enable = true;
+      enable = config.ao.primaryUser.languages.scala;
       package = pkgs.sbt-with-scala-native;
       plugins = [ ];
     };
