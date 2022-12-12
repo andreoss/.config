@@ -1,6 +1,5 @@
 { lib, config, pkgs, self, ... }:
-let user = self.config.primaryUser.name;
-in {
+{
   services.dbus = {
     enable = true;
     packages = [ pkgs.gcr ];
@@ -21,10 +20,6 @@ in {
     enable = true;
     enableNotifications = true;
     freeMemThreshold = 1;
-  };
-  services.physlock = {
-    enable = true;
-    allowAnyUser = true;
   };
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
