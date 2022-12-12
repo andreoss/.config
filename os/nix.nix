@@ -1,7 +1,7 @@
-{ self, ... }: {
+{ config, ... }: {
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
-    settings.trusted-users = [ "root" self.config.primaryUser.name ];
+    settings.trusted-users = [ "root" config.ao.primaryUser.name ];
     settings.auto-optimise-store = true;
     settings.build-cores = 4;
     settings.require-sigs = true;
