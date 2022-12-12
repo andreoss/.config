@@ -7,18 +7,11 @@ let
   sbclPackages = (with pkgs; [ roswell sbcl clisp ]);
   clojurePackages = with pkgs; [ babashka leiningen clojure ];
   my = {
-    desktop = true;
-    lang.clojure.enable = true;
-    lang.cpp.enable = true;
-    lang.lisp.enable = true;
-    lang.haskell.enable = true;
-    lang.office.enable = true;
-    lang.ruby.enable = false;
     lang.ruby.packages = with pkgs; [ ruby gem ];
-    lang.rust.enable = true;
     lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
-    lang.tex.enable = true;
   };
+  lang = config.ao.primaryUser.languages;
+  desk = config.ao.primaryUser.graphics;
 in {
   nixpkgs.overlays = [
     (self: super: {
@@ -43,7 +36,7 @@ in {
   programs.ssh = { enable = true; };
   programs.keychain = {
     enable = true;
-    enableXsessionIntegration = true;
+    enableXsessionIntegration = desk;
     enableBashIntegration = true;
   };
   programs.gpg.enable = true;
@@ -57,7 +50,7 @@ in {
   home.enableNixpkgsReleaseCheck = true;
   home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
   home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    [ "${builtins.toString my.lang.lisp.enable}}" == "true" ] && ros init
+    [ "${builtins.toString config.ao.primaryUser.languages.lisp}" == "true" ] && ros init
   '';
   programs.password-store = {
     enable = true;
@@ -113,8 +106,8 @@ in {
       pavucontrol
       psmisc
       pulsemixer
-      python2Plus
-      python3Plus
+      #python2Plus
+      #python3Plus
       qrencode
       ripgrep
       ascii
@@ -134,11 +127,11 @@ in {
       zip
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
-    ++ (lib.optionals (my.desktop) [
+    ++ (lib.optionals (config.ao.primaryUser.media) [
       ffmpeg-full
       mpc_cli
-    ]) ++ (lib.optionals (my.desktop) [ signal-desktop ]) ++ [
-    ] ++ (lib.optionals (my.lang.cpp.enable) [
+    ]) ++ (lib.optionals (desk) [ signal-desktop ]) ++ [
+    ] ++ (lib.optionals (lang.cxx) [
       autoconf
       binutils
       ccls
@@ -159,23 +152,23 @@ in {
       pkg-config
       valgrind
       tinycc
-    ]) ++ (lib.optionals (my.lang.tex.enable) [
+    ]) ++ (lib.optionals (config.ao.primaryUser.office) [
       djview
       pandoc
       libertine
       texlive.combined.scheme-full
-    ]) ++ (lib.optionals (my.lang.office.enable) [
+    ]) ++ (lib.optionals (config.ao.primaryUser.office) [
       #libreoffice
       abiword
       freerdp
-    ]) ++ (lib.optionals (my.lang.lisp.enable) sbclPackages)
-    ++ (lib.optionals (my.lang.haskell.enable) [
+    ]) ++ (lib.optionals (lang.lisp) sbclPackages)
+    ++ (lib.optionals (lang.haskell) [
       ghc
       haskellPackages.stack
       haskell-language-server
-    ]) ++ (lib.optionals (my.lang.ruby.enable) my.lang.ruby.packages)
-    ++ (lib.optionals (my.lang.rust.enable) my.lang.rust.packages)
-    ++ (lib.optionals (my.lang.clojure.enable) clojurePackages)
+    ]) ++ (lib.optionals (lang.ruby) my.lang.ruby.packages)
+    ++ (lib.optionals (lang.rust) my.lang.rust.packages)
+    ++ (lib.optionals (lang.clojure) clojurePackages)
   ;
   home.file = {
     ".npmrc".source = ./../npmrc;
@@ -199,7 +192,7 @@ in {
   };
   programs.command-not-found.enable = true;
   programs.mpv = {
-    enable = true;
+    enable = config.ao.primaryUser.media;
     config = {
       save-position-on-quit = true;
       osc = "yes";
@@ -214,10 +207,10 @@ in {
   };
   services.mpdris2 = {
     notifications = true;
-    enable = my.desktop;
+    enable = config.ao.primaryUser.media;
   };
   services.mpd = {
-    enable = my.desktop;
+    enable = config.ao.primaryUser.media;
     musicDirectory = "${config.home.homeDirectory}/Music";
     extraConfig = ''
       audio_output {
@@ -228,18 +221,18 @@ in {
       follow_inside_symlinks "yes"
     '';
   };
-  programs.ncmpcpp.enable = my.desktop;
+  programs.ncmpcpp.enable = config.ao.primaryUser.media;
   programs.zathura = {
-    enable = my.desktop;
+    enable = config.ao.primaryUser.office;
     options = {
       default-bg = palette.white2;
       default-fg = palette.black1;
     };
   };
-  programs.yt-dlp.enable = my.desktop;
+  programs.yt-dlp.enable = desk;
   programs.home-manager.enable = true;
   programs.aria2 = {
-    enable = my.desktop;
+    enable = config.ao.primaryUser.media;
     settings = {
       seed-ratio = 0.0;
     };

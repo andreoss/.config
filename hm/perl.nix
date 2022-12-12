@@ -1,6 +1,6 @@
 { config, pkgs, lib, stdenv, self, ... }: {
-  config = lib.attrsets.optionalAttrs (self.config.primaryUser.languages.perl) {
-    home.packages = with pkgs.perl536Packages; [
+  config = {
+    home.packages = with pkgs.perl536Packages; lib.optionals(config.ao.primaryUser.languages.perl) [
       ModernPerl
       Moose
       Appcpanminus

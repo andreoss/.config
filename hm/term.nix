@@ -53,7 +53,7 @@ in {
       "color5" = magenta;
       "color6" = cyan1;
       "color7" = white1;
-      "color8" = black2;
+      "color8" = gray2;
       "color9" = red2;
       "color10" = green3;
       "color11" = yellow2;

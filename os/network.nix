@@ -138,10 +138,6 @@ in {
       ExecStart = "${change-mac} eth0";
     };
   };
-  #system.activationScripts.openvpnResolved = ''
-  #  mkdir -p /usr/libexec
-  #  ln --symbolic --force "${pkgs.update-systemd-resolved.out}/libexec/*"  /usr/libexec/
-  #'';
   environment = {
     etc = {
       "resolv.conf" = {

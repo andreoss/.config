@@ -58,7 +58,6 @@ in
   boot.initrd.verbose = false;
   boot.cleanTmpDir = true;
   boot.tmpOnTmpfs = true;
-  zramSwap.enable = true;
   console = {
     packages = [ pkgs.terminus_font ];
     font = "ter-132n";

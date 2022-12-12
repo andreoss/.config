@@ -1,15 +1,20 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
-  config = lib.attrsets.optionalAttrs (self.config.primaryUser.mail) {
-    accounts.email = {
+{ config, pkgs, lib, stdenv, self, ... }:
+let
+  e = config.ao.primaryUser.mail;
+in {
+  config.accounts = lib.attrsets.optionalAttrs (e) {
+    email = {
       maildirBasePath = "${config.home.homeDirectory}/Maildir";
     };
-    accounts.email.accounts = if (lib.pathExists ../secrets/mail.nix) then
+    email.accounts = if (lib.pathExists ../secrets/mail.nix) then
       (import ../secrets/mail.nix)
     else
       { };
-    programs.mbsync.enable = lib.pathExists ../secrets/mail.nix;
-    programs.msmtp.enable = lib.pathExists ../secrets/mail.nix;
-    programs.notmuch = {
+  };
+  config.programs = lib.attrsets.optionalAttrs (e) {
+    mbsync.enable = lib.pathExists ../secrets/mail.nix;
+    msmtp.enable = lib.pathExists ../secrets/mail.nix;
+    notmuch = {
       enable = lib.pathExists ../secrets/mail.nix;
       new = { tags = [ "new" ]; };
       hooks = {
@@ -25,8 +30,9 @@
         '';
       };
     };
-    services.mbsync.enable = lib.pathExists ../secrets/mail.nix;
-    systemd.user.services.notmuch = {
+  };
+  config.systemd= lib.attrsets.optionalAttrs (e) {
+    user.services.notmuch = {
       Unit = { Requires = [ "davmail.service" ]; };
       Install = { WantedBy = [ "default.target" ]; };
       Service = {
@@ -34,14 +40,14 @@
         Environment = [ "PATH=${pkgs.isync}/bin:${pkgs.pass}/bin:$PATH" ];
       };
     };
-    systemd.user.timers.notmuch = {
+    user.timers.notmuch = {
       Install = { WantedBy = [ "timers.target" ]; };
       Timer = {
         OnBootSec = "10m"; # first run 10min after boot up
         OnCalendar = "*:0/5";
       };
     };
-    systemd.user.services.davmail = {
+    user.services.davmail = {
       Unit = {
         Description = "Davmail";
         PartOf = [ "graphical-session.target" ];
@@ -52,7 +58,12 @@
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
-    home.activation.davmailHeadless =
+  };
+  config.services = lib.attrsets.optionalAttrs (e) {
+    mbsync.enable = lib.pathExists ../secrets/mail.nix;
+  };
+  config.home = lib.attrsets.optionalAttrs (e) {
+    activation.davmailHeadless =
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         touch "$HOME"/.davmail.properties
         ${pkgs.perl536}/bin/perl -i -lpE 'BEGIN {my $f=0;} m/ davmail[.]server = /xgsm && s/ (?<=\=) .* $ /true/xgsm && $f++; END { if (!$f) { print "davmail.server=true " } }' "$HOME"/.davmail.properties

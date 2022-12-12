@@ -1,14 +1,14 @@
-{ self, ... }: {
+{ config , ... }: {
   nixpkgs.config = {
     pulseaudio = true;
     mediaSupport = true;
   };
   hardware.bluetooth.enable = false;
-  security.rtkit.enable = !self.config.pipewireReplacesPulseaudio;
-  hardware.pulseaudio.enable = !self.config.pipewireReplacesPulseaudio;
-  services.pipewire.enable = self.config.pipewireReplacesPulseaudio;
-  services.pipewire.alsa.enable = self.config.pipewireReplacesPulseaudio;
-  services.pipewire.pulse.enable = self.config.pipewireReplacesPulseaudio;
+  security.rtkit.enable = !config.ao.pipewireReplacesPulseaudio;
+  hardware.pulseaudio.enable = !config.ao.pipewireReplacesPulseaudio;
+  services.pipewire.enable = config.ao.pipewireReplacesPulseaudio;
+  services.pipewire.alsa.enable = config.ao.pipewireReplacesPulseaudio;
+  services.pipewire.pulse.enable = config.ao.pipewireReplacesPulseaudio;
   users.groups.pulse-access = { };
-  users.extraGroups.audio.members = [ self.config.primaryUser.name ];
+  users.extraGroups.audio.members = [ config.ao.primaryUser.name ];
 }

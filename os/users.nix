@@ -4,15 +4,14 @@
   users.defaultUserShell = pkgs.bash;
   users.users.root.initialHashedPassword = lib.mkForce
     "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
-  users.users."${self.config.primaryUser.name}" = {
-    uid = 1337;
-    initialHashedPassword =
-      "$6$FpbouABGBk53rccL$9.YA5q3qJOo0SHjJlZ.yjPjg.xczCkIHqJtcaeGbkt9N5//M60s8VzoTWhNy1FIPOQdT9aKGSgCv0GShLzDxo/";
+  users.users."${config.ao.primaryUser.name}" = {
+    uid = config.ao.primaryUser.uid;
+    initialHashedPassword = config.ao.primaryUser.passwd;
     isNormalUser = true;
     createHome = true;
-    home = self.config.primaryUser.home;
+    home = config.ao.primaryUser.home;
   };
-  users.extraGroups.wheel.members = [ self.config.primaryUser.name ];
+  users.extraGroups.wheel.members = [ config.ao.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
@@ -43,5 +42,9 @@
     loginShellInit = ''
       [ -d "$HOME/.nix-profile" ] || /nix/var/nix/profiles/per-user/$USER/home-manager/activate &> /dev/null
     '';
+  };
+  services.physlock = {
+    enable = lib.mkForce true;
+    allowAnyUser = true;
   };
 }

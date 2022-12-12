@@ -2,18 +2,18 @@
   config = {
     programs.mercurial = {
       enable = true;
-      userName = "andreoss";
-      userEmail = "andreoss@sdf.org";
+      userName = config.ao.primaryUser.handle;
+      userEmail = config.ao.primaryUser.email;
       package = pkgs.mercurialFull;
     };
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
       delta.enable = true;
-      userName = "andreoss";
-      userEmail = "andreoss@sdf.org";
+      userName = config.ao.primaryUser.handle;
+      userEmail = config.ao.primaryUser.email;
       signing = {
-        key = "2DB39B412CDF97C7";
+        key = config.ao.primaryUser.key;
         signByDefault = true;
       };
       extraConfig = { init = { defaultBranch = "master"; }; };

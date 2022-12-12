@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stdenv, self, inputs, ... }: {
+{ config, pkgs, lib, stdenv, inputs, ... }: {
   config = {
     home.file.".local/bin/me" = {
       executable = true;
@@ -17,7 +17,7 @@
     };
     services.emacs.enable = lib.mkForce false;
     programs.emacs = {
-      enable = self.config.primaryUser.emacsFromNix;
+      enable = config.ao.primaryUser.emacsFromNix;
       extraConfig = ''
         (make-thread #'(lambda ()
             (load-file "${inputs.emacs-d}/init.el")

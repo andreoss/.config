@@ -43,8 +43,8 @@ done
 set -x
 
 error() {
-    echo "$*" > /dev/stderr
-    exit 1
+        echo "$*" >/dev/stderr
+        exit 1
 }
 
 check_if_mounted() {
@@ -82,11 +82,11 @@ crypt_format() {
 }
 
 crypt_open() {
-    if cryptsetup isLuks "$CRYPT_DEV"; then
-        cryptsetup -q open --key-file=secret/root-key "$CRYPT_DEV" "$CRYPT_LABEL"
-    else
-        error "Not LUKS: $CRYPT_DEV"
-    fi
+        if cryptsetup isLuks "$CRYPT_DEV"; then
+                cryptsetup -q open --key-file=secret/root-key "$CRYPT_DEV" "$CRYPT_LABEL"
+        else
+                error "Not LUKS: $CRYPT_DEV"
+        fi
 }
 
 root_mount() {
