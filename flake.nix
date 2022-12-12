@@ -17,7 +17,7 @@
       url = "github:arkenfox/user.js/master";
       flake = false;
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
     emacs-overlay.url = "github:nix-community/emacs-overlay/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -34,29 +34,10 @@
       inherit (nixpkgs.lib) filterAttrs traceVal;
       inherit (builtins) mapAttrs elem;
       inherit (self) outputs;
-      notBroken = x: !(x.meta.broken or false);
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      imports = [ ./config.nix ];
     in rec {
-      config = {
-        stateVersion = "22.11";
-        fileSystems = { btrfsOptions = [ "compress=zstd" ]; };
-        pipewireReplacesPulseaudio = true;
-        primaryUser = {
-          name = "a";
-          home = "/user";
-          autoLogin = true;
-          emacsFromNix = true;
-          graphics = true;
-          mail = true;
-          languages = {
-            java = true;
-            perl = true;
-            scala = true;
-            android = false;
-          };
-        };
-      };
       legacyPackages = forAllSystems (system:
         import nixpkgs {
           inherit system;
@@ -75,9 +56,10 @@
           pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit outputs inputs self; };
           modules = [
+            ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
-            { system.stateVersion = self.config.stateVersion; }
+            # { system.stateVersion = config.ao.stateVersion; }
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
             ./os/hm.nix
@@ -96,29 +78,30 @@
           ] ++ host.modules;
         };
       homeConfigurations = {
-        "${self.config.primaryUser.name}" =
-          home-manager.lib.homeManagerConfiguration {
-            pkgs = legacyPackages."x86_64-linux";
-            extraSpecialArgs = { inherit outputs inputs self; };
-            modules = [
-              {
-                config.home.username = self.config.primaryUser.name;
-                config.home.homeDirectory = self.config.primaryUser.home;
-                config.home.stateVersion = self.config.stateVersion;
-              }
-              ./hm/browser.nix
-              ./hm/emacs.nix
-              ./hm/mail.nix
-              ./hm/home.nix
-              ./hm/java.nix
-              ./hm/perl.nix
-              ./hm/scala.nix
-              ./hm/sh.nix
-              ./hm/term.nix
-              ./hm/vcs.nix
-              ./hm/xsession.nix
-            ];
-          };
+        imports = [ ./config.nix ];
+        "a" = home-manager.lib.homeManagerConfiguration {
+          pkgs = legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit outputs inputs self; };
+          modules = [
+            ./config.nix
+            {
+              config.home.username = "a";
+              config.home.homeDirectory = "/user";
+              config.home.stateVersion = "23.05";
+            }
+            ./hm/browser.nix
+            ./hm/emacs.nix
+            ./hm/mail.nix
+            ./hm/home.nix
+            ./hm/java.nix
+            ./hm/perl.nix
+            ./hm/scala.nix
+            ./hm/sh.nix
+            ./hm/term.nix
+            ./hm/vcs.nix
+            ./hm/xsession.nix
+          ];
+        };
       };
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
@@ -133,8 +116,15 @@
         specialArgs = { inherit inputs self; };
         pkgs = legacyPackages."x86_64-linux";
         modules = [
+          ./config.nix
+          {
+            config.isLivecd = true;
+            config.mini = true;
+            config.ao.primaryUser.name = "nixos";
+          }
           inputs.home-manager.nixosModule
-          { system.stateVersion = self.config.stateVersion; }
+          # { system.stateVersion = config.ao.stateVersion; }
+          ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
           ./os/hm-iso.nix
@@ -143,7 +133,6 @@
           ./os/iso.nix
           ./os/network.nix
           ./os/nix.nix
-          ./os/xserver.nix
         ];
       };
     };
