@@ -1,4 +1,12 @@
 { pkgs, lib, config, self, ... }: {
+  imports = [
+    ./kmonad.nix
+  ];
+  services.kmonad = {
+    enable = true;
+    configfile = ./../kbd;
+
+  };
   hardware.opengl.enable = true;
   hardware.openrazer = {
     enable = false;
