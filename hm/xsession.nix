@@ -89,13 +89,6 @@ in {
     programs.feh.enable = config.ao.primaryUser.graphics;
     home.keyboard.layout = "us,ru";
     home.keyboard.options = [ "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
-    services.xcape = {
-      enable = config.ao.primaryUser.graphics;
-      mapExpression = {
-        "Control_L" = "Escape";
-        "Control_R" = "Escape";
-      };
-    };
     dconf.settings = {
       "org/gnome/desktop/background" = {
         picture-uri = "${../wp/1.jpeg}";
