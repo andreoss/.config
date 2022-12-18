@@ -163,21 +163,19 @@ btrfs_prepare() {
 
         sleep 3
         btrfs_subvol_create /nix/store
-        btrfs_subvol_create /gnu/store
         btrfs_subvol_create /nix/var
         btrfs_subvol_create /user
 }
 
 btrfs_mount() {
-        should_exists "$ROOT"/etc/nixos "$ROOT"/boot "$ROOT"/home "$ROOT"/nix/store "$ROOT"/gnu/store "$ROOT"/nix/var
+        should_exists "$ROOT"/etc/nixos "$ROOT"/boot "$ROOT"/home "$ROOT"/nix/store  "$ROOT"/nix/var
         btrfs_subvol_mount /nix/store
-        btrfs_subvol_mount /gnu/store
         btrfs_subvol_mount /nix/var
         btrfs_subvol_mount /user
 }
 
 btrfs_unmount() {
-        umount "$ROOT"/home "$ROOT"/etc/nixos "$ROOT"/nix/store "$ROOT"/nix/var "$ROOT"/gnu/store "$ROOT"/user
+        umount "$ROOT"/home "$ROOT"/etc/nixos "$ROOT"/nix/store "$ROOT"/nix/var "$ROOT"/user
 }
 
 boot_prepare() {
