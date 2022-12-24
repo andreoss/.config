@@ -85,7 +85,7 @@ in {
         };
         forward-zone = [{
           name = ".";
-          forward-addr = [ "127.0.0.1@5553" ];
+          forward-addr = [ "127.0.0.1@5353" ];
         }];
       };
     };
@@ -94,7 +94,7 @@ in {
       settings = {
         ipv6_servers = false;
         require_dnssec = true;
-        listen_addresses = [ "127.0.0.1:5553" ];
+        listen_addresses = [ "127.0.0.1:5353" ];
         sources.public-resolvers = {
           urls = [
             "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
