@@ -105,11 +105,17 @@
       };
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
-        modules = [ ./os/fs-crypt.nix ];
+        modules = [
+          ./os/fs-crypt.nix
+          ./secrets/tx-hw.nix
+        ];
       };
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
-        modules = [ ./secrets/fs-ts.nix ];
+        modules = [
+          ./secrets/fs-ts.nix
+          ./secrets/ts-hw.nix
+        ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
