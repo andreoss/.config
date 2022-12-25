@@ -16,6 +16,18 @@ in
     "quiet"
     "udev.log_priority=3"
   ];
+  boot.initrd.kernelModules =
+    [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot"];
+  boot.initrd.availableKernelModules = lib.mkForce [
+    "ahci"
+    "ehci_pci"
+    "rtsx_pci_sdmmc"
+    "sata_nv"
+    "sd_mod"
+    "uhci_hcd"
+    "usb_storage"
+    "xhci_pci"
+  ];
   boot.kernelModules =
     [ "tcp_bbr" "binder-linux" "kvm-intel" "fuse" "coretemp" ];
   boot.extraModprobeConfig = ''
@@ -89,18 +101,6 @@ in
     ${pkgs.dbus}/bin/dbus-uuidgen --ensure=/etc/machine-id
     ${pkgs.dbus}/bin/dbus-uuidgen --ensure
   '';
-  boot.initrd.kernelModules =
-    [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot"];
-  boot.initrd.availableKernelModules = lib.mkForce [
-    "ahci"
-    "ehci_pci"
-    "rtsx_pci_sdmmc"
-    "sata_nv"
-    "sd_mod"
-    "uhci_hcd"
-    "usb_storage"
-    "xhci_pci"
-  ];
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=10s
     DefaultTimeoutStopSec=10s
