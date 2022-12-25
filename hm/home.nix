@@ -130,6 +130,7 @@ in {
     ++ (lib.optionals (config.ao.primaryUser.media) [
       ffmpeg-full
       mpc_cli
+      playerctl
     ]) ++ (lib.optionals (desk) [ signal-desktop ]) ++ [
     ] ++ (lib.optionals (lang.cxx) [
       autoconf
@@ -199,11 +200,14 @@ in {
       osd-font-size = 24;
       osd-color = palette.white2;
     };
-    scripts = with pkgs.mpvScripts; [ ];
+    scripts = with pkgs.mpvScripts; [ mpris ];
   };
   services.home-manager.autoUpgrade = {
     enable = true;
     frequency = "daily";
+  };
+  services.playerctld = {
+    enable = config.ao.primaryUser.media;
   };
   services.mpdris2 = {
     notifications = true;
