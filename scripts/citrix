@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p citrix_workspace_22_05_0 -p ratpoison -p  xorg.xwininfo
+#! nix-shell -i bash -p citrix_workspace -p ratpoison -p  xorg.xwininfo
 
 set -ue
 set -x
@@ -21,7 +21,10 @@ create_home() {
 	XHOME=$(mktemp --directory)
 	mkdir -p "$XHOME"
 	mkdir -p "$XHOME/.ICAClient"
-	cp --verbose "$HOME"/.ICAClient/wfclient.ini "$XHOME"/.ICAClient/wfclient.ini
+	if [ -e "$HOME"/.ICAClient/wfclient.ini ]
+	then
+		cp --verbose "$HOME"/.ICAClient/wfclient.ini "$XHOME"/.ICAClient/wfclient.ini
+	fi
 	touch "$XHOME/.ICAClient/.eula_accepted"
 }
 find_cmd() {
