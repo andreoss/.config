@@ -138,6 +138,10 @@ in {
       keybindings = {
         "alt + slash" = "rofi -show-icons -show combi";
         "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
+        "XF86AudioPlay" = "playerctl play-pause";
+        "XF86AudioStop" = "playerctl stop";
+        "XF86AudioPrev" = "playerctl previous";
+        "XF86AudioNext" = "playerctl next";
       };
     };
     systemd.user.services.conky = {
