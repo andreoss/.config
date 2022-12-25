@@ -8,13 +8,13 @@
 ;; )
 
 (defcfg
-  input
-  ;; Internal laptop keyboard
-  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
-  output (uinput-sink "KMonad")
-  fallthrough true
-  allow-cmd false
-  cmp-seq ralt
+input
+;; Internal laptop keyboard
+(device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+output (uinput-sink "KMonad")
+fallthrough true
+allow-cmd false
+cmp-seq ralt
 )
 
 (defsrc
@@ -24,21 +24,72 @@
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl      lmet lalt spc                 ralt rctl      left up   down rght
-)
+  )
 
 (defalias
-  ec (tap-hold-next 180 esc lctl)
-  /s (tap-hold 200 / rsft)
+  esctl    (tap-hold-next 200 esc lctl)
+  rectl    (tap-hold-next 200 ret rctl)
+  altab    (tap-hold      200 tab lalt)
+  altslash (tap-hold      200 \   lalt)
+
+  ;; Home row
+  /a (tap-hold 200 a lctl)
+  /s (tap-hold 200 s lalt)
+  /d (tap-hold 200 d lmet)
+  /f (tap-hold 200 f lsft)
+  ;;
+  /j j ;;(tap-hold      200 j rctl)
+  /k k ;;(tap-hold      200 k ralt)
+  /l l ;;(tap-hold      200 l rmet)
+  /; (tap-hold-next 800 ; :)
+
+  // (tap-hold 200 / rsft)
   /z (tap-hold 200 z lsft)
-  ;; ba (tap-hold-next 180 bspc lalt)
-  ;; sa (tap-hold-next 180 spc ralt)
+
+  /4  (tap-hold-next 400 4 #(S-4))
+  /6  (tap-hold-next 400 6 #(S-6))
+  /9  (tap-hold-next 400 9 \()
+  /0  (tap-hold-next 400 0 \))
+
+  fn1 (tap-next-release lctl (layer-toggle fn1))
+
+  /n  (tap-hold-next-release 200 n (layer-next castellano))
+  cap (layer-next castellanocaps)
 )
 
 (deflayer qwerty
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt ins  del
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @ec  a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft @/z  x    c    v    b    n    m    ,    .    @/s  rsft
-  lctl      lmet lalt spc                 ralt rctl      left up   down rght
+     XX      f1    f2      f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt ins  del
+     grv      1     2       3  @/4    5  @/6    7    8   @/9  @/0    -    =    bspc
+     @altab   q     w       e    r    t    y    u    i    o    p    [    ]    @altslash
+     @esctl   @/a @/s     @/d  @/f    g    h  @/j  @/k  @/l  @/;    '         @rectl
+     lsft     @/z   x       c    v    b  @/n    m    ,    .    @//  rsft
+     @fn1     lmet  lalt    spc                   ralt rctl      left up   down rght
 )
+
+
+(deflayer castellano
+_      _  _  _  _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _  _  _  _
+@cap   _  _  _  _  _  ñ  _  _  _  _  @cap
+_      _  _  _  _  _  _  _  _  _
+)
+
+(deflayer castellanocaps
+_      _  _  _  _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _  _  _  _
+_      _  _  _  _  _  Ñ  _  _  _  _  _
+_      _  _  _  _  _  _  _  _  _
+)
+
+(deflayer fn1
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12  prnt ins  del
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12  del
+  _    q    w    e    r    t    y    u    ins  o     p    [    ]    \
+  _    a    s    d    f    esc  left down up   right ;    '    ret
+  lsft z    x    c    v    b    home end  pgup  pgdn     /    rsft
+  lctl      lmet lalt spc                 ralt rctl      left up   down rght
+  )
