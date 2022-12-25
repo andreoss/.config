@@ -74,7 +74,6 @@
             ./os/network.nix
             ./os/i18n.nix
             ./os/boot.nix
-            ./os/boot-loader.nix
           ] ++ host.modules;
         };
       homeConfigurations = {
@@ -106,8 +105,9 @@
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
         modules = [
-          ./os/fs-crypt.nix
           ./secrets/tx-hw.nix
+          ./os/fs-crypt.nix
+          ./os/boot-loader.nix
         ];
       };
       nixosConfigurations.ts = baseSystem {
@@ -115,7 +115,15 @@
         modules = [
           ./secrets/fs-ts.nix
           ./secrets/ts-hw.nix
+          ./os/boot-loader.nix
         ];
+      };
+      nixosConfigurations.tq = baseSystem {
+        hostname = "tq";
+        modules = [
+          ./os/fs-legacy.nix
+          ./os/boot-grub-uefi.nix
+  ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
