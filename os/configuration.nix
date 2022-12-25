@@ -24,4 +24,17 @@
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
       (builtins.map (p: "${p.name}") config.environment.systemPackages)));
+  services.snapper = {
+    configs = {
+      home = {
+        subvolume = "${config.ao.primaryUser.home}";
+  extraConfig = ''
+            ALLOW_USERS="${config.ao.primaryUser.name}"
+            TIMELINE_CREATE=yes
+            TIMELINE_CLEANUP=yes
+          '';
+
+      };
+    };
+  };
 }
