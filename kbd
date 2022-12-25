@@ -8,13 +8,13 @@
 ;; )
 
 (defcfg
-input
-;; Internal laptop keyboard
-(device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
-output (uinput-sink "KMonad")
-fallthrough true
-allow-cmd false
-cmp-seq ralt
+   input
+   (device-file "DEVICE")
+   output
+   (uinput-sink "KMonad")
+   fallthrough true
+   allow-cmd   false
+   cmp-seq     ralt
 )
 
 (defsrc
@@ -24,7 +24,7 @@ cmp-seq ralt
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl      lmet lalt spc                 ralt rctl      left up   down rght
-  )
+)
 
 (defalias
   esctl    (tap-hold-next 200 esc lctl)

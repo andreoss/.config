@@ -5,7 +5,7 @@
   services.kmonad = {
     enable = true;
     configfile = ./../kbd;
-
+    device = config.kbdDevice;
   };
   hardware.opengl.enable = true;
   hardware.openrazer = {

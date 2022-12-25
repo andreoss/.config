@@ -4,6 +4,7 @@ with lib;
   options.ao = mkOption { type = types.attrs; };
   options.isLivecd = mkOption {type = types.bool; default = false ;};
   options.mini = mkOption {type = types.bool; default = false ;};
+  options.kbdDevice = mkOption {type = types.str; default = "/dev/input/kbd";};
 
   config.ao = {
     stateVersion = "22.11";
