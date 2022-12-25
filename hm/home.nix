@@ -224,7 +224,13 @@ in {
   programs.ncmpcpp.enable = config.ao.primaryUser.media;
   programs.zathura = {
     enable = config.ao.primaryUser.office;
+    mappings = {
+      "D" = "first-page-column 1:2";
+      "<C-d>" = "first-page-column 1:1";
+    };
     options = {
+      selection-clipboard = "clipboard";
+      sandbox  = "strict";
       default-bg = palette.white2;
       default-fg = palette.black1;
     };

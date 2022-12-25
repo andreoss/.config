@@ -4,6 +4,7 @@ in {
   xresources.properties = {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
   };
+  home.sessionVariables = { EDITOR = "vi"; };
   home.file = {
     ".screenrc".source = ./../screenrc;
     ".urxvt/ext/context".text =
