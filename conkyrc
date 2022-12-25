@@ -1,7 +1,6 @@
 conky.config = {
     alignment = 'top_right',
     background = false,
-    border_width = 1,
     cpu_avg_samples = 2,
     default_color = 'white',
     default_outline_color = 'white',
@@ -14,13 +13,15 @@ conky.config = {
     font = 'Terminus:size=12',
     gap_x = 30,
     gap_y = 30,
-    minimum_height = 5,
-    minimum_width = 5,
+    minimum_height = 320,
+    minimum_width = 320,
+    maximum_height = 320,
+    maximum_width = 320,
     net_avg_samples = 2,
     no_buffers = true,
     out_to_console = false,
     out_to_ncurses = false,
-    out_to_stderr = false,
+    out_to_stderr  = false,
     out_to_x = true,
     show_graph_range = false,
     show_graph_scale = false,
@@ -37,28 +38,42 @@ conky.text = [[
 ${color grey}$hr$color
 ${alignc}${time %A}, ${time %B %d, %X}
 ${alignc}$loadavg ${color grey}/$color $uptime
-${color grey}$hr$color
-$alignc${execi 20 notmuch count tag:inbox and tag:unread}
-${color grey}$hr$color
 $freq / ${hwmon 0 temp 1}°C / $cpu% ${cpubar 4}
 $mem/$memmax - $memperc% ${membar 4}
 $swap/$swapmax - $swapperc% ${swapbar 4}
-${cpugraph 2020ea 41ea41 scale -t}$color
-$hr
+${cpugraph 0000ff 00ff00 scale -t}$color
+${color grey}$hr$color
 ${color grey}File systems:
 / $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
 ${color gray}Reads: $color$diskio_read/s${alignr}${color gray}Writes: $color$diskio_write/s
-${color8}${diskiograph_read 25,160 33FF00 FF3333 scale -t}$color${alignr}${color8}${diskiograph_write 25,160 33FF00 FF3333 scale -t}$color
-${color gray}Down:$color ${downspeed wlan0}/s ${alignr}${color gray}Up:$color ${upspeed wlan0}/s
-${color gray}Total:$color ${totaldown wlan0} ${alignr}${color gray}Total: $color${totalup wlan0}
+${color8}${diskiograph_read 25,160 0000ff 00ff00 scale -t}$color${alignr}${color8}${diskiograph_write 25,160 0000ff 00ff00 scale -t}$color
+${if_up wlan0}
+${color grey}$hr$color
+wlan0: ${color gray}Down:$color ${downspeed wlan0}/s${alignr}${color gray}Up:$color ${upspeed wlan0}/s
+       ${color gray}Total:$color ${totaldown wlan0}${alignr}${color gray}Total: $color${totalup wlan0}
 ${color gray}
-${downspeedgraph wlan0 25,160 000000 00ff00 scale -t} ${alignr}${upspeedgraph wlan0 25,160 000000 ff0000 scale -t}
-$color
-$hr
+${downspeedgraph wlan0 15,160 0000ff 00ff00 scale -t}${alignr}${upspeedgraph wlan0 15,160 0000ff 00ff00 scale -t}
+${color grey}$hr$color
+$endif
+${if_up eth0}
+${color grey}$hr$color
+eth0: ${color gray}Down:$color ${downspeed eth0}/s${alignr}${color gray}Up:$color ${upspeed eth0}/s
+      ${color gray}Total:$color ${totaldown eth0}${alignr}${color gray}Total: $color${totalup eth0}
+${color gray}
+${downspeedgraph eth0 15,160 0000ff 00ff00 scale -t}${alignr}${upspeedgraph eth0 15,160 0000ff 00ff00 scale -t}
+${color grey}$hr$color
+$endif
 ${color grey}Name                PID     CPU%   MEM%
 ${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
 ${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
 ${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
 ${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
-$hr
+${color grey}$hr$color
+$alignc${execi 20 notmuch count tag:inbox and tag:unread and date:today}
+${color grey}$hr$color
+$if_mpd_playing
+${mpd_file}
+${mpd_elapsed} / ${mpd_length}
+${mpd_bar 5,320}
+$endif
 ]]
