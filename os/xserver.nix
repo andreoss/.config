@@ -60,12 +60,12 @@ in {
           UtmpIdentifier = "tty1";
           UtmpMode = "user";
           UnsetEnvirnment = "TERM";
-          #ExecStartPost = "/run/wrappers/bin/physlock";
-          ExecStart =
-            "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3 -depth 16";
+          ExecStartPost = "/run/wrappers/bin/physlock";
+          ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3 -depth 16";
           StandardInput = "tty";
           StandardOutput = "journal";
           Restart = "always";
+          Type="idle";
         };
       };
     };
