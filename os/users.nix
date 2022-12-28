@@ -11,7 +11,7 @@
     createHome = true;
     home = config.ao.primaryUser.home;
   };
-  users.groups = { uinput = {}; };
+  users.groups = { uinput = { }; };
   users.extraGroups.wheel.members = [ config.ao.primaryUser.name ];
   users.extraGroups.input.members = [ config.ao.primaryUser.name ];
   users.extraGroups.uinput.members = [ config.ao.primaryUser.name ];
@@ -20,8 +20,9 @@
   services.logind.extraConfig = "";
   programs.bash = { promptInit = builtins.readFile ../shrc; };
   environment = {
+    pathsToLink = [ "/share/zsh" ];
     noXlibs = false;
-    shells = [ pkgs.bash ];
+    shells = [ pkgs.bash pkgs.zsh ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
       acpi
