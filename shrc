@@ -5,7 +5,7 @@
 umask 077
 unalias -a
 
-if [ "${LANG}x" == "x" ]
+if [ "${LANG}x" = "x" ]
 then
    LC_ALL=en_US.UTF-8
    LANG=en
@@ -217,7 +217,10 @@ export PATH
 PROMPT_COMMAND="history -a"
 
 set -o vi
-PS1='$(__ps1)'
+if [ "$BASH" ]
+then
+    PS1='$(__ps1)'
+fi
 
 __title() {
     DIR="$(__short_pwd)"
