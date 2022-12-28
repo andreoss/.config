@@ -19,12 +19,10 @@
     programs.emacs = {
       enable = config.ao.primaryUser.emacsFromNix;
       extraConfig = ''
-        (make-thread #'(lambda ()
-            (load-file "${inputs.emacs-d}/init.el")
-            (run-hooks (quote after-init-hook))
-            (run-hooks (quote emacs-startup-hook))
-            (run-hooks (quote window-setup-hook))
-        ) "init")
+         (load-file "${inputs.emacs-d}/init.el")
+         (run-hooks (quote after-init-hook))
+         (run-hooks (quote emacs-startup-hook))
+         (run-hooks (quote window-setup-hook))
       '';
       extraPackages = elpa:
         with elpa; [
