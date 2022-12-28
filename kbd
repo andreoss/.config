@@ -21,9 +21,9 @@
   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt ins  del
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl      lmet lalt spc                 ralt rctl      left up   down rght
+  caps a    s    d    f    g    h    j    k    l    ;    '         ret
+  lsft z    x    c    v    b    n    m    ,    .    /              rsft
+  lctl      lmet lalt spc                 ralt           rctl      left up   down rght
 )
 
 (defalias
@@ -58,12 +58,12 @@
 )
 
 (deflayer qwerty
-     XX      f1    f2      f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt ins  del
-     grv      1     2       3  @/4    5  @/6    7    8   @/9  @/0    -    =    bspc
+     lmet     f1    f2      f3   f4   f5   f6   f7   f8   f9   f10  f11  f12   prnt ins  del
+     grv      1     2       3  @/4    5  @/6    7    8   @/9  @/0    -    =   bspc
      @altab   q     w       e    r    t    y    u    i    o    p    [    ]    @altslash
-     @esctl   @/a @/s     @/d  @/f    g    h  @/j  @/k  @/l  @/;    '         @rectl
+     @esctl   @/a @/s     @/d  @/f    g    h  @/j  @/k  @/l    @/;    '       @rectl
      lsft     @/z   x       c    v    b  @/n    m    ,    .    @//  rsft
-     @fn1     lmet  lalt    spc                   ralt rctl      left up   down rght
+     @fn1     lmet  lalt    spc                   ralt    @fn1      left up   down rght
 )
 
 
@@ -86,7 +86,7 @@ _      _  _  _  _  _  _  _  _  _
 )
 
 (deflayer fn1
-  _    f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12  prnt ins  del
+  _    _    _    _    _    _    _    _    _    _     _    _    _    _  _ _
   _    f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12  del
   _    q    w    e    r    t    y    u    ins  o     p    [    ]    \
   _    a    s    d    f    esc  left down up   right ;    '    ret
