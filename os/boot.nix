@@ -17,19 +17,7 @@ in
     "udev.log_priority=3"
   ];
   boot.initrd.kernelModules =
-    [ "usb_storage" "uas" "aesni_intel" "cryptd" "dm-snapshot"];
-  boot.initrd.availableKernelModules = lib.mkForce [
-    "ahci"
-    "ehci_pci"
-    "rtsx_pci_sdmmc"
-    "sata_nv"
-    "sd_mod"
-    "uhci_hcd"
-    "usb_storage"
-    "xhci_pci"
-  ];
-  boot.kernelModules =
-    [ "tcp_bbr" "binder-linux" "kvm-intel" "fuse" "coretemp" ];
+    [ "usb_storage" "uas" ];
   boot.extraModprobeConfig = ''
     options thinkpad_acpi fan_control=1
     options binder_linux devices=binder,hwbinder,vndbinder
