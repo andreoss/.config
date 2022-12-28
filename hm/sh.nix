@@ -3,8 +3,14 @@
     home.file = { ".inputrc".source = ./../inputrc; };
     programs.bash = {
       enable = true;
-      enableVteIntegration = true;
       initExtra = builtins.readFile ../shrc;
+    };
+    programs.zsh = {
+      enable = true;
+      defaultKeymap = "viins";
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      profileExtra = builtins.readFile ../shrc;
     };
     programs.direnv = {
       enable = true;
