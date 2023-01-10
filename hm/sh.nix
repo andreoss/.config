@@ -10,7 +10,8 @@
       defaultKeymap = "viins";
       enableAutosuggestions = true;
       enableCompletion = true;
-      profileExtra = builtins.readFile ../shrc;
+      enableSyntaxHighlighting = true;
+      initExtra = builtins.readFile ../zshrc;
     };
     programs.direnv = {
       enable = true;
@@ -19,6 +20,11 @@
     programs.jq.enable = true;
     programs.man.enable = !config.mini;
     programs.info.enable = !config.mini;
-    home.sessionVariables.NO_COLOR = true;
+    home.sessionVariables.NO_COLOR = 1;
+    programs.nix-index = {
+      enable = true;
+      enableBashIntegration  = true;
+      enableZshIntegration  = true;
+    };
   };
 }
