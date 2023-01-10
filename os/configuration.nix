@@ -1,5 +1,6 @@
 { lib, config, pkgs, self, ... }:
 {
+  system.stateVersion = config.ao.stateVersion;
   services.dbus = {
     enable = true;
     packages = [ pkgs.gcr ];
@@ -21,6 +22,7 @@
     enableNotifications = true;
     freeMemThreshold = 1;
   };
+  systemd.oomd.enable = true;
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
       (builtins.map (p: "${p.name}") config.environment.systemPackages)));
