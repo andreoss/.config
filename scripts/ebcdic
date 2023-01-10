@@ -1,0 +1,28 @@
+#!/usr/bin/env perl
+use feature qw(unicode_strings);
+use utf8;
+use open qw(:std :encoding(UTF-8));
+
+use strict;
+use warnings;
+
+use charnames qw(:short latin);
+use Encode qw(from_to);
+
+sub ebcdic_to_ascii {
+    my $ebcdic_ord = shift;
+    my $binary     = pack( 'C', $ebcdic_ord );
+    from_to( $binary, 'cp37', 'latin1' );
+    my $latin_ord = unpack( 'C', $binary );
+    return $latin_ord;
+}
+
+sub describe_chr {
+    my $x = ebcdic_to_ascii(shift);
+    my $s = sprintf( "%c", utf8::unicode_to_native($x) );
+    return $s =~ /[[:graph:]]/ ? $s : charnames::viacode($x);
+}
+
+for ( 0x0 .. 0xFF ) {
+    printf "%02X %s\n", $_, describe_chr($_);
+}
