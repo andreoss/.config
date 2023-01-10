@@ -34,7 +34,7 @@
       enable = true;
     };
     promptInit = ''
-     ${builtins.readFile ../shrc}
+     ${builtins.readFile ../zshrc}
     '';
   };
   environment = {
@@ -43,6 +43,7 @@
     shells = [ pkgs.bash pkgs.zsh ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
+      wireguard-tools
       zsh
       acpi
       git
