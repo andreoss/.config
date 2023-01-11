@@ -11,40 +11,19 @@
     createHome = true;
     home = config.ao.primaryUser.home;
   };
-  users.groups = { uinput = { }; };
+  users.groups = { uinput = {}; };
   users.extraGroups.wheel.members = [ config.ao.primaryUser.name ];
   users.extraGroups.input.members = [ config.ao.primaryUser.name ];
-  users.extraGroups.video.members = [ config.ao.primaryUser.name ];
   users.extraGroups.uinput.members = [ config.ao.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
-  programs.bash = {
-    promptInit =
-      ''
-     ${builtins.readFile ../shrc}
-     ${builtins.readFile ../bashrc}
-     '';
-  };
-  programs.zsh = {
-    enable = true;
-    enableBashCompletion = true;
-    enableCompletion = true;
-    autosuggestions = {
-      enable = true;
-    };
-    promptInit = ''
-     ${builtins.readFile ../zshrc}
-    '';
-  };
+  programs.bash = { promptInit = builtins.readFile ../shrc; };
   environment = {
-    pathsToLink = [ "/share/zsh" ];
     noXlibs = false;
-    shells = [ pkgs.bash pkgs.zsh ];
+    shells = [ pkgs.bash ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
-      wireguard-tools
-      zsh
       acpi
       git
       lm_sensors
