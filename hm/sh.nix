@@ -3,15 +3,8 @@
     home.file = { ".inputrc".source = ./../inputrc; };
     programs.bash = {
       enable = true;
+      enableVteIntegration = true;
       initExtra = builtins.readFile ../shrc;
-    };
-    programs.zsh = {
-      enable = true;
-      defaultKeymap = "viins";
-      enableAutosuggestions = true;
-      enableCompletion = true;
-      enableSyntaxHighlighting = true;
-      initExtra = builtins.readFile ../zshrc;
     };
     programs.direnv = {
       enable = true;
@@ -20,11 +13,6 @@
     programs.jq.enable = true;
     programs.man.enable = !config.mini;
     programs.info.enable = !config.mini;
-    home.sessionVariables.NO_COLOR = 1;
-    programs.nix-index = {
-      enable = true;
-      enableBashIntegration  = true;
-      enableZshIntegration  = true;
-    };
+    home.sessionVariables.NO_COLOR = true;
   };
 }
