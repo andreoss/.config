@@ -1,4 +1,5 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
+{ config, pkgs, lib, stdenv, self, ... }:
+{
   config = {
     home.sessionVariables = {
       JDK_8 = "$HOME/.jdk/8";
@@ -14,7 +15,7 @@
       MAVEN_OPTS =
         "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
     };
-    home.activation.installJdks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    home.activation.installJdks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       rm --recursive --force "$HOME/.jdk/"
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
@@ -23,6 +24,10 @@
       ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
       ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
       ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
+    '';
+    home.activation.xxx = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    '';
+    home.activation.zzz = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     '';
     programs.eclipse = {
       enable = true;
@@ -60,21 +65,21 @@
         }" idea-community "$@"
       '';
     };
+    home.packages = with pkgs; [
+      android-tools
+      heimdall
+      ant
+      gradle
+      groovy
+      jetbrains.idea-community
+      kotlin
+      lombok
+      maven
+      nailgun
+      netbeans
+      umlet
+      uncrustify
+      visualvm
+    ];
   };
-  config.home.packages = with pkgs; [
-    android-tools
-    heimdall
-    ant
-    gradle
-    groovy
-    jetbrains.idea-community
-    kotlin
-    lombok
-    maven
-    nailgun
-    netbeans
-    umlet
-    uncrustify
-    visualvm
-  ];
 }

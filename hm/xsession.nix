@@ -15,7 +15,7 @@ in {
         export PATH
         if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
         then
-           autorandr docked
+            autorandr docked
         fi
         icewm-session --nobg &
         wait
@@ -111,13 +111,13 @@ in {
             "${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}";
           "fix-dpi" = ''
             case "$AUTORANDR_CURRENT_PROFILE" in
-              docked)
+                docked)
                 DPI=192
                 ;;
-              mobile)
+                mobile)
                 DPI=96
                 ;;
-              *)
+                *)
                 echo "Unknown profile: $AUTORANDR_CURRENT_PROFILE"
                 exit 1
             esac
@@ -170,10 +170,7 @@ in {
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
     home.activation.sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      pkill -c -USR1 sxhkd
-    '';
-    home.activation.icewmRestart = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.icewm}/bin/icesh restart
+      ${pkgs.procps}/bin/pkill -c -USR1 sxhkd
     '';
     home.packages = with pkgs;
       [

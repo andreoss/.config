@@ -113,6 +113,9 @@
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
         modules = [
+          {
+            config.ao.primaryUser.home = "/user-2";
+          }
           ./secrets/fs-ts.nix
           ./secrets/ts-hw.nix
           ./os/boot-loader.nix
