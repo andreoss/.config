@@ -142,6 +142,18 @@ in {
         "XF86AudioStop" = "playerctl stop";
         "XF86AudioPrev" = "playerctl previous";
         "XF86AudioNext" = "playerctl next";
+        "XF86MonBrightnessDown" = "xbacklight -dec 10";
+        "XF86MonBrightnessUp" = "xbacklight -inc 10";
+        "XF86Display" = "if systemctl --user is-active gammastep.service;then systemctl --user stop gammastep.service ; else systemctl --user start gammastep.service; fi
+inactive";
+        "XF86Tools" = "urxvt";
+        "XF86LaunchA" = "emacs";
+        "XF86Explorer" = "urxvt -e mc";
+        "XF86Search" = "firefox";
+        "XF86AudioMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
+        "XF86AudioMicMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
+        "XF86AudioLowerVolume" = "${pkgs.pamixer}/bin/pamixer --increase 8";
+        "XF86AudioRaiseVolume" = "${pkgs.pamixer}/bin/pamixer --decrease 8";
       };
     };
     systemd.user.services.conky = {
