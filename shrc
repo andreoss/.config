@@ -209,7 +209,10 @@ export PATH
 PROMPT_COMMAND="history -a"
 
 set -o vi
-PS1='$(__ps1)'
+if [ "$BASH" ]
+then
+    PS1='$(__ps1)'
+fi
 
 # shellcheck disable=SC3037,SC3028
 __title() {
