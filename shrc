@@ -5,18 +5,16 @@
 umask 077
 unalias -a
 
-if [ "${LANG}x" = "x" ]
-then
-   LC_ALL=en_US.UTF-8
-   LANG=en
-   export LC_ALL LANG
+if [ "${LANG}x" = "x" ]; then
+    LC_ALL=en_US.UTF-8
+    LANG=en
+    export LC_ALL LANG
 fi
 
-if [ "${USER:-}" != "root" ]
-then
+if [ "${USER:-}" != "root" ]; then
     # shellcheck disable=SC3045,SC3028
     case "${OSTYPE:-$(uname)}" in
-        linux-gnu* | Linux )
+        linux-gnu* | Linux)
             ulimit -u 10240
             ulimit -n 16384
             ulimit -c unlimited
@@ -26,8 +24,7 @@ then
 fi
 
 # shellcheck disable=SC3044
-if [ "$BASH" ]
-then
+if [ "$BASH" ]; then
     shopt -s autocd
     shopt -s histappend
     shopt -s cmdhist
@@ -38,11 +35,10 @@ stty werase undef
 __debug=
 __source() {
     # shellcheck disable=SC1090
-    if [ -f "$1" ]; then . "$1"; fi;
+    if [ -f "$1" ]; then . "$1"; fi
 }
 __warn() {
-    if [ "$BASH" ]
-    then
+    if [ "$BASH" ]; then
         # shellcheck disable=SC3054
         # shellcheck disable=SC3028
         echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
@@ -57,23 +53,20 @@ __complain() {
 __define_dir() {
     dir="$1"
     val="$2"
-    if [ ! -d "$val" ]
-    then
+    if [ ! -d "$val" ]; then
         __complain "$dir defined to $val which not found"
     fi
     eval "$dir=$val"
 }
 __prepend_path() {
-    if [ -d "$1" ]
-    then
+    if [ -d "$1" ]; then
         PATH="$1:$PATH"
     else
         __complain "$1 not found"
     fi
 }
 __append_path() {
-    if [ -d "$1" ]
-    then
+    if [ -d "$1" ]; then
         PATH="$1:$PATH"
     else
         __complain "$1 not found"
@@ -85,28 +78,23 @@ is_there() {
 
 __prepend_path "$HOME/.local/bin"
 
-if ! is_there sudo && is_there doas
-then
+if ! is_there sudo && is_there doas; then
     alias sudo=doas
 fi
 alias sudo="sudo "
 
-if ! is_there docker && is_there podman
-then
+if ! is_there docker && is_there podman; then
     alias docker=podman
 fi
 
-if ! is_there vi && is_there elvis
-then
+if ! is_there vi && is_there elvis; then
     alias vi=elvis
 fi
 
 alias e='emacsclient'
 
-if mv --version 2>&1 | grep GNU >/dev/null
-then
-    for command in chmod chown mkdir rm rmdir ln cp mv
-    do
+if mv --version 2>&1 | grep GNU >/dev/null; then
+    for command in chmod chown mkdir rm rmdir ln cp mv; do
         # shellcheck disable=SC2139
         alias "$command=${command} --verbose"
     done
@@ -171,8 +159,7 @@ __du() {
 
 __short_pwd() {
     DIR=
-    if [ -z "${INSIDE_EMACS:-}" ]
-    then
+    if [ -z "${INSIDE_EMACS-}" ]; then
         case "$PWD" in
             "$HOME")
                 DIR=
@@ -191,32 +178,28 @@ __git_work_tree() {
     git rev-parse --is-inside-work-tree 2>/dev/null >/dev/null
 }
 __git_branch() {
-    if git show-ref --verify --quiet HEAD
-    then
+    if git show-ref --verify --quiet HEAD; then
         git rev-parse --symbolic-full-name --abbrev-ref HEAD
     else
         echo "(empty)"
     fi
 }
 __vcs_status() {
-    if __git_work_tree
-    then
+    if __git_work_tree; then
         printf '%s' "$(__git_branch)"
     fi
 }
 __ps1() {
-    if [ "${USER:-}" = "root" ]
-    then
+    if [ "${USER-}" = "root" ]; then
         PROMPT='# '
     else
         PROMPT='* '
     fi
     DIR="$(__short_pwd)"
 
-    if [ "$DIR" ]
-    then
+    if [ "$DIR" ]; then
         VCS="$(__vcs_status)"
-        printf '%s %s %s\n%s' "$VCS" "$DIR" "${IN_NIX_SHELL:-}" "$PROMPT"
+        printf '%s %s %s\n%s' "$VCS" "$DIR" "${IN_NIX_SHELL-}" "$PROMPT"
     else
         printf '%s' "$PROMPT"
     fi
@@ -239,26 +222,24 @@ __title() {
             COMMAND=""
             ;;
     esac
-    if [ "$COMMAND" ]
-    then
+    if [ "$COMMAND" ]; then
         echo -ne "\e]0;${VCS} ${DIR}: ${COMMAND}\007"
     else
         echo -ne "\e]0;${VCS} ${DIR}\007"
     fi
 }
 # shellcheck disable=SC3047
-if [ "$BASH" ]
-then
-    case "$TERM" in xterm*|rxvt*)
-                        trap '__title' DEBUG
-                        ;;
+if [ "$BASH" ]; then
+    case "$TERM" in xterm* | rxvt*)
+        trap '__title' DEBUG
+        ;;
     esac
 fi
 __prepend_path "$HOME/.scripts"
 __prepend_path "$HOME/.cargo/bin"
 case "$TERM" in
-      dumb) PAGER="cat"  ;;
-      *)    PAGER="less" ;;
+    dumb) PAGER="cat" ;;
+    *) PAGER="less" ;;
 esac
 export PAGER
 
@@ -272,13 +253,11 @@ jdk() {
             JDK=JDK_"$1"
             ;;
         ---)
-            if [ "$JAVA_HOME" ]
-            then
-               "$JAVA_HOME"/bin/java -version
+            if [ "$JAVA_HOME" ]; then
+                "$JAVA_HOME"/bin/java -version
             else
                 __warn "not defined: JAVA_HOME"
-                if command -v java
-                then
+                if command -v java; then
                     java -version
                 fi
             fi
@@ -289,13 +268,11 @@ jdk() {
             return
             ;;
     esac
-    if eval "[ \"x\$$JDK\" == \"x\" ]"
-    then
+    if eval "[ \"x\$$JDK\" == \"x\" ]"; then
         __warn "not defined $JDK"
         return
     fi
-    if [ ! -d "$(eval "echo \${$JDK}")" ]
-    then
+    if [ ! -d "$(eval "echo \${$JDK}")" ]; then
         __warn "not exists $JDK"
         return
     fi
