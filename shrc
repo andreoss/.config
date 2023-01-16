@@ -5,7 +5,7 @@
 umask 077
 unalias -a
 
-if [ "${LANG}x" == "x" ]
+if [ "${LANG}x" = "x" ]
 then
    LC_ALL=en_US.UTF-8
    LANG=en
@@ -14,8 +14,9 @@ fi
 
 if [ "${USER:-}" != "root" ]
 then
-    case "$OSTYPE" in
-        linux-gnu*)
+    # shellcheck disable=SC3045,SC3028
+    case "${OSTYPE:-$(uname)}" in
+        linux-gnu* | Linux )
             ulimit -u 10240
             ulimit -n 16384
             ulimit -c unlimited
@@ -24,6 +25,7 @@ then
     esac
 fi
 
+# shellcheck disable=SC3044
 if [ "$BASH" ]
 then
     shopt -s autocd
@@ -39,7 +41,14 @@ __source() {
     if [ -f "$1" ]; then . "$1"; fi;
 }
 __warn() {
-    echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+    if [ "$BASH" ]
+    then
+        # shellcheck disable=SC3054
+        # shellcheck disable=SC3028
+        echo "${BASH_SOURCE[0]}:${BASH_LINENO[1]}: $*"
+    else
+        echo "warn: $*"
+    fi
 }
 __complain() {
     __is_debug() { [ "${__debug}x" != "x" ]; }
@@ -219,6 +228,7 @@ PROMPT_COMMAND="history -a"
 set -o vi
 PS1='$(__ps1)'
 
+# shellcheck disable=SC3037,SC3028
 __title() {
     DIR="$(__short_pwd)"
     DIR="${DIR:-~}"
@@ -236,6 +246,7 @@ __title() {
         echo -ne "\e]0;${VCS} ${DIR}\007"
     fi
 }
+# shellcheck disable=SC3047
 if [ "$BASH" ]
 then
     case "$TERM" in xterm*|rxvt*)
@@ -289,8 +300,9 @@ jdk() {
         return
     fi
     eval "export JAVA_HOME=\$$JDK"
-    jdk
+    jdk ""
     PATH="$JAVA_HOME/bin:$PATH"
+    exec "$SHELL"
 }
 
 __source "$HOME/.config/shrc-private"
