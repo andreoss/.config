@@ -191,7 +191,6 @@ in {
       exec mpv --vo=null "$@"
     '';
   };
-  programs.command-not-found.enable = true;
   programs.mpv = {
     enable = config.ao.primaryUser.media;
     config = {
