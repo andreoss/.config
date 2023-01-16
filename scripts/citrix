@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i bash -p citrix_workspace -p ratpoison -p  xorg.xwininfo
+#! nix-shell -i bash -p citrix_workspace_22_05_0 -p ratpoison -p  xorg.xwininfo
 
 set -ue
 set -x

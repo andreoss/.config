@@ -18,7 +18,8 @@ in {
       ../hm/vcs.nix
       ../hm/browser.nix
       ../hm/xsession.nix
-    ] ++ (lib.optionals (l.android) [ ../hm/android.nix ])
+    ]
+      ++ (lib.optionals (config.ao.primaryUser.graphics) [ ../hm/xsession.nix ])
       ++ (lib.optionals (l.java) [ ../hm/java.nix ])
       ++ (lib.optionals (l.scala) [ ../hm/scala.nix ])
       ++ (lib.optionals (l.perl) [ ../hm/perl.nix ]);
