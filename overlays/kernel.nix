@@ -4,10 +4,9 @@ final: prev: {
     version = "6.2.0-rc4";
     configfile = ./config-huge;
     allowImportFromDerivation = true;
-    src = prev.pkgs.fetchgit {
-      url = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git";
-      rev = "v6.2-rc4";
-      sha256 = "sha256-7HBzP6P/7KLCfKas4TRFfCutG0azFzV+IpQABtDMHnk=";
+    src = prev.pkgs.fetchurl {
+      url = "https://git.kernel.org/torvalds/t/linux-6.2-rc4.tar.gz";
+      sha256 = "sha256-dyNCXhEjQbW953MoUVeB15NOq+2Dc/0UzIWtruly0PA";
     };
   }).overrideAttrs (attrs: { });
   linuxPackages =
