@@ -17,7 +17,7 @@
       url = "github:arkenfox/user.js/master";
       flake = false;
     };
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     emacs-overlay.url = "github:nix-community/emacs-overlay/master";
     home-manager = {
       url = "github:nix-community/home-manager";
