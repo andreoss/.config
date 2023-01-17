@@ -57,6 +57,13 @@ in {
           options = [ "NOPASSWD" ];
         }];
       }
+      {
+        users = [ user ];
+        commands = [{
+          command = "${pkgs.openvpn}/bin/openvpn";
+          options = [ "NOPASSWD" ];
+        }];
+      }
     ];
     extraConfig = "Defaults lecture=never";
   };
