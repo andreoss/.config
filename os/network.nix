@@ -31,7 +31,10 @@ in {
       enable = true;
       allowPing = true;
       pingLimit = "--limit 1/minute --limit-burst 5";
-      extraCommands = "";
+      extraCommands = ''
+        iptables -I OUTPUT -o wlan+ -m owner \! --gid-owner tunnel -j REJECT
+        iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -j REJECT
+      '';
     };
     resolvconf.enable = true;
     resolvconf.extraConfig = "";
