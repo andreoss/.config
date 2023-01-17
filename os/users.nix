@@ -11,14 +11,11 @@
     createHome = true;
     home = config.ao.primaryUser.home;
   };
-  users.groups = {
-    uinput  = { };
-    tunnel = { };
-  };
-  users.groups.wheel.members = [ config.ao.primaryUser.name ];
-  users.groups.input.members = [ config.ao.primaryUser.name ];
-  users.groups.video.members = [ config.ao.primaryUser.name ];
-  users.groups.uinput.members = [ config.ao.primaryUser.name ];
+  users.groups = { uinput = { }; };
+  users.extraGroups.wheel.members = [ config.ao.primaryUser.name ];
+  users.extraGroups.input.members = [ config.ao.primaryUser.name ];
+  users.extraGroups.video.members = [ config.ao.primaryUser.name ];
+  users.extraGroups.uinput.members = [ config.ao.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
@@ -46,7 +43,6 @@
     shells = [ pkgs.bash pkgs.zsh ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
-      openvpn
       wireguard-tools
       zsh
       acpi

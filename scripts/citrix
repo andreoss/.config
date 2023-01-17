@@ -11,6 +11,7 @@ shutdown_active() {
 }
 trap shutdown_active EXIT
 
+
 XHOME=
 
 GEOM=$(
@@ -57,6 +58,7 @@ shutdown_active
 
 create_home
 
+
 firejail \
 	--name=citrix \
 	--x11=xephyr \
@@ -77,7 +79,7 @@ while kill -0 "$XPID"; do
 	echo "Looking for files..."
 	if copy_configs; then
 		echo "Connecting to $FOUND"
-		firejail --join=citrix "$WFICA" "desktop.ica"
+		firejail --join=citrix "$WFICA" "desktop.ica" 
 	fi
 	sleep 5
 done

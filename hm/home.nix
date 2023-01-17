@@ -176,7 +176,6 @@ in {
     ".ratpoisonrc".source = ./../ratpoisonrc;
     ".indent.pro".source = ./../indent.pro;
     ".local/bin/citrix".source = ./../scripts/citrix;
-    ".local/bin/dates".source = ./../scripts/dates;
   };
   home.file.".local/bin/nano" = {
     executable = true;
