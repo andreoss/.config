@@ -49,7 +49,7 @@ in {
     systemd.services = {
       startx = {
         enable = true;
-        restartIfChanged = true;
+        restartIfChanged = false;
         description = "startx";
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
@@ -60,11 +60,11 @@ in {
           UtmpIdentifier = "tty1";
           UtmpMode = "user";
           UnsetEnvirnment = "TERM";
-          ExecStartPost = "/run/wrappers/bin/physlock";
-          ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3 -depth 16";
+          ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3";
           StandardInput = "tty";
           StandardOutput = "journal";
           Restart = "always";
+          RestartSec = "3";
           Type="idle";
         };
       };
