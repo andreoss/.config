@@ -13,7 +13,7 @@
   };
   users.groups = {
     uinput  = { };
-    openvpn = { };
+    tunnel = { };
   };
   users.groups.wheel.members = [ config.ao.primaryUser.name ];
   users.groups.input.members = [ config.ao.primaryUser.name ];
@@ -46,6 +46,7 @@
     shells = [ pkgs.bash pkgs.zsh ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
+      openvpn
       wireguard-tools
       zsh
       acpi
