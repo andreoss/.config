@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-shell
 #! nix-shell -i bash -p citrix_workspace_22_05_0 -p ratpoison -p  xorg.xwininfo
 
-set -ue
+set -u
 set -x
 
 shutdown_active() {
@@ -11,7 +11,9 @@ shutdown_active() {
 }
 trap shutdown_active EXIT
 
+
 XHOME=
+
 GEOM=$(
 	xwininfo -root |
 		perl -nE '/-geometry \s+ (\d+)+x(\d+)/x && printf "%dx%d\n", $1 * 0.8, $2 * 0.8'
@@ -21,12 +23,12 @@ create_home() {
 	XHOME=$(mktemp --directory)
 	mkdir -p "$XHOME"
 	mkdir -p "$XHOME/.ICAClient"
-	if [ -e "$HOME"/.ICAClient/wfclient.ini ]
-	then
+	if [ -e "$HOME"/.ICAClient/wfclient.ini ]; then
 		cp --verbose "$HOME"/.ICAClient/wfclient.ini "$XHOME"/.ICAClient/wfclient.ini
 	fi
 	touch "$XHOME/.ICAClient/.eula_accepted"
 }
+
 find_cmd() {
 	cmd=$1
 	found=$(which "$cmd" | xargs readlink -f 2>/dev/null)
@@ -37,23 +39,25 @@ find_cmd() {
 	echo "$found"
 }
 
-WFICA=$(find_cmd wfica)
-FOUND=$(
-	find "$HOME/Downloads" -name '*.ica' -type f -printf '%T+\t%p\n' |
-		sort -r |
-		head -n 1 |
-		cut -f2
-)
-if [ ! -f "$FOUND" ]; then
-	echo >/dev/stderr "Not found: *.ica"
-	exit 1
-fi
-
+copy_configs() {
+	FOUND=$(
+		find "$HOME/Downloads" -name '*.ica' -type f -printf '%T+\t%p\n' |
+			sort -r |
+			head -n 1 |
+			cut -f2
+	)
+	if [ ! -f "$FOUND" ]; then
+		echo >/dev/stderr "Not found: *.ica"
+		return 1
+	fi
+	cp --verbose "$FOUND" "$XHOME/desktop.ica"
+	rm --force "$FOUND"
+	return 0
+}
 shutdown_active
 
 create_home
 
-cp --verbose "$FOUND" "$XHOME/desktop.ica"
 
 firejail \
 	--name=citrix \
@@ -65,14 +69,19 @@ firejail \
 	--private-dev \
 	--cpu=0,1 \
 	--machine-id \
-	"$WFICA" "desktop.ica" &
+	ratpoison &
 
 XPID=${!}
 
+WFICA=$(find_cmd wfica)
+
 while kill -0 "$XPID"; do
-	if firejail --join=citrix ratpoison; then
-		break
+	echo "Looking for files..."
+	if copy_configs; then
+		echo "Connecting to $FOUND"
+		firejail --join=citrix "$WFICA" "desktop.ica" 
 	fi
+	sleep 5
 done
 
 wait
