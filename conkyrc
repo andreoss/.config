@@ -44,10 +44,18 @@ $swap/$swapmax - $swapperc% ${swapbar 4}
 ${cpugraph 0000ff 00ff00 scale -t}$color
 ${color grey}$hr$color
 ${color grey}File systems:
-/ $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+/user/ $color${fs_used /user/}/user/${fs_size /user/} ${fs_bar 6 /user/}
 ${color gray}Reads: $color$diskio_read/s${alignr}${color gray}Writes: $color$diskio_write/s
 ${color8}${diskiograph_read 25,160 0000ff 00ff00 scale -t}$color${alignr}${color8}${diskiograph_write 25,160 0000ff 00ff00 scale -t}$color
-${if_up wlan0}
+${if_up tun0}
+${color grey}$hr$color
+tun0: ${color gray}Down:$color ${downspeed tun0}/s${alignr}${color gray}Up:$color ${upspeed tun0}/s
+       ${color gray}Total:$color ${totaldown tun0}${alignr}${color gray}Total: $color${totalup tun0}
+${color gray}
+${downspeedgraph tun0 15,160 0000ff 00ff00 scale -t}${alignr}${upspeedgraph tun0 15,160 0000ff 00ff00 scale -t}
+${color grey}$hr$color
+$endif
+${if_existing /sys/class/net/wlan0/operstate up}
 ${color grey}$hr$color
 wlan0: ${color gray}Down:$color ${downspeed wlan0}/s${alignr}${color gray}Up:$color ${upspeed wlan0}/s
        ${color gray}Total:$color ${totaldown wlan0}${alignr}${color gray}Total: $color${totalup wlan0}
@@ -55,7 +63,7 @@ ${color gray}
 ${downspeedgraph wlan0 15,160 0000ff 00ff00 scale -t}${alignr}${upspeedgraph wlan0 15,160 0000ff 00ff00 scale -t}
 ${color grey}$hr$color
 $endif
-${if_up eth0}
+${if_existing /sys/class/net/eth0/operstate up}
 ${color grey}$hr$color
 eth0: ${color gray}Down:$color ${downspeed eth0}/s${alignr}${color gray}Up:$color ${upspeed eth0}/s
       ${color gray}Total:$color ${totaldown eth0}${alignr}${color gray}Total: $color${totalup eth0}
