@@ -152,8 +152,8 @@ inactive";
         "XF86Search" = "firefox";
         "XF86AudioMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
         "XF86AudioMicMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
-        "XF86AudioLowerVolume" = "${pkgs.pamixer}/bin/pamixer --increase 8";
-        "XF86AudioRaiseVolume" = "${pkgs.pamixer}/bin/pamixer --decrease 8";
+        "XF86AudioLowerVolume" = "${pkgs.pamixer}/bin/pamixer --decrease 8";
+        "XF86AudioRaiseVolume" = "${pkgs.pamixer}/bin/pamixer --increase 8";
       };
     };
     systemd.user.services.conky = {
