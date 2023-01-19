@@ -1,5 +1,7 @@
 { config, pkgs, lib, stdenv, self, ... }:
-let palette = import ../os/palette.nix;
+let
+  palette = import ../os/palette.nix;
+  font = "Terminus";
 in {
   config = {
     xdg.userDirs = {
@@ -46,7 +48,7 @@ in {
         background = palette.red1;
         foreground = palette.black1;
       };
-      global.font = "Terminus";
+      global.font = "${font}";
       global.alignment = "right";
       global.word_warp = "true";
       global.line_height = 3;
@@ -58,7 +60,7 @@ in {
     fonts.fontconfig.enable = true;
     gtk = {
       font.package = pkgs.terminus_font_ttf;
-      font.name = "Terminus 9";
+      font.name = "${font} 9";
       enable = true;
       iconTheme.name = "Adwaita";
       iconTheme.package = pkgs.gnome.adwaita-icon-theme;
