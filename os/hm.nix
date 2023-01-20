@@ -20,8 +20,8 @@ in {
       ../hm/xsession.nix
     ]
       ++ (lib.optionals (config.ao.primaryUser.graphics) [ ../hm/xsession.nix ])
-      ++ (lib.optionals (l.java) [ ../hm/java.nix ])
-      ++ (lib.optionals (l.scala) [ ../hm/scala.nix ])
-      ++ (lib.optionals (l.perl) [ ../hm/perl.nix ]);
+      ++ (lib.optionals (!config.mini && l.java) [ ../hm/java.nix ])
+      ++ (lib.optionals (!config.mini && l.scala) [ ../hm/scala.nix ])
+      ++ (lib.optionals (!config.mini && l.perl) [ ../hm/perl.nix ]);
   };
 }

@@ -76,63 +76,54 @@ in {
   home.packages = with pkgs;
     [
       ack
-      silver-searcher
+      ascii
       atool
       cloc
       coreutils
       curl
-      telescope
-      packer
+      dig.dnsutils
       docker
       dockfmt
       entr
       file
-      imagemagickBig
       jwhois
       libressl
       lsof
-      minikube
-      kubernetes
-      minishift
       mtr
-      nvi
       nix
       nixfmt
       nix-tree
+      nvi
       oathToolkit
-      openshift
       openvpn
-      paperkey
+      packer
       pavucontrol
       psmisc
       pulsemixer
-      #python2Plus
-      #python3Plus
+      pv
       qrencode
       ripgrep
-      ascii
       rnix-lsp
+      rsync
       screen
-      sdcv
-      anki-bin
       shellcheck
       shfmt
+      silver-searcher
       sysstat
+      telescope
       unar
       unzip
       wget
-      pv
-      rsync
-      dig.dnsutils
       zip
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
-    ++ (lib.optionals (config.ao.primaryUser.media) [
+    ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [
+      imagemagickBig
       ffmpeg-full
       mpc_cli
-      playerctl
-    ]) ++ (lib.optionals (desk) [ signal-desktop ]) ++ [
-    ] ++ (lib.optionals (lang.cxx) [
+    ])
+    ++ (lib.optionals (!config.mini && desk) [ signal-desktop ]) ++ [
+    ] ++ (lib.optionals (!config.mini && lang.cxx) [
       autoconf
       binutils
       ccls
@@ -153,12 +144,19 @@ in {
       pkg-config
       valgrind
       tinycc
-    ]) ++ (lib.optionals (config.ao.primaryUser.office) [
+      kubernetes
+      minikube
+      minishift
+      openshift
+    ]) ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
       djview
       pandoc
       libertine
+      paperkey
       texlive.combined.scheme-full
-    ]) ++ (lib.optionals (config.ao.primaryUser.office) [
+      sdcv
+      anki-bin
+    ]) ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
       #libreoffice
       abiword
       freerdp
@@ -167,9 +165,10 @@ in {
       ghc
       haskellPackages.stack
       haskell-language-server
-    ]) ++ (lib.optionals (lang.ruby) my.lang.ruby.packages)
-    ++ (lib.optionals (lang.rust) my.lang.rust.packages)
-    ++ (lib.optionals (lang.clojure) clojurePackages)
+    ])
+    ++ (lib.optionals (!config.mini && lang.ruby) my.lang.ruby.packages)
+    ++ (lib.optionals (!config.mini && lang.rust) my.lang.rust.packages)
+    ++ (lib.optionals (!config.mini && lang.clojure) clojurePackages)
   ;
   home.file = {
     ".npmrc".source = ./../npmrc;
@@ -203,18 +202,18 @@ in {
     scripts = with pkgs.mpvScripts; [ mpris ];
   };
   services.home-manager.autoUpgrade = {
-    enable = true;
+    enable = false;
     frequency = "daily";
   };
   services.playerctld = {
-    enable = config.ao.primaryUser.media;
+    enable = !config.mini && config.ao.primaryUser.media;
   };
   services.mpdris2 = {
     notifications = true;
-    enable = config.ao.primaryUser.media;
+    enable = !config.mini && config.ao.primaryUser.media;
   };
   services.mpd = {
-    enable = config.ao.primaryUser.media;
+    enable = !config.mini && config.ao.primaryUser.media;
     musicDirectory = "${config.home.homeDirectory}/Music";
     extraConfig = ''
       audio_output {
@@ -225,9 +224,9 @@ in {
       follow_inside_symlinks "yes"
     '';
   };
-  programs.ncmpcpp.enable = config.ao.primaryUser.media;
+  programs.ncmpcpp.enable = !config.mini && config.ao.primaryUser.media;
   programs.zathura = {
-    enable = config.ao.primaryUser.office;
+    enable = desk;
     mappings = {
       "D" = "first-page-column 1:2";
       "<C-d>" = "first-page-column 1:1";
@@ -242,7 +241,7 @@ in {
   programs.yt-dlp.enable = desk;
   programs.home-manager.enable = true;
   programs.aria2 = {
-    enable = config.ao.primaryUser.media;
+    enable = !config.mini && config.ao.primaryUser.media;
     settings = {
       seed-ratio = 0.0;
     };
