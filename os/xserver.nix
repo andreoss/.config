@@ -2,6 +2,11 @@
 let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
+    services.dbus = {
+      enable = true;
+      packages = [ pkgs.gcr ];
+    };
+    programs.dconf.enable = true;
     services.xserver = {
       enable = true;
       xautolock = {
