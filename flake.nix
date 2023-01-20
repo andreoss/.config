@@ -121,6 +121,16 @@
           ./os/boot-loader.nix
         ];
       };
+      nixosConfigurations.ss = baseSystem {
+        hostname = "ss";
+        modules = [
+          {
+            config.mini = true;
+          }
+          ./secrets/ss-hw.nix
+          ./os/boot-grub.nix
+        ];
+      };
       nixosConfigurations.tq = baseSystem {
         hostname = "tq";
         modules = [
