@@ -85,10 +85,18 @@ CRYPT_LABEL=luks-"$HOST_ID"
 
 CRYPT_DEV=/dev/disk/by-partuuid/"$PART_SYSTEM"
 BTRFS_DEVICE=
+RAW_DEVICE=
+
 if [ "$CRYPT" ]; then
         BTRFS_DEVICE=/dev/mapper/"${CRYPT_LABEL}"
 else
         BTRFS_DEVICE=/dev/disk/by-uuid/"${ID_SYSTEM}"
+fi
+
+if [ "$CRYPT" ]; then
+    RAW_DEVICE="$BTRFS_DEVICE"
+else
+    RAW_DEVICE=/dev/disk/by-partuuid/"$PART_SYSTEM"
 fi
 
 if [ "$CRYPT" ] && [ ! -e "$LUKS_KEY" ]; then
@@ -204,6 +212,9 @@ storage_prepare() {
         xfs)
                 xfs_prepare
                 ;;
+        f2fs)
+                f2fs_prepare
+                ;;
         *)
                 echo "Unknown fs: $FS"
                 exit
@@ -217,7 +228,10 @@ storage_mount() {
                 btrfs_mount
                 ;;
         xfs)
-                xfs_mount
+                generic_mount
+                ;;
+        f2fs)
+                f2fs_mount
                 ;;
         *)
                 echo "Unknown fs: $FS"
@@ -233,7 +247,10 @@ storage_unmount() {
                 btrfs_unmount
                 ;;
         xfs)
-                xfs_unmount
+                generic_unmount
+                ;;
+        f2fs)
+                generic_unmount
                 ;;
         *)
                 echo "Unknown fs: $FS"
@@ -243,20 +260,22 @@ storage_unmount() {
 }
 
 xfs_prepare() {
-        RAW_DEVICE=
-        if [ "$CRYPT" ]; then
-                RAW_DEVICE="$BTRFS_DEVICE"
-        else
-                RAW_DEVICE=/dev/disk/by-partuuid/"$PART_SYSTEM"
-        fi
         mkfs.xfs "$RAW_DEVICE" -f -m uuid="${ID_SYSTEM^^}"
 }
 
-xfs_mount() {
-        mount "$BTRFS_DEVICE" "$ROOT/nix"
+f2fs_prepare() {
+        mkfs.f2fs "$RAW_DEVICE" -f -U "${ID_SYSTEM^^}" -O extra_attr,inode_checksum,sb_checksum,compression
 }
 
-xfs_unmount() {
+f2fs_mount() {
+        mount  -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$RAW_DEVICE" "$ROOT/nix"
+}
+
+generic_mount() {
+        mount "$RAW_DEVICE" "$ROOT/nix"
+}
+
+generic_unmount() {
         umount "$ROOT/nix"
 }
 
@@ -280,6 +299,7 @@ if [ "$FORMAT" ]; then
                 parted -a optimal "$DEVICE" mkpart primary ext2 1MiB 512MiB
                 parted -a optimal "$DEVICE" mkpart primary ext2 512MiB 100%
 
+                fdisk --wipe "$DEVICE"
                 (
                         echo x                      # Expert mode
                         echo i                      # Change disk indentifier
