@@ -27,7 +27,7 @@ in {
     enable = true;
     package = pkgs.rxvt-unicode-unwrapped;
     iso14755 = true;
-    fonts = [ "xft:Terminus" ];
+    fonts = [ "xft:Terminus:size=12" ];
     scroll = {
       bar = {
         enable = true;
