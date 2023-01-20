@@ -63,6 +63,7 @@
     shellAliases = { };
     homeBinInPath = true;
     variables.TOR_SOCKS_PORT = "9150";
+    variables.EDITOR = "vi";
     etc = {
       inputrc.source = ../inputrc;
       issue.source = lib.mkOverride 0 (pkgs.writeText "issue" "");
