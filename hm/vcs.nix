@@ -35,9 +35,9 @@
         pure = "pull --rebase";
         ri = "rebase --interactive";
         spull = "!git stash && git pull && git stash pop";
-        st = "status";
         unstage = "reset HEAD -- ";
         xx = "reset HEAD";
+        st = "status --short --branch";
       };
       extraConfig = {
         pull.rebase = false;
