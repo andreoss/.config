@@ -11,7 +11,7 @@
       "Emacs*toolBar" = 0;
       "Emacs*menuBar" = 0;
       "Emacs*geometry" = "80x30";
-      "Emacs*font" = "Terminus";
+      "Emacs*font" = "Ttyp0";
       "Emacs*scrollBar" = "on";
       "Emacs*scrollBarWidth" = 6;
     };
