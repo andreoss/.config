@@ -1,5 +1,4 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-{
+{ config, pkgs, lib, stdenv, self, ... }: {
   config = {
     home.sessionVariables = {
       JDK_8 = "$HOME/.jdk/8";
@@ -24,10 +23,6 @@
       ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
       ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
       ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
-    '';
-    home.activation.xxx = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    '';
-    home.activation.zzz = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     '';
     programs.eclipse = {
       enable = true;
