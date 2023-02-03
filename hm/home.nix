@@ -115,6 +115,11 @@ in {
       unzip
       wget
       zip
+      (hunspellWithDicts [
+        hunspellDicts.ru_RU
+        hunspellDicts.es_ES
+        hunspellDicts.en_GB-large
+      ])
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [
