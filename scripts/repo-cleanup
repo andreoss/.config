@@ -8,30 +8,27 @@ FORMAT_VARS=(DATE BRANCH AUTHOR)
 git fetch "$REMOTE" --prune
 
 print_branch() {
-    printf "%s %30s %-30s\n" "$DATE" "$AUTHOR" "$BRANCH"
+	printf "%s %30s %-30s\n" "$DATE" "$AUTHOR" "$BRANCH"
 }
 
 I_KNOW_WHAT_I_DO=${I_KNOW_WHAT_I_DO:-NO}
 
 git for-each-ref \
-    --format="$FORMAT" \
-    --sort -committerdate \
-    "refs/remotes/$REMOTE" \
-    | while read -r "${FORMAT_VARS[@]}"
-do
-    case "$BRANCH" in
-        master|develop|HEAD*|release*)
-            ;;
-        *)
-            if [[ "$DATE" < "$EXPIRY_DATE" ]]
-            then
-                print_branch
-                case "$I_KNOW_WHAT_I_DO" in
-                    yes)
-                        git push "$REMOTE" --delete "$BRANCH"
-                        ;;
-                esac
-            fi
-            ;;
-    esac
-done
+	--format="$FORMAT" \
+	--sort -committerdate \
+	"refs/remotes/$REMOTE" |
+	while read -r "${FORMAT_VARS[@]}"; do
+		case "$BRANCH" in
+		master | develop | HEAD* | release*) ;;
+		*)
+			if [[ "$DATE" < "$EXPIRY_DATE" ]]; then
+				print_branch
+				case "$I_KNOW_WHAT_I_DO" in
+				yes)
+					git push "$REMOTE" --delete "$BRANCH"
+					;;
+				esac
+			fi
+			;;
+		esac
+	done
