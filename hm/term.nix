@@ -1,8 +1,26 @@
 { pkgs, inputs, ... }:
 let palette = import ../os/palette.nix;
 in {
-  xresources.properties = {
+  xresources.properties = with palette; {
     "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
+    "*background" = black1;
+    "*color0" = black1;
+    "*color10" = green3;
+    "*color11" = yellow2;
+    "*color12" = blue5;
+    "*color13" = cyan2;
+    "*color14" = green2;
+    "*color15" = white2;
+    "*color1" = red1;
+    "*color2" = green2;
+    "*color3" = yellow1;
+    "*color4" = blue1;
+    "*color5" = magenta;
+    "*color6" = cyan1;
+    "*color7" = white1;
+    "*color8" = gray2;
+    "*color9" = red2;
+    "*foreground" = white3;
   };
   home.sessionVariables = { EDITOR = "vi"; };
   home.file = {
@@ -47,26 +65,10 @@ in {
       "context.vi.background" = "[90]${gray1}";
       "background" = "[80]${black1}";
       "color0" = "[90]${black1}";
-      "color1" = red1;
-      "color2" = green2;
-      "color3" = yellow1;
-      "color4" = blue1;
-      "color5" = magenta;
-      "color6" = cyan1;
-      "color7" = white1;
-      "color8" = gray2;
-      "color9" = red2;
-      "color10" = green3;
-      "color11" = yellow2;
-      "color12" = blue5;
-      "color13" = cyan2;
-      "color14" = green2;
-      "color15" = white2;
       "cursorBlink" = "true";
       "cursorColor" = gray4;
       "internalBorder" = 16;
       "depth" = 32;
-      "foreground" = white3;
       "keysym.C-0" = "resize-font:reset";
       "keysym.C-equal" = "resize-font:bigger";
       "keysym.C-minus" = "resize-font:smaller";
