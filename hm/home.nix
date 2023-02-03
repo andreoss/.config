@@ -50,7 +50,9 @@ in {
   home.enableNixpkgsReleaseCheck = true;
   home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
   home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    [ "${builtins.toString config.ao.primaryUser.languages.lisp}" == "true" ] && ros init
+    [ "${
+      builtins.toString config.ao.primaryUser.languages.lisp
+    }" == "true" ] && ros init
   '';
   programs.password-store = {
     enable = true;
