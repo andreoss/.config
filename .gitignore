@@ -1,9 +1,9 @@
-/*
-/*/
-!/.gitignore
-!/.gitmodules
-!/*/*.nix
-!/*/*.c
-!/*/*.sh
-!/*rc
+!.gitignore
+!.gitmodules
+!*/*.nix
+!*/*.c
+!*/*.sh
+!*rc
 !.git-crypt
+*
+*/*
