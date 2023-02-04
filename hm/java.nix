@@ -3,8 +3,8 @@
     home.sessionVariables = {
       JDK_8 = "$HOME/.jdk/8";
       JDK_11 = "$HOME/.jdk/11";
-      JDK_16 = "$HOME/.jdk/16";
       JDK_17 = "$HOME/.jdk/17";
+      JDK_19 = "$HOME/.jdk/19";
       GRAALVM_11 = "$HOME/.jdk/graal-11";
       GRAALVM_17 = "$HOME/.jdk/graal-17";
       GRAALVM_HOME = "$HOME/.jdk/17-graal";
@@ -19,8 +19,8 @@
       install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
-      ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-16.out}" $HOME/.jdk/16
       ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
+      ln --symbolic --force "${pkgs.openjdk19.out}/lib/openjdk"       $HOME/.jdk/19
       ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
       ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
     '';
@@ -62,10 +62,10 @@
     };
     home.packages = with pkgs; [
       android-tools
-      heimdall
       ant
       gradle
       groovy
+      heimdall
       jetbrains.idea-community
       kotlin
       lombok
