@@ -201,7 +201,6 @@ inactive";
         xclip
         xorg.xkill
         xorg.xdpyinfo
-        xorg.xwd
         rox-filer
         xdotool
       ]);
