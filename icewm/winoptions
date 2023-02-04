@@ -5,3 +5,5 @@ mpv.allWorkspaces: 1
 jetbrains-idea-ce.icon: java
 jetbrains-idea-ce.appTakesFocus: 1
 Zathura.startMaximized: 1
+Pinentry.dTitleBar: 0
+Pinentry.allWorkspaces: 1
