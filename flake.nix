@@ -5,10 +5,6 @@
       url = "github:andreoss/.emacs.d/master";
       flake = false;
     };
-    jc-themes = {
-      url = "gitlab:andreoss/jc-themes/master";
-      flake = false;
-    };
     urxvt-context-ext = {
       url = "github:andreoss/urxvt-context/master";
       flake = false;
@@ -108,20 +104,28 @@
       };
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
-        modules =
-          [ ./secrets/tx-hw.nix ./os/fs-crypt.nix ./os/boot-loader.nix ];
+        modules = [
+          ./secrets/tx-hw.nix
+          ./os/fs-crypt.nix
+          ./os/boot-loader.nix
+        ];
       };
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
-        modules =
-          [ ./secrets/fs-ts.nix ./secrets/ts-hw.nix ./os/boot-loader.nix ];
+        modules = [
+          {
+            config.ao.primaryUser.home = "/user-2";
+          }
+          ./secrets/fs-ts.nix
+          ./secrets/ts-hw.nix
+          ./os/boot-loader.nix
+        ];
       };
       nixosConfigurations.ss = baseSystem {
         hostname = "ss";
         modules = [
           {
             config.mini = true;
-            config.ao.primaryUser.office = false;
           }
           ./secrets/ss-hw.nix
           ./os/boot-grub.nix
@@ -129,7 +133,10 @@
       };
       nixosConfigurations.tq = baseSystem {
         hostname = "tq";
-        modules = [ ./os/fs-legacy.nix ./os/boot-grub-uefi.nix ];
+        modules = [
+          ./os/fs-legacy.nix
+          ./os/boot-grub-uefi.nix
+  ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
