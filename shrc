@@ -150,6 +150,8 @@ alias nm=notmuch
 alias iec='numfmt --to=iec'
 alias du='__du'
 alias dmesg='dmesg --human'
+alias acpi='acpi -a -t -b'
+alias ping='ping -c 4'
 
 __du() {
     \du --bytes --summarize "$@" \
