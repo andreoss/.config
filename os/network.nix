@@ -13,7 +13,8 @@ let
   '';
   networks = builtins.tryEval {
     networks = import ../secrets/networks.nix;
-    environmentFile = pkgs.writeShellScript "secrets.env" (builtins.readFile ../secrets/network.env);
+    environmentFile = pkgs.writeShellScript "secrets.env"
+      (builtins.readFile ../secrets/network.env);
   };
 in {
   networking = {
