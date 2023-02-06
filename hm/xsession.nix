@@ -180,6 +180,8 @@ inactive";
       Service = {
         ExecStart = "${pkgs.volumeicon}/bin/volumeicon";
         Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
+        Restart = "always";
+        RestartSec = "3";
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
