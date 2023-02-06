@@ -18,99 +18,27 @@
     services.emacs.enable = lib.mkForce false;
     programs.emacs = {
       enable = config.ao.primaryUser.emacsFromNix;
-      extraConfig = ''
-         (load-file "${inputs.emacs-d}/init.el")
-         (run-hooks (quote after-init-hook))
-         (run-hooks (quote emacs-startup-hook))
-         (run-hooks (quote window-setup-hook))
-      '';
+      extraConfig = builtins.readFile (pkgs.substituteAll {
+        src = ../init.el;
+        jc = inputs.jc-themes;
+        autofmt = inputs.elisp-autofmt;
+      });
       extraPackages = elpa:
-        with elpa; [
-          rg
-          project
-          sly
-          sly-asdf
-          sly-quicklisp
-          sly-repl-ansi-color
-          sly-macrostep
-          ack
-          bash-completion
-          better-defaults
-          ccls
-          c-eldoc
-          centered-cursor-mode
-          cider
-          company
-          company-c-headers
-          company-posframe
-          dash
-          dashboard
-          default-text-scale
-          dired-subtree
-          editorconfig
-          eldoc
-          eldoc-cmake
-          elfeed
-          elisp-format
-          elisp-lint
-          elisp-refs
-          elisp-slime-nav
-          elpher
-          emms
-          eros
-          evil
-          evil-collection
-          evil-commentary
-          evil-exchange
-          evil-goggles
-          evil-snipe
-          exwm
-          feebleline
-          flycheck
-          flymake-cursor
-          forge
-          fringe-current-line
-          geiser-guile
-          general
-          git-gutter
-          go-imports
-          guix
-          haskell-mode
-          hydra
-          lispy
-          lsp-haskell
-          lsp-java
-          lsp-metals
-          lsp-mode
-          lsp-ui
-          magit
-          marginalia
-          writeroom-mode
-          nix-mode
-          notmuch
-          org
-          org-bullets
-          pdf-tools
-          raku-mode
-          restart-emacs
-          sly
-          telega
-          undo-fu
-          undo-tree
-          use-package
-          unicode-fonts
-          use-package-hydra
-          hl-todo
-          vertico-posframe
-          vterm
-          which-key-posframe
-          winum
-          xenops
-          prettify-greek
-          flyspell-correct
-          flyspell-correct-popup
-          rainbow-mode
-        ];
+        let
+          packageListNix =
+            pkgs.runCommand "init-packages.nix" { input = ../init.el; } ''
+              ${pkgs.perl}/bin/perl  -007 -nE '
+              BEGIN {
+                  say "{elpa, ...}: with elpa; [";
+                  say "use-package";
+              };
+              END   { say "]" };
+              while (m{[(]use-package \s* ([a-z-0-9]+) \s* (;\S+)?}xsgm) {
+                 next if $2 eq ";builtin";
+                 say $1;
+              }' "$input" >"$out" 
+            '';
+        in (import "${packageListNix}" { inherit elpa; });
     };
   };
 }
