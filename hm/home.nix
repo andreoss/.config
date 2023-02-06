@@ -43,7 +43,7 @@ in {
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
     enable = true;
-    defaultCacheTtl = 1800;
+    defaultCacheTtl = 7200;
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
   };
@@ -122,6 +122,8 @@ in {
         hunspellDicts.es_ES
         hunspellDicts.en_GB-large
       ])
+      playerctl
+      python3Plus
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [
