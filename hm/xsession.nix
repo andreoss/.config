@@ -28,6 +28,7 @@ in {
       longitude = -55.0;
       latitude = -27.0;
     };
+    services.udiskie.enable = true;
     services.cbatticon.enable = config.ao.primaryUser.graphics;
     services.keynav.enable = config.ao.primaryUser.graphics;
     services.dunst.enable = config.ao.primaryUser.graphics;
