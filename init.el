@@ -800,5 +800,8 @@
 (use-package ag :config (lead-def "tg" 'ag))
 (use-package wgrep :after ag)
 (use-package wgrep-ag :after wgrep)
+
+;; WM
+(use-package exwm)
 (provide 'init.el)
 ;;; init.el ends here
