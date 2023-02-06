@@ -17,33 +17,17 @@
         "type": "github"
       }
     },
-    "emacs-elisp-autofmt": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1675571732,
-        "narHash": "sha256-1jrFz9Rgj4atKc+D4/5m6Y1Q3TpH/uM1uz6aTU5VF5s=",
-        "ref": "refs/heads/master",
-        "rev": "e2f016cb76b0a10fde43c12561eefbb846f16f88",
-        "revCount": 257,
-        "type": "git",
-        "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
-      }
-    },
     "emacs-overlay": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1675620534,
-        "narHash": "sha256-Slw7pdqK0BK0NQmavEA1gAW4gb3+VZfDRyPi94Xt0bU=",
+        "lastModified": 1675674706,
+        "narHash": "sha256-OkbmD3qf+Lv5P7n7sr6TEOO57whO7DxViGS/7UpdT+c=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "ea9ceddec99ab3c66017ab3104fb86863e26154a",
+        "rev": "cf267241b56b425d20faed46ab8e16dd0434a663",
         "type": "github"
       },
       "original": {
@@ -96,11 +80,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1675595366,
-        "narHash": "sha256-WoQkwaaoZqrhWpIrMxA+2j8CgxgyvjHzCyEZAQu06rQ=",
+        "lastModified": 1675637696,
+        "narHash": "sha256-tilJS8zCS3PaDfVOfsBZ4zspuam8tc7IMZxtGa/K/uo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "9621e9ab80a038cd11c7cfcae4df46a59d62b16a",
+        "rev": "c43d4a3d6d9ef8ddbe2438362f5c775b4186000b",
         "type": "github"
       },
       "original": {
@@ -112,11 +96,11 @@
     "hosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1675607096,
-        "narHash": "sha256-orYhVpcB3q3psewOe6u3W8KWclc8xNTHBGKjJx+89lU=",
+        "lastModified": 1675652462,
+        "narHash": "sha256-YbjaEJCNoih/C7Y1mi92Fr3vw+i6LBZK6cEZUvhY1qA=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "cd091ee9c3d0d14e594f36d7f3da2741811c2089",
+        "rev": "ca61e9ef451d44f97aec60cb7ceb1ce91e1ecc5b",
         "type": "github"
       },
       "original": {
@@ -124,23 +108,6 @@
         "ref": "master",
         "repo": "hosts",
         "type": "github"
-      }
-    },
-    "jc-themes": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1675640785,
-        "narHash": "sha256-xC68pE9/omLwZbZVapqar9n2IJdeDGvbWQnPWmCRbNU=",
-        "owner": "andreoss",
-        "repo": "jc-themes",
-        "rev": "06c5d29f81faa20c03e64ac9471705b8c40cb6d6",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "andreoss",
-        "ref": "master",
-        "repo": "jc-themes",
-        "type": "gitlab"
       }
     },
     "nixpkgs": {
@@ -177,11 +144,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1675584158,
-        "narHash": "sha256-SBkchaDzCHxnPNRDdtZ5ko5caHio9iS0Mbyn/xXbXxs=",
+        "lastModified": 1675614288,
+        "narHash": "sha256-i3Rc/ENnz62BcrSloeVmAyPicEh4WsrEEYR+INs9TYw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d840126a0890621e7b220894d749132dd4bde6a0",
+        "rev": "d25de6654a34d99dceb02e71e6db516b3b545be6",
         "type": "github"
       },
       "original": {
@@ -194,12 +161,10 @@
     "root": {
       "inputs": {
         "emacs-d": "emacs-d",
-        "emacs-elisp-autofmt": "emacs-elisp-autofmt",
         "emacs-overlay": "emacs-overlay",
         "guix-overlay": "guix-overlay",
         "home-manager": "home-manager",
         "hosts": "hosts",
-        "jc-themes": "jc-themes",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
         "urxvt-context-ext": "urxvt-context-ext",
