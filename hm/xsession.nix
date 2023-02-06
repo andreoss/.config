@@ -4,6 +4,12 @@ let
   font = "Terminus";
 in {
   config = {
+    home.pointerCursor = {
+      package = pkgs.openzone-cursors;
+      name = "OpenZone_White";
+      x11.enable = true;
+      x11.defaultCursor = "left_ptr";
+    };
     xdg.userDirs = {
       enable = true;
       createDirectories = true;
@@ -27,6 +33,10 @@ in {
       enable = config.ao.primaryUser.graphics;
       longitude = -55.0;
       latitude = -27.0;
+      temperature = {
+        day = 2500;
+        night = 4000;
+      };
     };
     services.udiskie.enable = true;
     services.cbatticon.enable = config.ao.primaryUser.graphics;
