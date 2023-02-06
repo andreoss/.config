@@ -13,8 +13,7 @@ let
   '';
   networks = builtins.tryEval {
     networks = import ../secrets/networks.nix;
-    environmentFile = pkgs.writeShellScript "secrets.env"
-      (builtins.readFile ../secrets/network.env);
+    environmentFile = pkgs.writeShellScript "secrets.env" (builtins.readFile ../secrets/network.env);
   };
 in {
   networking = {
@@ -52,12 +51,8 @@ in {
     wireless.dbusControlled = true;
     wireless.scanOnLowSignal = false;
     wireless.userControlled.enable = true;
-    wireless.networks =
-      if networks.success then networks.value.networks else { };
-    wireless.environmentFile = if networks.success then
-      networks.value.environmentFile
-    else
-      (pkgs.writeShellScript "empty.env" "");
+    wireless.networks = if networks.success then networks.value.networks else {};
+    wireless.environmentFile = if networks.success then networks.value.environmentFile else (pkgs.writeShellScript "empty.env" "");
     dhcpcd = {
       enable = true;
       extraConfig = ''
