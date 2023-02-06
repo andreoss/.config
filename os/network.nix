@@ -116,6 +116,11 @@ in {
     };
   };
   systemd.services.unbound = { partOf = [ "network.target" ]; };
+  systemd.services.dnscrypt-proxy2 = {
+    requires = [ "unbound.service" ];
+    partOf = [ "network.target" ];
+  };
+  systemd.services.dhcpcd = { partOf = [ "network.target" ]; };
   systemd.services.macchanger-wlan = {
     enable = true;
     description = "macchanger on wlan0";
