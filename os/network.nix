@@ -116,8 +116,6 @@ in {
     };
   };
   systemd.services.unbound = { partOf = [ "network.target" ]; };
-  systemd.services.dnscrypt-proxy2 = { partOf = [ "network.target" ]; };
-  systemd.services.wpa_supplicant = { partOf = [ "network.target" ]; };
   systemd.services.macchanger-wlan = {
     enable = true;
     description = "macchanger on wlan0";
