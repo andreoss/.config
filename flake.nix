@@ -9,6 +9,10 @@
       url = "gitlab:andreoss/jc-themes/master";
       flake = false;
     };
+    elisp-autofmt = {
+      url = "git+https://codeberg.org/ideasman42/emacs-elisp-autofmt.git";
+      flake = false;
+    };
     urxvt-context-ext = {
       url = "github:andreoss/urxvt-context/master";
       flake = false;
@@ -49,9 +53,9 @@
           overlays = [
             inputs.emacs-overlay.overlays.emacs
             inputs.guix-overlay.overlays.default
-            (import ./overlays/kernel.nix)
-            (import ./overlays/grub.nix)
-            (import ./overlays/emacs.nix)
+            #(import ./overlays/kernel.nix)
+            #(import ./overlays/grub.nix)
+            #(import ./overlays/emacs.nix)
           ];
         });
       baseSystem = host:
