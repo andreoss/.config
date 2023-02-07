@@ -1,5 +1,3 @@
-defdynamictitle on
-windowlist string "%4n %h%=%f"
 altscreen on
 autodetach on
 defflow off
