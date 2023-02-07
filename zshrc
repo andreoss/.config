@@ -72,7 +72,7 @@ precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
 setopt prompt_subst
 rprompt_components=(
-    #$prompt_newline
+    $prompt_newline
     "\$vcs_info_msg_0_"
     "%(1j.%j.)"
 )
@@ -81,7 +81,8 @@ zstyle ':vcs_info:git:*' formats '%b %f'
 zstyle ':vcs_info:*' enable git
 
 prompt_components=(
-    "%(5c.%~$prompt_newline.%~ )"
+    "%~"
+    "$prompt_newline"
     '%(!.#.*)'
     " "
 )
