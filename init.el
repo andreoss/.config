@@ -4,7 +4,7 @@
 (setq inhibit-message t)
 (add-hook
  'after-init-hook ;;
- '(lambda () (setq inhibit-message nil)))
+ #'(lambda () (setq inhibit-message nil)))
 (require 'cl-lib)
 (require 'use-package)
 (setq use-package-always-defer nil)
