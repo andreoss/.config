@@ -4,8 +4,7 @@ let
 in
 {
   boot.kernelPackages = pkgs.linuxPackages;
-  boot.kernelModules = [ "acpi_call" ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call perf ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.perf ];
   boot.kernelPatches = [ ];
   boot.blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
   boot.kernelParams = [
