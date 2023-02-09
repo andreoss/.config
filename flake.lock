@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "elisp-autofmt": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1675571732,
-        "narHash": "sha256-1jrFz9Rgj4atKc+D4/5m6Y1Q3TpH/uM1uz6aTU5VF5s=",
-        "ref": "refs/heads/master",
-        "rev": "e2f016cb76b0a10fde43c12561eefbb846f16f88",
-        "revCount": 257,
-        "type": "git",
-        "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
-      }
-    },
     "emacs-d": {
       "flake": false,
       "locked": {
@@ -39,11 +23,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1675706098,
-        "narHash": "sha256-NPnQ9QIH98QSr98ZkCE5IxgWusJbcAfEl8HIDypKeh4=",
+        "lastModified": 1675881688,
+        "narHash": "sha256-1DUubgI9CrYG+HBEy/FE6m3V6Yf0lfbFIzMSomPc2mA=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "03674806f66bfa3994fe368d063c11c02a2fa8c3",
+        "rev": "3a97f6833b1416bbe1e832fdb2f136052e0ad2fd",
         "type": "github"
       },
       "original": {
@@ -96,11 +80,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1675637696,
-        "narHash": "sha256-tilJS8zCS3PaDfVOfsBZ4zspuam8tc7IMZxtGa/K/uo=",
+        "lastModified": 1675888750,
+        "narHash": "sha256-w3T9UiRN6SaKMYI62+Ic3ka1Tyr9zaBcclhh3e4RCUk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c43d4a3d6d9ef8ddbe2438362f5c775b4186000b",
+        "rev": "1232d0e13305f462a5a7c29584f50eb232cc4ba0",
         "type": "github"
       },
       "original": {
@@ -112,11 +96,11 @@
     "hosts": {
       "flake": false,
       "locked": {
-        "lastModified": 1675652462,
-        "narHash": "sha256-YbjaEJCNoih/C7Y1mi92Fr3vw+i6LBZK6cEZUvhY1qA=",
+        "lastModified": 1675786923,
+        "narHash": "sha256-DmoNhRrofmNvgeJANSn+ZB7m7L9mjvXtsVeWYMSwqQ8=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "ca61e9ef451d44f97aec60cb7ceb1ce91e1ecc5b",
+        "rev": "b2d9f7df1ed7e5ba6d103605be3a6155cf028b5b",
         "type": "github"
       },
       "original": {
@@ -124,23 +108,6 @@
         "ref": "master",
         "repo": "hosts",
         "type": "github"
-      }
-    },
-    "jc-themes": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1675640785,
-        "narHash": "sha256-xC68pE9/omLwZbZVapqar9n2IJdeDGvbWQnPWmCRbNU=",
-        "owner": "andreoss",
-        "repo": "jc-themes",
-        "rev": "06c5d29f81faa20c03e64ac9471705b8c40cb6d6",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "andreoss",
-        "ref": "master",
-        "repo": "jc-themes",
-        "type": "gitlab"
       }
     },
     "nixpkgs": {
@@ -193,13 +160,11 @@
     },
     "root": {
       "inputs": {
-        "elisp-autofmt": "elisp-autofmt",
         "emacs-d": "emacs-d",
         "emacs-overlay": "emacs-overlay",
         "guix-overlay": "guix-overlay",
         "home-manager": "home-manager",
         "hosts": "hosts",
-        "jc-themes": "jc-themes",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
         "urxvt-context-ext": "urxvt-context-ext",
@@ -226,11 +191,11 @@
     "user-js": {
       "flake": false,
       "locked": {
-        "lastModified": 1675606009,
-        "narHash": "sha256-HXbtTBEpmxTXuqUyzqfMwAYqCoTYzzPEbJqv59x+ITc=",
+        "lastModified": 1675728165,
+        "narHash": "sha256-ebSx6DaXoGKcCoK6UcDnWvdAW6J2X6pJRPD1Pw7UNOw=",
         "owner": "arkenfox",
         "repo": "user.js",
-        "rev": "82591911670943e629f5bc0a83adb95b2e5909ed",
+        "rev": "73884850632ffe284f76881786f7d5903b917f58",
         "type": "github"
       },
       "original": {
