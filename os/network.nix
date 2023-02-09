@@ -149,6 +149,12 @@ in {
       ExecStart = "${change-mac} eth0";
     };
   };
+  services.openvpn.servers = import ../secrets/vpn.nix {
+    inherit lib;
+    inherit pkgs;
+  };
+  systemd.services."openvpn-f1".serviceConfig.Group = "tunnel";
+  systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
   environment = {
     etc = {
       "resolv.conf" = {
