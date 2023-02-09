@@ -21,4 +21,4 @@ Control-l: clear-screen
 
 $endif
 
-set emacs-mode-string  "&"
+set emacs-mode-string "&"
