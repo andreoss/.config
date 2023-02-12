@@ -160,10 +160,10 @@ in {
         "XF86Display" = ''
           if systemctl --user is-active gammastep.service;then systemctl --user stop gammastep.service ; else systemctl --user start gammastep.service; fi
           inactive'';
-        "XF86Tools" = "urxvt";
-        "XF86LaunchA" = "emacs";
-        "XF86Explorer" = "urxvt -e mc";
-        "XF86Search" = "firefox";
+        "XF86Tools" = "playerctl previous";
+        "XF86LaunchA" = "playerctl stop";
+        "XF86Explorer" = "playerctl next";
+        "XF86Search" = "playerctl play-pause";
         "XF86AudioMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
         "XF86AudioMicMute" =
           "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
