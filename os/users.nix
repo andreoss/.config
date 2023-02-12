@@ -59,6 +59,8 @@
       psmisc
       stdmanpages
       wpa_supplicant_gui
+      links2
+      fbterm
     ];
     shellAliases = { };
     homeBinInPath = true;
