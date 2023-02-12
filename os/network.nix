@@ -165,6 +165,10 @@ in {
   };
   systemd.services."openvpn-f1".serviceConfig.Group = "tunnel";
   systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
+  systemd.services."openvpn-f1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
+  systemd.services."openvpn-m1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
   environment = {
     etc = {
       "resolv.conf" = {
