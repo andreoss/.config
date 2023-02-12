@@ -12,7 +12,7 @@
     home = config.ao.primaryUser.home;
   };
   users.groups = {
-    uinput  = { };
+    uinput = { };
     tunnel = { };
   };
   users.groups.wheel.members = [ config.ao.primaryUser.name ];
@@ -23,21 +23,18 @@
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
   programs.bash = {
-    promptInit =
-      ''
-     ${builtins.readFile ../shrc}
-     ${builtins.readFile ../bashrc}
-     '';
+    promptInit = ''
+      ${builtins.readFile ../shrc}
+      ${builtins.readFile ../bashrc}
+    '';
   };
   programs.zsh = {
     enable = true;
     enableBashCompletion = true;
     enableCompletion = true;
-    autosuggestions = {
-      enable = true;
-    };
+    autosuggestions = { enable = true; };
     promptInit = ''
-     ${builtins.readFile ../zshrc}
+      ${builtins.readFile ../zshrc}
     '';
   };
   environment = {
