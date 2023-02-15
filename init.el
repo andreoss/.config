@@ -322,8 +322,6 @@
   (if-any-window-system
    (when (display-graphic-p)
      (set-frame-parameter frame 'internal-border-width 2)
-     (set-frame-width frame 80)
-     (set-frame-height frame 40)
      (fringe-mode '(14 . 7))))
   (if (>= emacs-major-version 27)
       (set-fontset-font
