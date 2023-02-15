@@ -50,6 +50,7 @@
         import nixpkgs {
           inherit system;
           config.allowUnfree = false;
+          config.permittedInsecurePackages = [ "mupdf-1.17.0" ];
           overlays = [
             inputs.emacs-overlay.overlays.emacs
             inputs.guix-overlay.overlays.default
