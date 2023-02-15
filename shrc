@@ -233,13 +233,6 @@ __title() {
         echo -ne "\e]0;${VCS} ${DIR}\007"
     fi
 }
-# shellcheck disable=SC3047
-if [ "$BASH" ]; then
-    case "$TERM" in xterm* | rxvt*)
-        trap '__title' DEBUG
-        ;;
-    esac
-fi
 __prepend_path "$HOME/.scripts"
 __prepend_path "$HOME/.cargo/bin"
 case "$TERM" in
@@ -293,3 +286,11 @@ __source "$HOME/.nix-profile/etc/profile.d/autojump.sh"
 __source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 __source "$HOME/.nix-profile/etc/bash_completion.d/git-prompt.sh"
 __source "/usr/local/share/bash-completion/bash_completion"
+
+# shellcheck disable=SC3047
+if [ "$BASH" ]; then
+    case "$TERM" in xterm* | rxvt*)
+        trap '__title' DEBUG
+        ;;
+    esac
+fi
