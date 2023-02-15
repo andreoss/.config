@@ -195,7 +195,7 @@ __ps1() {
     if [ "${USER-}" = "root" ]; then
         PROMPT='# '
     else
-        PROMPT='* '
+        PROMPT="${PROMPT:-* }"
     fi
     DIR="$(__short_pwd)"
 
