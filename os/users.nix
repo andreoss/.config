@@ -58,6 +58,8 @@
       wpa_supplicant_gui
       links2
       fbterm
+      jfbpdf
+      fbida
     ];
     shellAliases = { };
     homeBinInPath = true;
