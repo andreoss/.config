@@ -36,6 +36,9 @@
  :init (setq evil-want-keybinding nil)
  :hook (after-init . evil-mode)
  :config
+ (define-key evil-normal-state-map (kbd "C-z") 'evil-normal-state)
+ (define-key evil-emacs-state-map (kbd "C-z") 'evil-emacs-state)
+ (define-key evil-insert-state-map (kbd "C-z") 'evil-normal-state)
  (define-key minibuffer-local-map [escape] #'minibuffer-keyboard-quit)
  (define-key
   minibuffer-local-ns-map [escape] #'minibuffer-keyboard-quit)
