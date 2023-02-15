@@ -61,7 +61,6 @@
             ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
-            # { system.stateVersion = config.ao.stateVersion; }
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
             ./os/hm.nix
@@ -141,7 +140,6 @@
             config.ao.primaryUser.name = "nixos";
           }
           inputs.home-manager.nixosModule
-          # { system.stateVersion = config.ao.stateVersion; }
           ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
