@@ -27,11 +27,18 @@ in {
     ".screenrc".source = ./../screenrc;
     ".urxvt/ext/context".text =
       builtins.readFile "${inputs.urxvt-context-ext}/context";
+    ".local/bin/rxvt" = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+        exec urxvtc "$@"
+      '';
+    };
     ".local/bin/xscreen" = {
       executable = true;
       text = ''
         #!/bin/sh
-        exec urxvtc -e screen -D -R -S "$\{1:-primary}" "$*"
+        exec urxvtc -e screen -D -R -S "$\{1:-primary}" "$@"
       '';
     };
   };
