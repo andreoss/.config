@@ -81,6 +81,7 @@ in {
       "cursorColor" = gray4;
       "internalBorder" = 16;
       "depth" = 32;
+      "fading" = "25";
       "keysym.C-0" = "resize-font:reset";
       "keysym.C-equal" = "resize-font:bigger";
       "keysym.C-minus" = "resize-font:smaller";
