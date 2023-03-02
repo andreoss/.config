@@ -1,4 +1,4 @@
-args@{ lib, config, pkgs, inputs, ... }: {
+{ lib, config, pkgs, inputs, ... }: {
   home.file.".local/bin/mozilla" = {
     executable = true;
     text = ''
