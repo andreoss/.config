@@ -43,12 +43,27 @@ in {
         OnCalendar = "*:0/5";
       };
     };
-    user.services.davmail = {
+    user.services.davmail = let
+      writeProperties = pkgs.writeShellScript "write-properties" ''
+        touch "$HOME"/.davmail.properties
+        ${pkgs.perl536}/bin/perl -i -lnE '
+               next if m/ davmail [.] (?: server | mode | url ) \s* = /xgsm;
+               s/WARN/INFO/;
+               say;
+               if (eof) {
+                  say "davmail.server=true";
+                  say "davmail.url=https://outlook.office365.com/EWS/Exchange.asmx";
+                  say "davmail.mode=O365Manual";
+               }
+        ' "$HOME"/.davmail.properties
+      '';
+    in {
       Unit = {
         Description = "Davmail";
         PartOf = [ "graphical-session.target" ];
       };
       Service = {
+        ExecStartPre = "${writeProperties}";
         ExecStart = "${pkgs.davmail}/bin/davmail $HOME/.davmail.properties";
         Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
       };
@@ -56,20 +71,4 @@ in {
     };
   };
   config.services = lib.attrsets.optionalAttrs (e) { mbsync.enable = x; };
-  config.home = lib.attrsets.optionalAttrs (e) {
-    activation.davmailHeadless = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      touch "$HOME"/.davmail.properties
-      ${pkgs.perl536}/bin/perl -i -lnE '
-             next if m/ davmail [.] (?: server | mode | url ) \s* = /xgsm;
-             s/WARN/INFO/;
-             say;
-             if (eof) {
-                say "davmail.server=true";
-                say "davmail.url=https://outlook.office365.com/EWS/Exchange.asmx";
-                say "davmail.mode=O365Manual";
-             }
-      ' "$HOME"/.davmail.properties
-      ${pkgs.systemd}/bin/systemctl --user restart davmail.service
-    '';
-  };
 }
