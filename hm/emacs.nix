@@ -15,7 +15,7 @@
       "Emacs*scrollBar" = "on";
       "Emacs*scrollBarWidth" = 6;
     };
-    services.emacs.enable = lib.mkForce false;
+    services.emacs.enable = lib.mkForce true;
     programs.emacs = {
       enable = config.ao.primaryUser.emacsFromNix;
       extraConfig = builtins.readFile (pkgs.substituteAll {
@@ -27,7 +27,7 @@
         let
           packageListNix =
             pkgs.runCommand "init-packages.nix" { input = ../init.el; } ''
-              ${pkgs.perl}/bin/perl  -007 -nE '
+              ${pkgs.perl}/bin/perl -007 -nE '
               BEGIN {
                   say "{elpa, ...}: with elpa; [";
                   say "use-package";
@@ -39,6 +39,16 @@
               }' "$input" >"$out" 
             '';
         in (import "${packageListNix}" { inherit elpa; });
+    };
+    editorconfig = {
+      enable = true;
+      settings = {
+        "*" = {
+          end_of_line = "lf";
+          trim_trailing_whitespace = true;
+          insert_final_newline = true;
+        };
+      };
     };
   };
 }
