@@ -25,17 +25,10 @@
       url = "github:arkenfox/user.js/master";
       flake = false;
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    emacs-overlay.url = "github:nix-community/emacs-overlay/master";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-22.05";
-    guix-overlay = {
-      url = "github:foo-dogsquared/nix-overlay-guix";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
+    emacs-overlay = { url = "github:nix-community/emacs-overlay/master"; };
+    guix-overlay = { url = "github:foo-dogsquared/nix-overlay-guix"; };
+    home-manager = { url = "github:nix-community/home-manager"; };
+    nixpkgs = { url = "github:nixos/nixpkgs/nixpkgs-unstable"; };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
@@ -50,6 +43,7 @@
         import nixpkgs {
           inherit system;
           config.allowUnfree = false;
+          config.permittedInsecurePackages = [ "mupdf-1.17.0" ];
           overlays = [
             inputs.emacs-overlay.overlays.emacs
             inputs.guix-overlay.overlays.default
@@ -67,7 +61,6 @@
             ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
-            # { system.stateVersion = config.ao.stateVersion; }
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
             ./os/hm.nix
@@ -147,7 +140,6 @@
             config.ao.primaryUser.name = "nixos";
           }
           inputs.home-manager.nixosModule
-          # { system.stateVersion = config.ao.stateVersion; }
           ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
