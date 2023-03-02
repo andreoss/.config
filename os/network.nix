@@ -17,6 +17,7 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
+  programs.bandwhich.enable = true;
   networking = {
     enableIPv6 = lib.mkForce false;
     timeServers = [ ];
