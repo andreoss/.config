@@ -74,7 +74,7 @@ in {
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
-    extraConfig = (with palette; {
+    extraConfig = with palette; {
       "context.names" = "sudo,ssh,python,gdb,java,vi";
       "context.sudo.background" = "[90]${red4}";
       "context.ssh.background " = "[90]${blue6}";
@@ -104,6 +104,6 @@ in {
       "secondaryScroll" = "true";
       "urgentOnBell" = "true";
       "url-select.underline" = "true";
-    });
+    };
   };
 }
