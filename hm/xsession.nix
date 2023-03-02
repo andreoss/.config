@@ -42,22 +42,22 @@ in {
     services.cbatticon.enable = config.ao.primaryUser.graphics;
     services.keynav.enable = config.ao.primaryUser.graphics;
     services.dunst.enable = config.ao.primaryUser.graphics;
-    services.dunst.settings = {
+    services.dunst.settings = with palette; {
       global = {
-        frame_color = palette.black1;
-        separator_color = palette.gray4;
+        frame_color = black1;
+        separator_color = gray4;
       };
       urgency_low = {
-        background = palette.white1;
-        foreground = palette.gray3;
+        background = white1;
+        foreground = gray3;
       };
       urgency_normal = {
-        background = palette.white2;
-        foreground = palette.black1;
+        background = white2;
+        foreground = black1;
       };
       urgency_critical = {
-        background = palette.red1;
-        foreground = palette.black1;
+        background = red1;
+        foreground = black1;
       };
       global.font = "${font}";
       global.alignment = "right";
@@ -160,10 +160,10 @@ in {
         "XF86Display" = ''
           if systemctl --user is-active gammastep.service;then systemctl --user stop gammastep.service ; else systemctl --user start gammastep.service; fi
           inactive'';
-        "XF86Tools" = "urxvt";
-        "XF86LaunchA" = "emacs";
-        "XF86Explorer" = "urxvt -e mc";
-        "XF86Search" = "firefox";
+        "XF86Tools" = "playerctl previous";
+        "XF86LaunchA" = "playerctl stop";
+        "XF86Explorer" = "playerctl next";
+        "XF86Search" = "playerctl play-pause";
         "XF86AudioMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
         "XF86AudioMicMute" =
           "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
@@ -210,7 +210,9 @@ in {
         gentium
         unifont
         sudo-font
-        dina-font
+        spleen
+        comic-mono
+        _3270font
       ] ++ (lib.optionals (config.ao.primaryUser.graphics) [
         wmname
         xclip
