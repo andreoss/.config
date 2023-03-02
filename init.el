@@ -36,6 +36,9 @@
  :init (setq evil-want-keybinding nil)
  :hook (after-init . evil-mode)
  :config
+ (define-key evil-normal-state-map (kbd "C-z") 'evil-normal-state)
+ (define-key evil-emacs-state-map (kbd "C-z") 'evil-emacs-state)
+ (define-key evil-insert-state-map (kbd "C-z") 'evil-normal-state)
  (define-key minibuffer-local-map [escape] #'minibuffer-keyboard-quit)
  (define-key
   minibuffer-local-ns-map [escape] #'minibuffer-keyboard-quit)
@@ -319,8 +322,6 @@
   (if-any-window-system
    (when (display-graphic-p)
      (set-frame-parameter frame 'internal-border-width 2)
-     (set-frame-width frame 80)
-     (set-frame-height frame 40)
      (fringe-mode '(14 . 7))))
   (if (>= emacs-major-version 27)
       (set-fontset-font
