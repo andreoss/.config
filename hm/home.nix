@@ -56,12 +56,8 @@ in {
   '';
   programs.password-store = {
     enable = true;
-    package = pkgs.pass.withExtensions (exts: [
-      exts.pass-otp
-      exts.pass-import
-      exts.pass-update
-      exts.pass-genphrase
-    ]);
+    package =
+      pkgs.pass.withExtensions (exts: [ exts.pass-otp exts.pass-import ]);
   };
   home.sessionVariables = {
     NIX_SHELL_PRESERVE_PROMPT = 1;
