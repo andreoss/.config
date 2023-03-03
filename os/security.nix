@@ -64,13 +64,6 @@ in {
           options = [ "NOPASSWD" ];
         }];
       }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.lsof}/bin/lsof";
-          options = [ "NOPASSWD" ];
-        }];
-      }
     ];
     extraConfig = "Defaults lecture=never";
   };
