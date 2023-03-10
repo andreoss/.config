@@ -1,24 +1,13 @@
-{ config, pkgs, lib, stdenv, self, ... }:
+{ config, pkgs, lib, stdenv, inputs, ... }:
 let
   palette = import ../os/palette.nix;
   font = "Terminus";
 in {
   config = {
-    home.pointerCursor = {
-      package = pkgs.openzone-cursors;
-      name = "OpenZone_White";
-      x11.enable = true;
-      x11.defaultCursor = "left_ptr";
-    };
-    xdg.userDirs = {
-      enable = true;
-      createDirectories = true;
-    };
     xsession = {
       enable = true;
       scriptPath = ".xinitrc";
       windowManager.command = ''
-        ${pkgs.feh}/bin/feh --no-fehbg --bg-fill ${../wp/1.jpeg} &
         PATH=$PATH:${pkgs.icewm}/bin
         export PATH
         if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
@@ -34,95 +23,23 @@ in {
       longitude = -55.0;
       latitude = -27.0;
       temperature = {
-        day = 2500;
-        night = 4000;
+        day = 8000;
+        night = 2500;
       };
     };
     services.udiskie.enable = true;
     services.cbatticon.enable = config.ao.primaryUser.graphics;
     services.keynav.enable = config.ao.primaryUser.graphics;
-    services.dunst.enable = config.ao.primaryUser.graphics;
-    services.dunst.settings = with palette; {
-      global = {
-        frame_color = black1;
-        separator_color = gray4;
-      };
-      urgency_low = {
-        background = white1;
-        foreground = gray3;
-      };
-      urgency_normal = {
-        background = white2;
-        foreground = black1;
-      };
-      urgency_critical = {
-        background = red1;
-        foreground = black1;
-      };
-      global.font = "${font}";
-      global.alignment = "right";
-      global.word_warp = "true";
-      global.line_height = 3;
-      global.geometry = "384x5-30+20";
-      urgency_low.timeout = 5;
-      urgency_normal.timeout = 15;
-      urgency_critical.timeout = 0;
-    };
-    fonts.fontconfig.enable = true;
-    gtk = {
-      font.package = pkgs.terminus_font_ttf;
-      font.name = "${font} 9";
-      enable = true;
-      iconTheme.name = "Adwaita";
-      iconTheme.package = pkgs.gnome.adwaita-icon-theme;
-      gtk2.extraConfig = "";
-      gtk3.extraConfig = {
-        gtk-xft-antialias = 1;
-        gtk-xft-hinting = 1;
-        gtk-xft-hintstyle = "hintfull";
-        gtk-xft-rgba = "rgb";
-        gtk-fallback-icon-theme = "gnome";
-        gtk-button-images = 0;
-        gtk-cursor-theme-size = 0;
-        gtk-enable-animations = false;
-        gtk-enable-event-sounds = 0;
-        gtk-enable-input-feedback-sounds = 0;
-      };
-      gtk3.bookmarks = [
-        "file://${config.home.homeDirectory}/Books/"
-        "file://${config.home.homeDirectory}/Work/"
-        "file://${config.home.homeDirectory}/Finance/"
-        "file://${config.home.homeDirectory}/Official/"
-      ];
-    };
-    qt = {
-      enable = config.ao.primaryUser.graphics;
-      style.package = pkgs.adwaita-qt;
-    };
-    programs.feh.enable = config.ao.primaryUser.graphics;
-    home.keyboard.layout = "us,ru";
-    home.keyboard.options = [ "ctrl:nocaps,grp:shifts_toggle" "compose:ralt" ];
-    dconf.settings = {
-      "org/gnome/desktop/background" = {
-        picture-uri = "${../wp/1.jpeg}";
-        picture-options = "centered";
-      };
-      "org/gnome/desktop/sound" = { event-sounds = false; };
-      "org/gnome/desktop/input-sources" = {
-        xkb-options = config.home.keyboard.options;
-        sources = builtins.map (x: "('xkb', '${x}')")
-          (lib.strings.splitString "," config.home.keyboard.layout);
-      };
-    };
+    systemd.user.services.keynav.Service.Environment =
+      [ "PATH=${pkgs.xdotool}/bin:${pkgs.wmctrl}/bin:$PATH" ];
     programs.autorandr = {
       enable = config.ao.primaryUser.graphics;
       hooks = {
         postswitch = {
-          "icewm-restart" = "${pkgs.icewm}/bin/icesh restart";
-          "dunst-restart" = "systemctl --user restart dunst.service";
-          "background" =
-            "${pkgs.feh}/bin/feh --no-fehbg --bg-center ${../wp/1.jpeg}";
-          "fix-dpi" = ''
+          icewm-restart = "${pkgs.icewm}/bin/icesh restart";
+          dunst-restart = "systemctl --user restart dunst.service";
+          background = "systemctl --user restart fehbg.service";
+          fix-dpi = ''
             case "$AUTORANDR_CURRENT_PROFILE" in
                 docked)
                 DPI=192
@@ -140,14 +57,8 @@ in {
         };
       };
     };
-    programs.rofi = {
-      enable = true;
-      cycle = true;
-      terminal = "urxvt";
-      theme = "gruvbox-light-soft";
-    };
     services.sxhkd = {
-      enable = config.ao.primaryUser.graphics;
+      enable = true;
       keybindings = {
         "alt + slash" = "rofi -show-icons -show combi";
         "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
@@ -159,16 +70,19 @@ in {
         "XF86MonBrightnessUp" = "xbacklight -inc 10";
         "XF86Display" = ''
           if systemctl --user is-active gammastep.service;then systemctl --user stop gammastep.service ; else systemctl --user start gammastep.service; fi
-          inactive'';
+                    inactive'';
         "XF86Tools" = "playerctl previous";
         "XF86LaunchA" = "playerctl stop";
         "XF86Explorer" = "playerctl next";
         "XF86Search" = "playerctl play-pause";
-        "XF86AudioMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
-        "XF86AudioMicMute" =
-          "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
-        "XF86AudioLowerVolume" = "${pkgs.pamixer}/bin/pamixer --decrease 8";
-        "XF86AudioRaiseVolume" = "${pkgs.pamixer}/bin/pamixer --increase 8";
+        "XF86AudioMute" = ''
+          ${pkgs.pamixer}/bin/pamixer --toggle-mute && ${pkgs.libnotify}/bin/notify-send --urgency=low --replace-id=17 "🔈 $(${pkgs.pamixer}/bin/pamixer --get-volume-human)"'';
+        "XF86AudioMicMute" = ''
+          ${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source && ${pkgs.libnotify}/bin/notify-send --expire-time=3000 --urgency=critical --replace-id=16 "🎤 $(${pkgs.pamixer}/bin/pamixer --get-volume-human --default-source)"'';
+        "XF86AudioLowerVolume" = ''
+          ${pkgs.pamixer}/bin/pamixer --decrease 8 && ${pkgs.libnotify}/bin/notify-send --expire-time=500 --urgency=low --replace-id=17 "🔈 $(${pkgs.pamixer}/bin/pamixer --get-volume-human)"'';
+        "XF86AudioRaiseVolume" = ''
+          ${pkgs.pamixer}/bin/pamixer --increase 8 && ${pkgs.libnotify}/bin/notify-send --expire-time=500 --urgency=low --replace-id=17 "🔈 $(${pkgs.pamixer}/bin/pamixer --get-volume-human)"'';
       };
     };
     systemd.user.services.conky = {
@@ -198,29 +112,5 @@ in {
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
-    home.activation.sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.procps}/bin/pkill -c -USR1 sxhkd
-    '';
-    home.packages = with pkgs;
-      [
-        paratype-pt-mono
-        uw-ttyp0
-        terminus_font_ttf
-        terminus_font
-        gentium
-        unifont
-        sudo-font
-        spleen
-        comic-mono
-        _3270font
-      ] ++ (lib.optionals (config.ao.primaryUser.graphics) [
-        wmname
-        xclip
-        xorg.xkill
-        xorg.xdpyinfo
-        xorg.xwd
-        rox-filer
-        xdotool
-      ]);
   };
 }
