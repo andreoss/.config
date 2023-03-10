@@ -4,7 +4,7 @@ exec ~/.fehbg
 
 unmanage stalonetray
 
-set barborder 10
+set barborder 0
 set barborder 3
 set bargravity nw
 set barinpadding 0
@@ -16,7 +16,6 @@ set fgcolor #ffffaa
 set bwcolor #eaeaea
 set fwcolor #aafaaa
 set framesels 1234567890
-set padding 20 20 20 20
 set startupmessage 0
 set winfmt %n %c %s%20t(%wx%h)
 set wrap 1
