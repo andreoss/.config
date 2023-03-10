@@ -13,65 +13,28 @@ in {
     enable = true;
     wrappedBinaries = { };
   };
-  security.wrappers = {
-    firejail.source = "${pkgs.firejail.out}/bin/firejail";
-  };
   security.lockKernelModules = false;
   security.forcePageTableIsolation = true;
-  security.sudo = {
+  security.sudo = let
+    rule = pkg: cmd: {
+      users = [ user ];
+      commands = [{
+        command = let path = lib.makeBinPath [ pkg ]; in "${path}/${cmd}";
+        options = [ "NOPASSWD" ];
+      }];
+    };
+  in {
     enable = true;
     wheelNeedsPassword = true;
-    extraRules = [
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.systemd}/bin/systemctl";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.systemd}/bin/reboot";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.systemd}/bin/halt";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.procps}/bin/pkill";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.coreutils}/bin/kill";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.openvpn}/bin/openvpn";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-      {
-        users = [ user ];
-        commands = [{
-          command = "${pkgs.lsof}/bin/lsof";
-          options = [ "NOPASSWD" ];
-        }];
-      }
-    ];
     extraConfig = "Defaults lecture=never";
+    extraRules = [
+      (rule pkgs.coreutils "kill")
+      (rule pkgs.lsof "lsof")
+      (rule pkgs.openvpn "openvpn")
+      (rule pkgs.procps "pkill")
+      (rule pkgs.systemd "halt")
+      (rule pkgs.systemd "reboot")
+      (rule pkgs.systemd "systemctl")
+    ];
   };
 }
