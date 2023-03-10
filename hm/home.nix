@@ -33,52 +33,11 @@ in {
     };
   };
   programs.matplotlib.enable = true;
-  programs.ssh = { enable = true; };
-  programs.keychain = {
-    enable = true;
-    enableXsessionIntegration = desk;
-    enableBashIntegration = true;
-  };
-  programs.gpg.enable = true;
-  services.gpg-agent = {
-    grabKeyboardAndMouse = true;
-    enable = true;
-    defaultCacheTtl = 7200;
-    enableSshSupport = true;
-    pinentryFlavor = "gtk2";
-  };
-  home.enableNixpkgsReleaseCheck = true;
-  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
   home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     [ "${
       builtins.toString config.ao.primaryUser.languages.lisp
     }" == "true" ] && ros init
   '';
-  programs.password-store = {
-    enable = true;
-    package = pkgs.pass.withExtensions (exts: [
-      exts.pass-otp
-      exts.pass-import
-      exts.pass-update
-      exts.pass-genphrase
-    ]);
-  };
-  home.sessionVariables = {
-    NIX_SHELL_PRESERVE_PROMPT = 1;
-    XKB_DEFAULT_LAYOUT = config.home.keyboard.layout;
-    XKB_DEFAULT_OPTIONS =
-      builtins.concatStringsSep "," config.home.keyboard.options;
-    EDITOR = "vi";
-    WLR_NO_HARDWARE_CURSORS = 1;
-    XDG_SESSION_PATH = "";
-    XDG_SESSION_DESKTOP = "";
-    XDG_SESSION_TYPE = "";
-    XDG_SESSION_CLASS = "";
-    XDG_SESSION_ID = "";
-    GDMSESSION = "";
-    DESKTOP_SESSION = "";
-    XDG_CURRENT_SESSION = "";
-  };
   home.packages = with pkgs;
     [
       ack
@@ -97,6 +56,7 @@ in {
       lsof
       mtr
       nix
+      nil
       nixfmt
       nix-tree
       nvi
@@ -137,6 +97,7 @@ in {
     ]) ++ (lib.optionals (!config.mini && desk) [ signal-desktop ]) ++ [ ]
     ++ (lib.optionals (!config.mini && lang.cxx) [
       autoconf
+      automake
       binutils
       ccls
       clang-analyzer
@@ -147,19 +108,18 @@ in {
       cpplint
       gcc
       gdb
-      strace
       gnumake
-      automake
-      lcov
       indent
-      ninja
-      pkg-config
-      valgrind
-      tinycc
       kubernetes
+      lcov
       minikube
       minishift
+      ninja
       openshift
+      pkg-config
+      strace
+      tinycc
+      valgrind
     ]) ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
       djview
       pandoc
@@ -184,8 +144,11 @@ in {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
     ".indent.pro".source = ./../indent.pro;
-    ".local/bin/citrix".source = ./../scripts/citrix;
     ".local/bin/dates".source = ./../scripts/dates;
+    # ".local/bin/citrix".source = (pkgs.substituteAll {
+    #   src = ./../scripts/citrix;
+    #   citrix = pkgs.citrix_workspace_22_05_0;
+    # });
   };
   home.file.".local/bin/nano" = {
     executable = true;
@@ -254,6 +217,4 @@ in {
     enable = !config.mini && config.ao.primaryUser.media;
     settings = { seed-ratio = 0.0; };
   };
-  systemd.user.startServices = true;
-  systemd.user.servicesStartTimeoutMs = 10000;
 }
