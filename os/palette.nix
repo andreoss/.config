@@ -27,6 +27,7 @@
   white1 = "#F3F3D3";
   white2 = "#FFFFEA";
   white3 = "#FCF3E4";
+  white4 = "#FAFAAE";
   yellow1 = "#9F7734";
   yellow2 = "#F8CD24";
 }
