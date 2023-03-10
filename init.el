@@ -20,6 +20,7 @@
            (concat (buffer-name) " in " default-directory)))
         vc-mode))
 (setq-default visible-bell t)
+(setq ring-bell-function 'ignore)
 (setq-default mode-line-format nil)
 (setq-default inhibit-startup-screen t)
 (setq-default kill-buffer-query-functions nil)
