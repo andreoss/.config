@@ -39,11 +39,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1678387341,
-        "narHash": "sha256-/SHWMlngMW5sUiqBuXAt4VkvmgkPlzRhIeOgVQSEXAI=",
+        "lastModified": 1678439275,
+        "narHash": "sha256-ugErJAZB0K5Ml6Gow94e3knILog9nSXpBTVVv70r6DY=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "3571b94216954399d7c18e4b2f6df4372f447497",
+        "rev": "c8421fbdb7d831296ecb735c8a7f60964809c857",
         "type": "github"
       },
       "original": {
@@ -177,11 +177,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1678298120,
-        "narHash": "sha256-iaV5xqgn29xy765Js3EoZePQyZIlLZA3pTYtTnKkejg=",
+        "lastModified": 1678418513,
+        "narHash": "sha256-HLLR2Fmkn3TgD0F+u5gMcTKx5YzAU1rbS4cLfm6ugiU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1e383aada51b416c6c27d4884d2e258df201bc11",
+        "rev": "5496585eb876f2ce97654bc8f96838c6f8642563",
         "type": "github"
       },
       "original": {
@@ -226,11 +226,11 @@
     "user-js": {
       "flake": false,
       "locked": {
-        "lastModified": 1675728165,
-        "narHash": "sha256-ebSx6DaXoGKcCoK6UcDnWvdAW6J2X6pJRPD1Pw7UNOw=",
+        "lastModified": 1678440081,
+        "narHash": "sha256-NQYf4dOlMZXPrEnBWrAesjldXHbEFYVsIZQF+ixazys=",
         "owner": "arkenfox",
         "repo": "user.js",
-        "rev": "73884850632ffe284f76881786f7d5903b917f58",
+        "rev": "ca022d8c2d2d8b2e149fd34a696284759e566f4e",
         "type": "github"
       },
       "original": {
