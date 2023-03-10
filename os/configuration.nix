@@ -19,7 +19,11 @@
   };
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
-      (builtins.map (p: "${p.name}") config.environment.systemPackages)));
+      (builtins.map (p: ''
+        ${getName p}
+        ${p.meta.description or "(none)"}
+
+      '') config.environment.systemPackages)));
   services.udisks2.enable = true;
   services.snapper = {
     configs = {
