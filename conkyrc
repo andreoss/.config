@@ -2,28 +2,24 @@ conky.config = {
     alignment = 'top_right',
     background = false,
     cpu_avg_samples = 2,
-    default_color = '#fbfbea',
-    default_outline_color = '#333333',
-    default_outline_color = '#5f5f5f',
-    default_shade_color = '#101010',
+    default_color = '#FCF3E4',
+    default_outline_color = '#1F1F1F',
+    default_shade_color = '#555555',
     double_buffer = true,
     draw_borders = false,
-    draw_graph_borders = true,
+    draw_graph_borders = false,
     draw_outline = true,
-    draw_shades = true,
+    draw_shades = false,
     extra_newline = false,
-    font = 'Ttyp0:size=12',
-    gap_x = 30,
-    gap_y = 30,
+    font = 'Unifont:size=12',
+    gap_x = 48,
+    gap_y = 48,
     maximum_height = 320,
-    maximum_width = 320,
+    maximum_width = 480,
     minimum_height = 320,
-    minimum_width = 320,
+    minimum_width = 480,
     net_avg_samples = 2,
     no_buffers = true,
-    out_to_console = false,
-    out_to_ncurses = false,
-    out_to_stderr  = false,
     out_to_x = true,
     show_graph_range = false,
     show_graph_scale = false,
@@ -35,50 +31,14 @@ conky.config = {
 }
 
 conky.text = [[
-${color grey}$hr$color
 ${alignc}${time %A}, ${time %B %d, %X}
-${alignc}$loadavg ${color grey}/$color $uptime
-${color grey}$hr$color
-$freq / ${hwmon 0 temp 1}°C / $cpu% ${cpubar 4}
-$mem/$memmax - $memperc% ${membar 4}
-$swap/$swapmax - $swapperc% ${swapbar 4}
-${cpugraph 5f5f5f af5f5f scale -t}$color
-${color grey}$hr$color
-/user $color${fs_used /user/}/${fs_size /user/} ${fs_bar 6 /user/}
-${color gray}Reads: $color$diskio_read/s${alignr}${color gray}Writes: $color$diskio_write/s
-${color8}${diskiograph_read 25,160 5f5f5f af5f5f scale -t}$color${alignr}${color8}${diskiograph_write 25,160 6f6f6f af5f5f scale -t}$color
-${if_up tun0}
-${color grey}$hr$color
-tun0: ${color gray}Down:$color ${downspeed tun0}/s${alignr}${color gray}Up:$color ${upspeed tun0}/s
-      ${color gray}Total:$color ${totaldown tun0}${alignr}${color gray}Total: $color${totalup tun0}
-${color gray}
-${downspeedgraph tun0 15,160 5f5f5f af5f5f scale -t}${alignr}${upspeedgraph tun0 15,160 6f6f6f af5f5f scale -t}
-${color grey}$hr$color
-$endif
-${if_existing /sys/class/net/wlan0/operstate up}
-${color grey}$hr$color
-wlan0: ${color gray}Down:$color ${downspeed wlan0}/s${alignr}${color gray}Up:$color ${upspeed wlan0}/s
-       ${color gray}Total:$color ${totaldown wlan0}${alignr}${color gray}Total: $color${totalup wlan0}
-${color gray}
-${downspeedgraph wlan0 15,160 5f5f5f af5f5f scale -t}${alignr}${upspeedgraph wlan0 15,160 6f6f6f af5f5f scale -t}
-${color grey}$hr$color
-$endif
-${if_existing /sys/class/net/eth0/operstate up}
-${color grey}$hr$color
-eth0: ${color gray}Down:$color ${downspeed eth0}/s${alignr}${color gray}Up:$color ${upspeed eth0}/s
-      ${color gray}Total:$color ${totaldown eth0}${alignr}${color gray}Total: $color${totalup eth0}
-${color gray}
-${downspeedgraph eth0 15,160 5f5f5f af5f5f scale -t}${alignr}${upspeedgraph eth0 15,160 6f6f6f af5f5f scale -t}
-${color grey}$hr$color
-$endif
-${color grey}Name                PID     CPU%   MEM%
-${color lightgrey}${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
-${color lightgrey}${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
-${color lightgrey}${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
-${color lightgrey}${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
-${color grey}$hr$color
-$alignc${execi 20 notmuch count tag:inbox and tag:unread and date:today}/${execi 20 notmuch count tag:inbox and tag:unread}${color grey}
-$hr$color
+$loadavg${alignr}$uptime
+${cpugraph 15,480 586E75 541230 scale -t -l}
+${alignc}${fs_used /user/}/${fs_free /user}
+$diskio_read/s${alignr}$diskio_write/s
+${diskiograph_read 25,240 586E75 541230 scale -t}${alignr}${diskiograph_write 25,240 586E75 541230 scale -t}
+${if_up tun0}${downspeedgraph tun0 15,240 586E75 541230 scale -t}${alignr}${upspeedgraph tun0 15,240 586E75 541230 scale -t}$else${if_existing /sys/class/net/wlan0/operstate up}${downspeedgraph wlan0 15,240 586E75 541230 scale -t}${alignr}${upspeedgraph wlan0 15,240 586E75 541230 scale -t}$endif$endif
+${execi 20 notmuch count tag:inbox and tag:unread and date:today}/${execi 20 notmuch count tag:inbox and tag:unread}$alignr${execi 20 notmuch count date:1h and tag:inbox}/${execi 20 notmuch count date:1d and tag:inbox}/${execi 20 notmuch count date:1w and tag:inbox}
 $if_mpd_playing
 ${mpd_file}
 ${mpd_elapsed} / ${mpd_length}
