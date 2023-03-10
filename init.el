@@ -26,16 +26,16 @@
 (setq-default kill-buffer-query-functions nil)
 (setq-default kill-emacs-query-functions nil)
 (setq auto-revert-verbose nil)
+(global-so-long-mode +1)
 (global-auto-revert-mode +1)
 (global-visual-line-mode -1)
 (global-eldoc-mode +1)
 (global-reveal-mode +1)
-(use-package flycheck :config (global-flycheck-mode))
+(toggle-truncate-lines +1)
+(visual-line-mode -1)
 (use-package
  evil
- :bind (("<escape>" . keyboard-escape-quit))
  :init (setq evil-want-keybinding nil)
- :hook (after-init . evil-mode)
  :config
  (define-key evil-normal-state-map (kbd "C-z") 'evil-normal-state)
  (define-key evil-emacs-state-map (kbd "C-z") 'evil-emacs-state)
@@ -67,10 +67,8 @@
   (evil-global-set-key state (kbd "C-a") 'beginning-of-line)
   (evil-global-set-key state (kbd "C-h") 'delete-backward-char)
   (evil-global-set-key state (kbd "C-e") 'end-of-line)
-  (evil-global-set-key state (kbd "C-k") 'kill-line))
- (define-key evil-normal-state-map (kbd "C-z") 'evil-normal-state)
- (define-key evil-emacs-state-map (kbd "C-z") 'evil-emacs-state)
- (define-key evil-insert-state-map (kbd "C-z") 'evil-normal-state))
+  (evil-global-set-key state (kbd "C-k") 'kill-line)))
+(evil-mode +1)
 (use-package
  evil-collection
  :after evil
@@ -135,24 +133,10 @@
  (mode-line-modes nil)
  :hook (emacs-startup . feebleline-mode))
 (use-package marginalia :hook (after-init . marginalia-mode))
-(use-package vertico)
 (use-package
- vertico-posframe
- :after vertico
- :config
- (vertico-mode 1)
- (vertico-posframe-mode 1))
-(use-package
- company
- :after (evil)
- :config
- (global-company-mode 1)
- (evil-global-set-key 'normal (kbd "M-i") 'company-complete)
- (evil-global-set-key 'insert (kbd "M-i") 'company-complete))
-(use-package
- company-posframe
- :after company
- :config (company-posframe-mode 1))
+ vertico
+ :custom (vertico-count-format nil)
+ :config (vertico-mode 1))
 (use-package
  dashboard
  :hook
@@ -174,7 +158,6 @@
  undo-tree
  :after (evil)
  :hook (after-init . global-undo-tree-mode))
-(global-set-key (kbd "RET") 'newline-and-indent)
 (use-package centered-cursor-mode :config (centered-cursor-mode +1))
 (use-package magit :bind ("C-x g" . magit-status))
 (use-package
@@ -185,6 +168,9 @@
   (git-commit-mode . turn-on-auto-fill)))
 (use-package git-gutter :config (global-git-gutter-mode +1))
 (use-package default-text-scale)
+
+(setq mouse-wheel-progressive-speed nil
+      mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
 (define-key
  global-map [(control +)] (function default-text-scale-increase))
 (define-key
@@ -201,7 +187,7 @@
 (use-package
  winum
  :after (evil)
- :hook (after-init . winum--clear-mode-line)
+ :hook ((after-init . winum--clear-mode-line) (after-init . winner-mode))
  :config
  (defconst evil-winner-key (kbd "C-w")
    "Evil winner prefix")
@@ -209,6 +195,9 @@
  (evil-global-set-key 'emacs evil-winner-key 'evil-window-map)
  (evil-global-set-key 'normal evil-winner-key 'evil-window-map)
  (winum-mode +1)
+ (define-key 'evil-window-map (kbd "/") 'switch-to-buffer)
+ (define-key
+  'evil-window-map (kbd "C-/") 'switch-to-buffer-other-window)
  (define-key 'evil-window-map (kbd "1") 'winum-select-window-1)
  (define-key 'evil-window-map (kbd "1") 'winum-select-window-1)
  (define-key 'evil-window-map (kbd "2") 'winum-select-window-2)
@@ -243,10 +232,11 @@
  ;; https://www.emacswiki.org/emacs/HorizontalSplitting
  (setq-default split-width-threshold 160)
  (setq-default use-dialog-box nil))
+
 (use-package
  ace-window
- :bind ("C-c w" . ace-window)
  :custom
+ (define-key 'evil-window-map (kbd "a") 'ace-window)
  (window-divider-default-right-width 3)
  (window-divider-default-places 'right-only)
  :config (window-divider-mode +1))
@@ -308,10 +298,6 @@
  (which-key-sort-order nil)
  (which-key-side-window-max-height 0.33)
  :config (which-key-mode +1))
-(use-package
- which-key-posframe
- :after (which-key)
- :config (which-key-posframe-mode +1))
 (defmacro if-any-window-system (&rest body)
   "If Emacs running in graphical enviroment execute BODY."
   `(if (not (eq (window-system) 'nil))
@@ -335,8 +321,12 @@
  jc-themes
  ;builtin
  :when (file-exists-p "@jc@")
+ :after (dired dired-subtree evil)
  :load-path "@jc@"
- :config (load-theme 'jc-themes-random t))
+ :config
+ (add-hook
+  'after-init-hook ;;
+  #'(lambda () (load-theme 'jc-themes-random t))))
 (require 'eshell)
 (require 'shell)
 (require 'ansi-color)
@@ -349,6 +339,7 @@
  eshell-where-to-jump 'begin
  eshell-review-quick-commands nil)
 (defun eshell-maybe-bol ()
+  "Go to the beginning of current line."
   (interactive)
   (let ((p (point)))
     (eshell-bol)
@@ -467,7 +458,6 @@
 ;; C
 (require 'elide-head)
 (use-package c-eldoc)
-(use-package company-c-headers)
 (use-package
  ccls
  :custom (c-basic-offset 4)
@@ -648,7 +638,7 @@
  :hook (after-init . nix-prettify-global-mode)
  :config (add-hook 'before-save-hook 'nix-format-before-save))
 (use-package
- elisp-autofmt ;builtin 
+ elisp-autofmt ;builtin
  :when (file-exists-p "@autofmt@")
  :load-path "@autofmt@"
  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
@@ -797,13 +787,171 @@
 (use-package
  calendar ;builtin
  :config (require 'holidays))
-
 (use-package vterm)
 (use-package ag :config (lead-def "tg" 'ag))
 (use-package wgrep :after ag)
 (use-package wgrep-ag :after wgrep)
-
 ;; WM
-(use-package exwm)
+(use-package
+ exwm
+ :when (eq window-system 'x)
+ :custom
+ (exwm-replace nil)
+ (exwm-workspace-number 6)
+ (exwm-workspace-show-all-buffers t)
+ :config
+ (require 'exwm-systemtray)
+ (exwm-systemtray-enable)
+ (require 'exwm-config)
+ (exwm-config-ido)
+ (add-hook
+  'exwm-mode-hook
+  #'(lambda () (local-set-key (kbd "C-w") 'evil-window-map)))
+
+ (define-key 'evil-window-map (kbd "C-q") 'exwm-input-send-next-key)
+ (defun exwm-rename-buffer ()
+   (interactive)
+   (exwm-workspace-rename-buffer
+    (concat
+     exwm-class-name ":"
+     (if (<= (length exwm-title) 50)
+         exwm-title
+       (concat (substring exwm-title 0 49) "...")))))
+ ;; Add these hooks in a suitable place (e.g., as done in exwm-config-default)
+ (add-hook 'exwm-update-class-hook 'exwm-rename-buffer)
+ (add-hook 'exwm-update-title-hook 'exwm-rename-buffer)
+ (add-hook
+  'exwm-update-title-hook
+  (lambda ()
+    (when (or (not exwm-instance-name)
+              (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+              (string= "gimp" exwm-instance-name))
+      (exwm-workspace-rename-buffer exwm-title))))
+ (exwm-input-set-key (kbd "s-r") #'exwm-reset)
+ (exwm-input-set-key (kbd "s-w") #'exwm-workspace-switch)
+ (exwm-input-set-key (kbd "s-m") #'exwm-workspace-move-window)
+ (setq-default exwm-input-prefix-keys
+               '(?\C-x ?\C-u ?\C-h ?\M-x ?\M-` ?\M-& ?\M-: ?\C-w))
+ (cl-loop
+  for i from 1 to exwm-workspace-number do
+  (exwm-input-set-key
+   (kbd (format "s-%d" (% i 10)))
+   `(lambda ()
+      (interactive)
+      (exwm-workspace-switch-create (- ,i 1)))))
+ (cl-loop
+  for i from 1 to exwm-workspace-number do
+  (exwm-input-set-key
+   (kbd (format "s-s %d" (% i 10)))
+   `(lambda ()
+      (interactive)
+      (exwm-workspace-move-window (- ,i 1)))))
+ (exwm-input-set-key
+  (kbd "s-&")
+  (lambda (command)
+    (interactive (list (read-shell-command "$ ")))
+    (start-process-shell-command command nil command)))
+ (exwm-enable)
+ (exwm-init))
+
+(use-package
+ olivetti
+ :after (evil)
+ :config (define-key 'evil-window-map (kbd "z") 'olivetti-mode))
+
+(use-package
+ emacs
+ ;builtin
+ :init
+ (setq completion-cycle-threshold 3)
+ (setq read-extended-command-predicate
+       #'command-completion-default-include-p)
+ (setq tab-always-indent 'complete))
+(use-package
+ perspective
+ :bind
+ (("C-x b" . persp-switch-to-buffer*) ("C-x k" . persp-kill-buffer*))
+ :hook (kill-emacs . persp-state-save)
+ :custom (persp-suppress-no-prefix-key-warning t)
+ :config (persp-mode))
+(use-package bufler)
+(use-package perspective-exwm :after (exwm))
+(use-package exwm-mff :after (exwm) :hook (exwm-init . exwm-mff-mode))
+(add-hook
+ 'vterm-mode-hook (lambda () (setq evil-default-state 'emacs)))
+(use-package fringe-current-line
+  :init
+ (define-fringe-bitmap 'wave
+    (vector #b00000000
+            #b00000000
+            #b00011000
+            #b00100100
+            #b00100100
+            #b00011000
+            #b00000000
+            #b00000000
+            )
+    nil nil 'center)
+ (define-fringe-bitmap 'arrow-indicator
+    (vector #b00111100
+            #b01111110
+            #b11100111
+            #b11000011
+            #b11000011
+            #b11100111
+            #b01111110
+            #b00111100)
+    nil nil 'center)
+  :custom
+  (flycheck-indication-mode 'right-fringe)
+  :config
+  (setq fcl-fringe-bitmap 'arrow-indicator)
+  (setq-default indicate-empty-lines t)
+
+  (setcdr (assq 'empty-line fringe-indicator-alist) 'wave)
+
+  :hook (after-init . global-fringe-current-line-mode)
+  )
+(use-package flycheck
+  :config
+  (define-fringe-bitmap 'flycheck-fringe-indicator
+    (vector #b0000000000000000
+            #b0000000000000000
+            #b0111111111111110
+            #b1111111111111111
+            #b1111111111111111
+            #b1111111111111111
+            #b1111111111111111
+            #b0111111111111110
+            #b0000000000000000
+            #b0000000000000000)
+    nil nil 'center)
+  :custom (flycheck-indication-mode 'right-fringe)
+  :hook (after-init . global-flycheck-mode)
+  :config
+  (flycheck-define-error-level 'error
+    :severity 2
+    :overlay-category 'flycheck-error-overlay
+    :fringe-bitmap 'flycheck-fringe-indicator
+    :fringe-face 'flycheck-fringe-error)
+  (flycheck-define-error-level 'warning
+    :severity 1
+    :overlay-category 'flycheck-warning-overlay
+    :fringe-bitmap 'flycheck-fringe-indicator
+    :fringe-face 'flycheck-fringe-warning)
+  (flycheck-define-error-level 'info
+    :severity 0
+    :overlay-category 'flycheck-info-overlay
+    :fringe-bitmap 'flycheck-fringe-indicator
+    :fringe-face 'flycheck-fringe-info))
+(use-package unicode-fonts)
+(use-package dr-racket-like-unicode
+  :hook (prog-mode . dr-racket-like-unicode-mode))
+(use-package auto-highlight-symbol
+  :custom
+  (ahs-idle-interval 0.1)
+  :config
+  (lead-def "t h" 'auto-highlight-symbol-mode))
 (provide 'init.el)
+
 ;;; init.el ends here
