@@ -1,0 +1,133 @@
+{ config, pkgs, lib, inputs, ... }:
+let
+  palette = import ../os/palette.nix;
+  font = "Terminus";
+in {
+  config = {
+    programs.feh.enable = true;
+    programs.rofi = {
+      enable = true;
+      cycle = true;
+      terminal = "urxvt";
+      theme = "gruvbox-light-soft";
+    };
+    services.sxhkd = {
+      enable = true;
+      keybindings = {
+        "alt + slash" = "rofi -show-icons -show combi";
+        "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
+        "alt + backspace" =
+          "${inputs.dmenu.packages.x86_64-linux.dmenu}/bin/dmenu_run";
+      };
+    };
+    home.activation.sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      ${pkgs.procps}/bin/pgrep -u w sxhkd && ${pkgs.procps}/bin/pkill -u w -USR1 sxhkd
+    '';
+    services.dunst.enable = true;
+    services.dunst.settings = with palette; {
+      global = {
+        frame_color = black1;
+        separator_color = gray4;
+        transparency = 80;
+        font = "${font}";
+        alignment = "center";
+        word_warp = "true";
+        line_height = 3;
+        geometry = "384x5-30+20";
+      };
+      urgency_low = {
+        background = white3;
+        foreground = gray3;
+        timeout = 10;
+      };
+      urgency_normal = {
+        background = white4;
+        foreground = black1;
+        timeout = 20;
+      };
+      urgency_critical = {
+        background = red3;
+        foreground = black1;
+        timeout = 0;
+      };
+    };
+    fonts.fontconfig.enable = true;
+    dconf.settings = {
+      "org/gnome/desktop/background" = {
+        picture-uri = "${../wp/1.jpeg}";
+        picture-options = "centered";
+      };
+      "org/gnome/desktop/sound" = { event-sounds = false; };
+      "org/gnome/desktop/input-sources" = {
+        xkb-options = config.home.keyboard.options;
+        sources = builtins.map (x: "('xkb', '${x}')")
+          (lib.strings.splitString "," config.home.keyboard.layout);
+      };
+    };
+    gtk = {
+      font.package = pkgs.terminus_font_ttf;
+      font.name = "${font} 9";
+      enable = true;
+      iconTheme = {
+        name = "Adwaita";
+        package = pkgs.gnome.adwaita-icon-theme;
+      };
+      gtk2.extraConfig = "";
+      gtk3.extraConfig = {
+        gtk-xft-antialias = 1;
+        gtk-xft-hinting = 1;
+        gtk-xft-hintstyle = "hintfull";
+        gtk-xft-rgba = "rgb";
+        gtk-fallback-icon-theme = "gnome";
+        gtk-button-images = 0;
+        gtk-cursor-theme-size = 0;
+        gtk-enable-animations = false;
+        gtk-enable-event-sounds = 0;
+        gtk-enable-input-feedback-sounds = 0;
+      };
+      gtk3.bookmarks = [
+        "file://${config.home.homeDirectory}/Books/"
+        "file://${config.home.homeDirectory}/Work/"
+        "file://${config.home.homeDirectory}/Finance/"
+        "file://${config.home.homeDirectory}/Official/"
+      ];
+    };
+    qt = {
+      enable = config.ao.primaryUser.graphics;
+      style.package = pkgs.adwaita-qt;
+    };
+    home.packages = with pkgs; [
+      noto-fonts-emoji
+      noto-fonts
+      paratype-pt-mono
+      uw-ttyp0
+      terminus_font_ttf
+      terminus_font
+      unifont
+      sudo-font
+      comic-mono
+      _3270font
+      wmname
+      xclip
+      xorg.xkill
+      xorg.xdpyinfo
+      xorg.xwd
+      xorg.xhost
+      xpra
+      wmctrl
+      rox-filer
+      xdotool
+    ];
+    systemd.user.services.fehbg = {
+      Unit = {
+        Description = "fehbg";
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.feh}/bin/feh --no-fehbg --bg-fill ${../wp/1.jpeg}";
+        Restart = "never";
+      };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
+    };
+  };
+}
