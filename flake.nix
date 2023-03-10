@@ -1,16 +1,22 @@
 {
   description = "Flakes";
   inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
     emacs-d = {
       url = "github:andreoss/.emacs.d/master";
       flake = false;
     };
+    dmenu.url = "github:andreoss/dmenu/master";
     jc-themes = {
       url = "gitlab:andreoss/jc-themes/master";
       flake = false;
     };
     elisp-autofmt = {
       url = "git+https://codeberg.org/ideasman42/emacs-elisp-autofmt.git";
+      flake = false;
+    };
+    password-store = {
+      url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
     };
     urxvt-context-ext = {
@@ -28,35 +34,30 @@
     emacs-overlay = { url = "github:nix-community/emacs-overlay/master"; };
     guix-overlay = { url = "github:foo-dogsquared/nix-overlay-guix"; };
     home-manager = { url = "github:nix-community/home-manager"; };
-    nixpkgs = { url = "github:nixos/nixpkgs/nixpkgs-unstable"; };
+    nixpkgs = { url = "github:nixos/nixpkgs/nixos-22.11"; };
+    wfica = { url = "github:andreoss/citrix/master"; };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
-      inherit (nixpkgs.lib) filterAttrs traceVal;
-      inherit (builtins) mapAttrs elem;
-      inherit (self) outputs;
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       imports = [ ./config.nix ];
+      systems = lib.systems.flakeExposed;
+      lib = nixpkgs.lib;
+      eachSystem = lib.genAttrs systems;
     in rec {
-      legacyPackages = forAllSystems (system:
+      legacyPackages = eachSystem (system:
         import nixpkgs {
           inherit system;
-          config.allowUnfree = false;
-          config.permittedInsecurePackages = [ "mupdf-1.17.0" ];
-          overlays = [
-            inputs.emacs-overlay.overlays.emacs
-            inputs.guix-overlay.overlays.default
-            #(import ./overlays/kernel.nix)
-            #(import ./overlays/grub.nix)
-            #(import ./overlays/emacs.nix)
-          ];
+          config = {
+            allowUnfree = false;
+            permittedInsecurePackages = [ "mupdf-1.17.0" ];
+          };
+          overlays = [ ];
         });
       baseSystem = host:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           pkgs = legacyPackages."x86_64-linux";
-          specialArgs = { inherit outputs inputs self; };
+          specialArgs = { inherit inputs self; };
           modules = [
             ./config.nix
             inputs.home-manager.nixosModule
@@ -81,7 +82,7 @@
         imports = [ ./config.nix ];
         "a" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit outputs inputs self; };
+          extraSpecialArgs = { inherit inputs self; };
           modules = [
             ./config.nix
             {
