@@ -17,6 +17,7 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
+  programs.bandwhich.enable = true;
   networking = {
     enableIPv6 = lib.mkForce false;
     timeServers = [ ];
@@ -68,8 +69,18 @@ in {
       allowInterfaces = [ "eth*" "wlan*" ];
     };
   };
-  security = {
-    pki.certificateFiles = [ ];
+  security = let russianCa = "https://gu-st.ru/content/lending/";
+  in {
+    pki.certificateFiles = with builtins; [
+      (fetchurl {
+        url = "${russianCa}/russian_trusted_root_ca_pem.crt";
+        sha256 = "sha256:0135zid0166n0rwymb38kd5zrd117nfcs6pqq2y2brg8lvz46slk";
+      })
+      (fetchurl {
+        url = "${russianCa}/russian_trusted_sub_ca_pem.crt";
+        sha256 = "sha256:19jffjrawgbpdlivdvpzy7kcqbyl115rixs86vpjjkvp6sgmibph";
+      })
+    ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
@@ -155,6 +166,10 @@ in {
   };
   systemd.services."openvpn-f1".serviceConfig.Group = "tunnel";
   systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
+  systemd.services."openvpn-f1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
+  systemd.services."openvpn-m1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
   environment = {
     etc = {
       "resolv.conf" = {
