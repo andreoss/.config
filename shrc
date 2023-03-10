@@ -131,7 +131,7 @@ alias cx='chmod +x'
 alias what='command -v'
 alias rsync='rsync --progress'
 alias mc='mc --nocolor'
-alias xc='xclip -o | xclip -i -selection clipboard'
+alias xc='xclip -o | tee /dev/stderr | xclip -i -selection clipboard'
 alias q=exit
 alias j=jobs
 alias h='fc -l'
@@ -195,7 +195,7 @@ __ps1() {
     if [ "${USER-}" = "root" ]; then
         PROMPT='# '
     else
-        PROMPT='* '
+        PROMPT="${PROMPT:-* }"
     fi
     DIR="$(__short_pwd)"
 
@@ -233,13 +233,6 @@ __title() {
         echo -ne "\e]0;${VCS} ${DIR}\007"
     fi
 }
-# shellcheck disable=SC3047
-if [ "$BASH" ]; then
-    case "$TERM" in xterm* | rxvt*)
-        trap '__title' DEBUG
-        ;;
-    esac
-fi
 __prepend_path "$HOME/.scripts"
 __prepend_path "$HOME/.cargo/bin"
 case "$TERM" in
@@ -293,3 +286,16 @@ __source "$HOME/.nix-profile/etc/profile.d/autojump.sh"
 __source "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 __source "$HOME/.nix-profile/etc/bash_completion.d/git-prompt.sh"
 __source "/usr/local/share/bash-completion/bash_completion"
+
+if [ -d "$HOME/perl5" ]
+then
+    eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+fi
+
+# shellcheck disable=SC3047
+if [ "$BASH" ]; then
+    case "$TERM" in xterm* | rxvt*)
+        trap '__title' DEBUG
+        ;;
+    esac
+fi
