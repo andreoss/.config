@@ -1,22 +1,16 @@
 {
   description = "Flakes";
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
     emacs-d = {
       url = "github:andreoss/.emacs.d/master";
       flake = false;
     };
-    dmenu.url = "github:andreoss/dmenu/master";
     jc-themes = {
       url = "gitlab:andreoss/jc-themes/master";
       flake = false;
     };
     elisp-autofmt = {
       url = "git+https://codeberg.org/ideasman42/emacs-elisp-autofmt.git";
-      flake = false;
-    };
-    password-store = {
-      url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
     };
     urxvt-context-ext = {
@@ -31,37 +25,49 @@
       url = "github:arkenfox/user.js/master";
       flake = false;
     };
-    emacs-overlay = { url = "github:nix-community/emacs-overlay/master"; };
-    guix-overlay = { url = "github:foo-dogsquared/nix-overlay-guix"; };
-    home-manager = { url = "github:nix-community/home-manager"; };
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-22.11"; };
-    wfica = { url = "github:andreoss/citrix/master"; };
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    emacs-overlay.url = "github:nix-community/emacs-overlay/master";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-22.05";
+    guix-overlay = {
+      url = "github:foo-dogsquared/nix-overlay-guix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
+      inherit (nixpkgs.lib) filterAttrs traceVal;
+      inherit (builtins) mapAttrs elem;
+      inherit (self) outputs;
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       imports = [ ./config.nix ];
-      systems = lib.systems.flakeExposed;
-      lib = nixpkgs.lib;
-      eachSystem = lib.genAttrs systems;
     in rec {
-      legacyPackages = eachSystem (system:
+      legacyPackages = forAllSystems (system:
         import nixpkgs {
           inherit system;
-          config = {
-            allowUnfree = false;
-            permittedInsecurePackages = [ "mupdf-1.17.0" ];
-          };
-          overlays = [ ];
+          config.allowUnfree = false;
+          overlays = [
+            inputs.emacs-overlay.overlays.emacs
+            inputs.guix-overlay.overlays.default
+            #(import ./overlays/kernel.nix)
+            #(import ./overlays/grub.nix)
+            #(import ./overlays/emacs.nix)
+          ];
         });
       baseSystem = host:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           pkgs = legacyPackages."x86_64-linux";
-          specialArgs = { inherit inputs self; };
+          specialArgs = { inherit outputs inputs self; };
           modules = [
             ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
+            # { system.stateVersion = config.ao.stateVersion; }
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
             ./os/hm.nix
@@ -82,7 +88,7 @@
         imports = [ ./config.nix ];
         "a" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs self; };
+          extraSpecialArgs = { inherit outputs inputs self; };
           modules = [
             ./config.nix
             {
@@ -106,12 +112,8 @@
       };
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
-        modules = [
-          ./secrets/tx-hw.nix
-          ./os/fs-crypt.nix
-          ./os/boot-loader.nix
-          ./os/containers.nix
-        ];
+        modules =
+          [ ./secrets/tx-hw.nix ./os/fs-crypt.nix ./os/boot-loader.nix ];
       };
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
@@ -145,6 +147,7 @@
             config.ao.primaryUser.name = "nixos";
           }
           inputs.home-manager.nixosModule
+          # { system.stateVersion = config.ao.stateVersion; }
           ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
