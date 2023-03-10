@@ -105,8 +105,12 @@
       };
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
-        modules =
-          [ ./secrets/tx-hw.nix ./os/fs-crypt.nix ./os/boot-loader.nix ];
+        modules = [
+          ./secrets/tx-hw.nix
+          ./os/fs-crypt.nix
+          ./os/boot-loader.nix
+          ./os/containers.nix
+        ];
       };
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
