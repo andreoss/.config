@@ -13,7 +13,8 @@ let
   '';
   networks = builtins.tryEval {
     networks = import ../secrets/networks.nix;
-    environmentFile = pkgs.writeShellScript "secrets.env" (builtins.readFile ../secrets/network.env);
+    environmentFile = pkgs.writeShellScript "secrets.env"
+      (builtins.readFile ../secrets/network.env);
   };
 in {
   networking = {
@@ -51,8 +52,12 @@ in {
     wireless.dbusControlled = true;
     wireless.scanOnLowSignal = false;
     wireless.userControlled.enable = true;
-    wireless.networks = if networks.success then networks.value.networks else {};
-    wireless.environmentFile = if networks.success then networks.value.environmentFile else (pkgs.writeShellScript "empty.env" "");
+    wireless.networks =
+      if networks.success then networks.value.networks else { };
+    wireless.environmentFile = if networks.success then
+      networks.value.environmentFile
+    else
+      (pkgs.writeShellScript "empty.env" "");
     dhcpcd = {
       enable = true;
       extraConfig = ''
@@ -111,8 +116,11 @@ in {
     };
   };
   systemd.services.unbound = { partOf = [ "network.target" ]; };
-  systemd.services.dnscrypt-proxy2 = { partOf = [ "network.target" ]; };
-  systemd.services.wpa_supplicant = { partOf = [ "network.target" ]; };
+  systemd.services.dnscrypt-proxy2 = {
+    requires = [ "unbound.service" ];
+    partOf = [ "network.target" ];
+  };
+  systemd.services.dhcpcd = { partOf = [ "network.target" ]; };
   systemd.services.macchanger-wlan = {
     enable = true;
     description = "macchanger on wlan0";
@@ -141,6 +149,12 @@ in {
       ExecStart = "${change-mac} eth0";
     };
   };
+  services.openvpn.servers = import ../secrets/vpn.nix {
+    inherit lib;
+    inherit pkgs;
+  };
+  systemd.services."openvpn-f1".serviceConfig.Group = "tunnel";
+  systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
   environment = {
     etc = {
       "resolv.conf" = {
