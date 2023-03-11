@@ -3,10 +3,6 @@ let
   cfg = config.ao;
   user = cfg.primaryUser.name;
 in {
-  nixpkgs.config = {
-    pulseaudio = true;
-    mediaSupport = true;
-  };
   hardware.bluetooth.enable = false;
   security.rtkit.enable = !config.ao.pipewireReplacesPulseaudio;
   hardware.pulseaudio = {
