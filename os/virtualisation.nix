@@ -2,9 +2,7 @@
 let user = config.ao.primaryUser.name;
 in {
   security.polkit.enable = true;
-  programs.extra-container.enable = true;
   virtualisation = {
-    cri-o.enable = true;
     kvmgt.enable = !config.mini;
     lxc.enable = false;
     lxc.lxcfs.enable = false;
@@ -26,8 +24,8 @@ in {
     };
     libvirtd.enable = !config.mini;
   };
-  users.groups.docker.members = [ user ];
-  users.groups.libvirtd.members = [ user ];
-  users.groups.lxd.members = [ user ];
-  users.groups.vboxusers.members = [ user ];
+  users.extraGroups.docker.members = [ user ];
+  users.extraGroups.libvirtd.members = [ user ];
+  users.extraGroups.lxd.members = [ user ];
+  users.extraGroups.vboxusers.members = [ user ];
 }
