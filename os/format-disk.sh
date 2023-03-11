@@ -10,6 +10,8 @@ UNMOUNT=
 CRYPT=
 FS=btrfs
 LABEL="gpt"
+BOOT_SIZE=128MiB
+LUKS_TYPE=luks1
 
 while getopts "d:r:mufCF:L:" opt; do
         case "$opt" in
@@ -94,9 +96,9 @@ else
 fi
 
 if [ "$CRYPT" ]; then
-    RAW_DEVICE="$BTRFS_DEVICE"
+        RAW_DEVICE="$BTRFS_DEVICE"
 else
-    RAW_DEVICE=/dev/disk/by-partuuid/"$PART_SYSTEM"
+        RAW_DEVICE=/dev/disk/by-partuuid/"$PART_SYSTEM"
 fi
 
 if [ "$CRYPT" ] && [ ! -e "$LUKS_KEY" ]; then
@@ -117,16 +119,18 @@ crypt_close() {
 
 crypt_format() {
         if [ "$CRYPT" ]; then
-                cryptsetup -q luksFormat /dev/disk/by-partuuid/"$PART_SYSTEM" "$LUKS_KEY"
+                cryptsetup -q luksFormat --type "$LUKS_TYPE" --uuid "$ID_SYSTEM" /dev/disk/by-partuuid/"$PART_SYSTEM" "$LUKS_KEY"
         fi
         sleep 3
 }
 
 crypt_open() {
-        if cryptsetup isLuks "$CRYPT_DEV"; then
-                cryptsetup -q open --key-file="$LUKS_KEY" "$CRYPT_DEV" "$CRYPT_LABEL"
-        else
-                error "Not LUKS: $CRYPT_DEV"
+        if [ "$CRYPT" ]; then
+                if cryptsetup isLuks "$CRYPT_DEV"; then
+                        cryptsetup -q open --key-file="$LUKS_KEY" "$CRYPT_DEV" "$CRYPT_LABEL"
+                else
+                        error "Not LUKS: $CRYPT_DEV"
+                fi
         fi
 }
 
@@ -176,7 +180,7 @@ btrfs_prepare() {
 }
 
 btrfs_mount() {
-        should_exists "$ROOT"/etc/nixos "$ROOT"/boot "$ROOT"/home "$ROOT"/nix/store  "$ROOT"/nix/var
+        should_exists "$ROOT"/etc/nixos "$ROOT"/boot "$ROOT"/home "$ROOT"/nix/store "$ROOT"/nix/var
         btrfs_subvol_mount /nix/store
         btrfs_subvol_mount /nix/var
         btrfs_subvol_mount /user
@@ -187,13 +191,13 @@ btrfs_unmount() {
 }
 
 boot_prepare() {
-    if [ "$LABEL" = "gpt" ]; then
-        mkfs.fat /dev/disk/by-partuuid/"$PART_BOOT" -I -i "${ID_BOOT//-/}"
-    elif [ "$LABEL" = "msdos" ]; then
-        mkfs.ext2 /dev/disk/by-partuuid/"$PART_BOOT"
-    else
-        error "$LABEL unsupported"
-    fi
+        if [ "$LABEL" = "gpt" ]; then
+                mkfs.fat /dev/disk/by-partuuid/"$PART_BOOT" -I -i "${ID_BOOT//-/}"
+        elif [ "$LABEL" = "msdos" ]; then
+                mkfs.ext2 /dev/disk/by-partuuid/"$PART_BOOT"
+        else
+                error "$LABEL unsupported"
+        fi
 }
 
 boot_mount() {
@@ -264,11 +268,12 @@ xfs_prepare() {
 }
 
 f2fs_prepare() {
-        mkfs.f2fs "$RAW_DEVICE" -f -U "${ID_SYSTEM^^}" -O extra_attr,inode_checksum,sb_checksum,compression
+        mkfs.f2fs "$RAW_DEVICE" -f -U "${ID_SYSTEM^^}" -O extra_attr,inode_checksum,sb_checksum,compression,encrypt
 }
 
 f2fs_mount() {
-        mount  -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$RAW_DEVICE" "$ROOT/nix"
+        mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$RAW_DEVICE" "$ROOT/nix"
+        chattr -R +c "$ROOT/nix"
 }
 
 generic_mount() {
@@ -281,12 +286,12 @@ generic_unmount() {
 
 if [ "$FORMAT" ]; then
         check_if_mounted
-        dd if=/dev/zero of="$DEVICE" bs=512 count=10
+        dd if=/dev/zero of="$DEVICE" bs=1M count=10
 
         if [ "$LABEL" = "gpt" ]; then
                 parted -s "$DEVICE" mklabel "$LABEL"
-                parted -a optimal "$DEVICE" mkpart primary fat16 1MiB 512MiB
-                parted -a optimal "$DEVICE" mkpart primary ext2 512MiB 100%
+                parted -a optimal "$DEVICE" mkpart primary fat16 1MiB "$BOOT_SIZE"
+                parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
 
                 sgdisk --partition-guid=1:"$PART_BOOT" "$DEVICE"
                 sgdisk --partition-guid=2:"$PART_SYSTEM" "$DEVICE"
@@ -296,8 +301,8 @@ if [ "$FORMAT" ]; then
                 parted "$DEVICE" name 2 system
         elif [ "$LABEL" = "msdos" ]; then
                 parted -s "$DEVICE" mklabel "$LABEL"
-                parted -a optimal "$DEVICE" mkpart primary ext2 1MiB 512MiB
-                parted -a optimal "$DEVICE" mkpart primary ext2 512MiB 100%
+                parted -a optimal "$DEVICE" mkpart primary ext2 1MiB "$BOOT_SIZE"
+                parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
 
                 fdisk --wipe "$DEVICE"
                 (
