@@ -43,14 +43,16 @@ in {
   services.gpg-agent = {
     grabKeyboardAndMouse = true;
     enable = true;
-    defaultCacheTtl = 1800;
+    defaultCacheTtl = 7200;
     enableSshSupport = true;
     pinentryFlavor = "gtk2";
   };
   home.enableNixpkgsReleaseCheck = true;
   home.sessionPath = [ "$HOME/.local/bin" "$HOME/.config/scripts" ];
   home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    [ "${builtins.toString config.ao.primaryUser.languages.lisp}" == "true" ] && ros init
+    [ "${
+      builtins.toString config.ao.primaryUser.languages.lisp
+    }" == "true" ] && ros init
   '';
   programs.password-store = {
     enable = true;
@@ -115,15 +117,21 @@ in {
       unzip
       wget
       zip
+      (hunspellWithDicts [
+        hunspellDicts.ru_RU
+        hunspellDicts.es_ES
+        hunspellDicts.en_GB-large
+      ])
+      playerctl
+      python3Plus
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
     ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [
       imagemagickBig
       ffmpeg-full
       mpc_cli
-    ])
-    ++ (lib.optionals (!config.mini && desk) [ signal-desktop ]) ++ [
-    ] ++ (lib.optionals (!config.mini && lang.cxx) [
+    ]) ++ (lib.optionals (!config.mini && desk) [ signal-desktop ]) ++ [ ]
+    ++ (lib.optionals (!config.mini && lang.cxx) [
       autoconf
       binutils
       ccls
@@ -165,11 +173,9 @@ in {
       ghc
       haskellPackages.stack
       haskell-language-server
-    ])
-    ++ (lib.optionals (!config.mini && lang.ruby) my.lang.ruby.packages)
+    ]) ++ (lib.optionals (!config.mini && lang.ruby) my.lang.ruby.packages)
     ++ (lib.optionals (!config.mini && lang.rust) my.lang.rust.packages)
-    ++ (lib.optionals (!config.mini && lang.clojure) clojurePackages)
-  ;
+    ++ (lib.optionals (!config.mini && lang.clojure) clojurePackages);
   home.file = {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
@@ -233,7 +239,7 @@ in {
     };
     options = {
       selection-clipboard = "clipboard";
-      sandbox  = "strict";
+      sandbox = "strict";
       default-bg = palette.white2;
       default-fg = palette.black1;
     };
@@ -242,9 +248,7 @@ in {
   programs.home-manager.enable = true;
   programs.aria2 = {
     enable = !config.mini && config.ao.primaryUser.media;
-    settings = {
-      seed-ratio = 0.0;
-    };
+    settings = { seed-ratio = 0.0; };
   };
   systemd.user.startServices = true;
   systemd.user.servicesStartTimeoutMs = 10000;

@@ -5,6 +5,14 @@
       url = "github:andreoss/.emacs.d/master";
       flake = false;
     };
+    jc-themes = {
+      url = "gitlab:andreoss/jc-themes/master";
+      flake = false;
+    };
+    elisp-autofmt = {
+      url = "git+https://codeberg.org/ideasman42/emacs-elisp-autofmt.git";
+      flake = false;
+    };
     urxvt-context-ext = {
       url = "github:andreoss/urxvt-context/master";
       flake = false;
@@ -45,9 +53,9 @@
           overlays = [
             inputs.emacs-overlay.overlays.emacs
             inputs.guix-overlay.overlays.default
-            (import ./overlays/kernel.nix)
-            (import ./overlays/grub.nix)
-            (import ./overlays/emacs.nix)
+            #(import ./overlays/kernel.nix)
+            #(import ./overlays/grub.nix)
+            #(import ./overlays/emacs.nix)
           ];
         });
       baseSystem = host:
@@ -104,28 +112,20 @@
       };
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
-        modules = [
-          ./secrets/tx-hw.nix
-          ./os/fs-crypt.nix
-          ./os/boot-loader.nix
-        ];
+        modules =
+          [ ./secrets/tx-hw.nix ./os/fs-crypt.nix ./os/boot-loader.nix ];
       };
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
-        modules = [
-          {
-            config.ao.primaryUser.home = "/user-2";
-          }
-          ./secrets/fs-ts.nix
-          ./secrets/ts-hw.nix
-          ./os/boot-loader.nix
-        ];
+        modules =
+          [ ./secrets/fs-ts.nix ./secrets/ts-hw.nix ./os/boot-loader.nix ];
       };
       nixosConfigurations.ss = baseSystem {
         hostname = "ss";
         modules = [
           {
             config.mini = true;
+            config.ao.primaryUser.office = false;
           }
           ./secrets/ss-hw.nix
           ./os/boot-grub.nix
@@ -133,10 +133,7 @@
       };
       nixosConfigurations.tq = baseSystem {
         hostname = "tq";
-        modules = [
-          ./os/fs-legacy.nix
-          ./os/boot-grub-uefi.nix
-  ];
+        modules = [ ./os/fs-legacy.nix ./os/boot-grub-uefi.nix ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

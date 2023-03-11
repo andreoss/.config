@@ -4,6 +4,12 @@ let
   font = "Terminus";
 in {
   config = {
+    home.pointerCursor = {
+      package = pkgs.openzone-cursors;
+      name = "OpenZone_White";
+      x11.enable = true;
+      x11.defaultCursor = "left_ptr";
+    };
     xdg.userDirs = {
       enable = true;
       createDirectories = true;
@@ -27,7 +33,12 @@ in {
       enable = config.ao.primaryUser.graphics;
       longitude = -55.0;
       latitude = -27.0;
+      temperature = {
+        day = 2500;
+        night = 4000;
+      };
     };
+    services.udiskie.enable = true;
     services.cbatticon.enable = config.ao.primaryUser.graphics;
     services.keynav.enable = config.ao.primaryUser.graphics;
     services.dunst.enable = config.ao.primaryUser.graphics;
@@ -146,14 +157,16 @@ in {
         "XF86AudioNext" = "playerctl next";
         "XF86MonBrightnessDown" = "xbacklight -dec 10";
         "XF86MonBrightnessUp" = "xbacklight -inc 10";
-        "XF86Display" = "if systemctl --user is-active gammastep.service;then systemctl --user stop gammastep.service ; else systemctl --user start gammastep.service; fi
-inactive";
+        "XF86Display" = ''
+          if systemctl --user is-active gammastep.service;then systemctl --user stop gammastep.service ; else systemctl --user start gammastep.service; fi
+          inactive'';
         "XF86Tools" = "urxvt";
         "XF86LaunchA" = "emacs";
         "XF86Explorer" = "urxvt -e mc";
         "XF86Search" = "firefox";
         "XF86AudioMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute";
-        "XF86AudioMicMute" = "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
+        "XF86AudioMicMute" =
+          "${pkgs.pamixer}/bin/pamixer --toggle-mute --default-source";
         "XF86AudioLowerVolume" = "${pkgs.pamixer}/bin/pamixer --decrease 8";
         "XF86AudioRaiseVolume" = "${pkgs.pamixer}/bin/pamixer --increase 8";
       };
@@ -180,6 +193,8 @@ inactive";
       Service = {
         ExecStart = "${pkgs.volumeicon}/bin/volumeicon";
         Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
+        Restart = "always";
+        RestartSec = "3";
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
@@ -201,6 +216,7 @@ inactive";
         xclip
         xorg.xkill
         xorg.xdpyinfo
+        xorg.xwd
         rox-filer
         xdotool
       ]);

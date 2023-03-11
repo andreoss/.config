@@ -12,10 +12,11 @@ shutdown_active() {
 trap shutdown_active EXIT
 
 XHOME=
-
+COEF=0.9
+export COEF
 GEOM=$(
 	xwininfo -root |
-		perl -nE '/-geometry \s+ (\d+)+x(\d+)/x && printf "%dx%d\n", $1 * 0.8, $2 * 0.8'
+		perl -nE '/-geometry \s+ (\d+)+x(\d+)/x && printf "%dx%d\n", $1 * $ENV{COEF}, $2 * $ENV{COEF}'
 )
 
 create_home() {

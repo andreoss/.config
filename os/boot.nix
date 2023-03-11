@@ -1,10 +1,12 @@
 { lib, config, pkgs, ... }:
-let
-  palette = import ./palette.nix;
-in
-{
+let palette = import ./palette.nix;
+in {
   boot.kernelPackages = pkgs.linuxPackages;
-  boot.extraModulePackages = [ config.boot.kernelPackages.perf ];
+  boot.kernelModules = [ "acpi_call" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    acpi_call
+    perf
+  ];
   boot.kernelPatches = [ ];
   boot.blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
   boot.kernelParams = [
@@ -16,8 +18,7 @@ in
     "quiet"
     "udev.log_priority=3"
   ];
-  boot.initrd.kernelModules =
-    [ "usb_storage" "uas" ];
+  boot.initrd.kernelModules = [ "usb_storage" "uas" ];
   boot.extraModprobeConfig = ''
     options thinkpad_acpi fan_control=1
     options binder_linux devices=binder,hwbinder,vndbinder
@@ -63,24 +64,25 @@ in
     font = "ter-132n";
     earlySetup = true;
     useXkbConfig = true;
-    colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x) (with palette; [
-      black1
-      red1
-      green1
-      yellow1
-      blue1
-      red3
-      cyan1
-      yellow2
-      black2
-      orange1
-      gray1
-      gray2
-      gray3
-      magenta
-      red3
-      white1
-    ]);
+    colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
+      (with palette; [
+        black1
+        red1
+        green1
+        yellow1
+        blue1
+        red3
+        cyan1
+        white3
+        black2
+        orange1
+        gray1
+        gray2
+        gray3
+        magenta
+        red3
+        white1
+      ]);
   };
   boot.supportedFilesystems =
     lib.mkForce [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" "ext4" ];
