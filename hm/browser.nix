@@ -11,8 +11,6 @@ args@{ lib, config, pkgs, inputs, ... }: {
     browsers = [ "brave" "chromium" "firefox" ];
   };
   programs.librewolf.enable = !config.mini;
-  programs.chromium.enable = true;
-  programs.chromium.package = pkgs.brave;
   programs.firefox = {
     enable = true;
     package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
