@@ -66,6 +66,7 @@
     homeBinInPath = true;
     variables.TOR_SOCKS_PORT = "9150";
     variables.EDITOR = "vi";
+    variables.NIX_SHELL_PRESERVE_PROMPT = "1";
     etc = {
       inputrc.source = ../inputrc;
       issue.source = lib.mkOverride 0 (pkgs.writeText "issue" "");
