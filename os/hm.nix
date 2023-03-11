@@ -10,7 +10,6 @@ in {
     home.stateVersion = config.ao.stateVersion;
     imports = [
       ../config.nix
-      ../hm/base.nix
       ../hm/home.nix
       ../hm/mail.nix
       ../hm/emacs.nix
@@ -18,10 +17,10 @@ in {
       ../hm/term.nix
       ../hm/vcs.nix
       ../hm/browser.nix
-    ] ++ (lib.optionals (config.ao.primaryUser.graphics) [
-      ../hm/xsession-base.nix
       ../hm/xsession.nix
-    ]) ++ (lib.optionals (!config.mini && l.java) [ ../hm/java.nix ])
+    ]
+      ++ (lib.optionals (config.ao.primaryUser.graphics) [ ../hm/xsession.nix ])
+      ++ (lib.optionals (!config.mini && l.java) [ ../hm/java.nix ])
       ++ (lib.optionals (!config.mini && l.scala) [ ../hm/scala.nix ])
       ++ (lib.optionals (!config.mini && l.perl) [ ../hm/perl.nix ]);
   };
