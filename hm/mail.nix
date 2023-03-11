@@ -1,17 +1,21 @@
 { config, pkgs, lib, stdenv, self, ... }:
 let
   e = config.ao.primaryUser.mail;
-  x = lib.pathExists ../secrets/mail.nix;
 in {
   config.accounts = lib.attrsets.optionalAttrs (e) {
-    email = { maildirBasePath = "${config.home.homeDirectory}/Maildir"; };
-    email.accounts = if (x) then (import ../secrets/mail.nix) else { };
+    email = {
+      maildirBasePath = "${config.home.homeDirectory}/Maildir";
+    };
+    email.accounts = if (lib.pathExists ../secrets/mail.nix) then
+      (import ../secrets/mail.nix)
+    else
+      { };
   };
   config.programs = lib.attrsets.optionalAttrs (e) {
-    mbsync.enable = x;
-    msmtp.enable = x;
+    mbsync.enable = lib.pathExists ../secrets/mail.nix;
+    msmtp.enable = lib.pathExists ../secrets/mail.nix;
     notmuch = {
-      enable = x;
+      enable = lib.pathExists ../secrets/mail.nix;
       new = { tags = [ "new" ]; };
       hooks = {
         postInsert = "";
@@ -27,7 +31,7 @@ in {
       };
     };
   };
-  config.systemd = lib.attrsets.optionalAttrs (e) {
+  config.systemd= lib.attrsets.optionalAttrs (e) {
     user.services.notmuch = {
       Unit = { Requires = [ "davmail.service" ]; };
       Install = { WantedBy = [ "default.target" ]; };
@@ -49,27 +53,21 @@ in {
         PartOf = [ "graphical-session.target" ];
       };
       Service = {
-        ExecStart = "${pkgs.davmail}/bin/davmail $HOME/.davmail.properties";
+        ExecStart = "${pkgs.davmail}/bin/davmail";
         Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
   };
-  config.services = lib.attrsets.optionalAttrs (e) { mbsync.enable = x; };
+  config.services = lib.attrsets.optionalAttrs (e) {
+    mbsync.enable = lib.pathExists ../secrets/mail.nix;
+  };
   config.home = lib.attrsets.optionalAttrs (e) {
-    activation.davmailHeadless = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      touch "$HOME"/.davmail.properties
-      ${pkgs.perl536}/bin/perl -i -lnE '
-             next if m/ davmail [.] (?: server | mode | url ) \s* = /xgsm;
-             s/WARN/INFO/;
-             say;
-             if (eof) {
-                say "davmail.server=true";
-                say "davmail.url=https://outlook.office365.com/EWS/Exchange.asmx";
-                say "davmail.mode=O365Manual";
-             }
-      ' "$HOME"/.davmail.properties
-      ${pkgs.systemd}/bin/systemctl --user restart davmail.service
-    '';
+    activation.davmailHeadless =
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        touch "$HOME"/.davmail.properties
+        ${pkgs.perl536}/bin/perl -i -lpE 'BEGIN {my $f=0;} m/ davmail[.]server = /xgsm && s/ (?<=\=) .* $ /true/xgsm && $f++; END { if (!$f) { print "davmail.server=true " } }' "$HOME"/.davmail.properties
+        ${pkgs.systemd}/bin/systemctl --user restart davmail.service
+      '';
   };
 }
