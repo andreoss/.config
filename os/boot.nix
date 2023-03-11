@@ -6,7 +6,6 @@ in {
   boot.extraModulePackages = with config.boot.kernelPackages; [
     acpi_call
     perf
-    v4l2loopback
   ];
   boot.kernelPatches = [ ];
   boot.blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
