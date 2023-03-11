@@ -1,4 +1,5 @@
-{ lib, config, pkgs, self, ... }: {
+{ lib, config, pkgs, self, ... }:
+{
   system.stateVersion = config.ao.stateVersion;
   system.copySystemConfiguration = false;
   system.autoUpgrade = {
@@ -20,16 +21,15 @@
   environment.etc."packages".text = with lib;
     builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
       (builtins.map (p: "${p.name}") config.environment.systemPackages)));
-  services.udisks2.enable = true;
   services.snapper = {
     configs = {
       home = {
         subvolume = "${config.ao.primaryUser.home}";
-        extraConfig = ''
-          ALLOW_USERS="${config.ao.primaryUser.name}"
-          TIMELINE_CREATE=yes
-          TIMELINE_CLEANUP=yes
-        '';
+  extraConfig = ''
+            ALLOW_USERS="${config.ao.primaryUser.name}"
+            TIMELINE_CREATE=yes
+            TIMELINE_CLEANUP=yes
+          '';
 
       };
     };
