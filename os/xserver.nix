@@ -9,7 +9,6 @@ in {
     programs.dconf.enable = true;
     services.xserver = {
       enable = true;
-      excludePackages = [ pkgs.xterm ];
       xautolock = {
         enable = true;
         time = 10;
@@ -59,8 +58,7 @@ in {
         description = "startx";
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
-          User =
-            if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
+          User = if(!config.isLivecd) then config.ao.primaryUser.name else "nixos";
           WorkingDirectory = "~";
           PAMName = "login";
           TTYPath = "/dev/tty1";
@@ -72,7 +70,7 @@ in {
           StandardOutput = "journal";
           Restart = "always";
           RestartSec = "3";
-          Type = "idle";
+          Type="idle";
         };
       };
     };
