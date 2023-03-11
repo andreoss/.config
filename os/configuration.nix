@@ -17,9 +17,8 @@
     enableNotifications = true;
     freeMemThreshold = 1;
   };
-  environment.etc."packages".text = with lib;
-    builtins.concatStringsSep "\n" (builtins.sort builtins.lessThan (lib.unique
-      (builtins.map (p: "${p.name}") config.environment.systemPackages)));
+  environment.etc."packages".text =
+    builtins.toJSON config.environment.systemPackages;
   services.udisks2.enable = true;
   services.snapper = {
     configs = {
@@ -30,7 +29,6 @@
           TIMELINE_CREATE=yes
           TIMELINE_CLEANUP=yes
         '';
-
       };
     };
   };
