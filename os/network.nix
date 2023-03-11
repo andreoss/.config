@@ -17,17 +17,28 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
+  environment.systemPackages = with pkgs; [ traceroute ];
+  programs.bandwhich.enable = true;
   networking = {
-    enableIPv6 = lib.mkForce false;
+    nat = {
+      enable = true;
+      internalInterfaces = [ "ve-+" ];
+      externalInterface = "tun0";
+    };
     timeServers = [ ];
-    extraHosts =
-      builtins.readFile "${inputs.hosts}/alternates/gambling-porn-social/hosts";
+    extraHosts = let
+      adBlocker = builtins.readFile
+        "${inputs.hosts}/alternates/gambling-porn-social/hosts";
+    in ''
+      ${adBlocker}
+    '';
     networkmanager = {
       enable = lib.mkForce false;
       insertNameservers = [ "127.0.0.1" ];
     };
+    enableIPv6 = lib.mkForce false;
     firewall = {
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [ 4713 ];
       allowedUDPPorts = [ ];
       enable = true;
       allowPing = true;
@@ -35,10 +46,19 @@ in {
       extraCommands = ''
         iptables -I OUTPUT -o wlan+ -m owner \! --gid-owner tunnel -j REJECT
         iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -j REJECT
+        iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
+
+        iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
+      '';
+      extraStopCommands = ''
+        iptables -D nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept || true
       '';
     };
-    resolvconf.enable = true;
-    resolvconf.extraConfig = "";
+
+    resolvconf = {
+      enable = true;
+      extraConfig = "";
+    };
     nameservers = [ "127.0.0.1" ];
     proxy = {
       allProxy = "http://127.0.0.1:8118";
@@ -48,16 +68,17 @@ in {
       default = "http://127.0.0.1:8118";
     };
     usePredictableInterfaceNames = false;
-    wireless.enable = true;
-    wireless.dbusControlled = true;
-    wireless.scanOnLowSignal = false;
-    wireless.userControlled.enable = true;
-    wireless.networks =
-      if networks.success then networks.value.networks else { };
-    wireless.environmentFile = if networks.success then
-      networks.value.environmentFile
-    else
-      (pkgs.writeShellScript "empty.env" "");
+    wireless = {
+      enable = true;
+      dbusControlled = true;
+      scanOnLowSignal = false;
+      userControlled.enable = true;
+      networks = if networks.success then networks.value.networks else { };
+      environmentFile = if networks.success then
+        networks.value.environmentFile
+      else
+        (pkgs.writeShellScript "empty.env" "");
+    };
     dhcpcd = {
       enable = true;
       extraConfig = ''
@@ -68,8 +89,18 @@ in {
       allowInterfaces = [ "eth*" "wlan*" ];
     };
   };
-  security = {
-    pki.certificateFiles = [ ];
+  security = let russianCa = "https://gu-st.ru/content/lending/";
+  in {
+    pki.certificateFiles = with builtins; [
+      (fetchurl {
+        url = "${russianCa}/russian_trusted_root_ca_pem.crt";
+        sha256 = "sha256:0135zid0166n0rwymb38kd5zrd117nfcs6pqq2y2brg8lvz46slk";
+      })
+      (fetchurl {
+        url = "${russianCa}/russian_trusted_sub_ca_pem.crt";
+        sha256 = "sha256:19jffjrawgbpdlivdvpzy7kcqbyl115rixs86vpjjkvp6sgmibph";
+      })
+    ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
@@ -82,7 +113,7 @@ in {
       enableRootTrustAnchor = false;
       settings = {
         server = {
-          interface = [ "127.0.0.1" ];
+          interface = [ "127.0.0.1" "192.168.99.1" ];
           do-not-query-localhost = "no";
           hide-identity = "yes";
           hide-version = "yes";
@@ -90,6 +121,7 @@ in {
           prefetch = "yes";
           prefetch-key = "yes";
           minimal-responses = "yes";
+          access-control = [ "127.0.0.0/8 allow" "192.168.99.0/28 allow" ];
         };
         forward-zone = [{
           name = ".";
@@ -153,7 +185,14 @@ in {
     inherit lib;
     inherit pkgs;
   };
+  systemd.services."openvpn-s1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
+  systemd.services."openvpn-s1".serviceConfig.Group = "tunnel";
+  systemd.services."openvpn-f1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
   systemd.services."openvpn-f1".serviceConfig.Group = "tunnel";
+  systemd.services."openvpn-m1".serviceConfig.ExecStartPost =
+    "${pkgs.systemd}/bin/systemctl restart unbound.service";
   systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
   environment = {
     etc = {

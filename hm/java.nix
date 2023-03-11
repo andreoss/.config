@@ -20,10 +20,10 @@
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
       ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
       ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
-      ln --symbolic --force "${pkgs.openjdk19.out}/lib/openjdk"       $HOME/.jdk/19
       ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
       ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
     '';
+    programs.jq.enable = true;
     programs.eclipse = {
       enable = true;
       enableLombok = true;

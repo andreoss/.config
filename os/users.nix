@@ -12,7 +12,7 @@
     home = config.ao.primaryUser.home;
   };
   users.groups = {
-    uinput  = { };
+    uinput = { };
     tunnel = { };
   };
   users.groups.wheel.members = [ config.ao.primaryUser.name ];
@@ -23,21 +23,18 @@
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
   programs.bash = {
-    promptInit =
-      ''
-     ${builtins.readFile ../shrc}
-     ${builtins.readFile ../bashrc}
-     '';
+    promptInit = ''
+      ${builtins.readFile ../shrc}
+      ${builtins.readFile ../bashrc}
+    '';
   };
   programs.zsh = {
     enable = true;
     enableBashCompletion = true;
     enableCompletion = true;
-    autosuggestions = {
-      enable = true;
-    };
+    autosuggestions = { enable = true; };
     promptInit = ''
-     ${builtins.readFile ../zshrc}
+      ${builtins.readFile ../zshrc}
     '';
   };
   environment = {
@@ -59,11 +56,17 @@
       psmisc
       stdmanpages
       wpa_supplicant_gui
+      links2
+      fbterm
+      jfbpdf
+      fbida
+      molly-guard
     ];
     shellAliases = { };
     homeBinInPath = true;
     variables.TOR_SOCKS_PORT = "9150";
     variables.EDITOR = "vi";
+    variables.NIX_SHELL_PRESERVE_PROMPT = "1";
     etc = {
       inputrc.source = ../inputrc;
       issue.source = lib.mkOverride 0 (pkgs.writeText "issue" "");
@@ -72,6 +75,7 @@
       [ -d "$HOME/.nix-profile" ] || /nix/var/nix/profiles/per-user/$USER/home-manager/activate &> /dev/null
     '';
   };
+  programs.nix-ld.enable = true;
   services.physlock = {
     enable = lib.mkForce true;
     allowAnyUser = true;
