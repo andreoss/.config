@@ -60,8 +60,6 @@ in {
     services.sxhkd = {
       enable = true;
       keybindings = {
-        "alt + slash" = "rofi -show-icons -show combi";
-        "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
         "XF86AudioPlay" = "playerctl play-pause";
         "XF86AudioStop" = "playerctl stop";
         "XF86AudioPrev" = "playerctl previous";

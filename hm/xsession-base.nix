@@ -14,14 +14,14 @@ in {
     services.sxhkd = {
       enable = true;
       keybindings = {
-        "alt + slash" = "rofi -show-icons -show combi";
+        "alt + BackSpace" = "rofi -show-icons -show combi";
         "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
-        "alt + backspace" =
+        "alt + slash" =
           "${inputs.dmenu.packages.x86_64-linux.dmenu}/bin/dmenu_run";
       };
     };
     home.activation.sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.procps}/bin/pgrep -u w sxhkd && ${pkgs.procps}/bin/pkill -u w -USR1 sxhkd
+      ${pkgs.procps}/bin/pgrep -u w sxhkd && ${pkgs.procps}/bin/pkill -USR1 sxhkd
     '';
     services.dunst.enable = true;
     services.dunst.settings = with palette; {
