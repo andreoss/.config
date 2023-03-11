@@ -27,11 +27,18 @@ in {
     ".screenrc".source = ./../screenrc;
     ".urxvt/ext/context".text =
       builtins.readFile "${inputs.urxvt-context-ext}/context";
+    ".local/bin/rxvt" = {
+      executable = true;
+      text = ''
+        #!/bin/sh
+        exec urxvtc "$@"
+      '';
+    };
     ".local/bin/xscreen" = {
       executable = true;
       text = ''
         #!/bin/sh
-        exec urxvt -e screen -D -R -S "$\{1:-primary}" "$*"
+        exec urxvtc -e screen -D -R -S "$\{1:-primary}" "$@"
       '';
     };
   };
@@ -40,6 +47,18 @@ in {
     baseIndex = 1;
     keyMode = "vi";
     shortcut = "a";
+  };
+  systemd.user.services.urxvtd = {
+    Unit = {
+      Description = "Urxvtd";
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.rxvt-unicode}/bin/urxvtd --quiet --opendisplay";
+      Restart = "always";
+      RestartSec = "3";
+    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
   programs.urxvt = {
     enable = true;
@@ -55,20 +74,21 @@ in {
       scrollOnOutput = false;
       scrollOnKeystroke = true;
     };
-    extraConfig = (with palette; {
+    extraConfig = with palette; {
       "context.names" = "sudo,ssh,python,gdb,java,vi";
-      "context.sudo.background" = "[90]${red3}";
-      "context.ssh.background " = "[90]${blue4}";
-      "context.python.background" = "[90]${blue3}";
-      "context.gdb.background" = "[90]${green2}";
-      "context.java.background" = "[90]${gray2}";
-      "context.vi.background" = "[90]${gray1}";
+      "context.sudo.background" = "[90]${red4}";
+      "context.ssh.background " = "[90]${blue6}";
+      "context.python.background" = "[90]${blue6}";
+      "context.gdb.background" = "[90]${green4}";
+      "context.java.background" = "[90]${gray4}";
+      "context.vi.background" = "[90]${black2}";
       "background" = "[80]${black1}";
-      "color0" = "[90]${black1}";
+      "color0" = "[90]${black0}";
       "cursorBlink" = "true";
       "cursorColor" = gray4;
       "internalBorder" = 16;
       "depth" = 32;
+      "fading" = "25";
       "keysym.C-0" = "resize-font:reset";
       "keysym.C-equal" = "resize-font:bigger";
       "keysym.C-minus" = "resize-font:smaller";
@@ -84,6 +104,6 @@ in {
       "secondaryScroll" = "true";
       "urgentOnBell" = "true";
       "url-select.underline" = "true";
-    });
+    };
   };
 }
