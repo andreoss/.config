@@ -17,8 +17,9 @@
     enableNotifications = true;
     freeMemThreshold = 1;
   };
-  environment.etc."packages".text =
-    builtins.toJSON config.environment.systemPackages;
+  environment.etc."packages".text = builtins.toJSON
+    (map (x: { "${x.name}" = x.meta or { }; })
+      config.environment.systemPackages);
   services.udisks2.enable = true;
   services.snapper = {
     configs = {
