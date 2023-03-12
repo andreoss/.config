@@ -21,7 +21,7 @@ in {
       };
     };
     home.activation.sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.procps}/bin/pgrep -u w sxhkd && ${pkgs.procps}/bin/pkill -USR1 sxhkd
+      ${pkgs.procps}/bin/pgrep sxhkd && ${pkgs.procps}/bin/pkill -USR1 sxhkd
     '';
     services.dunst.enable = true;
     services.dunst.settings = with palette; {
