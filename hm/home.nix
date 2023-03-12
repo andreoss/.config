@@ -211,19 +211,7 @@ in {
       default-fg = palette.black1;
     };
   };
-  programs.yt-dlp = {
-    enable = desk;
-    settings = {
-      convert-subs = "srt";
-      downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
-      downloader = "aria2c";
-      embed-metadata = true;
-      embed-subs = true;
-      embed-thumbnail = true;
-      mtime = true;
-      sub-langs = "all";
-    };
-  };
+  programs.yt-dlp.enable = desk;
   programs.home-manager.enable = true;
   programs.aria2 = {
     enable = !config.mini && config.ao.primaryUser.media;
