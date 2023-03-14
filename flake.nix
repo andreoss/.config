@@ -1,12 +1,5 @@
 {
   description = "Flakes";
-  nixConfig = {
-    extra-experimental-features = "nix-command flakes";
-    extra-substituters = [ "https://kernel-overlay.cachix.org" ];
-    extra-trusted-public-keys = [
-      "kernel-overlay.cachix.org-1:rUvSa2sHn0a7RmwJDqZvijlzZHKeGvmTQfOUr2kaxr4="
-    ];
-  };
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     kernel-overlay.url = "git+ssh://git@github.com/andreoss/kernel-overlay.git";
@@ -67,6 +60,7 @@
           pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [
+            ./modules/dnscrypt.nix
             ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
