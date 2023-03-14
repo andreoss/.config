@@ -9,6 +9,10 @@ in {
       type = types.bool;
       default = false;
     };
+    proxy-port = mkOption {
+      type = types.int;
+      default = 5553;
+    };
   };
   config = {
     services = {
@@ -30,7 +34,7 @@ in {
           };
           forward-zone = [{
             name = ".";
-            forward-addr = [ "127.0.0.1@5553" ];
+            forward-addr = [ "127.0.0.1@${builtins.toString cfg.proxy-port}" ];
           }];
         };
       };
@@ -39,7 +43,8 @@ in {
         settings = {
           ipv6_servers = false;
           require_dnssec = true;
-          listen_addresses = [ "127.0.0.1:5553" ];
+          listen_addresses =
+            [ "127.0.0.1:${builtins.toString cfg.proxy-port}" ];
           sources.public-resolvers = {
             urls = [
               "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
@@ -73,9 +78,8 @@ in {
       etc = mkIf cfg.enable {
         "resolv.conf" = {
           mode = "0444";
-          source = lib.mkOverride 0 (pkgs.writeText "resolv.conf" ''
-            nameserver 127.0.0.1
-          '');
+          source = lib.mkOverride 0
+            (pkgs.writeText "resolv.conf" "nameserver 127.0.0.1");
         };
       };
     };
