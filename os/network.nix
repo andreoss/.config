@@ -20,6 +20,7 @@ in {
   environment.systemPackages = with pkgs; [ traceroute ];
   programs.bandwhich.enable = true;
   networking = {
+    dns-crypt.enable = true;
     nat = {
       enable = true;
       internalInterfaces = [ "ve-+" ];
@@ -32,10 +33,7 @@ in {
     in ''
       ${adBlocker}
     '';
-    networkmanager = {
-      enable = lib.mkForce false;
-      insertNameservers = [ "127.0.0.1" ];
-    };
+    networkmanager = { enable = lib.mkForce false; };
     enableIPv6 = lib.mkForce false;
     firewall = {
       allowedTCPPorts = [ 4713 ];
@@ -59,7 +57,6 @@ in {
       enable = true;
       extraConfig = "";
     };
-    nameservers = [ "127.0.0.1" ];
     proxy = {
       allProxy = "http://127.0.0.1:8118";
       httpsProxy = "http://127.0.0.1:8118";
@@ -81,11 +78,6 @@ in {
     };
     dhcpcd = {
       enable = true;
-      extraConfig = ''
-        duid
-        noarp
-        static domain_name_servers=127.0.0.1
-      '';
       allowInterfaces = [ "eth*" "wlan*" ];
     };
   };
@@ -103,54 +95,11 @@ in {
     ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
+
   services = {
     privoxy.enable = true;
     privoxy.inspectHttps = false;
     privoxy.settings = { };
-    unbound = {
-      enable = true;
-      resolveLocalQueries = true;
-      enableRootTrustAnchor = false;
-      settings = {
-        server = {
-          interface = [ "127.0.0.1" "192.168.99.1" ];
-          do-not-query-localhost = "no";
-          hide-identity = "yes";
-          hide-version = "yes";
-          verbosity = 4;
-          prefetch = "yes";
-          prefetch-key = "yes";
-          minimal-responses = "yes";
-          access-control = [ "127.0.0.0/8 allow" "192.168.99.0/28 allow" ];
-        };
-        forward-zone = [{
-          name = ".";
-          forward-addr = [ "127.0.0.1@5553" ];
-        }];
-      };
-    };
-    dnscrypt-proxy2 = {
-      enable = true;
-      settings = {
-        ipv6_servers = false;
-        require_dnssec = true;
-        listen_addresses = [ "127.0.0.1:5553" ];
-        sources.public-resolvers = {
-          urls = [
-            "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
-            "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
-          ];
-          cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
-          minisign_key =
-            "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-        };
-      };
-    };
-  };
-  systemd.services.unbound = { partOf = [ "network.target" ]; };
-  systemd.services.dnscrypt-proxy2 = {
-    requires = [ "unbound.service" ];
-    partOf = [ "network.target" ];
   };
   systemd.services.dhcpcd = { partOf = [ "network.target" ]; };
   systemd.services.macchanger-wlan = {
@@ -194,15 +143,4 @@ in {
   systemd.services."openvpn-m1".serviceConfig.ExecStartPost =
     "${pkgs.systemd}/bin/systemctl restart unbound.service";
   systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
-  environment = {
-    etc = {
-      "resolv.conf" = {
-        mode = "0444";
-        source = lib.mkOverride 0 (pkgs.writeText "resolv.conf" ''
-          nameserver 127.0.0.1
-          nameserver 127.0.0.2
-        '');
-      };
-    };
-  };
 }
