@@ -61,6 +61,7 @@
           specialArgs = { inherit inputs self; };
           modules = [
             ./modules/dnscrypt.nix
+            ./modules/startx.nix
             ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
