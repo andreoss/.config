@@ -13,10 +13,6 @@ in {
       type = types.int;
       default = 5553;
     };
-    interface = mkOption {
-      type = types.str;
-      default = "127.0.0.1";
-    };
   };
   config = {
     services = {
@@ -26,20 +22,19 @@ in {
         enableRootTrustAnchor = false;
         settings = {
           server = {
-            access-control = [ "127.0.0.0/8 allow" "192.168.99.0/28 allow" ];
+            interface = [ "127.0.0.1" "192.168.99.1" ];
             do-not-query-localhost = "no";
             hide-identity = "yes";
             hide-version = "yes";
-            interface = [ "${cfg.interface}" "192.168.99.1" ];
-            minimal-responses = "yes";
-            prefetch-key = "yes";
-            prefetch = "yes";
             verbosity = 4;
+            prefetch = "yes";
+            prefetch-key = "yes";
+            minimal-responses = "yes";
+            access-control = [ "127.0.0.0/8 allow" "192.168.99.0/28 allow" ];
           };
           forward-zone = [{
             name = ".";
-            forward-addr =
-              [ "${cfg.interface}@${builtins.toString cfg.proxy-port}" ];
+            forward-addr = [ "127.0.0.1@${builtins.toString cfg.proxy-port}" ];
           }];
         };
       };
@@ -49,7 +44,7 @@ in {
           ipv6_servers = false;
           require_dnssec = true;
           listen_addresses =
-            [ "${cfg.interface}:${builtins.toString cfg.proxy-port}" ];
+            [ "127.0.0.1:${builtins.toString cfg.proxy-port}" ];
           sources.public-resolvers = {
             urls = [
               "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
@@ -69,13 +64,13 @@ in {
       partOf = [ "network.target" ];
     };
     networking = mkIf cfg.enable {
-      networkmanager = { insertNameservers = [ "${cfg.interface}" ]; };
-      nameservers = [ "${cfg.interface}" ];
+      networkmanager = { insertNameservers = [ "127.0.0.1" ]; };
+      nameservers = [ "127.0.0.1" ];
       dhcpcd = {
         extraConfig = ''
           duid
           noarp
-          static domain_name_servers=${cfg.interface}
+          static domain_name_servers=127.0.0.1
         '';
       };
     };
@@ -84,7 +79,7 @@ in {
         "resolv.conf" = {
           mode = "0444";
           source = lib.mkOverride 0
-            (pkgs.writeText "resolv.conf" "nameserver ${cfg.interface}");
+            (pkgs.writeText "resolv.conf" "nameserver 127.0.0.1");
         };
       };
     };
