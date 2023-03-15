@@ -18,7 +18,27 @@
     services.emacs.enable = lib.mkForce true;
     programs.emacs = {
       enable = config.ao.primaryUser.emacsFromNix;
-      package = inputs.emacs-d.packages.x86_64-linux.emacs;
+      extraConfig = builtins.readFile (pkgs.substituteAll {
+        src = ../init.el;
+        jc = inputs.jc-themes;
+        autofmt = inputs.elisp-autofmt;
+      });
+      extraPackages = elpa:
+        let
+          packageListNix =
+            pkgs.runCommand "init-packages.nix" { input = ../init.el; } ''
+              ${pkgs.perl}/bin/perl -007 -nE '
+              BEGIN {
+                  say "{elpa, ...}: with elpa; [";
+                  say "use-package";
+              };
+              END   { say "]" };
+              while (m{[(]use-package \s* ([a-z-0-9]+) \s* (;\S+)?}xsgm) {
+                 next if $2 eq ";builtin";
+                 say $1;
+              }' "$input" >"$out" 
+            '';
+        in (import "${packageListNix}" { inherit elpa; });
     };
     editorconfig = {
       enable = true;
