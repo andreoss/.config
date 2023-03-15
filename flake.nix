@@ -2,9 +2,20 @@
   description = "Flakes";
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    kernel-overlay.url = "github:andreoss/kernel-overlay";
-    emacs-d.url = "github:andreoss/.emacs.d/master";
+    kernel-overlay.url = "git+ssh://git@github.com/andreoss/kernel-overlay.git";
+    emacs-d = {
+      url = "github:andreoss/.emacs.d/master";
+      flake = false;
+    };
     dmenu.url = "github:andreoss/dmenu/master";
+    jc-themes = {
+      url = "gitlab:andreoss/jc-themes/master";
+      flake = false;
+    };
+    elisp-autofmt = {
+      url = "git+https://codeberg.org/ideasman42/emacs-elisp-autofmt.git";
+      flake = false;
+    };
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
@@ -41,10 +52,7 @@
             allowUnfree = false;
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };
-          overlays = [
-            inputs.kernel-overlay.overlays.default
-            inputs.emacs-d.overlays.default
-          ];
+          overlays = [ inputs.kernel-overlay.overlays.default ];
         });
       baseSystem = host:
         nixpkgs.lib.nixosSystem {
@@ -53,6 +61,7 @@
           specialArgs = { inherit inputs self; };
           modules = [
             ./modules/dnscrypt.nix
+            ./modules/startx.nix
             ./config.nix
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
