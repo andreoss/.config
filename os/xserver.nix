@@ -7,6 +7,10 @@ in {
       packages = [ pkgs.gcr ];
     };
     programs.dconf.enable = true;
+    services.startx = {
+      enable = true;
+      user = if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
+    };
     services.xserver = {
       enable = true;
       excludePackages = [ pkgs.xterm ];
@@ -24,7 +28,6 @@ in {
         touchpad.naturalScrolling = true;
         touchpad.tapping = true;
       };
-      displayManager = { startx.enable = true; };
       inputClassSections = [''
         Identifier     "TrackPoint configuration"
         MatchProduct   "TrackPoint"
@@ -51,30 +54,5 @@ in {
       };
     };
     environment = { etc = { "icewm" = { source = ../icewm; }; }; };
-    systemd.services."autovt@tty1".enable = lib.mkForce false;
-    systemd.services = {
-      startx = {
-        enable = true;
-        restartIfChanged = false;
-        description = "startx";
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          User =
-            if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
-          WorkingDirectory = "~";
-          PAMName = "login";
-          TTYPath = "/dev/tty1";
-          UtmpIdentifier = "tty1";
-          UtmpMode = "user";
-          UnsetEnvirnment = "TERM";
-          ExecStart = "${pkgs.xorg.xinit}/bin/startx -- -keeptty -verbose 3";
-          StandardInput = "tty";
-          StandardOutput = "journal";
-          Restart = "always";
-          RestartSec = "3";
-          Type = "idle";
-        };
-      };
-    };
   };
 }
