@@ -1,10 +1,17 @@
 {
   description = "Flakes";
   inputs = {
+    dmenu.url = "github:andreoss/dmenu";
+    emacs-d.url = "github:andreoss/.emacs.d";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
     flake-utils.url = "github:numtide/flake-utils";
+    guix-overlay.url = "github:foo-dogsquared/nix-overlay-guix";
+    home-manager.url = "github:nix-community/home-manager";
     kernel-overlay.url = "github:andreoss/kernel-overlay";
-    emacs-d.url = "github:andreoss/.emacs.d/master";
-    dmenu.url = "github:andreoss/dmenu/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nodm-module.url = "github:andreoss/nodm-nixos-module";
+    dnscrypt-module.url = "github:andreoss/dnscrypt-nixos-module";
+    wfica.url = "github:andreoss/citrix";
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
@@ -21,11 +28,6 @@
       url = "github:arkenfox/user.js/master";
       flake = false;
     };
-    emacs-overlay = { url = "github:nix-community/emacs-overlay/master"; };
-    guix-overlay = { url = "github:foo-dogsquared/nix-overlay-guix"; };
-    home-manager = { url = "github:nix-community/home-manager"; };
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-22.11"; };
-    wfica = { url = "github:andreoss/citrix/master"; };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
@@ -52,11 +54,11 @@
           pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [
-            ./modules/dnscrypt.nix
-            ./modules/startx.nix
-            ./config.nix
+            inputs.nodm-module.nixosModules.default
+            inputs.dnscrypt-module.nixosModules.default
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
+            ./config.nix
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
             ./os/hm.nix

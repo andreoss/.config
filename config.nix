@@ -14,7 +14,7 @@ with lib; {
     default = "/dev/input/kbd";
   };
   config.ao = {
-    stateVersion = "22.11";
+    stateVersion = "23.05";
     fileSystems = { btrfsOptions = [ "compress=zstd" ]; };
     pipewireReplacesPulseaudio = false;
     isLivecd = false;
