@@ -38,10 +38,12 @@ in {
       enableDefaultFonts = false;
       enableGhostscriptFonts = true;
       fonts = with pkgs; [
-        ucs-fonts
         gyre-fonts
+        kawkab-mono-font
         terminus_font
         terminus_font_ttf
+        ucs-fonts
+        fixedsys-excelsior
       ];
       fontconfig = {
         hinting.autohint = true;
