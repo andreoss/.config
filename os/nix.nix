@@ -2,8 +2,10 @@
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" config.ao.primaryUser.name ];
-    settings.substituters = [ "https://kernel-overlay.cachix.org" ];
+    settings.substituters =
+      [ "https://kernel-overlay.cachix.org" "https://emacs-d.cachix.org" ];
     settings.trusted-public-keys = [
+      "emacs-d.cachix.org-1:ZVKHC1i/NOKVCI1M5A99Oupph+rEAJcYEWpdd3UDz5g="
       "kernel-overlay.cachix.org-1:rUvSa2sHn0a7RmwJDqZvijlzZHKeGvmTQfOUr2kaxr4="
     ];
     settings.auto-optimise-store = true;
