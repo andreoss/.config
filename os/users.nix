@@ -60,6 +60,7 @@
       fbterm
       jfbpdf
       fbida
+      fbcat
       molly-guard
     ];
     shellAliases = { };
