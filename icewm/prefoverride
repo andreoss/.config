@@ -56,8 +56,7 @@ TaskBarShowAPMTime=0
 TaskBarShowAPMTime=0
 TaskBarShowClock=1
 TaskBarShowCollapseButton=0
-TaskBarShowCPUStatus = 1
-CPUStatusCommand="xterm -name top -title Process\ Status -e top"
+TaskBarShowCPUStatus = 0
 
 TaskBarShowMailboxStatus=0
 TaskBarShowMailboxStatus=0
@@ -88,15 +87,5 @@ KeySysArrangeIcons="Super+Alt+F8"
 ColorClock="rgb:D4/D0/C8"
 ColorClockText="rgb:00/00/00"
 TaskBarClockLeds=0
-
-ColorCPUStatusUser = “rgb:C7/E1/6C”
-ColorCPUStatusSystem = “rgb:C9/00/2B”
-ColorCPUStatusInterrupts = “rgb:F8/CD/2$”
-ColorCPUStatusIoWait = “rgb:A3/12/30”
-ColorCPUStatusSoftIrq = “rgb:A1/EE/ED”
-ColorCPUStatusNice = “rgb:00/4B/93”
-ColorCPUStatusIdle = “rgb:D4/D0/C8”
-ColorCPUStatusSteal = “rgb:FF/8A/91”
-ColorCPUStatusTemp = “rgb:60/60/C0”
 TaskBarShowShowDesktopButton=0
 TaskBarShowWindowListMenu=0
