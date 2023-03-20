@@ -2,11 +2,6 @@
 let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
-    services.dbus = {
-      enable = true;
-      packages = [ pkgs.gcr ];
-    };
-    programs.dconf.enable = true;
     services.startx = {
       enable = true;
       user = if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";

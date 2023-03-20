@@ -52,18 +52,6 @@ in {
       };
     };
     fonts.fontconfig.enable = true;
-    dconf.settings = {
-      "org/gnome/desktop/background" = {
-        picture-uri = "${../wp/1.jpeg}";
-        picture-options = "centered";
-      };
-      "org/gnome/desktop/sound" = { event-sounds = false; };
-      "org/gnome/desktop/input-sources" = {
-        xkb-options = config.home.keyboard.options;
-        sources = builtins.map (x: "('xkb', '${x}')")
-          (lib.strings.splitString "," config.home.keyboard.layout);
-      };
-    };
     gtk = {
       font.package = pkgs.terminus_font_ttf;
       font.name = "${font} 9";
