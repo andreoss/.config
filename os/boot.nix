@@ -48,7 +48,6 @@ in {
     "fs.inotify.max_user_instances" = 1024; # default:   128
     "fs.inotify.max_queued_events" = 32768; # default: 16384
   };
-  boot.initrd.luks.gpgSupport = true;
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
   boot.cleanTmpDir = true;
