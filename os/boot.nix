@@ -61,8 +61,8 @@ in {
   boot.cleanTmpDir = true;
   boot.tmpOnTmpfs = true;
   console = {
-    packages = [ pkgs.terminus_font ];
-    font = "ter-132n";
+    packages = [ pkgs.uw-ttyp0 ];
+    font = "t0-22b-uni";
     earlySetup = true;
     useXkbConfig = true;
     colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
