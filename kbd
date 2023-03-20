@@ -46,10 +46,11 @@
   // (tap-hold 200 / rsft)
   /z (tap-hold 200 z lsft)
 
-  /4  (tap-hold-next 400 4 #(S-4))
-  /6  (tap-hold-next 400 6 #(S-6))
-  /9  (tap-hold-next 400 9 \()
-  /0  (tap-hold-next 400 0 \))
+  /4  (tap-hold-next 1200 4 #(S-4))
+  /5 (tap-hold-next 1200 5 #(S-5))
+  /6  (tap-hold-next 1200 6 #(S-6))
+  /9  (tap-hold-next 1200 9 \()
+  /0  (tap-hold-next 1200 0 \))
 
   fn1 (tap-next-release lctl (layer-toggle fn1))
 
@@ -59,7 +60,7 @@
 
 (deflayer qwerty
      lmet     f1    f2      f3   f4   f5   f6   f7   f8   f9   f10  f11  f12   prnt ins  del
-     grv      1     2       3  @/4    5  @/6    7    8   @/9  @/0    -    =   bspc
+     grv      1     2       3  @/4    @/5  @/6    7    8   @/9  @/0    -    =   bspc
      @altab   q     w       e    r    t    y    u    i    o    p    [    ]    @altslash
      @esctl   @/a @/s     @/d  @/f    g    h  @/j  @/k  @/l    @/;    '       @rectl
      lsft     @/z   x       c    v    b  @/n    m    ,    .    @//  rsft
