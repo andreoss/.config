@@ -1,80 +1,97 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
-  config = {
-    home.sessionVariables = {
-      JDK_8 = "$HOME/.jdk/8";
-      JDK_11 = "$HOME/.jdk/11";
-      JDK_17 = "$HOME/.jdk/17";
-      JDK_19 = "$HOME/.jdk/19";
-      GRAALVM_11 = "$HOME/.jdk/graal-11";
-      GRAALVM_17 = "$HOME/.jdk/graal-17";
-      GRAALVM_HOME = "$HOME/.jdk/17-graal";
-      _JAVA_AWT_WM_NONREPARENTING = "1";
-      _JAVA_OPTIONS =
-        "-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Djdk.gtk.version=3";
-      MAVEN_OPTS =
-        "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
-    };
-    home.activation.installJdks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      rm --recursive --force "$HOME/.jdk/"
-      install --directory --mode 755 --owner="$USER" "$HOME/.jdk/"
-      ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-8.out}"  $HOME/.jdk/8
-      ln --symbolic --force "${pkgs.adoptopenjdk-hotspot-bin-11.out}" $HOME/.jdk/11
-      ln --symbolic --force "${pkgs.openjdk17.out}/lib/openjdk"       $HOME/.jdk/17
-      ln --symbolic --force "${pkgs.graalvm11-ce.out}"                $HOME/.jdk/graal-11
-      ln --symbolic --force "${pkgs.graalvm17-ce.out}"                $HOME/.jdk/graal-17
-    '';
-    programs.jq.enable = true;
-    programs.eclipse = {
-      enable = true;
-      enableLombok = true;
-      package = pkgs.eclipses.eclipse-jee;
-      plugins = with pkgs.eclipses.plugins; [
-        scala
-        vrapper
-        spotbugs
-        color-theme
-        cdt
-        jsonedit
-        drools
-        jdt-codemining
-        (buildEclipseUpdateSite rec {
-          name = "IntelliJIdeaKeymap4Eclipse";
-          src = pkgs.fetchzip {
-            url =
-              "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
-            sha256 = "sha256-L43JWpYy/9JvOLi9t+UioT/uQbBLL08pgHrW8SuGQ8M=";
-          };
-        })
-      ];
-    };
-    home.file = {
-      ".ideavimrc".source = ./../ideavimrc;
-      ".local/share/JetBrains/consentOptions/accepted".text = "";
-    };
-    home.file.".local/bin/jetbrains" = {
-      executable = true;
-      text = ''
-        #!/bin/sh
-        exec firejail --profile="${
-          ../firejail/idea.profile
-        }" idea-community "$@"
+{ config, pkgs, lib, stdenv, self, ... }:
+
+let
+  merge = builtins.foldl' (x: y: x // y) { };
+  mkJdk = pkg: var: dir:
+    let fp = "$HOME/.jdk/${dir}";
+    in {
+      sessionVariables."${var}" = fp;
+      activation."${var}" = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+        install --directory --mode 700 --owner="$USER" "$HOME/.jdk/"
+        rm --force "${fp}"
+        ln --symbolic --force "${pkg.out}"  "${fp}"
       '';
     };
-    home.packages = with pkgs; [
-      android-tools
-      ant
-      gradle
-      groovy
-      heimdall
-      jetbrains.idea-community
-      kotlin
-      lombok
-      maven
-      nailgun
-      netbeans
-      umlet
-      uncrustify
-      visualvm
-    ];
+  jdks = [
+    (mkJdk pkgs.adoptopenjdk-hotspot-bin-8 "JDK_8" "8")
+    (mkJdk pkgs.adoptopenjdk-hotspot-bin-8 "JDK_8" "8")
+    (mkJdk pkgs.graalvm17-ce "JDK_17" "17")
+  ];
+  variables = merge (map (x: x.sessionVariables) jdks) // {
+    MAVEN_OPTS =
+      "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+  };
+  activationScripts = merge (map (x: x.activation) jdks);
+  cfg = config.home.development.java;
+in {
+  options = with lib; {
+    home.development.java = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
+    };
+  };
+  config = {
+    home = lib.mkIf cfg.enable {
+      sessionVariables = variables;
+      activation = activationScripts;
+      file = {
+        ".ideavimrc".source = ./../ideavimrc;
+        ".local/share/JetBrains/consentOptions/accepted".text = "";
+        ".local/bin/jetbrains" = {
+          executable = true;
+          text = ''
+            #!/bin/sh
+            exec firejail --profile="${
+              ../firejail/idea.profile
+            }" idea-community "$@"
+          '';
+        };
+      };
+      packages = with pkgs;
+        lib.mkIf cfg.enable [
+          android-tools
+          ant
+          gradle
+          groovy
+          jetbrains.idea-community
+          kotlin
+          lombok
+          maven
+          netbeans
+          visualvm
+        ];
+    };
+    programs = {
+      java = {
+        enable = cfg.enable;
+        package = pkgs.openjdk;
+      };
+      eclipse = {
+        enable = config.programs.java.enable;
+        enableLombok = config.programs.eclipse.enable;
+        package = pkgs.eclipses.eclipse-java;
+        plugins = with pkgs.eclipses.plugins; [
+          scala
+          vrapper
+          spotbugs
+          color-theme
+          cdt
+          jsonedit
+          drools
+          jdt-codemining
+          (buildEclipseUpdateSite rec {
+            name = "IntelliJIdeaKeymap4Eclipse";
+            src = pkgs.fetchzip {
+              url =
+                "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
+              sha256 = "sha256-L43JWpYy/9JvOLi9t+UioT/uQbBLL08pgHrW8SuGQ8M=";
+            };
+          })
+        ];
+      };
+    };
   };
 }
