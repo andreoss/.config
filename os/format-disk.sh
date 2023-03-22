@@ -8,12 +8,23 @@ FORMAT=
 MOUNT=
 UNMOUNT=
 CRYPT=
-FS=btrfs
+FS=
 LABEL="gpt"
 BOOT_SIZE=128MiB
+EPHEMERAL=
 LUKS_TYPE=luks1
 
-while getopts "d:r:mufCF:L:" opt; do
+error() {
+        printf "$*" >/dev/stderr
+        printf "\n" >/dev/stderr
+        exit 1
+}
+
+if [ "$USER" != "root" ]; then
+        error "Root required. Run it as:\n\tsudo $0 $@"
+fi
+
+while getopts "d:r:mufCF:L:B:E" opt; do
         case "$opt" in
         L)
                 case "$OPTARG" in
@@ -46,6 +57,12 @@ while getopts "d:r:mufCF:L:" opt; do
         F)
                 FS="$OPTARG"
                 ;;
+        E)
+                EPHEMERAL=1
+                ;;
+        B)
+                BOOT_SIZE="$OPTARG"
+                ;;
         h | '?')
                 echo "See $BASH_SOURCE"
                 exit 1
@@ -55,11 +72,6 @@ done
 
 set -x
 
-error() {
-        echo "$*" >/dev/stderr
-        exit 1
-}
-
 check_if_mounted() {
         if mount | grep "$DEVICE"; then
                 echo >&2 "$DEVICE is mounted"
@@ -67,7 +79,7 @@ check_if_mounted() {
         fi
 }
 
-HOST_ID=0001
+HOST_ID=000f
 
 LUKS_KEY=secrets/"${HOST_ID}".key
 
@@ -77,8 +89,13 @@ if [ "$LABEL" = "gpt" ]; then
         PART_BOOT=00000000-0000-0000-"$HOST_ID"-000000000000
         PART_SYSTEM=00000000-0000-0000-"$HOST_ID"-000000000001
 elif [ "$LABEL" = "msdos" ]; then
-        PART_BOOT="$PART_MSDOS_PREFIX"-01
-        PART_SYSTEM="$PART_MSDOS_PREFIX"-02
+        if [ "$BOOT_SIZE" = "0" ]; then
+                PART_BOOT=
+                PART_SYSTEM="$PART_MSDOS_PREFIX"-01
+        else
+                PART_BOOT="$PART_MSDOS_PREFIX"-01
+                PART_SYSTEM="$PART_MSDOS_PREFIX"-02
+        fi
 fi
 
 ID_SYSTEM=00000000-0000-0000-"$HOST_ID"-000000000011
@@ -102,9 +119,16 @@ else
 fi
 
 if [ "$CRYPT" ] && [ ! -e "$LUKS_KEY" ]; then
-
+        mkdir --parent "$(dirname "$LUKS_KEY")"
         dd if=/dev/urandom of="$LUKS_KEY" count=1 bs=1K
         chmod 400 "$LUKS_KEY"
+fi
+
+ROOT_MOUNT_POINT=
+if [ ! "$EPHEMERAL" ]; then
+        ROOT_MOUNT_POINT="$ROOT/"
+else
+        ROOT_MOUNT_POINT="$ROOT/nix"
 fi
 
 should_exists() {
@@ -136,8 +160,12 @@ crypt_open() {
 
 root_mount() {
         should_exists "$ROOT"
-        mount -t tmpfs none "$ROOT"
-        should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos
+        if [ "$EPHEMERAL" ]; then
+                mount -t tmpfs none "$ROOT"
+                should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos
+        else
+                echo "skip"
+        fi
 }
 
 root_unmount() {
@@ -146,7 +174,12 @@ root_unmount() {
 
 btrfs_subvol_name() {
         local MOUNT_POINT="$1"
-        echo "$MOUNT_POINT" | perl -pE 's[^/][];s[/$][];tr[/][-]'
+        if [ "$MOUNT_POINT" = "/" ]; then
+                echo "root"
+        else
+                echo "$MOUNT_POINT" | perl -pE 's[^/][];s[/$][];tr[/][-]'
+        fi
+
 }
 
 btrfs_subvol_create() {
@@ -174,13 +207,18 @@ btrfs_prepare() {
         fi
 
         sleep 3
+        if [ ! "$EPHEMERAL" ]; then
+                btrfs_subvol_create /
+        fi
         btrfs_subvol_create /nix/store
         btrfs_subvol_create /nix/var
         btrfs_subvol_create /user
 }
 
 btrfs_mount() {
-        should_exists "$ROOT"/etc/nixos "$ROOT"/boot "$ROOT"/home "$ROOT"/nix/store "$ROOT"/nix/var
+        if [ ! "$EPHEMERAL" ]; then
+                btrfs_subvol_mount /
+        fi
         btrfs_subvol_mount /nix/store
         btrfs_subvol_mount /nix/var
         btrfs_subvol_mount /user
@@ -191,6 +229,9 @@ btrfs_unmount() {
 }
 
 boot_prepare() {
+        if [ "$BOOT_SIZE" = "0" ]; then
+                return
+        fi
         if [ "$LABEL" = "gpt" ]; then
                 mkfs.fat /dev/disk/by-partuuid/"$PART_BOOT" -I -i "${ID_BOOT//-/}"
         elif [ "$LABEL" = "msdos" ]; then
@@ -201,10 +242,16 @@ boot_prepare() {
 }
 
 boot_mount() {
+        if [ "$BOOT_SIZE" = "0" ]; then
+                return
+        fi
         mount /dev/disk/by-partuuid/"$PART_BOOT" "$ROOT"/boot
 }
 
 boot_unmount() {
+        if [ "$BOOT_SIZE" = "0" ]; then
+                return
+        fi
         umount "$ROOT"/boot
 }
 
@@ -227,6 +274,7 @@ storage_prepare() {
 }
 
 storage_mount() {
+        should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos
         case "$FS" in
         btrfs)
                 btrfs_mount
@@ -272,16 +320,16 @@ f2fs_prepare() {
 }
 
 f2fs_mount() {
-        mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$RAW_DEVICE" "$ROOT/nix"
-        chattr -R +c "$ROOT/nix"
+        mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$RAW_DEVICE" "$ROOT_MOUNT_POINT"
+        #chattr -R +c "$ROOT_MOUNT_POINT"
 }
 
 generic_mount() {
-        mount "$RAW_DEVICE" "$ROOT/nix"
+        mount "$RAW_DEVICE" "$ROOT_MOUNT_POINT"
 }
 
 generic_unmount() {
-        umount "$ROOT/nix"
+        umount "$ROOT_MOUNT_POINT"
 }
 
 if [ "$FORMAT" ]; then
@@ -290,19 +338,25 @@ if [ "$FORMAT" ]; then
 
         if [ "$LABEL" = "gpt" ]; then
                 parted -s "$DEVICE" mklabel "$LABEL"
-                parted -a optimal "$DEVICE" mkpart primary fat16 1MiB "$BOOT_SIZE"
-                parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
+                if [ "$BOOT_SIZE" = 0 ]; then
+                        parted -a optimal "$DEVICE" mkpart primary ext2 "1MiB" 100%
+                        sgdisk --partition-guid=1:"$PART_SYSTEM" "$DEVICE"
+                        parted "$DEVICE" name 1 system
+                else
+                        parted -a optimal "$DEVICE" mkpart primary fat16 1MiB "$BOOT_SIZE"
+                        sgdisk --partition-guid=1:"$PART_BOOT" "$DEVICE"
+                        parted "$DEVICE" name 1 msdos
+                        parted "$DEVICE" set 1 esp on
+                fi
 
-                sgdisk --partition-guid=1:"$PART_BOOT" "$DEVICE"
-                sgdisk --partition-guid=2:"$PART_SYSTEM" "$DEVICE"
-
-                parted "$DEVICE" name 1 msdos
-                parted "$DEVICE" set 1 esp on
-                parted "$DEVICE" name 2 system
         elif [ "$LABEL" = "msdos" ]; then
                 parted -s "$DEVICE" mklabel "$LABEL"
-                parted -a optimal "$DEVICE" mkpart primary ext2 1MiB "$BOOT_SIZE"
-                parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
+                if [ "$BOOT_SIZE" -ne 0 ]; then
+                        parted -a optimal "$DEVICE" mkpart primary ext2 "1MiB" 100%
+                else
+                        parted -a optimal "$DEVICE" mkpart primary ext2 1MiB "$BOOT_SIZE"
+                        parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
+                fi
 
                 fdisk --wipe "$DEVICE"
                 (
@@ -319,6 +373,7 @@ if [ "$FORMAT" ]; then
                 error "$LABEL unsupported"
         fi
 
+        sleep 3
         crypt_format
         crypt_open
         boot_prepare
