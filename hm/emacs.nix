@@ -7,6 +7,8 @@
         exec emacs -Q -nw -l ${../mini-init.el} "$*"
       '';
     };
+    home.packages = with pkgs; [ nvi ];
+    home.sessionVariables = { EDITOR = "vi"; };
     xresources.properties = {
       "Emacs*toolBar" = 0;
       "Emacs*menuBar" = 0;
