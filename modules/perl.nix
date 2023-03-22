@@ -5,7 +5,7 @@ in {
     home.development.perl = with lib; {
       enable = mkOption {
         type = types.bool;
-        default = true;
+        default = false;
       };
       version = mkOption {
         type = types.str;
