@@ -14,7 +14,7 @@ in {
     };
   };
   config = {
-    home.file = { ".indent.pro".source = ./../indent.pro; };
+    home.file = { ".indent.pro".text = "--original"; };
     home.packages = lib.optionals cfg.enable (with pkgs; [
       autoconf
       entr

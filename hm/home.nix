@@ -8,7 +8,6 @@ let
     lang.ruby.packages = with pkgs; [ ruby gem ];
     lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
   };
-  lang = config.ao.primaryUser.languages;
 in {
   nixpkgs.overlays = [
     (self: super: {
@@ -25,55 +24,21 @@ in {
   programs.matplotlib.enable = true;
   home.packages = with pkgs;
     [
-      ack
-      ascii
-      atool
       coreutils-full
-      docker
-      dockfmt
       file
-      lsof
-      nix
-      nil
-      nixfmt
-      nix-tree
-      nvi
       oathToolkit
       openvpn
       packer
       pavucontrol
-      pulsemixer
-      psmisc
-      pv
-      qrencode
-      ripgrep
-      rnix-lsp
       rsync
       screen
-      shellcheck
-      shfmt
-      silver-searcher
-      sysstat
-      unar
-      unzip
-      zip
       (hunspellWithDicts [
         hunspellDicts.ru_RU
         hunspellDicts.es_ES
         hunspellDicts.en_GB-large
       ])
       python3Plus
-    ]
-    ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
-    ++ (lib.optionals (!config.mini && lang.cxx) [
-      kubernetes
-      lcov
-      minikube
-      minishift
-      ctop
-      ninja
-      openshift
-    ]) ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
+    ] ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
       djview
       pandoc
       libertine
@@ -85,8 +50,8 @@ in {
       #libreoffice
       abiword
       freerdp
-    ]) ++ (lib.optionals (!config.mini && lang.ruby) my.lang.ruby.packages)
-    ++ (lib.optionals (!config.mini && lang.rust) my.lang.rust.packages);
+    ]) ++ (lib.optionals (!config.mini) my.lang.ruby.packages)
+    ++ (lib.optionals (!config.mini) my.lang.rust.packages);
   home.file = {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
@@ -116,6 +81,5 @@ in {
       default-fg = palette.black1;
     };
   };
-  programs.jq.enable = true;
   programs.home-manager.enable = true;
 }
