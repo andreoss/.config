@@ -127,7 +127,7 @@ in {
     frequency = "daily";
   };
   programs.zathura = {
-    enable = desk;
+    enable = config.xsession.enable;
     mappings = {
       "D" = "first-page-column 1:2";
       "<C-d>" = "first-page-column 1:1";
