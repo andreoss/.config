@@ -15,7 +15,7 @@ in {
   boot.initrd.kernelModules = [ "usb_storage" "uas" ];
   boot.extraModprobeConfig = ''
     options thinkpad_acpi fan_control=1
-    options binder_linux devices=binder,hwbinder,vndbinder
+        options binder_linux devices=binder,hwbinder,vndbinder
   '';
   boot.kernel.sysctl = {
     "vm.swappiness" = 1;
