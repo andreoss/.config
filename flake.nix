@@ -54,13 +54,17 @@
           pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [
+            ./config.nix
+
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
-            ./config.nix
+
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
+
+          ] ++ host.modules ++ [
             ./os/hm.nix
             ./os/nix.nix
             ./os/configuration.nix
@@ -73,7 +77,7 @@
             ./os/network.nix
             ./os/i18n.nix
             ./os/boot.nix
-          ] ++ host.modules;
+          ];
         };
       homeConfigurations = {
         imports = [ ./config.nix ];
