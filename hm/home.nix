@@ -4,8 +4,6 @@ let
   python3Plus = pkgs.python3.withPackages
     (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
   python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
-  sbclPackages = (with pkgs; [ roswell sbcl ]);
-  clojurePackages = with pkgs; [ babashka leiningen clojure ];
   my = {
     lang.ruby.packages = with pkgs; [ ruby gem ];
     lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
@@ -33,11 +31,6 @@ in {
     };
   };
   programs.matplotlib.enable = true;
-  home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    [ "${
-      builtins.toString config.ao.primaryUser.languages.lisp
-    }" == "true" ] && ros init
-  '';
   home.packages = with pkgs;
     [
       ack
@@ -45,16 +38,12 @@ in {
       atool
       cloc
       coreutils
-      curl
-      dig.dnsutils
       docker
       dockfmt
       entr
       file
-      jwhois
       libressl
       lsof
-      mtr
       nix
       nil
       nixfmt
@@ -64,8 +53,8 @@ in {
       openvpn
       packer
       pavucontrol
-      psmisc
       pulsemixer
+      psmisc
       pv
       qrencode
       ripgrep
@@ -76,25 +65,18 @@ in {
       shfmt
       silver-searcher
       sysstat
-      telescope
       unar
       unzip
-      wget
       zip
       (hunspellWithDicts [
         hunspellDicts.ru_RU
         hunspellDicts.es_ES
         hunspellDicts.en_GB-large
       ])
-      playerctl
       python3Plus
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
-    ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [
-      imagemagickBig
-      ffmpeg-full
-      mpc_cli
-    ]) ++ (lib.optionals (!config.mini && desk) [ signal-desktop ]) ++ [ ]
+    ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [ ])
     ++ (lib.optionals (!config.mini && lang.cxx) [
       autoconf
       automake
@@ -132,23 +114,13 @@ in {
       #libreoffice
       abiword
       freerdp
-    ]) ++ (lib.optionals (lang.lisp) sbclPackages)
-    ++ (lib.optionals (lang.haskell) [
-      ghc
-      haskellPackages.stack
-      haskell-language-server
     ]) ++ (lib.optionals (!config.mini && lang.ruby) my.lang.ruby.packages)
-    ++ (lib.optionals (!config.mini && lang.rust) my.lang.rust.packages)
-    ++ (lib.optionals (!config.mini && lang.clojure) clojurePackages);
+    ++ (lib.optionals (!config.mini && lang.rust) my.lang.rust.packages);
   home.file = {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
     ".indent.pro".source = ./../indent.pro;
     ".local/bin/dates".source = ./../scripts/dates;
-    # ".local/bin/citrix".source = (pkgs.substituteAll {
-    #   src = ./../scripts/citrix;
-    #   citrix = pkgs.citrix_workspace_22_05_0;
-    # });
   };
   home.file.".local/bin/nano" = {
     executable = true;
@@ -157,47 +129,10 @@ in {
       exit 1
     '';
   };
-  home.file.".local/bin/mpa" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-      exec mpv --vo=null "$@"
-    '';
-  };
-  programs.mpv = {
-    enable = config.ao.primaryUser.media;
-    config = {
-      save-position-on-quit = true;
-      osc = "yes";
-      osd-font-size = 24;
-      osd-color = palette.white2;
-    };
-    scripts = with pkgs.mpvScripts; [ mpris ];
-  };
   services.home-manager.autoUpgrade = {
     enable = false;
     frequency = "daily";
   };
-  services.playerctld = {
-    enable = !config.mini && config.ao.primaryUser.media;
-  };
-  services.mpdris2 = {
-    notifications = true;
-    enable = !config.mini && config.ao.primaryUser.media;
-  };
-  services.mpd = {
-    enable = !config.mini && config.ao.primaryUser.media;
-    musicDirectory = "${config.home.homeDirectory}/Music";
-    extraConfig = ''
-      audio_output {
-         type "pipewire"
-         name "My PipeWire Output"
-      }
-      follow_outside_symlinks "yes"
-      follow_inside_symlinks "yes"
-    '';
-  };
-  programs.ncmpcpp.enable = !config.mini && config.ao.primaryUser.media;
   programs.zathura = {
     enable = desk;
     mappings = {
@@ -211,22 +146,6 @@ in {
       default-fg = palette.black1;
     };
   };
-  programs.yt-dlp = {
-    enable = desk;
-    settings = {
-      convert-subs = "srt";
-      downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
-      downloader = "aria2c";
-      embed-metadata = true;
-      embed-subs = true;
-      embed-thumbnail = true;
-      mtime = true;
-      sub-langs = "all";
-    };
-  };
+  programs.jq.enable = true;
   programs.home-manager.enable = true;
-  programs.aria2 = {
-    enable = !config.mini && config.ao.primaryUser.media;
-    settings = { seed-ratio = 0.0; };
-  };
 }
