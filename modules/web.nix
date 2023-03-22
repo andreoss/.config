@@ -24,14 +24,10 @@ in {
         wget
         curl
         telescope
-
         dig.dnsutils
         jwhois
         mtr
-
-        signal-desktop
       ];
-
     };
     programs = {
       aria2 = {
