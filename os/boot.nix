@@ -1,6 +1,7 @@
 { lib, config, pkgs, ... }:
 let palette = import ./palette.nix;
 in {
+  hardware.enableRedistributableFirmware = true;
   boot.kernelPackages = pkgs.linuxPackages_testing;
   boot.blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
   boot.kernelParams = [

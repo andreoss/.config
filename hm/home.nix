@@ -32,7 +32,6 @@ in {
       docker
       dockfmt
       file
-      libressl
       lsof
       nix
       nil
