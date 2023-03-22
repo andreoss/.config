@@ -13,6 +13,7 @@ in {
       ../modules/development
       ../modules/multimedia.nix
       ../modules/web.nix
+      ../modules/office.nix
       { home.multimedia.enable = true; }
       { home.web.enable = true; }
       ../config.nix

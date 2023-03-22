@@ -42,10 +42,12 @@ in {
       };
     };
     home.packages = with pkgs; [
-      playerctl
-      imagemagickBig
       ffmpeg-full
-      mpc_cli # XXX
+      imagemagickBig
+      mpc_cli
+      pavucontrol
+      playerctl
+      pulsemixer
     ];
     services.mpdris2 = {
       notifications = true;
