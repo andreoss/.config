@@ -11,6 +11,8 @@ in {
     home.stateVersion = config.ao.stateVersion;
     imports = [
       ../modules/lisp.nix
+      ../modules/java.nix
+      ../modules/scala.nix
       ../modules/haskell.nix
       ../modules/multimedia.nix
       ../modules/web.nix
@@ -28,7 +30,6 @@ in {
     ] ++ (lib.optionals (config.ao.primaryUser.graphics) [
       ../hm/xsession-base.nix
       ../hm/xsession.nix
-    ]) ++ (lib.optionals (!config.mini && l.java) [ ../hm/java.nix ])
-      ++ (lib.optionals (!config.mini && l.scala) [ ../hm/scala.nix ]);
+    ]);
   };
 }
