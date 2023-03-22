@@ -7,7 +7,7 @@ in {
   options = {
     home.multimedia = {
       enable = lib.mkEnableOption "Multimedia programs.";
-      default = true;
+      default = false;
     };
   };
   config = {
