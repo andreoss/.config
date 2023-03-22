@@ -8,12 +8,14 @@
   blue4 = "#4287AF";
   blue5 = "#1DA1F2";
   blue6 = "#123054";
+  blue7 = "#3232AE";
   cyan1 = "#6AA7A8";
   cyan2 = "#A1EEED";
   gray1 = "#586E75";
   gray2 = "#657B83";
   gray3 = "#999999";
   gray4 = "#AFBFBF";
+  gray5 = "#D3D7CF";
   green1 = "#0A4D4F";
   green2 = "#6BB64A";
   green3 = "#C7E16C";
