@@ -135,6 +135,8 @@
         specialArgs = { inherit inputs self; };
         pkgs = legacyPackages."x86_64-linux";
         modules = [
+          inputs.nodm-module.nixosModules.default
+          inputs.dnscrypt-module.nixosModules.default
           ./config.nix
           {
             config.isLivecd = true;
