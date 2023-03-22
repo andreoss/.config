@@ -1,10 +1,22 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
+{ config, pkgs, lib, ... }:
+let cfg = config.home.development.scala;
+in {
+  options = with lib; {
+    home.development.scala = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
+    };
+  };
   config = {
     programs.sbt = {
-      enable = config.ao.primaryUser.languages.scala;
+      enable = cfg.enable;
       package = pkgs.sbt-with-scala-native;
       plugins = [ ];
     };
-    home.packages = with pkgs; [ metals mill nailgun dotty ];
+    home = lib.mkIf cfg.enable {
+      packages = with pkgs; [ metals mill nailgun dotty ];
+    };
   };
 }
