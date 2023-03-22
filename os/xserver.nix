@@ -2,6 +2,7 @@
 let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
+    hardware.opengl.package = pkgs.mesa_drivers;
     services.startx = {
       enable = true;
       user = if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
