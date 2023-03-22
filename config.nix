@@ -16,7 +16,7 @@ with lib; {
   config.ao = {
     stateVersion = "23.05";
     fileSystems = { btrfsOptions = [ "compress=zstd" ]; };
-    pipewireReplacesPulseaudio = false;
+    pipewireReplacesPulseaudio = true;
     isLivecd = false;
     primaryUser = {
       name = "a";
