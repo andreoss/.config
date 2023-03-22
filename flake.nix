@@ -12,6 +12,7 @@
     nodm-module.url = "github:andreoss/nodm-nixos-module";
     dnscrypt-module.url = "github:andreoss/dnscrypt-nixos-module";
     wfica.url = "github:andreoss/citrix";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
@@ -35,6 +36,7 @@
       systems = lib.systems.flakeExposed;
       lib = nixpkgs.lib;
       eachSystem = lib.genAttrs systems;
+      options = builtins.fromTOML (builtins.readFile ./secrets/options.toml);
     in rec {
       legacyPackages = eachSystem (system:
         import nixpkgs {
@@ -46,18 +48,17 @@
           overlays = [
             inputs.kernel-overlay.overlays.default
             inputs.emacs-d.overlays.default
-            (self: super:
-              let
-                nixpkgs-mesa = builtins.fetchTarball {
-                  url =
-                    "https://github.com/nixos/nixpkgs/archive/bdac777becdbb8780c35be4f552c9d4518fe0bdb.tar.gz";
-                  sha256 =
-                    "sha256:18hi3cgagzkrxrwv6d9yjazqg5q2kiacjn3hhb94j4gs6c6kdxrk";
-                };
+            (final: prev:
+              let pkgs_ = import nixpkgs { inherit system; };
               in {
-                mesa_drivers =
-                  (import nixpkgs-mesa { inherit system; }).mesa_drivers;
+                grub2 = (pkgs_.grub2.override { }).overrideAttrs
+                  (oldattrs: rec {
+                    patches =
+                      [ ./overlays/01-quite.patch ./overlays/02-no-uuid.patch ]
+                      ++ oldattrs.patches;
+                  });
               })
+
           ];
         });
       baseSystem = host:
@@ -67,7 +68,6 @@
           specialArgs = { inherit inputs self; };
           modules = [
             ./config.nix
-
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
             inputs.home-manager.nixosModule
@@ -120,6 +120,7 @@
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
         modules = [
+          inputs.nixos-hardware.nixosModules.${options.tx.model}
           ./secrets/tx-hw.nix
           ./os/fs-crypt.nix
           ./os/boot-loader.nix
@@ -128,8 +129,12 @@
       };
       nixosConfigurations.ts = baseSystem {
         hostname = "ts";
-        modules =
-          [ ./secrets/fs-ts.nix ./secrets/ts-hw.nix ./os/boot-loader.nix ];
+        modules = [
+          inputs.nixos-hardware.nixosModules.${options.ts.model}
+          ./secrets/fs-ts.nix
+          ./secrets/ts-hw.nix
+          ./os/boot-loader.nix
+        ];
       };
       nixosConfigurations.ss = baseSystem {
         hostname = "ss";
@@ -144,7 +149,7 @@
       };
       nixosConfigurations.tq = baseSystem {
         hostname = "tq";
-        modules = [ ./os/fs-legacy.nix ./os/boot-grub-uefi.nix ];
+        modules = [ ./os/fs-legacy.nix ./os/boot-grub.nix ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
