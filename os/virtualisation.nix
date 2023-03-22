@@ -19,7 +19,7 @@ in {
       x11 = false;
     };
     virtualbox.host = {
-      enable = !config.mini;
+      enable = false;
       headless = false;
       enableExtensionPack = false;
       enableHardening = false;
