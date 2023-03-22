@@ -1,19 +1,20 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+let cfg = config.home.development.haskell;
+in {
   imports = [ ];
-
   options = {
-    home.development.haskell = {
-      enable = lib.mkEnableOption "Haskell development environment.";
-      default = true;
+    home.development.haskell = with lib; {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
     };
   };
-
-  config = {
+  config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       ghc
       haskellPackages.stack
       haskell-language-server
-
     ];
   };
 }
