@@ -1,11 +1,15 @@
 { lib, config, pkgs, ... }: {
   boot.loader = {
+
     grub = {
-      enable = true;
-      version = 2;
-      enableCryptodisk = true;
-      efiSupport = false;
       device = "/dev/sdb";
+      efiSupport = false;
+      enableCryptodisk = true;
+      enable = true;
+      splashImage = ../wp/1.jpeg;
+      splashMode = "normal";
+      theme = null;
+      version = 2;
     };
   };
 }
