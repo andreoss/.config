@@ -16,19 +16,13 @@
       XKB_DEFAULT_OPTIONS =
         builtins.concatStringsSep "," config.home.keyboard.options;
     };
+    home.sessionVariables = { WLR_NO_HARDWARE_CURSORS = 1; };
     programs.ssh = { enable = true; };
     programs.keychain = {
       enable = true;
       enableBashIntegration = true;
     };
     programs.gpg.enable = true;
-    services.gpg-agent = {
-      grabKeyboardAndMouse = true;
-      enable = true;
-      defaultCacheTtl = 7200;
-      enableSshSupport = true;
-      pinentryFlavor = "gtk2";
-    };
     programs.password-store = {
       enable = true;
       package = pkgs.pass.withExtensions (exts: [
@@ -38,7 +32,13 @@
         exts.pass-genphrase
       ]);
     };
-    home.sessionVariables = { WLR_NO_HARDWARE_CURSORS = 1; };
+    services.gpg-agent = {
+      grabKeyboardAndMouse = true;
+      enable = true;
+      defaultCacheTtl = 7200;
+      enableSshSupport = true;
+      pinentryFlavor = "gtk2";
+    };
     systemd.user.startServices = true;
     systemd.user.servicesStartTimeoutMs = 10000;
   };
