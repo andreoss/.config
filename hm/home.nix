@@ -29,7 +29,6 @@ in {
       oathToolkit
       openvpn
       packer
-      pavucontrol
       rsync
       screen
       (hunspellWithDicts [
@@ -39,17 +38,8 @@ in {
       ])
       python3Plus
     ] ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
-      djview
-      pandoc
-      libertine
       paperkey
-      texlive.combined.scheme-full
-      sdcv
       anki-bin
-    ]) ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
-      #libreoffice
-      abiword
-      freerdp
     ]) ++ (lib.optionals (!config.mini) my.lang.ruby.packages)
     ++ (lib.optionals (!config.mini) my.lang.rust.packages);
   home.file = {
@@ -67,19 +57,6 @@ in {
   services.home-manager.autoUpgrade = {
     enable = false;
     frequency = "daily";
-  };
-  programs.zathura = {
-    enable = config.xsession.enable;
-    mappings = {
-      "D" = "first-page-column 1:2";
-      "<C-d>" = "first-page-column 1:1";
-    };
-    options = {
-      selection-clipboard = "clipboard";
-      sandbox = "strict";
-      default-bg = palette.white2;
-      default-fg = palette.black1;
-    };
   };
   programs.home-manager.enable = true;
 }
