@@ -35,20 +35,7 @@ with lib; {
       emacsFromNix = true;
       graphics = true;
       mail = true;
-      media = true;
-      office = true;
-      languages = {
-        java = true;
-        perl = true;
-        scala = true;
-        android = false;
-        clojure = true;
-        rust = true;
-        ruby = true;
-        haskell = true;
-        lisp = true;
-        cxx = true;
-      };
+      office = false;
     };
   };
 }
