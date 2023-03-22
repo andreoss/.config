@@ -9,7 +9,6 @@ let
     lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
   };
   lang = config.ao.primaryUser.languages;
-  desk = config.ao.primaryUser.graphics;
 in {
   nixpkgs.overlays = [
     (self: super: {
@@ -29,11 +28,9 @@ in {
       ack
       ascii
       atool
-      cloc
-      coreutils
+      coreutils-full
       docker
       dockfmt
-      entr
       file
       libressl
       lsof
@@ -69,32 +66,14 @@ in {
       python3Plus
     ]
     ++ [ yamllint xmlformat yaml2json json2yaml yaml-merge jo libxslt dos2unix ]
-    ++ (lib.optionals (!config.mini && config.ao.primaryUser.media) [ ])
     ++ (lib.optionals (!config.mini && lang.cxx) [
-      autoconf
-      automake
-      binutils
-      ccls
-      clang-analyzer
-      clang-tools
-      cling
-      cmake
-      cppcheck
-      cpplint
-      gcc
-      gdb
-      gnumake
-      indent
       kubernetes
       lcov
       minikube
       minishift
+      ctop
       ninja
       openshift
-      pkg-config
-      strace
-      tinycc
-      valgrind
     ]) ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
       djview
       pandoc
@@ -112,7 +91,6 @@ in {
   home.file = {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
-    ".indent.pro".source = ./../indent.pro;
     ".local/bin/dates".source = ./../scripts/dates;
   };
   home.file.".local/bin/nano" = {

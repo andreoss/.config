@@ -10,19 +10,20 @@ in {
     nixpkgs.overlays = [ specialArgs.inputs.emacs-d.overlays.default ];
     home.stateVersion = config.ao.stateVersion;
     imports = [
-      ../modules/lisp.nix
-      ../modules/java.nix
-      ../modules/scala.nix
+      ../modules/cxx.nix
       ../modules/haskell.nix
+      ../modules/java.nix
+      ../modules/lisp.nix
       ../modules/multimedia.nix
-      ../modules/web.nix
       ../modules/perl.nix
+      ../modules/scala.nix
+      ../modules/web.nix
       { home.multimedia.enable = true; }
       { home.web.enable = true; }
       ../config.nix
       ../hm/base.nix
-      ../hm/home.nix
-      ../hm/mail.nix
+      # ../hm/home.nix
+      # ../hm/mail.nix
       ../hm/emacs.nix
       ../hm/sh.nix
       ../hm/term.nix

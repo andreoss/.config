@@ -2,9 +2,11 @@
   imports = [ ];
 
   options = {
-    home.development.lisp = {
-      enable = lib.mkEnableOption "Lisp development environment.";
-      default = true;
+    home.development.lisp = with lib; {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
     };
   };
 
