@@ -1,25 +1,7 @@
 { config, pkgs, lib, stdenv, inputs, ... }: {
   config = {
-    home.file.".local/bin/me" = {
-      executable = true;
-      text = ''
-        #!/bin/sh
-        exec emacs -Q -nw -l ${../mini-init.el} "$*"
-      '';
-    };
-    home.packages = with pkgs; [ nvi ];
-    home.sessionVariables = { EDITOR = "vi"; };
-    xresources.properties = {
-      "Emacs*toolBar" = 0;
-      "Emacs*menuBar" = 0;
-      "Emacs*geometry" = "80x30";
-      "Emacs*font" = "Ttyp0";
-      "Emacs*scrollBar" = "on";
-      "Emacs*scrollBarWidth" = 6;
-    };
-    services.emacs.enable = lib.mkForce true;
     programs.emacs = {
-      enable = config.ao.primaryUser.emacsFromNix;
+      enable = true;
       package = inputs.emacs-d.packages.x86_64-linux.emacs;
     };
     editorconfig = {
@@ -32,5 +14,25 @@
         };
       };
     };
+    xresources.properties = {
+      "Emacs*toolBar" = 0;
+      "Emacs*menuBar" = 0;
+      "Emacs*geometry" = "80x30";
+      "Emacs*font" = "Ttyp0";
+      "Emacs*scrollBar" = "on";
+      "Emacs*scrollBarWidth" = 6;
+    };
+    home = {
+      file.".local/bin/me" = {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          exec emacs -Q -nw -l ${../mini-init.el} "$*"
+        '';
+      };
+      packages = with pkgs; [ nvi ];
+      sessionVariables = { EDITOR = "vi"; };
+    };
+    services.emacs.enable = lib.mkForce true;
   };
 }
