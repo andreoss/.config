@@ -11,8 +11,8 @@ in {
     };
   };
   config = {
-    environment.sessionVariables.DEFAULT_BROWSER = "firefox";
     home = {
+      sessionVariables.DEFAULT_BROWSER = "firefox";
       file.".local/bin/mozilla" = {
         executable = true;
         text = ''
