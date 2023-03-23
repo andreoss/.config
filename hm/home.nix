@@ -1,13 +1,5 @@
 { config, pkgs, lib, stdenv, self, ... }:
-let
-  palette = import ../os/palette.nix;
-  python3Plus = pkgs.python3.withPackages
-    (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
-  python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
-  my = {
-    lang.ruby.packages = with pkgs; [ ruby gem ];
-    lang.rust.packages = with pkgs; [ rust-analyzer rustup ];
-  };
+let palette = import ../os/palette.nix;
 in {
   nixpkgs.overlays = [
     (self: super: {
@@ -21,27 +13,22 @@ in {
       });
     })
   ];
-  programs.matplotlib.enable = true;
-  home.packages = with pkgs;
-    [
-      coreutils-full
-      file
-      oathToolkit
-      openvpn
-      packer
-      rsync
-      screen
-      (hunspellWithDicts [
-        hunspellDicts.ru_RU
-        hunspellDicts.es_ES
-        hunspellDicts.en_GB-large
-      ])
-      python3Plus
-    ] ++ (lib.optionals (!config.mini && config.ao.primaryUser.office) [
-      paperkey
-      anki-bin
-    ]) ++ (lib.optionals (!config.mini) my.lang.ruby.packages)
-    ++ (lib.optionals (!config.mini) my.lang.rust.packages);
+  home.packages = with pkgs; [
+    coreutils-full
+    file
+    oathToolkit
+    openvpn
+    packer
+    rsync
+    screen
+    (hunspellWithDicts [
+      hunspellDicts.ru_RU
+      hunspellDicts.es_ES
+      hunspellDicts.en_GB-large
+    ])
+    paperkey
+    anki-bin
+  ];
   home.file = {
     ".npmrc".source = ./../npmrc;
     ".ratpoisonrc".source = ./../ratpoisonrc;
