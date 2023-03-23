@@ -1,6 +1,15 @@
 { config, pkgs, lib, inputs, ... }: {
-  imports =
-    [ ./cxx.nix ./perl.nix ./java.nix ./scala.nix ./lisp.nix ./haskell.nix ];
+  imports = [
+    ./cxx.nix
+    ./perl.nix
+    ./java.nix
+    ./scala.nix
+    ./lisp.nix
+    ./haskell.nix
+    ./rust.nix
+    ./ruby.nix
+    ./python.nix
+  ];
 
   config = {
     programs.jq.enable = true;
