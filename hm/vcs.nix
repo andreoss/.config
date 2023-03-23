@@ -1,4 +1,5 @@
 { config, pkgs, lib, stdenv, ... }: {
+  imports = [ ../config.nix ];
   config = {
     programs.mercurial = {
       enable = true;
