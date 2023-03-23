@@ -10,6 +10,7 @@ UNMOUNT=
 CRYPT=
 FS=
 LABEL="gpt"
+FIRST_PART_GAP=10MiB
 BOOT_SIZE=128MiB
 EPHEMERAL=
 LUKS_TYPE=luks1
@@ -339,22 +340,23 @@ if [ "$FORMAT" ]; then
         if [ "$LABEL" = "gpt" ]; then
                 parted -s "$DEVICE" mklabel "$LABEL"
                 if [ "$BOOT_SIZE" = 0 ]; then
-                        parted -a optimal "$DEVICE" mkpart primary ext2 "1MiB" 100%
+                        parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" 100%
                         sgdisk --partition-guid=1:"$PART_SYSTEM" "$DEVICE"
                         parted "$DEVICE" name 1 system
                 else
-                        parted -a optimal "$DEVICE" mkpart primary fat16 1MiB "$BOOT_SIZE"
+                        parted -a optimal "$DEVICE" mkpart primary fat16 $FIRST_PART_GAP "$BOOT_SIZE"
                         sgdisk --partition-guid=1:"$PART_BOOT" "$DEVICE"
                         parted "$DEVICE" name 1 msdos
-                        parted "$DEVICE" set 1 esp on
+                        parted "$DEVICE" set 1 esp o
+                        n
                 fi
 
         elif [ "$LABEL" = "msdos" ]; then
                 parted -s "$DEVICE" mklabel "$LABEL"
-                if [ "$BOOT_SIZE" -ne 0 ]; then
-                        parted -a optimal "$DEVICE" mkpart primary ext2 "1MiB" 100%
+                if [ "$BOOT_SIZE" = "0" ]; then
+                        parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" 100%
                 else
-                        parted -a optimal "$DEVICE" mkpart primary ext2 1MiB "$BOOT_SIZE"
+                        parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" "$BOOT_SIZE"
                         parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
                 fi
 
