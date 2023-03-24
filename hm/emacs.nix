@@ -30,7 +30,15 @@
           exec emacs -Q -nw -l ${../mini-init.el} "$*"
         '';
       };
-      packages = with pkgs; [ nvi ];
+      packages = with pkgs; [
+        nvi
+        coreutils-full
+        (hunspellWithDicts [
+          hunspellDicts.ru_RU
+          hunspellDicts.es_ES
+          hunspellDicts.en_GB-large
+        ])
+      ];
       sessionVariables = { EDITOR = "vi"; };
     };
     services.emacs.enable = lib.mkForce true;
