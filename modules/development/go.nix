@@ -1,8 +1,8 @@
 { config, pkgs, lib, stdenv, self, ... }:
-let cfg = config.home.development.rust;
+let cfg = config.home.development.go;
 in {
   options = {
-    home.development.rust = with lib; {
+    home.development.go = with lib; {
       enable = mkOption {
         type = types.bool;
         default = false;
@@ -10,6 +10,6 @@ in {
     };
   };
   config = with pkgs; {
-    home.packages = lib.optionals cfg.enable [ rust-analyzer rustup ];
+    home.packages = lib.optionals cfg.enable [ gotools gocode ];
   };
 }

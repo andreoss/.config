@@ -9,5 +9,7 @@ in {
       };
     };
   };
-  config = { home.packages = lib.optionals cfg.enable [ ruby gem ]; };
+  config = with pkgs; {
+    home.packages = lib.optionals cfg.enable [ ruby gem ];
+  };
 }
