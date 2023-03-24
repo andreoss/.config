@@ -9,6 +9,7 @@
     ./rust.nix
     ./ruby.nix
     ./python.nix
+    ./vcs.nix
   ];
 
   config = {
