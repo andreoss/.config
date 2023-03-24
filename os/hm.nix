@@ -16,17 +16,14 @@ in {
       ../modules/office.nix
       { home.multimedia.enable = true; }
       { home.web.enable = true; }
-      ../config.nix
       ../hm/base.nix
       ../hm/home.nix
       ../hm/mail.nix
       ../hm/emacs.nix
       ../hm/sh.nix
       ../hm/term.nix
-      ../hm/vcs.nix
-    ] ++ (lib.optionals (config.ao.primaryUser.graphics) [
       ../hm/xsession-base.nix
       ../hm/xsession.nix
-    ]);
+    ];
   };
 }
