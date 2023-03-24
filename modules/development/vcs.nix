@@ -46,7 +46,7 @@
         rerere.enabled = true;
       };
       includes = [{
-        path = ../git/config.work;
+        path = ../../git/config.work;
         condition = "gitdir:~/work";
       }];
     };
