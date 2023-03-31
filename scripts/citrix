@@ -12,7 +12,7 @@ shutdown_active() {
 trap shutdown_active EXIT
 
 XHOME=
-COEF=0.9
+COEF=0.6
 export COEF
 GEOM=$(
 	xwininfo -root |

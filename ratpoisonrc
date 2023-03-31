@@ -1,28 +1,23 @@
+addhook key windows
+bind o only
+definekey top M-S-Tab focus
+definekey top M-Tab focusprev
+exec ~/.fehbg
 exec wmname LG3D
 exec xhost +local:
-exec ~/.fehbg
-
-unmanage stalonetray
-
 set barborder 0
 set barborder 3
 set bargravity nw
 set barinpadding 0
 set barpadding 20 0
-
-set border 3
 set bgcolor #121212
-set fgcolor #ffffaa
+set border 3
 set bwcolor #eaeaea
-set fwcolor #aafaaa
+set fgcolor #ffffaa
 set framesels 1234567890
+set fwcolor #aafaaa
 set startupmessage 0
 set winfmt %n %c %s%20t(%wx%h)
 set wrap 1
 startup_message off
-bind o only
-
-addhook key windows
-
-definekey top M-Tab focusprev
-definekey top M-S-Tab focus
+unmanage stalonetray
