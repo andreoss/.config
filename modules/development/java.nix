@@ -38,14 +38,14 @@ in {
       sessionVariables = variables;
       activation = activationScripts;
       file = {
-        ".ideavimrc".source = ./../ideavimrc;
+        ".ideavimrc".source = ./ideavimrc;
         ".local/share/JetBrains/consentOptions/accepted".text = "";
         ".local/bin/jetbrains" = {
           executable = true;
           text = ''
             #!/bin/sh
             exec firejail --profile="${
-              ../firejail/idea.profile
+              ../../firejail/idea.profile
             }" idea-community "$@"
           '';
         };

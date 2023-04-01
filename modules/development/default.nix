@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ./cxx.nix
     ./perl.nix
