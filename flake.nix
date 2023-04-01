@@ -46,7 +46,7 @@
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };
           overlays = [
-            inputs.kernel-overlay.overlays.default
+            inputs.kernel-overlay.overlays.x86_64-linux.default
             inputs.emacs-d.overlays.default
             (final: prev:
               let pkgs_ = import nixpkgs { inherit system; };
