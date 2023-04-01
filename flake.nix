@@ -48,6 +48,18 @@
           overlays = [
             inputs.kernel-overlay.overlays.x86_64-linux.default
             inputs.emacs-d.overlays.default
+            (self: super:
+              let
+                nixpkgs-mesa = builtins.fetchTarball {
+                  url =
+                    "https://github.com/nixos/nixpkgs/archive/bdac777becdbb8780c35be4f552c9d4518fe0bdb.tar.gz";
+                  sha256 =
+                    "sha256:18hi3cgagzkrxrwv6d9yjazqg5q2kiacjn3hhb94j4gs6c6kdxrk";
+                };
+              in {
+                mesa_drivers =
+                  (import nixpkgs-mesa { inherit system; }).mesa_drivers;
+              })
             (final: prev:
               let pkgs_ = import nixpkgs { inherit system; };
               in {
