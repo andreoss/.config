@@ -46,7 +46,7 @@
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };
           overlays = [
-            inputs.kernel-overlay.overlays.default
+            inputs.kernel-overlay.overlays.${system}.default
             inputs.emacs-d.overlays.default
             (final: prev:
               let pkgs_ = import nixpkgs { inherit system; };
@@ -101,7 +101,7 @@
             {
               config.home.username = "a";
               config.home.homeDirectory = "/user";
-              config.home.stateVersion = "23.05";
+              config.home.stateVersion = options.main.stateVersion;
             }
             ./hm/browser.nix
             ./hm/emacs.nix
@@ -120,6 +120,10 @@
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
         modules = [
+          {
+            system.stateVersion =
+              options.tx.stateVersion or options.main.stateVersion;
+          }
           inputs.nixos-hardware.nixosModules.${options.tx.model}
           ./secrets/tx-hw.nix
           ./os/fs-crypt.nix
