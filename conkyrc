@@ -31,7 +31,7 @@ conky.config = {
 }
 
 conky.text = [[
-${alignc}${time %A}, ${time %B %d, %X}
+${alignc}${time %A}, ${time %d %B, %X}
 $loadavg${alignr}$uptime
 ${cpugraph 15,480 586E75 541230 scale -t -l}
 ${alignc}${fs_used /user/}/${fs_free /user}
