@@ -25,7 +25,7 @@ in {
         "*foreground" = white3;
       };
     home.file = {
-      ".screenrc".source = ./../screenrc;
+      ".config/procps/toprc".source = ./../toprc;
       ".urxvt/ext/context".text =
         builtins.readFile "${inputs.urxvt-context-ext}/context";
       ".local/bin/rxvt" = {
