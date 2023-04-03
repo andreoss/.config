@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ lib, config, pkgs, ... }: {
   boot.loader = {
     efi.canTouchEfiVariables = false;
     systemd-boot = {

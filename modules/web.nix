@@ -1,5 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
-let cfg = config.home.web;
+let
+  palette = import ../os/palette.nix;
+  cfg = config.home.web;
 in {
   imports = [ ];
   options = {

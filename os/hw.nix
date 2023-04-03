@@ -1,5 +1,7 @@
 { pkgs, lib, config, self, ... }: {
-  imports = [ ./kmonad.nix ];
+  imports = [
+    ./kmonad.nix
+  ];
   services.kmonad = {
     enable = true;
     configfile = ./../kbd;
