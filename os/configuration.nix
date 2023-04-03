@@ -1,4 +1,5 @@
 { lib, config, pkgs, self, ... }: {
+  system.stateVersion = config.ao.stateVersion;
   system.copySystemConfiguration = false;
   system.autoUpgrade = {
     enable = false; # does not work with git-crypt

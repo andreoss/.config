@@ -18,15 +18,15 @@
       flake = false;
     };
     urxvt-context-ext = {
-      url = "github:andreoss/urxvt-context/master";
+      url = "github:andreoss/urxvt-context";
       flake = false;
     };
     hosts = {
-      url = "github:StevenBlack/hosts/master";
+      url = "github:StevenBlack/hosts";
       flake = false;
     };
     user-js = {
-      url = "github:arkenfox/user.js/master";
+      url = "github:arkenfox/user.js";
       flake = false;
     };
   };
@@ -46,6 +46,7 @@
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };
           overlays = [
+            inputs.kernel-overlay.overlays.x86_64-linux.default
             inputs.emacs-d.overlays.default
             (self: super:
               let
@@ -112,7 +113,7 @@
             {
               config.home.username = "a";
               config.home.homeDirectory = "/user";
-              config.home.stateVersion = options.main.stateVersion;
+              config.home.stateVersion = "23.05";
             }
             ./hm/browser.nix
             ./hm/emacs.nix
@@ -131,10 +132,6 @@
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
         modules = [
-          {
-            system.stateVersion =
-              options.tx.stateVersion or options.main.stateVersion;
-          }
           inputs.nixos-hardware.nixosModules.${options.tx.model}
           ./secrets/tx-hw.nix
           ./os/fs-crypt.nix
