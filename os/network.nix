@@ -11,6 +11,20 @@ let
     ${pkgs.macchanger}/bin/macchanger -b -r "$card"
     ${pkgs.iproute2}/bin/ip link set "$card" up
   '';
+  macchanger-service = interface: {
+    enable = true;
+    description = "macchanger on ${interface}";
+    partOf = [ "network.target" ];
+    wants = [ "network-pre.target" ];
+    before = [ "network-pre.target" ];
+    bindsTo = [ "sys-subsystem-net-devices-${interface}.device" ];
+    after = [ "sys-subsystem-net-devices-${interface}.device" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${change-mac} ${interface}";
+    };
+  };
   networks = builtins.tryEval {
     networks = import ../secrets/networks.nix;
     environmentFile = pkgs.writeShellScript "secrets.env"
@@ -101,46 +115,25 @@ in {
     privoxy.inspectHttps = false;
     privoxy.settings = { };
   };
-  systemd.services.dhcpcd = { partOf = [ "network.target" ]; };
-  systemd.services.macchanger-wlan = {
-    enable = true;
-    description = "macchanger on wlan0";
-    partOf = [ "network.target" ];
-    wants = [ "network-pre.target" ];
-    before = [ "network-pre.target" ];
-    bindsTo = [ "sys-subsystem-net-devices-wlan0.device" ];
-    after = [ "sys-subsystem-net-devices-wlan0.device" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${change-mac} wlan0";
-    };
-  };
-  systemd.services.macchanger-eth = {
-    enable = true;
-    description = "macchanger on eth0";
-    partOf = [ "network.target" ];
-    wants = [ "network-pre.target" ];
-    before = [ "network-pre.target" ];
-    bindsTo = [ "sys-subsystem-net-devices-eth0.device" ];
-    after = [ "sys-subsystem-net-devices-eth0.device" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${change-mac} eth0";
-    };
-  };
   services.openvpn.servers = import ../secrets/vpn.nix {
     inherit lib;
     inherit pkgs;
   };
-  systemd.services."openvpn-s1".serviceConfig.ExecStartPost =
-    "${pkgs.systemd}/bin/systemctl restart unbound.service";
-  systemd.services."openvpn-s1".serviceConfig.Group = "tunnel";
-  systemd.services."openvpn-f1".serviceConfig.ExecStartPost =
-    "${pkgs.systemd}/bin/systemctl restart unbound.service";
-  systemd.services."openvpn-f1".serviceConfig.Group = "tunnel";
-  systemd.services."openvpn-m1".serviceConfig.ExecStartPost =
-    "${pkgs.systemd}/bin/systemctl restart unbound.service";
-  systemd.services."openvpn-m1".serviceConfig.Group = "tunnel";
+  systemd.services = let
+    restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
+  in {
+    dhcpcd = { partOf = [ "network.target" ]; };
+    macchanger-wlan0 = macchanger-service "wlan0";
+    macchanger-eth0 = macchanger-service "eth0";
+  } // (let
+    merge = builtins.foldl' (x: y: x // y) { };
+    cfx = builtins.attrNames config.services.openvpn.servers;
+  in merge (map (x: {
+    "openvpn-${x}" = {
+      postStart = restartUnbound;
+      conflicts =
+        map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);
+      serviceConfig.Group = "tunnel";
+    };
+  }) cfx));
 }
