@@ -47,6 +47,7 @@
           };
           overlays = [
             inputs.emacs-d.overlays.default
+            inputs.kernel-overlay.overlays.${system}.default
             (self: super:
               let
                 nixpkgs-mesa = builtins.fetchTarball {
