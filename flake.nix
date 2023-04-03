@@ -18,15 +18,15 @@
       flake = false;
     };
     urxvt-context-ext = {
-      url = "github:andreoss/urxvt-context/master";
+      url = "github:andreoss/urxvt-context";
       flake = false;
     };
     hosts = {
-      url = "github:StevenBlack/hosts/master";
+      url = "github:StevenBlack/hosts";
       flake = false;
     };
     user-js = {
-      url = "github:arkenfox/user.js/master";
+      url = "github:arkenfox/user.js";
       flake = false;
     };
   };
