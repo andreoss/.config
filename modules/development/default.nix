@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   imports = [
     ./cxx.nix
+    ./go.nix
     ./perl.nix
     ./java.nix
     ./scala.nix
