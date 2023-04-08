@@ -1,15 +1,16 @@
-{ inputs, lib, config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 let
   change-mac = pkgs.writeShellScript "change-mac" ''
-    card="$1"
-    if [ -z "$1" -o ! -e "/sys/class/net/$card" ]
+    PATH=${lib.strings.makeBinPath [ pkgs.iproute2 pkgs.macchanger ]}:$PATH
+    IFDEV="$1"
+    if [ -z "$IFDEV" -o ! -e "/sys/class/net/$IFDEV" ]
     then
-      echo "No such device: $card"
+      echo "No such device: $IFDEV"
       exit 1
     fi
-    ${pkgs.iproute2}/bin/ip link set "$card" down &&
-    ${pkgs.macchanger}/bin/macchanger -b -r "$card"
-    ${pkgs.iproute2}/bin/ip link set "$card" up
+    ip link set "$IFDEV" down &&
+    macchanger -b -r "$IFDEV"
+    ip link set "$IFDEV" up
   '';
   macchanger-service = interface: {
     enable = true;
@@ -31,6 +32,7 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
+  users.groups = { tunnel = { }; };
   environment.systemPackages = with pkgs; [ traceroute ];
   programs.bandwhich.enable = true;
   networking = {
@@ -41,12 +43,6 @@ in {
       externalInterface = "tun0";
     };
     timeServers = [ ];
-    extraHosts = let
-      adBlocker = builtins.readFile
-        "${inputs.hosts}/alternates/gambling-porn-social/hosts";
-    in ''
-      ${adBlocker}
-    '';
     networkmanager = { enable = lib.mkForce false; };
     enableIPv6 = lib.mkForce false;
     firewall = {
@@ -109,7 +105,6 @@ in {
     ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
-
   services = {
     privoxy.enable = true;
     privoxy.inspectHttps = false;
