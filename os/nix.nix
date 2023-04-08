@@ -7,7 +7,6 @@
       settings = {
         cores = import "${cores}";
         experimental-features = [ "nix-command" "flakes" ];
-        trusted-users = [ "root" config.ao.primaryUser.name ];
         substituters =
           [ "https://kernel-overlay.cachix.org" "https://emacs-d.cachix.org" ];
         trusted-public-keys = [
