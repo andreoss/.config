@@ -21,10 +21,7 @@
       url = "github:andreoss/urxvt-context";
       flake = false;
     };
-    hosts = {
-      url = "github:StevenBlack/hosts";
-      flake = false;
-    };
+    hosts = { url = "github:StevenBlack/hosts"; };
     user-js = {
       url = "github:arkenfox/user.js";
       flake = false;
@@ -84,7 +81,8 @@
             inputs.dnscrypt-module.nixosModules.default
             inputs.home-manager.nixosModule
             inputs.guix-overlay.nixosModules.guix
-
+            inputs.hosts.nixosModule
+            { networking.stevenBlackHosts.enable = true; }
             { networking.hostName = host.hostname; }
             { services.guix.enable = false; }
 
