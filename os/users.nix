@@ -76,6 +76,7 @@
       [ -d "$HOME/.nix-profile" ] || /nix/var/nix/profiles/per-user/$USER/home-manager/activate &> /dev/null
     '';
   };
+  programs.dconf.enable = true;
   programs.nix-ld.enable = true;
   services.physlock = {
     enable = lib.mkForce true;
