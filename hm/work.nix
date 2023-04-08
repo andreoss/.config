@@ -34,7 +34,6 @@
       inputs.wfica.packages.x86_64-linux.wfica
       xorg.xhost
       ratpoison
-      inputs.dmenu
     ];
     home.file = { ".local/bin/dates".source = ./../scripts/dates; };
     xsession = {
