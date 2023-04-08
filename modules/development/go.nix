@@ -9,7 +9,11 @@ in {
       };
     };
   };
-  config = with pkgs; {
-    home.packages = lib.optionals cfg.enable [ gotools gocode ];
+  config = lib.mkIf cfg.enable {
+    programs.go = {
+      enable = true;
+      packages = { };
+    };
+    home.packages = with pkgs; [ gotools gocode ];
   };
 }
