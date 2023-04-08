@@ -1,4 +1,6 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+let cfg = config.home.development.lisp;
+in {
   imports = [ ];
 
   options = {
@@ -10,10 +12,12 @@
     };
   };
 
-  config = {
-    home.packages = with pkgs; [ roswell sbcl babashka leiningen clojure ];
-    home.activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ros init
-    '';
+  config = lib.mkIf cfg.enable {
+    home = {
+      packages = with pkgs; [ roswell sbcl babashka leiningen clojure ];
+      activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        ros init
+      '';
+    };
   };
 }
