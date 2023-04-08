@@ -2,17 +2,18 @@
   description = "Flakes";
   inputs = {
     dmenu.url = "github:andreoss/dmenu";
+    dnscrypt-module.url = "github:andreoss/dnscrypt-nixos-module";
     emacs-d.url = "github:andreoss/.emacs.d";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     flake-utils.url = "github:numtide/flake-utils";
     guix-overlay.url = "github:foo-dogsquared/nix-overlay-guix";
     home-manager.url = "github:nix-community/home-manager";
+    hosts.url = "github:StevenBlack/hosts";
     kernel-overlay.url = "github:andreoss/kernel-overlay";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nodm-module.url = "github:andreoss/nodm-nixos-module";
-    dnscrypt-module.url = "github:andreoss/dnscrypt-nixos-module";
     wfica.url = "github:andreoss/citrix";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
@@ -21,7 +22,6 @@
       url = "github:andreoss/urxvt-context";
       flake = false;
     };
-    hosts = { url = "github:StevenBlack/hosts"; };
     user-js = {
       url = "github:arkenfox/user.js";
       flake = false;
@@ -67,7 +67,6 @@
                       ++ oldattrs.patches;
                   });
               })
-
           ];
         });
       baseSystem = host:
