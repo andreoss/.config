@@ -19,6 +19,7 @@
       ack
       ascii
       atool
+      cloc
       docker
       dockfmt
       lsof
