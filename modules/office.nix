@@ -13,6 +13,18 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
+    xdg.desktopEntries = {
+      zathura = {
+        name = "Zathura";
+        exec = "zathura %U";
+        terminal = false;
+        categories = [ "Office" ];
+        mimeType = [ "application/pdf" ];
+      };
+    };
+    xdg.mimeApps = {
+      defaultApplications = { "application/pdf" = [ "zathura.desktop" ]; };
+    };
     home = {
       packages = with pkgs; [
         abiword
