@@ -1,14 +1,5 @@
 { lib, config, pkgs, self, ... }: {
-  system = {
-    copySystemConfiguration = false;
-    autoUpgrade = {
-      enable = false; # does not work with git-crypt
-      allowReboot = false;
-      dates = "01:00";
-      randomizedDelaySec = "10min";
-      flake = "github:andreoss/.config";
-    };
-  };
+  system = { copySystemConfiguration = false; };
   services = {
     getty.extraArgs = [ "--nohostname" "--noissue" "--noclear" "--nohints" ];
     cron.systemCronJobs = [ "0 2 * * * root fstrim /" ];
