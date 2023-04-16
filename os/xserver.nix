@@ -34,12 +34,13 @@ in {
       enableDefaultFonts = false;
       enableGhostscriptFonts = true;
       fonts = with pkgs; [
+        fixedsys-excelsior
         gyre-fonts
         kawkab-mono-font
+        tamsyn
         terminus_font
         terminus_font_ttf
         ucs-fonts
-        fixedsys-excelsior
       ];
       fontconfig = {
         hinting.autohint = true;
