@@ -44,6 +44,7 @@ in {
     home.packages = with pkgs; [
       ffmpeg-full
       imagemagickBig
+      farbfeld
       mpc_cli
       pavucontrol
       playerctl
