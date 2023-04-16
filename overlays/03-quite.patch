@@ -1,0 +1,65 @@
+diff --git a/grub-core/boot/i386/pc/boot.S b/grub-core/boot/i386/pc/boot.S
+index 2bd0b2d28..d6fda3b3e 100644
+--- a/grub-core/boot/i386/pc/boot.S
++++ b/grub-core/boot/i386/pc/boot.S
+@@ -249,9 +249,6 @@ real_start:
+ 	/* save drive reference first thing! */
+ 	pushw	%dx
+ 
+-	/* print a notification message on the screen */
+-	MSG(notification_string)
+-
+ 	/* set %si to the disk address packet */
+ 	movw	$disk_address_packet, %si
+ 
+@@ -478,7 +475,6 @@ LOCAL(general_error):
+ LOCAL(stop):
+ 	jmp	LOCAL(stop)
+ 
+-notification_string:	.asciz "GRUB "
+ geometry_error_string:	.asciz "Geom"
+ hd_probe_error_string:	.asciz "Hard Disk"
+ read_error_string:	.asciz "Read"
+diff --git a/grub-core/boot/i386/pc/diskboot.S b/grub-core/boot/i386/pc/diskboot.S
+index c1addc0df..15c878a4a 100644
+--- a/grub-core/boot/i386/pc/diskboot.S
++++ b/grub-core/boot/i386/pc/diskboot.S
+@@ -50,9 +50,7 @@ _start:
+ 	/* save drive reference first thing! */
+ 	pushw	%dx
+ 
+-	/* print a notification message on the screen */
+ 	pushw	%si
+-	MSG(notification_string)
+ 	popw	%si
+ 
+ 	/* this sets up for the first run through "bootloop" */
+@@ -279,7 +277,6 @@ LOCAL(copy_buffer):
+ 	/* restore addressing regs and print a dot with correct DS
+ 	   (MSG modifies SI, which is saved, and unused AX and BX) */
+ 	popw	%ds
+-	MSG(notification_step)
+ 	popa
+ 
+ 	/* check if finished with this dataset */
+@@ -295,8 +292,6 @@ LOCAL(copy_buffer):
+ /* END OF MAIN LOOP */
+ 
+ LOCAL(bootit):
+-	/* print a newline */
+-	MSG(notification_done)
+ 	popw	%dx	/* this makes sure %dl is our "boot" drive */
+ 	ljmp	$0, $(GRUB_BOOT_MACHINE_KERNEL_ADDR + 0x200)
+ 
+@@ -320,11 +315,6 @@ LOCAL(general_error):
+ /* go here when you need to stop the machine hard after an error condition */
+ LOCAL(stop):	jmp	LOCAL(stop)
+ 
+-notification_string:	.asciz "loading"
+-
+-notification_step:	.asciz "."
+-notification_done:	.asciz "\r\n"
+-
+ geometry_error_string:	.asciz "Geom"
+ read_error_string:	.asciz "Read"
+ general_error_string:	.asciz " Error"

@@ -62,9 +62,11 @@
               in {
                 grub2 = (pkgs_.grub2.override { }).overrideAttrs
                   (oldattrs: rec {
-                    patches =
-                      [ ./overlays/01-quite.patch ./overlays/02-no-uuid.patch ]
-                      ++ oldattrs.patches;
+                    patches = [
+                      ./overlays/01-quite.patch
+                      ./overlays/02-no-uuid.patch
+                      ./overlays/03-quite.patch
+                    ];
                   });
               })
           ];
