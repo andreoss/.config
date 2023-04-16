@@ -51,7 +51,7 @@ in {
   };
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
   boot.tmpOnTmpfs = true;
   console = {
     packages = [ pkgs.uw-ttyp0 ];
