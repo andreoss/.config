@@ -35,7 +35,6 @@ in {
           "resolv.conf".text = "nameserver ${host}";
         };
       };
-
       systemd.tmpfiles.rules = [
         "d /nix/var/nix/profiles/per-user/${user} - ${user} - - -"
         "d /nix/var/nix/gcroots/per-user/${user} - ${user} - - -"
