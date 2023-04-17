@@ -26,6 +26,7 @@ in {
         dig.dnsutils
         jwhois
         mtr
+        tdesktop
       ];
     };
     programs = {
