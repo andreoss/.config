@@ -77,6 +77,7 @@
           pkgs = legacyPackages."x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [
+            { system.stateVersion = options.main.stateVersion; }
             ./config.nix
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
@@ -131,10 +132,6 @@
       nixosConfigurations.tx = baseSystem {
         hostname = "tx";
         modules = [
-          {
-            system.stateVersion =
-              options.tx.stateVersion or options.main.stateVersion;
-          }
           inputs.nixos-hardware.nixosModules.${options.tx.model}
           ./secrets/tx-hw.nix
           ./os/fs-crypt.nix
@@ -154,12 +151,11 @@
       nixosConfigurations.ss = baseSystem {
         hostname = "ss";
         modules = [
-          {
-            config.mini = true;
-            config.ao.primaryUser.office = false;
-          }
+          inputs.nixos-hardware.nixosModules.${options.ss.model}
           ./secrets/ss-hw.nix
           ./os/boot-grub.nix
+          ./secrets/tx-hw.nix
+          ./os/containers.nix
         ];
       };
       nixosConfigurations.tq = baseSystem {
