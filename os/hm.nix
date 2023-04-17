@@ -14,8 +14,6 @@ in {
       ../modules/multimedia.nix
       ../modules/web.nix
       ../modules/office.nix
-      { home.multimedia.enable = true; }
-      { home.web.enable = true; }
       ../hm/base.nix
       ../hm/home.nix
       ../hm/mail.nix
@@ -24,6 +22,17 @@ in {
       ../hm/term.nix
       ../hm/xsession-base.nix
       ../hm/xsession.nix
+      ../hm/work.nix
+      {
+        home.development = {
+          perl.enable = true;
+          cxx.enable = true;
+          haskell.enable = true;
+        };
+      }
+      { home.multimedia.enable = true; }
+      { home.web.enable = true; }
+      { home.office.enable = true; }
     ];
   };
 }
