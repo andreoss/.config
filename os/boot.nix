@@ -12,6 +12,7 @@ in {
     "psi=1"
     "quiet"
     "udev.log_priority=3"
+    "usbcore.autosuspend=-1"
   ];
   boot.initrd.kernelModules = [ "usb_storage" "uas" ];
   boot.extraModprobeConfig = ''
