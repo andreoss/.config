@@ -6,7 +6,7 @@
         enableCryptodisk = true;
         enable = true;
         splashImage = ../wp/1.jpeg;
-        splashMode = "normal";
+        splashMode = "stretch";
         theme = null;
         version = 2;
       };
