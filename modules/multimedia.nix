@@ -43,6 +43,7 @@ in {
     };
     home.packages = with pkgs; [
       ffmpeg-full
+      android-tools
       imagemagickBig
       farbfeld
       mpc_cli
