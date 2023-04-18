@@ -52,8 +52,8 @@ in {
   };
   boot.consoleLogLevel = 0;
   boot.initrd.verbose = false;
+  boot.tmp.useTmpfs = true;
   boot.tmp.cleanOnBoot = true;
-  boot.tmpOnTmpfs = true;
   console = {
     packages = [ pkgs.uw-ttyp0 ];
     font = "t0-22b-uni";
