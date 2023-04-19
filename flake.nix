@@ -34,7 +34,6 @@
       lib = nixpkgs.lib;
       eachSystem = lib.genAttrs systems;
       options = builtins.fromTOML (builtins.readFile ./secrets/options.toml);
-    in rec {
       legacyPackages = eachSystem (system:
         import nixpkgs {
           inherit system;
@@ -103,6 +102,7 @@
             ./os/boot.nix
           ];
         };
+    in rec {
       homeConfigurations = {
         imports = [ ./config.nix ];
         "a" = home-manager.lib.homeManagerConfiguration {
