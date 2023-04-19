@@ -9,6 +9,8 @@
         splashMode = "stretch";
         theme = null;
         version = 2;
+        gfxmodeBios = "1920x1080";
+        gfxmodeEfi = "1920x1080";
       };
     };
   };
