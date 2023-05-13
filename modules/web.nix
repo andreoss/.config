@@ -32,7 +32,11 @@ in {
     programs = {
       aria2 = {
         enable = cfg.enable;
-        settings = { seed-ratio = 0.0; };
+        settings = {
+          bt-save-metadata = true;
+          seed-time = 0;
+          seed-ratio = 0.0;
+        };
       };
       browserpass = {
         enable = cfg.enable && config.programs.password-store.enable;
