@@ -12,12 +12,10 @@
     snapper = {
       configs = {
         home = {
-          subvolume = "${config.ao.primaryUser.home}";
-          extraConfig = ''
-            ALLOW_USERS="${config.ao.primaryUser.name}"
-            TIMELINE_CREATE=yes
-            TIMELINE_CLEANUP=yes
-          '';
+          SUBVOLUME = "${config.ao.primaryUser.home}";
+          ALLOW_USERS = [ "${config.ao.primaryUser.name}" ];
+          TIMELINE_CREATE = true;
+          TIMELINE_CLEANUP = true;
         };
       };
     };
