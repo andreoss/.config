@@ -38,7 +38,7 @@
         import nixpkgs {
           inherit system;
           config = {
-            allowUnfree = false;
+            allowUnfree = true;
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };
           overlays = [
