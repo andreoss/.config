@@ -12,6 +12,10 @@
   };
   services.haveged.enable = true;
   programs.light.enable = true;
+  programs.adb.enable = true;
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
   hardware.acpilight.enable = true;
   services.acpid.enable = true;
   services.acpid.acEventCommands = ''
