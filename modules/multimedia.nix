@@ -50,6 +50,7 @@ in {
       pavucontrol
       playerctl
       pulsemixer
+      vlc
     ];
     services.mpdris2 = {
       notifications = true;
