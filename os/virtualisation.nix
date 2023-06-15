@@ -19,9 +19,9 @@ in {
       x11 = false;
     };
     virtualbox.host = {
-      enable = false;
+      enable = true;
       headless = false;
-      enableExtensionPack = false;
+      enableExtensionPack = true;
       enableHardening = false;
     };
     libvirtd.enable = !config.mini;
