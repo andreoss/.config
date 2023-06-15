@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 UNSAFE=(
 	github.com
@@ -6,6 +6,8 @@ UNSAFE=(
 	codeload.github.com
 	gitlab.com
 	cache.nixos.org
+	releases.nixos.org
+	channels.nixos.org
 	raw.githubusercontent.com
 )
 
