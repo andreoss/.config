@@ -1,19 +1,54 @@
 {
   description = "Flakes";
   inputs = {
-    dmenu.url = "github:andreoss/dmenu";
-    dnscrypt-module.url = "github:andreoss/dnscrypt-nixos-module";
-    emacs-d.url = "github:andreoss/.emacs.d";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    flake-utils.url = "github:numtide/flake-utils";
-    guix-overlay.url = "github:foo-dogsquared/nix-overlay-guix";
-    home-manager.url = "github:nix-community/home-manager";
-    hosts.url = "github:StevenBlack/hosts";
-    kernel-overlay.url = "github:andreoss/kernel-overlay";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nodm-module.url = "github:andreoss/nodm-nixos-module";
-    wfica.url = "github:andreoss/citrix";
+    dmenu = {
+      url = "github:andreoss/dmenu";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dnscrypt-module = {
+      url = "github:andreoss/dnscrypt-nixos-module";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    emacs-d = {
+      url = "github:andreoss/.emacs.d";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
+    guix-overlay = {
+      url = "github:foo-dogsquared/nix-overlay-guix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hosts = {
+      url = "github:StevenBlack/hosts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    kernel-overlay = {
+      url = "github:andreoss/kernel-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+    };
+    nodm-module = {
+      url = "github:andreoss/nodm-nixos-module";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    wfica = {
+      url = "github:andreoss/citrix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
