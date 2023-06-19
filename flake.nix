@@ -6,7 +6,6 @@
       url = "github:andreoss/dmenu";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     dnscrypt-module = {
       url = "github:andreoss/dnscrypt-nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,13 +14,7 @@
       url = "github:andreoss/.emacs.d";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-    };
+    flake-utils = { url = "github:numtide/flake-utils"; };
     guix-overlay = {
       url = "github:foo-dogsquared/nix-overlay-guix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,17 +31,12 @@
       url = "github:andreoss/kernel-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware";
-    };
+    nixos-hardware = { url = "github:NixOS/nixos-hardware"; };
     nodm-module = {
       url = "github:andreoss/nodm-nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    wfica = {
-      url = "github:andreoss/citrix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    wfica = { url = "github:andreoss/citrix"; };
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
@@ -91,6 +79,7 @@
                 mesa_drivers =
                   (import nixpkgs-mesa { inherit system; }).mesa_drivers;
               })
+            (final: prev: { notmuch = prev.pkgs.hello; })
             (final: prev:
               let pkgs_ = import nixpkgs { inherit system; };
               in {
@@ -144,23 +133,31 @@
           pkgs = legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs self; };
           modules = [
-            ./config.nix
-            {
-              config.home.username = "a";
-              config.home.homeDirectory = "/user";
-              config.home.stateVersion = options.main.stateVersion;
-            }
-            ./hm/browser.nix
-            ./hm/emacs.nix
-            ./hm/mail.nix
+            ./modules/development
+            ./modules/multimedia.nix
+            ./modules/web.nix
+            ./modules/office.nix
+            ./hm/base.nix
             ./hm/home.nix
-            ./hm/java.nix
-            ./hm/perl.nix
-            ./hm/scala.nix
+            # ./hm/mail.nix
+            ./hm/emacs.nix
             ./hm/sh.nix
             ./hm/term.nix
-            ./hm/vcs.nix
+            ./hm/xsession-base.nix
             ./hm/xsession.nix
+            ./hm/work.nix
+            {
+              home.development = {
+                perl.enable = true;
+                java.enable = true;
+                scala.enable = true;
+                cxx.enable = true;
+                haskell.enable = true;
+              };
+            }
+            { home.multimedia.enable = false; }
+            { home.web.enable = false; }
+            { home.office.enable = false; }
           ];
         };
       };
