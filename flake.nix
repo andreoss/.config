@@ -2,6 +2,11 @@
   description = "Flakes";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    nixos-wsl.url = github:nix-community/NixOS-WSL;
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.inputs.flake-utils.follows = "flake-utils";
+
     dmenu = {
       url = "github:andreoss/dmenu";
       inputs.nixpkgs.follows = "nixpkgs";
