@@ -32,6 +32,7 @@ in {
         libertine
         pandoc
         sdcv
+        xslx2csv
         texlive.combined.scheme-full
       ];
     };
