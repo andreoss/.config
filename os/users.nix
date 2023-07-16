@@ -57,10 +57,6 @@
       stdmanpages
       wpa_supplicant_gui
       links2
-      fbterm
-      jfbpdf
-      fbida
-      fbcat
       molly-guard
     ];
     shellAliases = { };
