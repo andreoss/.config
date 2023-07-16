@@ -1,5 +1,5 @@
 {
-  black0 = "#000000";
+  black0 = "#001001";
   black1 = "#1E1E1E";
   black2 = "#555555";
   blue1 = "#004B93";
@@ -24,8 +24,8 @@
   orange1 = "#DF6600";
   red1 = "#C9002B";
   red2 = "#FFADAD";
-  red3 = "#A41230";
-  red4 = "#541230";
+  red3 = "#A41524";
+  red4 = "#541524";
   white1 = "#F3F3D3";
   white2 = "#FFFFEA";
   white3 = "#FCF3E4";
