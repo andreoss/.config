@@ -16,6 +16,7 @@
   config = {
     programs.jq.enable = true;
     home.packages = with pkgs; [
+      act
       ack
       ascii
       atool
@@ -58,7 +59,7 @@
       jo
       libxslt
       dos2unix
-
+      mariadb-client
     ];
   };
 }

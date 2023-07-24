@@ -12,11 +12,33 @@ in {
   config = {
     programs.sbt = {
       enable = cfg.enable;
-      package = pkgs.sbt-with-scala-native;
+      package = pkgs.sbt-with-scala-native.overrideDerivation
+        (old: { jre = pkgs.openjdk11; });
       plugins = [ ];
     };
     home = lib.mkIf cfg.enable {
-      packages = with pkgs; [ metals mill nailgun dotty ];
+      packages = with pkgs; [
+        metals
+        mill
+        nailgun
+        dotty
+        google-cloud-sdk
+        trivy
+        scalafmt
+        scalafix
+      ];
     };
+    programs.vscode = {
+      enable = true;
+      package = pkgs.vscodium;
+      extensions = with pkgs.vscode-extensions; [
+        dracula-theme.theme-dracula
+        vscodevim.vim
+        yzhang.markdown-all-in-one
+        scala-lang.scala
+        scalameta.metals
+      ];
+    };
+
   };
 }
