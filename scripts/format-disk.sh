@@ -11,11 +11,14 @@ CRYPT=
 FS=
 LABEL="gpt"
 
-FIRST_PART_GAP=16MiB
+FIRST_PART_GAP=32MiB
 BOOT_SIZE=256MiB
 EPHEMERAL=
 LUKS_TYPE=luks1
 HOST_ID=000f
+
+USER_STORAGE=/user
+PERC_NIX=20%
 
 error() {
 	printf "$*" >/dev/stderr
@@ -133,17 +136,19 @@ elif [ "$LABEL" = "msdos" ]; then
 	if [ "$BOOT_SIZE" = "0" ]; then
 		PART_BOOT=
 		PART_SYSTEM=$(__gen_id msdos 1)
+		PART_USER=$(__gen_id msdos 2)
 	else
 		PART_BOOT=$(__gen_id msdos 1)
 		PART_SYSTEM=$(__gen_id msdos 2)
+		PART_USER=$(__gen_id msdos 3)
 	fi
 fi
 
 ID_SYSTEM=00000000-0000-0000-"$HOST_ID"-000000000011
 ID_BOOT_CRYPT=00000000-0000-0000-"$HOST_ID"-000000000012
 ID_BOOT="$HOST_ID"-0011
+ID_USER=00000000-0000-0000-"$HOST_ID"-000000000013
 
-CRYPT_DEV=/dev/disk/by-partuuid/"$PART_SYSTEM"
 BTRFS_DEVICE=
 RAW_DEVICE=
 
@@ -205,12 +210,20 @@ __crypt_open() {
 crypt_close() {
 	if [ "$CRYPT" ]; then
 		__crypt_close system
+                if [ "$FS" != "btrfs" ]
+                then
+                    __crypt_close user
+                fi
 	fi
 }
 
 crypt_format() {
 	if [ "$CRYPT" ]; then
 		__crypt_format "$ID_SYSTEM" "$PART_SYSTEM" system
+                if [ "$FS" != "btrfs" ]
+                then
+                    __crypt_format "$ID_USER" "$PART_USER" user
+                fi
 	fi
 	sleep 3
 }
@@ -218,6 +231,10 @@ crypt_format() {
 crypt_open() {
 	if [ "$CRYPT" ]; then
 		__crypt_open "$PART_SYSTEM" system
+                if [ "$FS" != "btrfs" ]
+                then
+                    __crypt_open "$PART_USER" user
+                fi
 	fi
 }
 
@@ -275,7 +292,7 @@ btrfs_prepare() {
 	fi
 	btrfs_subvol_create /nix/store
 	btrfs_subvol_create /nix/var
-	btrfs_subvol_create /user
+	btrfs_subvol_create "$USER_STORAGE"
 }
 
 btrfs_mount() {
@@ -284,11 +301,11 @@ btrfs_mount() {
 	fi
 	btrfs_subvol_mount /nix/store
 	btrfs_subvol_mount /nix/var
-	btrfs_subvol_mount /user
+	btrfs_subvol_mount "$USER_STORAGE"
 }
 
 btrfs_unmount() {
-	umount "$ROOT"/home "$ROOT"/etc/nixos "$ROOT"/nix/store "$ROOT"/nix/var "$ROOT"/user
+	umount "$ROOT"/etc/nixos "$ROOT"/nix/store "$ROOT"/nix/var "$ROOT"/"$USER_STORAGE"
 }
 
 boot_prepare() {
@@ -301,7 +318,7 @@ boot_prepare() {
 		if [ "$CRYPT" ]; then
 			__crypt_format "$ID_BOOT_CRYPT" "$PART_BOOT" boot
 			__crypt_open "$PART_BOOT" boot
-			mkfs.ext2 /dev/mapper/$(__crypt_label boot)
+			mkfs.ext2 /dev/mapper/$(__crypt_label boot) || exit 1
 			__crypt_close boot
 		else
 			mkfs.ext2 /dev/disk/by-partuuid/"$PART_BOOT"
@@ -333,6 +350,57 @@ boot_unmount() {
 	umount "$ROOT"/boot
 }
 
+f2fs_mount() {
+	DEV_SYSTEM=
+	DEV_USER=
+        if [  "$CRYPT" ]
+           then
+               DEV_SYSTEM=/dev/mapper/$(__crypt_label system)
+               DEV_USER=/dev/mapper/$(__crypt_label user)
+           else
+               DEV_SYSTEM=/dev/disk/by-partuuid/"$PART_SYSTEM"
+               DEV_USER=/dev/disk/by-partuuid/"$PART_USER"
+        fi
+        mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$DEV_SYSTEM" "$ROOT_MOUNT_POINT"
+        mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$DEV_USER"   "$ROOT/$USER_STORAGE"
+	#chattr -R +c "$ROOT_MOUNT_POINT"
+}
+
+xfs_prepare() {
+	mkfs.xfs "$RAW_DEVICE" -f -m uuid="${ID_SYSTEM^^}"
+}
+
+nilfs_prepare() {
+	mkfs.nilfs2 "$RAW_DEVICE" -f
+}
+
+f2fs_prepare() {
+	DEV_SYSTEM=
+	DEV_USER=
+        if [  "$CRYPT" ]
+           then
+               DEV_SYSTEM=/dev/mapper/$(__crypt_label system)
+               DEV_USER=/dev/mapper/$(__crypt_label user)
+           else
+               DEV_SYSTEM=/dev/disk/by-partuuid/"$PART_SYSTEM"
+               DEV_USER=/dev/disk/by-partuuid/"$PART_USER"
+        fi
+	mkfs.f2fs "$DEV_SYSTEM" -f -U "${ID_SYSTEM^^}" -O extra_attr,inode_checksum,sb_checksum,compression
+	mkfs.f2fs "$DEV_USER"   -f -U "${ID_USER^^}"   -O extra_attr,inode_checksum,sb_checksum,compression
+	# TODO f2fslabel
+}
+
+
+generic_mount() {
+	mount "$RAW_DEVICE" "$ROOT_MOUNT_POINT"
+}
+
+generic_unmount() {
+    umount "$ROOT/$USER_STORAGE"
+    umount "$ROOT_MOUNT_POINT"
+}
+
+
 storage_prepare() {
 	case "$FS" in
 	btrfs)
@@ -355,7 +423,7 @@ storage_prepare() {
 }
 
 storage_mount() {
-	should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos
+	should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos "$ROOT"/"$USER_STORAGE"
 	case "$FS" in
 	btrfs)
 		btrfs_mount
@@ -389,32 +457,6 @@ storage_unmount() {
 	esac
 }
 
-xfs_prepare() {
-	mkfs.xfs "$RAW_DEVICE" -f -m uuid="${ID_SYSTEM^^}"
-}
-
-nilfs_prepare() {
-	mkfs.nilfs2 "$RAW_DEVICE" -f
-}
-
-f2fs_prepare() {
-	mkfs.f2fs "$RAW_DEVICE" -f -U "${ID_SYSTEM^^}" -O extra_attr,inode_checksum,sb_checksum,compression,encrypt
-	# TODO f2fslabel
-}
-
-f2fs_mount() {
-	mount -o compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime "$RAW_DEVICE" "$ROOT_MOUNT_POINT"
-	#chattr -R +c "$ROOT_MOUNT_POINT"
-}
-
-generic_mount() {
-	mount "$RAW_DEVICE" "$ROOT_MOUNT_POINT"
-}
-
-generic_unmount() {
-	umount "$ROOT_MOUNT_POINT"
-}
-
 if [ "$FORMAT" ]; then
 	check_if_mounted
 	dd if=/dev/zero of="$DEVICE" bs=1M count=10
@@ -435,12 +477,14 @@ if [ "$FORMAT" ]; then
 		fi
 
 	elif [ "$LABEL" = "msdos" ]; then
-		parted -s "$DEVICE" mklabel "$LABEL"
+		parted -s "$DEVICE" mklabel "$LABEL" || exit 1
 		if [ "$BOOT_SIZE" = "0" ]; then
-			parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" 100%
+			parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" 40%
+			parted -a optimal "$DEVICE" mkpart primary ext2              40% 100%
 		else
-			parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" "$BOOT_SIZE"
-			parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE" 100%
+			parted -a optimal "$DEVICE" mkpart primary ext2 "$FIRST_PART_GAP" "$BOOT_SIZE" || exit 1
+			parted -a optimal "$DEVICE" mkpart primary ext2 "$BOOT_SIZE"       40%         || exit 1
+			parted -a optimal "$DEVICE" mkpart primary ext2                    40% 100%    || exit 1
 		fi
 
 		fdisk --wipe "$DEVICE"
