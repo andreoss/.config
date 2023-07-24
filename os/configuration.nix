@@ -6,7 +6,10 @@
     earlyoom = {
       enable = true;
       enableNotifications = true;
-      freeMemThreshold = 1;
+      freeMemThreshold = 5;
+      freeSwapThreshold = 25;
+      extraArgs =
+        [ "-g" "--avoid '^(X|brave|java|emacs)$'" "--prefer '^(firefox)$'" ];
     };
     udisks2.enable = true;
     snapper = {
