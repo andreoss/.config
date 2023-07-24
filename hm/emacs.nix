@@ -18,11 +18,29 @@
       "Emacs*toolBar" = 0;
       "Emacs*menuBar" = 0;
       "Emacs*geometry" = "80x30";
-      "Emacs*font" = "Ttyp0";
+      "Emacs*font" = "Terminus";
       "Emacs*scrollBar" = "on";
       "Emacs*scrollBarWidth" = 6;
     };
     home = {
+      file.".local/bin/emacs-nox" = {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          PATH=${inputs.emacs-d.packages.x86_64-linux.emacs-nox.out}/bin:$PATH
+          exec emacs "$*"
+        '';
+      };
+      file.".local/bin/emacs-pgtk" = {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          PATH=${inputs.emacs-d.packages.x86_64-linux.emacs-pgtk.out}/bin:$PATH
+          JAVA_HOME="${pkgs.pkgs.adoptopenjdk-hotspot-bin-11.out}"
+          PATH=$PATH:$JAVA_HOME/bin
+          exec emacs "$*"
+        '';
+      };
       file.".local/bin/me" = {
         executable = true;
         text = ''
