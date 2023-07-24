@@ -2,59 +2,75 @@
   description = "Flakes";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils = { url = "github:numtide/flake-utils"; };
 
-    nixos-wsl.url = github:nix-community/NixOS-WSL;
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.inputs.flake-utils.follows = "flake-utils";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
 
     dmenu = {
       url = "github:andreoss/dmenu";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     dnscrypt-module = {
       url = "github:andreoss/dnscrypt-nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     emacs-d = {
       url = "github:andreoss/.emacs.d";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils = { url = "github:numtide/flake-utils"; };
+
     guix-overlay = {
       url = "github:foo-dogsquared/nix-overlay-guix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     hosts = {
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     kernel-overlay = {
       url = "github:andreoss/kernel-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nixos-hardware = { url = "github:NixOS/nixos-hardware"; };
+
     nodm-module = {
       url = "github:andreoss/nodm-nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     wfica = { url = "github:andreoss/citrix"; };
+
     password-store = {
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
     };
+
     urxvt-context-ext = {
       url = "github:andreoss/urxvt-context";
       flake = false;
     };
+
     user-js = {
       url = "github:arkenfox/user.js";
       flake = false;
     };
+
   };
+
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
       imports = [ ./config.nix ];
@@ -91,15 +107,15 @@
                 grub2 = (pkgs_.grub2.override { }).overrideAttrs
                   (oldattrs: rec {
                     patches = [
-                      ./overlays/01-quite.patch
-                      ./overlays/02-no-uuid.patch
-                      ./overlays/03-quite.patch
+                      #./overlays/01-quite.patch
+                      #./overlays/02-no-uuid.patch
+                      #./overlays/03-quite.patch
                     ];
                   });
               })
           ];
         });
-      baseSystem = host:
+      mkSystem = host:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           pkgs = legacyPackages."x86_64-linux";
@@ -166,7 +182,7 @@
           ];
         };
       };
-      nixosConfigurations.tx = baseSystem {
+      nixosConfigurations.tx = mkSystem {
         hostname = "tx";
         modules = [
           inputs.nixos-hardware.nixosModules.${options.tx.model}
@@ -176,7 +192,7 @@
           ./os/containers.nix
         ];
       };
-      nixosConfigurations.ts = baseSystem {
+      nixosConfigurations.ts = mkSystem {
         hostname = "ts";
         modules = [
           inputs.nixos-hardware.nixosModules.${options.ts.model}
@@ -185,7 +201,7 @@
           ./os/boot-loader.nix
         ];
       };
-      nixosConfigurations.ss = baseSystem {
+      nixosConfigurations.ss = mkSystem {
         hostname = "ss";
         modules = [
           inputs.nixos-hardware.nixosModules.${options.ss.model}
@@ -195,9 +211,25 @@
           ./os/containers.nix
         ];
       };
-      nixosConfigurations.tq = baseSystem {
-        hostname = "tq";
-        modules = [ ./os/fs-legacy.nix ./os/boot-grub.nix ];
+      nixosConfigurations.rr = mkSystem {
+        hostname = "rr";
+        modules = [
+          inputs.nixos-hardware.nixosModules.${options.ss.model}
+          ./secrets/rr-hw.nix
+          ./os/boot-grub.nix
+          ./secrets/tx-hw.nix
+          ./os/containers.nix
+        ];
+      };
+      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs self; };
+        modules = [
+          inputs.home-manager.nixosModule
+          ./os/wsl.nix
+          ./os/nix.nix
+          ./os/i18n.nix
+        ];
       };
       nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
