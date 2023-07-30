@@ -97,18 +97,27 @@ in {
       style.package = pkgs.adwaita-qt;
     };
     home.packages = lib.optionals config.xsession.enable (with pkgs; [
+      luculent
+      cherry
       noto-fonts-emoji
       noto-fonts
       paratype-pt-mono
       uw-ttyp0
       terminus_font_ttf
       terminus_font
-      unifont
+      uni-vga
+      junicode
+      glasstty-ttf
+      fontpreview
+      junction-font
       sudo-font
       comic-mono
       _3270font
       wmname
       xclip
+      dosemu_fonts
+      last-resort
+      recursive
       xorg.xkill
       xorg.xdpyinfo
       xorg.xwd
@@ -116,6 +125,7 @@ in {
       xpra
       wmctrl
       rox-filer
+      cozette
       xdotool
     ]);
     home.sessionVariables = lib.mkIf config.xsession.enable {
