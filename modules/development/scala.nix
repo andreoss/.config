@@ -25,7 +25,10 @@ in {
         google-cloud-sdk
         trivy
         scalafmt
+        ammonite
+        httpie
         scalafix
+        mysql-workbench
       ];
     };
     programs.vscode = {
