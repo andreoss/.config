@@ -332,7 +332,7 @@ boot_mount() {
 	if [ "$BOOT_SIZE" = "0" ]; then
 		return
 	fi
-	if [ "$CRYPT" ]; then
+	if [ "$CRYPT" ] && [ "$LABEL" == "msdos" ]; then
 		__crypt_open "$PART_BOOT" boot
 		mount /dev/mapper/$(__crypt_label boot) "$ROOT"/boot
 	else
@@ -344,7 +344,7 @@ boot_unmount() {
 	if [ "$BOOT_SIZE" = "0" ]; then
 		return
 	fi
-	if [ "$CRYPT" ]; then
+	if [ "$CRYPT" ] && [ "$LABEL" == "msdos" ]; then
 		__crypt_close boot
 	fi
 	umount "$ROOT"/boot
