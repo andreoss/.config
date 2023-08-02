@@ -10,6 +10,7 @@ in {
     };
   };
   config = {
+    services.gnome-keyring.enable = true; # mysql-workbench
     programs.sbt = {
       enable = cfg.enable;
       package = pkgs.sbt-with-scala-native.overrideDerivation
