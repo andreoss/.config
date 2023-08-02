@@ -3,6 +3,10 @@ let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
     hardware.opengl.package = pkgs.mesa_drivers;
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    };
     services.startx = {
       enable = true;
       user = if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
