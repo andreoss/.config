@@ -42,15 +42,19 @@ in {
       };
     };
     home.packages = with pkgs; [
+      heimdal
       ffmpeg-full
+      scrcpy
       android-tools
       imagemagickBig
+      audio-recorder
       farbfeld
       mpc_cli
       pavucontrol
       playerctl
       pulsemixer
       vlc
+      exiftool
     ];
     services.mpdris2 = {
       notifications = true;
