@@ -6,8 +6,8 @@
     earlyoom = {
       enable = true;
       enableNotifications = true;
-      freeMemThreshold = 5;
-      freeSwapThreshold = 25;
+      freeMemThreshold = 1;
+      freeSwapThreshold = 5;
       extraArgs =
         [ "-g" "--avoid '^(X|brave|java|emacs)$'" "--prefer '^(firefox)$'" ];
     };
@@ -23,8 +23,14 @@
       };
     };
   };
+  systemd = {
+    oomd = {
+      enable = true;
+      enableUserServices = true;
+      extraConfig = { DefaultMemoryPressureDurationSec = "20s"; };
+    };
+  };
   environment.etc."packages".text = builtins.toJSON
     (map (x: { "${x.name}" = x.meta or { }; })
       config.environment.systemPackages);
-  systemd.oomd.enable = true;
 }
