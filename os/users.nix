@@ -2,6 +2,7 @@
   users.mutableUsers = false;
   users.motd = "";
   users.defaultUserShell = pkgs.bash;
+  services.flatpak.enable = true;
   users.users.root.initialHashedPassword = lib.mkForce
     "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
   users.users."${config.ao.primaryUser.name}" = {
