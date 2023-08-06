@@ -63,6 +63,37 @@ in {
         baseIndex = 1;
         keyMode = "vi";
         shortcut = "a";
+        escapeTime = 800;
+        extraConfig = ''
+          set  -g mouse             on
+          setw -g aggressive-resize on
+
+          set -g status-interval 1
+          set -g status-justify centre # center align window list
+          set -g status-left-length 20
+          set -g status-right-length 140
+          set -g status-left '%A %l:%M %p#[default] %Y-%m-%d'
+
+          set -g status-right '#(cat /proc/loadavg)'
+
+
+          set-hook -g after-split-window 'selectp -T ""'
+          set-hook -g after-new-window 'selectp -T ""'
+          set-hook -g after-new-session 'selectp -T ""'
+
+          set-option -g set-titles on
+          set-option -g set-titles-string "#T / #S / #I#F#W"
+
+          set-window-option -g automatic-rename on
+          set-option -g allow-rename on
+
+          set-window-option -g window-status-format " #I #F #T "
+          set-window-option -g window-status-current-format "(#I #F #T)"
+
+          set -as terminal-overrides ',tmux*:Ms=\\E]52;%p1%s;%p2%s\\007'
+          set -as terminal-overrides ',screen*:Ms=\\E]52;%p1%s;%p2%s\\007'
+          set -s set-clipboard on
+        '';
       };
       urxvt = {
         enable = true;
