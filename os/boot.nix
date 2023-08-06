@@ -52,7 +52,16 @@ in {
     consoleLogLevel = 0;
     blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
     initrd = {
-      kernelModules = [ "usb_storage" "uas" ];
+      kernelModules = [
+        "usb_storage"
+        "uas"
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "usbhid"
+        "sd_mod"
+        "sr_mod"
+      ];
       verbose = false;
     };
     tmp = {

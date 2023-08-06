@@ -3,7 +3,7 @@
 let host = "0002";
 in {
   boot.initrd = {
-    secrets = { "/etc/luks/system" = ./system-${host}; };
+    secrets = { "/etc/luks/system" = ../system-${host}; };
     luks.devices = {
       "system-${host}" = {
         device =
