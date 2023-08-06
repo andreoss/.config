@@ -215,8 +215,8 @@
         hostname = "rr";
         modules = [
           inputs.nixos-hardware.nixosModules.${options.ss.model}
+          ./secrets/rr
           ./os/boot-loader.nix
-          ./secrets/rr-hw.nix
           ./secrets/tx-hw.nix
           ./os/containers.nix
         ];
