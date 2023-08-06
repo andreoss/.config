@@ -46,6 +46,7 @@ in {
     networkmanager = { enable = lib.mkForce false; };
     enableIPv6 = lib.mkForce false;
     firewall = {
+      extraPackages = with pkgs; [ ipset ];
       allowedTCPPorts = [ 4713 ];
       allowedUDPPorts = [ ];
       enable = true;
@@ -57,6 +58,12 @@ in {
         iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
 
         iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
+        ipset create locallan hash:net
+        ipset add locallan 192.168.0.0/16
+        ipset add locallan 172.16.0.0/16
+        ipset add locallan 10.0.0.0/8
+
+        iptables -I INPUT -m set --match-set locallan src -j ACCEPT
       '';
       extraStopCommands = ''
         iptables -D nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept || true
