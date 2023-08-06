@@ -294,8 +294,9 @@ fi
 
 # shellcheck disable=SC3047
 if [ "$BASH" ]; then
-    case "$TERM" in xterm* | rxvt*)
-        trap '__title' DEBUG
-        ;;
+    case "$TERM" in
+        xterm* | rxvt* | tmux* | screen*)
+            trap '__title' DEBUG
+            ;;
     esac
 fi
