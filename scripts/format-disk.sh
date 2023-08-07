@@ -475,6 +475,7 @@ if [ "$FORMAT" ]; then
 			sgdisk --partition-guid=1:"$PART_BOOT" "$DEVICE"
 			sgdisk --partition-guid=2:"$PART_SYSTEM" "$DEVICE"
 			parted "$DEVICE" name 1 boot
+			parted "$DEVICE" name 1 esp
 			parted "$DEVICE" name 2 system
 		fi
 
