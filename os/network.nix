@@ -127,7 +127,6 @@ in {
   in {
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
-    #macchanger-eth0 = macchanger-service "eth0";
   } // (let
     merge = builtins.foldl' (x: y: x // y) { };
     cfx = builtins.attrNames config.services.openvpn.servers;
