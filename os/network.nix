@@ -47,7 +47,7 @@ in {
     enableIPv6 = lib.mkForce false;
     firewall = {
       extraPackages = with pkgs; [ ipset ];
-      allowedTCPPorts = [ 4713 ];
+      allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
       enable = true;
       allowPing = true;
