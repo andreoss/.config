@@ -32,7 +32,7 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
-  users.groups = { tunnel = { members = [ "sshd" ]; }; };
+  users.groups = { tunnel = { }; };
   environment.systemPackages = with pkgs; [ traceroute ];
   programs.bandwhich.enable = true;
   networking = {
@@ -127,6 +127,7 @@ in {
   in {
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
+    macchanger-eth0 = macchanger-service "eth0";
   } // (let
     merge = builtins.foldl' (x: y: x // y) { };
     cfx = builtins.attrNames config.services.openvpn.servers;
