@@ -130,7 +130,7 @@ in {
     restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   in {
     wpa_supplicant = {
-      preStart = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
+      postStart = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
       in ''
         ${path}/rfkill block   all
         ${path}/rfkill unblock all
