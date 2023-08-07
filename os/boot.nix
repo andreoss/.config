@@ -3,7 +3,7 @@ let palette = import ./palette.nix;
 in {
   hardware.enableRedistributableFirmware = true;
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_1;
+    kernelPackages = pkgs.linuxPackages_lqx;
     kernelParams = [
       "boot.shell_on_fail"
       "consoleblank=0"
