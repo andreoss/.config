@@ -32,7 +32,7 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
-  users.groups = { tunnel = { members = [ "sshd" ]; }; };
+  users.groups = { tunnel = { }; };
   environment.systemPackages = with pkgs; [ traceroute ];
   programs.bandwhich.enable = true;
   networking = {
@@ -47,7 +47,7 @@ in {
     enableIPv6 = lib.mkForce false;
     firewall = {
       extraPackages = with pkgs; [ ipset ];
-      allowedTCPPorts = [ ];
+      allowedTCPPorts = [ 4713 ];
       allowedUDPPorts = [ ];
       enable = true;
       allowPing = true;
@@ -95,9 +95,6 @@ in {
         (pkgs.writeShellScript "empty.env" "");
     };
     dhcpcd = {
-      wait = "background";
-      runHook =
-        "if [[ $reason =~ BOUND ]]; then echo $interface: Routers are $new_routers - were $old_routers; fi";
       enable = true;
       allowInterfaces = [ "eth*" "wlan*" ];
     };
@@ -125,19 +122,12 @@ in {
     inherit lib;
     inherit pkgs;
   };
-  systemd.network.wait-online.timeout = 10;
   systemd.services = let
     restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   in {
-    wpa_supplicant = {
-      postStart = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
-      in ''
-        ${path}/rfkill block   all
-        ${path}/rfkill unblock all
-      '';
-    };
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
+    macchanger-eth0 = macchanger-service "eth0";
   } // (let
     merge = builtins.foldl' (x: y: x // y) { };
     cfx = builtins.attrNames config.services.openvpn.servers;

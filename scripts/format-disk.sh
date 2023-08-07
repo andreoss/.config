@@ -242,7 +242,7 @@ root_mount() {
 	should_exists "$ROOT"
 	if [ "$EPHEMERAL" ]; then
 		mount -t tmpfs none "$ROOT"
-		should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos "$ROOT"/var
+		should_exists "$ROOT"/nix/var "$ROOT"/nix/store "$ROOT"/boot "$ROOT"/etc/nixos
 	else
 		echo "skip"
 	fi
@@ -292,7 +292,6 @@ btrfs_prepare() {
 	fi
 	btrfs_subvol_create /nix/store
 	btrfs_subvol_create /nix/var
-	btrfs_subvol_create /var
 	btrfs_subvol_create "$USER_STORAGE"
 }
 
@@ -302,12 +301,11 @@ btrfs_mount() {
 	fi
 	btrfs_subvol_mount /nix/store
 	btrfs_subvol_mount /nix/var
-	btrfs_subvol_mount /var
 	btrfs_subvol_mount "$USER_STORAGE"
 }
 
 btrfs_unmount() {
-	umount "$ROOT"/etc/nixos "$ROOT"/nix/store "$ROOT"/nix/var "$ROOT"/"$USER_STORAGE" "$ROOT"/var
+	umount "$ROOT"/etc/nixos "$ROOT"/nix/store "$ROOT"/nix/var "$ROOT"/"$USER_STORAGE"
 }
 
 boot_prepare() {
@@ -475,7 +473,6 @@ if [ "$FORMAT" ]; then
 			sgdisk --partition-guid=1:"$PART_BOOT" "$DEVICE"
 			sgdisk --partition-guid=2:"$PART_SYSTEM" "$DEVICE"
 			parted "$DEVICE" name 1 boot
-			parted "$DEVICE" name 1 esp
 			parted "$DEVICE" name 2 system
 		fi
 

@@ -1,8 +1,11 @@
 conky.config = {
     alignment = 'top_right',
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'override',
     background = false,
     cpu_avg_samples = 2,
-    default_color = '#FCF3E4',
+    default_color = '#FFFFEA',
     default_outline_color = '#1F1F1F',
     default_shade_color = '#555555',
     double_buffer = true,
@@ -33,7 +36,7 @@ conky.config = {
 conky.text = [[
 ${alignc}${time %A}, ${time %d %B, %X}
 $loadavg${alignr}$uptime
-${cpugraph 15,480 586E75 541230 scale -t -l}
+${cpugraph 15,480 586E75 541230 scale -t}
 ${alignc}${fs_used /user/}/${fs_free /user}
 $diskio_read/s${alignr}$diskio_write/s
 ${diskiograph_read 25,240 586E75 541230 scale -t}${alignr}${diskiograph_write 25,240 586E75 541230 scale -t}
@@ -41,7 +44,7 @@ ${if_up tun0}${downspeedgraph tun0 15,240 586E75 541230 scale -t}${alignr}${upsp
 ${execi 20 notmuch count tag:inbox and tag:unread and date:today}/${execi 20 notmuch count tag:inbox and tag:unread}$alignr${execi 20 notmuch count date:1h and tag:inbox}/${execi 20 notmuch count date:1d and tag:inbox}/${execi 20 notmuch count date:1w and tag:inbox}
 $if_mpd_playing
 ${mpd_file}
-${mpd_elapsed} / ${mpd_length}
-${mpd_bar 5,320}
+${alignc}${mpd_elapsed} / ${mpd_length}
+${mpd_bar 5,480}
 $endif
 ]]
