@@ -95,6 +95,9 @@ in {
         (pkgs.writeShellScript "empty.env" "");
     };
     dhcpcd = {
+      wait = "background";
+      runHook =
+        "if [[ $reason =~ BOUND ]]; then echo $interface: Routers are $new_routers - were $old_routers; fi";
       enable = true;
       allowInterfaces = [ "eth*" "wlan*" ];
     };
@@ -122,9 +125,17 @@ in {
     inherit lib;
     inherit pkgs;
   };
+  systemd.network.wait-online.timeout = 10;
   systemd.services = let
     restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   in {
+    wpa_supplicant = {
+      preStart = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
+      in ''
+        ${path}/rfkill block   all
+        ${path}/rfkill unblock all
+      '';
+    };
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
   } // (let
