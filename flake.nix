@@ -211,6 +211,18 @@
           ./os/containers.nix
         ];
       };
+
+      nixosConfigurations.dx = mkSystem {
+        hostname = "dx";
+        modules = [
+          inputs.nixos-hardware.nixosModules.${options.ss.model}
+          ./secrets/dx
+          ./os/boot-loader.nix
+          ./secrets/tx-hw.nix
+          ./os/containers.nix
+        ];
+      };
+
       nixosConfigurations.rr = mkSystem {
         hostname = "rr";
         modules = [
@@ -221,6 +233,7 @@
           ./os/containers.nix
         ];
       };
+
       nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs self; };
