@@ -1,6 +1,6 @@
 { config, lib, pkgs, modulesPath, ... }:
 
-let host = "000a";
+let host = "0007";
 in {
   boot.initrd = {
     secrets = { "/etc/luks/system" = ../system-${host}; };
@@ -20,7 +20,7 @@ in {
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/000A-0011";
+      device = "/dev/disk/by-uuid/${host}-0011";
       fsType = "vfat";
     };
 
