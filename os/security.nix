@@ -35,6 +35,7 @@ in {
       (rule pkgs.systemd "halt")
       (rule pkgs.systemd "reboot")
       (rule pkgs.systemd "systemctl")
+      (rule pkgs.util-linux "rfkill")
     ];
   };
 }
