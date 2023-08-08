@@ -215,7 +215,6 @@
       nixosConfigurations.dx = mkSystem {
         hostname = "dx";
         modules = [
-          inputs.nixos-hardware.nixosModules.${options.ss.model}
           ./secrets/dx
           ./os/boot-loader.nix
           ./secrets/tx-hw.nix
