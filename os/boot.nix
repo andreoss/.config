@@ -10,7 +10,6 @@ in {
       "ipv6.disable=1"
       "mem_sleep_default=deep"
       "psi=1"
-      "quiet"
       "udev.log_priority=3"
       "usbcore.autosuspend=-1"
     ];
@@ -62,7 +61,7 @@ in {
         "sd_mod"
         "sr_mod"
       ];
-      verbose = false;
+      verbose = true;
     };
     tmp = {
       useTmpfs = true;
@@ -73,7 +72,7 @@ in {
   };
   console = {
     packages = [ pkgs.uw-ttyp0 ];
-    font = "t0-22b-uni";
+    font = "t0-16b-uni";
     earlySetup = true;
     useXkbConfig = true;
     colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
