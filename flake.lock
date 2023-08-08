@@ -323,11 +323,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691385381,
-        "narHash": "sha256-b2uAK5mnXQUwSt5ecJmuctWH/lUap3zRxZVuyxcjCNk=",
+        "lastModified": 1691448110,
+        "narHash": "sha256-DpURMzBaje/cxNja12Rhf17Yzqx5gK/2dUs1gRbFd8c=",
         "owner": "andreoss",
         "repo": "kernel-overlay",
-        "rev": "13d690d2f5f65c1e72a89b9b5d88c51a45559bc1",
+        "rev": "346297e3cb69d6fb44c34c8b6f7c8ab23c72aabe",
         "type": "github"
       },
       "original": {
