@@ -15,4 +15,5 @@ in {
   users.groups.audio.members = [ user ];
   users.groups.pulse.members = [ user ];
   users.groups.pulse-access.members = [ user ];
+  programs.noisetorch.enable = true;
 }

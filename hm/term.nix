@@ -79,7 +79,7 @@ in {
           set-option -g allow-rename on
 
           set-window-option -g window-status-format " #I #F #W"
-          set-window-option -g window-status-current-format "(#I #F #W)"
+          set-window-option -g window-status-current-format "→#I #F #W"
 
           set -as terminal-overrides ',tmux*:Ms=\\E]52;%p1%s;%p2%s\\007'
           set -as terminal-overrides ',screen*:Ms=\\E]52;%p1%s;%p2%s\\007'

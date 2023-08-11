@@ -27,6 +27,8 @@ in {
         jwhois
         mtr
         tdesktop
+        monero-gui
+        tor-browser-bundle-bin
       ];
     };
     programs = {
