@@ -83,11 +83,20 @@ in {
       enable = cfg.enable;
       settings = {
         convert-subs = "srt";
+        embed-chapters = true;
+        embed-info-json = true;
         embed-metadata = true;
         embed-subs = true;
         embed-thumbnail = true;
+        format = "bestvideo[height<=1080]+bestaudio[ext=m4a]";
+        merge-output-format = "mkv";
         mtime = true;
+        no-part = true;
+        retries = 50;
         sub-langs = "all";
+        windows-filenames = true;
+        write-auto-sub = true;
+        write-sub = true;
       } // lib.mkIf config.programs.aria2.enable {
         downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
         downloader = "aria2c";
