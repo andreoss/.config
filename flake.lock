@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691385452,
-        "narHash": "sha256-z8OJMow6uacM0E6drpqBiZ9etK2iVMpBLMS2SUS99YI=",
+        "lastModified": 1692310589,
+        "narHash": "sha256-CM6vL/nimGW86wIe/u4oh+qBTAcOAvox39YzpakNP2Q=",
         "owner": "andreoss",
         "repo": "dnscrypt-nixos-module",
-        "rev": "399171bb554cc1acc961aab215055f734ba99c5f",
+        "rev": "00f7bd9dda8755bf866f666a8bb6ae9140a57c47",
         "type": "github"
       },
       "original": {
@@ -44,11 +44,11 @@
     "elisp-autofmt": {
       "flake": false,
       "locked": {
-        "lastModified": 1690811441,
-        "narHash": "sha256-1tSM8eQSEyRQqOyod6jziMprdSf1qou4ZfGZrCUwIuQ=",
+        "lastModified": 1691502268,
+        "narHash": "sha256-qrQ7bPWXpTYgGOWpNdPIucOL+R8GUAoEUtPHESdWvZw=",
         "ref": "refs/heads/main",
-        "rev": "f2bd5119861bbcd3ebada76d44441ce96de49bed",
-        "revCount": 279,
+        "rev": "8096cea983af9b067b3fafcb36a3e95560401a37",
+        "revCount": 280,
         "type": "git",
         "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
       },
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691435348,
-        "narHash": "sha256-RTIuJMzUSLZNhn/qnsIhD1PyY9XyTm9r9OlFrz7NDR0=",
+        "lastModified": 1692328275,
+        "narHash": "sha256-aBPLbTadpR+e1R8IHATb82FXf81m7lTMjjRTZH/toRA=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "16c667b361a858bc741f610900e450f3b1ddfa80",
+        "rev": "ade8b2dbce3071266adf6269a2e6515677f3ab2a",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1691434551,
-        "narHash": "sha256-qdrEWDH/W3EARmiEjrpr/UV/AAKKEI1R6nhGRurJnUA=",
+        "lastModified": 1692327983,
+        "narHash": "sha256-erfp98KitK+0xjoRGkfZ5M2wCifW4TOtoxAte4Jo9QI=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "b8be67490446e0d90f52b6131ee73c516787a015",
+        "rev": "f92eaef404ab814e458a9e56f08b0508e0ef73ad",
         "type": "github"
       },
       "original": {
@@ -264,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691312444,
-        "narHash": "sha256-J9e9dGwAPTX+UlAn8jehoyaEq6fwK+L+gunfx0cYT4E=",
+        "lastModified": 1692260837,
+        "narHash": "sha256-2FpkX1zl+7ni7djK7NeE1ZGupRUwZgjW+RPCSBgDf4k=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "903e06d734bcae48efb79b9afd51b406d2744179",
+        "rev": "6a94c1a59737783c282c4031555a289c28b961e4",
         "type": "github"
       },
       "original": {
@@ -285,11 +285,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691281799,
-        "narHash": "sha256-VtrnU7JLW6sri0FHgRVDUmtxwCplYN1aPmP6hgV+Hoc=",
+        "lastModified": 1692298772,
+        "narHash": "sha256-AV1MZIlfgSStmsHL7vJ8f7pBeKs5YfSzSZiWt0uDy84=",
         "owner": "StevenBlack",
         "repo": "hosts",
-        "rev": "86956052240f198dad3d3a9b74b9c3a4e0f71340",
+        "rev": "03e1e33213c66bd3cf1a690076863b5946fbfdc4",
         "type": "github"
       },
       "original": {
@@ -323,11 +323,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1691448110,
-        "narHash": "sha256-DpURMzBaje/cxNja12Rhf17Yzqx5gK/2dUs1gRbFd8c=",
+        "lastModified": 1692310478,
+        "narHash": "sha256-ZTpirjprwEr00g1vm7GK+TetxiIJBMzso2AocTzYXkA=",
         "owner": "andreoss",
         "repo": "kernel-overlay",
-        "rev": "346297e3cb69d6fb44c34c8b6f7c8ab23c72aabe",
+        "rev": "d7e45c4668d332543c20a9b13e32c59765599569",
         "type": "github"
       },
       "original": {
@@ -338,11 +338,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1691305349,
-        "narHash": "sha256-0Pig7jnmuRH3c5dOTVTOvTLwo2CRzYTyvJRQ82HWRSo=",
+        "lastModified": 1691871742,
+        "narHash": "sha256-6yDNjfbAMpwzWL4y75fxs6beXHRANfYX8BNSPjYehck=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "5426a95071d0b9782b3209b3995cde1f5689616e",
+        "rev": "430a56dd16fe583a812b2df44dca002acab2f4f6",
         "type": "github"
       },
       "original": {
@@ -377,11 +377,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1691368598,
-        "narHash": "sha256-ia7li22keBBbj02tEdqjVeLtc7ZlSBuhUk+7XTUFr14=",
+        "lastModified": 1692174805,
+        "narHash": "sha256-xmNPFDi/AUMIxwgOH/IVom55Dks34u1g7sFKKebxUm0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5a8e9243812ba528000995b294292d3b5e120947",
+        "rev": "caac0eb6bdcad0b32cb2522e03e4002c8975c62e",
         "type": "github"
       },
       "original": {
@@ -393,11 +393,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1691328192,
-        "narHash": "sha256-w59N1zyDQ7SupfMJLFvtms/SIVbdryqlw5AS4+DiH+Y=",
+        "lastModified": 1692207601,
+        "narHash": "sha256-tfPGNKQcJT1cvT6ufqO/7ydYNL6mcJClvzbrzhKjB80=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "61676e4dcfeeb058f255294bcb08ea7f3bc3ce56",
+        "rev": "b30c68669df77d981ce4aefd6b9d378563f6fc4e",
         "type": "github"
       },
       "original": {
@@ -409,11 +409,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1691368598,
-        "narHash": "sha256-ia7li22keBBbj02tEdqjVeLtc7ZlSBuhUk+7XTUFr14=",
+        "lastModified": 1692174805,
+        "narHash": "sha256-xmNPFDi/AUMIxwgOH/IVom55Dks34u1g7sFKKebxUm0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "5a8e9243812ba528000995b294292d3b5e120947",
+        "rev": "caac0eb6bdcad0b32cb2522e03e4002c8975c62e",
         "type": "github"
       },
       "original": {
@@ -462,11 +462,11 @@
     "password-store": {
       "flake": false,
       "locked": {
-        "lastModified": 1688566835,
-        "narHash": "sha256-NdNk0mjwetq3NKpg7E6K+5o3gVeGbA3r2AA8SX1N7vY=",
+        "lastModified": 1691622803,
+        "narHash": "sha256-QNz40XjHXwfBp7CiRH7GOOwEiZwlsfRI8mOR8HFWYxQ=",
         "ref": "refs/heads/master",
-        "rev": "b6cf501ae3bdbae44789fef3527c3b7bfa769350",
-        "revCount": 5,
+        "rev": "f2b8c0ed6932aa3a4cba9ac009fa11cab371d15a",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@github.com/andreoss/.password-store.git"
       },
@@ -589,11 +589,11 @@
     "user-js": {
       "flake": false,
       "locked": {
-        "lastModified": 1690346220,
-        "narHash": "sha256-knJa1zI27NsKGwpps3MMrG9K7HDGCDnoRfm16pNR/yM=",
+        "lastModified": 1691983650,
+        "narHash": "sha256-oA1bIpPc27Kk89n3JGpni7RkcIDRVAsTjUfjRHbKS24=",
         "owner": "arkenfox",
         "repo": "user.js",
-        "rev": "4d78abf2bfafbbcb03f8f6d6aaaf7e69b7cfee4e",
+        "rev": "915f39959c7e077f00477e6ce34a0f9f9e3e7c6b",
         "type": "github"
       },
       "original": {
