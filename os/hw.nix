@@ -6,6 +6,7 @@
     device = config.kbdDevice;
   };
   hardware.opengl.enable = true;
+  hardware.opengl.driSupport = true;
   hardware.openrazer = {
     enable = false;
     users = [ self.config.primaryUser.name ];
