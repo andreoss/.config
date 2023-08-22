@@ -96,5 +96,21 @@ in {
         Install = { WantedBy = [ "graphical-session.target" ]; };
       };
     };
+    services.picom = {
+      enable = true;
+      backend = "glx";
+      settings = {
+        detect-client-opacity = false;
+        detect-rounded-corners = false;
+        blur = {
+          background = false;
+          background-fixed = false;
+          background-frame = false;
+          method = "kawase";
+          strength = 1;
+        };
+        blur-background-exclude = [ "class_g = 'keynav'" ];
+      };
+    };
   };
 }
