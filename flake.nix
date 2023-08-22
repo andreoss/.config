@@ -172,6 +172,7 @@
                 perl.enable = true;
                 java.enable = true;
                 scala.enable = true;
+                js.enable = true;
                 cxx.enable = true;
                 haskell.enable = true;
               };

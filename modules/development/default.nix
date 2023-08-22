@@ -2,14 +2,15 @@
   imports = [
     ./cxx.nix
     ./go.nix
-    ./perl.nix
-    ./java.nix
-    ./scala.nix
-    ./lisp.nix
     ./haskell.nix
-    ./rust.nix
-    ./ruby.nix
+    ./java.nix
+    ./js.nix
+    ./lisp.nix
+    ./perl.nix
     ./python.nix
+    ./ruby.nix
+    ./rust.nix
+    ./scala.nix
     ./vcs.nix
   ];
 
