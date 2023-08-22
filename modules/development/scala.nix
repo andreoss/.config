@@ -34,13 +34,6 @@ in {
         scalafix
         mysql-workbench
         docker-credential-gcr
-        nodejs_20
-        nodePackages.yarn
-        nodePackages.react-tools
-        nodePackages.react-static
-        nodePackages.react-native-cli
-        nodePackages.typescript
-        nodePackages.typescript-language-server
       ];
     };
     programs.vscode = {
