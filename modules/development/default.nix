@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }: {
   imports = [
     ./cxx.nix
     ./go.nix
@@ -61,6 +61,7 @@
       libxslt
       dos2unix
       mariadb-client
+      nodePackages_latest.bash-language-server
     ];
   };
 }
