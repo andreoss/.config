@@ -97,36 +97,34 @@ in {
       style.package = pkgs.adwaita-qt;
     };
     home.packages = lib.optionals config.xsession.enable (with pkgs; [
-      luculent
+      _3270font
       cherry
-      noto-fonts-emoji
-      noto-fonts
-      paratype-pt-mono
-      uw-ttyp0
-      terminus_font_ttf
-      terminus_font
-      uni-vga
-      junicode
-      glasstty-ttf
+      comic-mono
+      cozette
+      dosemu_fonts
       fontpreview
       junction-font
+      junicode
+      last-resort
+      luculent
+      paratype-pt-mono
+      recursive
+      rox-filer
       sudo-font
-      comic-mono
-      _3270font
+      terminus_font
+      terminus_font_ttf
+      uni-vga
+      uw-ttyp0
+      wmctrl
       wmname
       xclip
-      dosemu_fonts
-      last-resort
-      recursive
-      xorg.xkill
-      xorg.xdpyinfo
-      xorg.xwd
-      xorg.xhost
-      xpra
-      wmctrl
-      rox-filer
-      cozette
       xdotool
+      xorg.xdpyinfo
+      xorg.xev
+      xorg.xhost
+      xorg.xkill
+      xorg.xwd
+      xpra
     ]);
     home.sessionVariables = lib.mkIf config.xsession.enable {
       XDG_SESSION_PATH = "";
