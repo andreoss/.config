@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, ... }:
 let
   palette = import ../os/palette.nix;
   cfg = config.home.office;
@@ -13,17 +13,19 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
-    xdg.desktopEntries = {
-      zathura = {
-        name = "Zathura";
-        exec = "zathura %U";
-        terminal = false;
-        categories = [ "Office" ];
-        mimeType = [ "application/pdf" ];
+    xdg = {
+      desktopEntries = {
+        zathura = {
+          name = "Zathura";
+          exec = "zathura %U";
+          terminal = false;
+          categories = [ "Office" ];
+          mimeType = [ "application/pdf" ];
+        };
       };
-    };
-    xdg.mimeApps = {
-      defaultApplications = { "application/pdf" = [ "zathura.desktop" ]; };
+      mimeApps = {
+        defaultApplications = { "application/pdf" = [ "zathura.desktop" ]; };
+      };
     };
     home = {
       packages = with pkgs; [
@@ -34,10 +36,14 @@ in {
         sdcv
         xlsx2csv
         xlsxgrep
-        texlive.combined.scheme-full
       ];
     };
     programs = {
+      texlive = {
+        enable = true;
+        packageSet = pkgs.texlive;
+      };
+      sioyek.enable = config.xsession.enable;
       zathura = {
         enable = config.xsession.enable;
         mappings = {
