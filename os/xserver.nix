@@ -2,7 +2,6 @@
 let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
-    hardware.opengl.package = pkgs.mesa_drivers;
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
