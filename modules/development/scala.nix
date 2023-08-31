@@ -13,8 +13,7 @@ in {
     services.gnome-keyring.enable = true; # mysql-workbench
     programs.sbt = {
       enable = cfg.enable;
-      package = pkgs.sbt-with-scala-native.overrideDerivation
-        (old: { jre = pkgs.openjdk11; });
+      package = (pkgs.sbt.override { jre = pkgs.openjdk11; });
       plugins = [ ];
     };
     home = lib.mkIf cfg.enable {
@@ -47,6 +46,5 @@ in {
         scalameta.metals
       ];
     };
-
   };
 }

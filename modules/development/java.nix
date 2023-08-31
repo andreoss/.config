@@ -53,6 +53,7 @@ in {
       };
       packages = with pkgs;
         lib.mkIf cfg.enable [
+          jdt-language-server
           android-tools
           ant
           gradle

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stdenv, self, ... }:
+{ config, pkgs, lib, ... }:
 let cfg = config.home.development.cxx;
 in {
   options = {
