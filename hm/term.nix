@@ -63,8 +63,9 @@ in {
         baseIndex = 1;
         keyMode = "vi";
         shortcut = "a";
-        escapeTime = 800;
+        escapeTime = 50;
         extraConfig = ''
+          set-option -g default-terminal "xterm-256color"
           set  -g mouse             on
           setw -g aggressive-resize on
 
@@ -78,25 +79,25 @@ in {
           set-window-option -g automatic-rename on
           set-option -g allow-rename on
 
-          set-window-option -g window-status-format " #I #F #W"
+          set-window-option -g window-status-format         " #I #F #W"
           set-window-option -g window-status-current-format "→#I #F #W"
 
           set -as terminal-overrides ',tmux*:Ms=\\E]52;%p1%s;%p2%s\\007'
           set -as terminal-overrides ',screen*:Ms=\\E]52;%p1%s;%p2%s\\007'
           set -s set-clipboard on
 
-          set -g status-style fg=black,bg=darkgray
-          set -g status-interval 1
-          set -g status-justify centre
-          set -g status-left-length 20
+          set -g status-style        fg=black,bg=darkgray
+          set -g status-interval     1
+          set -g status-justify      centre
+          set -g status-left-length  20
           set -g status-right-length 140
-          set -g status-left '%A %l:%M %p#[default] %Y-%m-%d'
-          set -g status-right '#(cat /proc/loadavg)'
+
+          set -g status-left     '%A#[default] %Y-%m-%d'
+          set -g status-right    '#(awk NF=3 /proc/loadavg)'
 
           set -g pane-active-border-style fg=black,bg=darkgray
           set-window-option -g pane-border-status top
           set-window-option -g pane-border-format '#T'
-
         '';
       };
       urxvt = {
