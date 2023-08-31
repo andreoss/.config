@@ -3,7 +3,7 @@ let palette = import ./palette.nix;
 in {
   hardware.enableRedistributableFirmware = true;
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_1;
+    kernelPackages = pkgs.linuxPackages;
     kernelParams = [
       "boot.shell_on_fail"
       "consoleblank=0"
@@ -72,9 +72,7 @@ in {
   };
   console = {
     packages = [ pkgs.uw-ttyp0 ];
-    font = "t0-16b-uni";
-    earlySetup = true;
-    useXkbConfig = true;
+    font = "t0-12b-uni";
     colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
       (with palette; [
         black1
