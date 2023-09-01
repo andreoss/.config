@@ -12,9 +12,11 @@
     extraLocaleSettings = { LC_MESSAGES = "en_GB.utf8"; };
   };
   time.timeZone = "America/New_York";
-  location.provider = "manual";
-  location.latitude = -28.0;
-  location.longitude = -57.0;
+  location = {
+    provider = "manual";
+    latitude = -28.0;
+    longitude = -57.0;
+  };
   environment = {
     wordlist = {
       enable = true;
