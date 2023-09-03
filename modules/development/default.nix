@@ -61,7 +61,9 @@
       libxslt
       dos2unix
       mariadb-client
+      postgresql
       nodePackages_latest.bash-language-server
+      sleek
     ];
   };
 }
