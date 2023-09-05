@@ -1,6 +1,4 @@
-{ specialArgs, lib, pkgs, config, ... }:
-let l = config.ao.primaryUser.languages;
-in {
+{ specialArgs, config, ... }: {
   home-manager.extraSpecialArgs = specialArgs;
   home-manager.users.root = {
     home.stateVersion = config.ao.stateVersion;
