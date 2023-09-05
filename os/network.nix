@@ -55,21 +55,10 @@ in {
       extraCommands = ''
         iptables -A INPUT -i lo -j ACCEPT
         iptables -A OUTPUT -o lo -j ACCEPT
-                ipset create local hash:net
-                ipset add local 192.168.0.0/16
-                ipset add local 172.16.0.0/16
-                ipset add local 10.0.0.0/8
-
-                iptables -I INPUT -m set --match-set local src -j ACCEPT
-                iptables -I OUTPUT -m set --match-set local src -j ACCEPT
-
-                iptables -I OUTPUT -o wlan+ -m owner \! --gid-owner tunnel -j REJECT
-                iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -j REJECT
-                iptables -I OUTPUT -o wlan+ -m owner \! --gid-owner tunnel -m set --match-set local src -j ACCEPT
-                iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -m set --match-set local src -j ACCEPT
-                iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
-
-                iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
+        iptables -I OUTPUT -o wlan+ -m owner \! --gid-owner tunnel -j REJECT
+        iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -j REJECT
+        iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
+        iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
 
       '';
       extraStopCommands = ''
