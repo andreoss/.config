@@ -17,19 +17,33 @@
   config = {
     programs.jq.enable = true;
     home.packages = with pkgs; [
-      act
       ack
+      act
       ascii
       atool
       cloc
+      ctop
       docker
       dockfmt
+      dos2unix
+      jo
+      json2yaml
+      kubernetes
+      lcov
+      libxslt
       lsof
+      mariadb-client
+      minikube
+      minishift
       nil
+      ninja
       nix
       nixfmt
       nix-tree
+      nodePackages_latest.bash-language-server
+      openshift
       packer
+      postgresql
       psmisc
       pv
       qrencode
@@ -39,29 +53,15 @@
       shellcheck
       shfmt
       silver-searcher
+      sleek
       sysstat
       unar
       unzip
-      zip
-
-      kubernetes
-      lcov
-      minikube
-      minishift
-      ctop
-      ninja
-      openshift
-
-      yamllint
       xmlformat
       yaml2json
-      json2yaml
+      yamllint
       yaml-merge
-      jo
-      libxslt
-      dos2unix
-      mariadb-client
-      nodePackages_latest.bash-language-server
+      zip
     ];
   };
 }
