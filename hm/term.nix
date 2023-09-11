@@ -89,10 +89,10 @@ in {
           set -g status-style        fg=black,bg=darkgray
           set -g status-interval     1
           set -g status-justify      centre
-          set -g status-left-length  20
-          set -g status-right-length 140
+          set -g status-left-length  80
+          set -g status-right-length 80
 
-          set -g status-left     '%A#[default] %Y-%m-%d'
+          set -g status-left     '%A#[default] #(hodie)'
           set -g status-right    '#(awk NF=3 /proc/loadavg)'
 
           set -g pane-active-border-style fg=black,bg=darkgray
