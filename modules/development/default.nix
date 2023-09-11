@@ -44,6 +44,7 @@
       openshift
       packer
       postgresql
+      pgtop
       psmisc
       pv
       qrencode
@@ -62,6 +63,13 @@
       yamllint
       yaml-merge
       zip
+      docker-credential-gcr
+      (google-cloud-sdk.withExtraComponents ([
+        google-cloud-sdk.components.cloud-build-local
+        google-cloud-sdk.components.gke-gcloud-auth-plugin
+      ]))
+      trivy
+      mysql-workbench
     ];
   };
 }
