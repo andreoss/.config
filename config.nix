@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, ... }:
 with lib; {
   options.ao = mkOption { type = types.attrs; };
   options.isLivecd = mkOption {

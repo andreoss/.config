@@ -1,4 +1,4 @@
-{ lib, config, pkgs, self, ... }: {
+{ config, ... }: {
   system = { copySystemConfiguration = false; };
   services = {
     getty.extraArgs = [ "--nohostname" "--noissue" "--noclear" "--nohints" ];

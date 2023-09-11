@@ -17,8 +17,8 @@
     xresources.properties = {
       "Emacs*toolBar" = 0;
       "Emacs*menuBar" = 0;
-      "Emacs*geometry" = "80x30";
       "Emacs*font" = "Terminus";
+      "Emacs*geometry" = "80x48";
       "Emacs*scrollBar" = "on";
       "Emacs*scrollBarWidth" = 6;
     };
