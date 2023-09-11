@@ -22,17 +22,10 @@ in {
         mill
         nailgun
         dotty
-        (google-cloud-sdk.withExtraComponents ([
-          google-cloud-sdk.components.cloud-build-local
-          google-cloud-sdk.components.gke-gcloud-auth-plugin
-        ]))
-        trivy
         scalafmt
         ammonite
         httpie
         scalafix
-        mysql-workbench
-        docker-credential-gcr
       ];
     };
     programs.vscode = {

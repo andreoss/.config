@@ -1,4 +1,6 @@
-{ config, ... }: {
+{ self, config, ... }:
+let user = config.ao.primaryUser.name;
+in {
   security.polkit.enable = true;
   programs.extra-container.enable = true;
   virtualisation = {
@@ -24,13 +26,8 @@
     };
     libvirtd.enable = !config.mini;
   };
-  users = let user = config.ao.primaryUser.name;
-  in {
-    groups = {
-      docker.members = [ user ];
-      libvirtd.members = [ user ];
-      lxd.members = [ user ];
-      vboxusers.members = [ user ];
-    };
-  };
+  users.groups.docker.members = [ user ];
+  users.groups.libvirtd.members = [ user ];
+  users.groups.lxd.members = [ user ];
+  users.groups.vboxusers.members = [ user ];
 }
