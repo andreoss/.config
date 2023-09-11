@@ -70,6 +70,7 @@
       ]))
       trivy
       mysql-workbench
+      localstack
     ];
   };
 }
