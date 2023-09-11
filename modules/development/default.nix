@@ -62,6 +62,7 @@
       yamllint
       yaml-merge
       zip
+      localstack
     ];
   };
 }
