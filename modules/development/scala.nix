@@ -26,6 +26,7 @@ in {
         ammonite
         httpie
         scalafix
+        leiningen
       ];
     };
     programs.vscode = {
