@@ -33,8 +33,7 @@ let
   };
 in {
   users.groups = { tunnel = { members = [ "sshd" ]; }; };
-  environment.systemPackages = with pkgs; [ traceroute ];
-  programs.bandwhich.enable = true;
+  environment.systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
   networking = {
     dns-crypt.enable = true;
     nat = {
