@@ -34,7 +34,7 @@ in {
       ''];
     };
     fonts = {
-      enableDefaultFonts = false;
+      enableDefaultFonts = true;
       enableGhostscriptFonts = true;
       fonts = with pkgs; [
         fixedsys-excelsior
@@ -50,8 +50,8 @@ in {
         useEmbeddedBitmaps = true;
         defaultFonts = {
           monospace = [ "Terminus" ];
-          sansSerif = [ "Go" ];
-          serif = [ "Go Medium" ];
+          sansSerif = [ "Terminus" ];
+          serif = [ "Terminus" ];
         };
       };
     };
