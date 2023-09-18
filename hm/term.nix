@@ -35,7 +35,7 @@ in {
           exec urxvtc "$@"
         '';
       };
-      ".local/bin/xscreen" = {
+      ".local/bin/rxvts" = {
         executable = true;
         text = ''
           #!/bin/sh

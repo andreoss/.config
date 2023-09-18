@@ -97,14 +97,8 @@ in {
       style.package = pkgs.adwaita-qt;
     };
     home.packages = lib.optionals config.xsession.enable (with pkgs; [
-      _3270font
-      cherry
       comic-mono
-      cozette
-      dosemu_fonts
       fontpreview
-      junction-font
-      junicode
       last-resort
       luculent
       paratype-pt-mono
