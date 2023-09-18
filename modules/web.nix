@@ -10,12 +10,12 @@ in {
   };
   config = {
     home = {
-      sessionVariables.DEFAULT_BROWSER = "firefox";
+      sessionVariables.DEFAULT_BROWSER = "mozilla";
       file.".local/bin/mozilla" = {
         executable = true;
         text = ''
           #!/bin/sh
-          exec firefox "$@"
+          exec firejail firefox "$@"
         '';
       };
       packages = with pkgs; [
@@ -23,6 +23,7 @@ in {
         wget
         curl
         telescope
+        (pidgin.override { plugins = [ pidgin-otr ]; })
         dig.dnsutils
         jwhois
         mtr
