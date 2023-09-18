@@ -289,7 +289,7 @@ __source "/usr/local/share/bash-completion/bash_completion"
 
 if [ -d "$HOME/perl5" ] && is_there "perl"
 then
-    eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+    eval "$(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)"
 fi
 
 # shellcheck disable=SC3047
