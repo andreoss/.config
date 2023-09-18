@@ -36,6 +36,8 @@ in {
         sdcv
         xlsx2csv
         xlsxgrep
+        zbar
+        dmtx-utils
       ];
     };
     programs = {
