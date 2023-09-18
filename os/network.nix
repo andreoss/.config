@@ -70,11 +70,11 @@ in {
       extraConfig = "";
     };
     proxy = {
-      #allProxy = "http://127.0.0.1:8118";
-      #httpsProxy = "http://127.0.0.1:8118";
-      #httpProxy = "http://127.0.0.1:8118";
-      #ftpProxy = "http://127.0.0.1:8118";
-      #default = "http://127.0.0.1:8118";
+      allProxy = "http://127.0.0.1:8118";
+      httpsProxy = "http://127.0.0.1:8118";
+      httpProxy = "http://127.0.0.1:8118";
+      ftpProxy = "http://127.0.0.1:8118";
+      default = "http://127.0.0.1:8118";
     };
     usePredictableInterfaceNames = false;
     wireless = {
@@ -107,13 +107,19 @@ in {
         url = "${russianCa}/russian_trusted_sub_ca_pem.crt";
         sha256 = "sha256:19jffjrawgbpdlivdvpzy7kcqbyl115rixs86vpjjkvp6sgmibph";
       })
+      ../secrets/ssl/ca-cert.crt
     ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
     privoxy.enable = true;
-    privoxy.inspectHttps = false;
-    privoxy.settings = { };
+    privoxy.inspectHttps = true;
+    privoxy.certsLifetime = "1d";
+    privoxy.settings = {
+      ca-cert-file = ../secrets/ssl/ca-cert.crt;
+      ca-key-file = ../secrets/ssl/ca-key.pem;
+      ca-password = "1234";
+    };
   };
   services.openvpn.servers = import ../secrets/vpn.nix {
     inherit lib;
