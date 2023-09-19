@@ -32,8 +32,11 @@ let
       (builtins.readFile ../secrets/network.env);
   };
 in {
-  users.groups = { tunnel = { members = [ "sshd" ]; }; };
-  environment.systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
+  environment = {
+    variables.SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+    variables.NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+    systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
+  };
   networking = {
     dns-crypt.enable = true;
     nat = {
