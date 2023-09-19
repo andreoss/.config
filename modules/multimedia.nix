@@ -97,6 +97,7 @@ in {
         windows-filenames = true;
         write-auto-sub = true;
         write-sub = true;
+        compat-options = "no-certifi";
       } // lib.mkIf config.programs.aria2.enable {
         downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
         downloader = "aria2c";
