@@ -191,6 +191,16 @@ __vcs_status() {
         printf '%s' "$(__git_branch)"
     fi
 }
+
+__ps1_short() {
+    if [ "${USER:-}" = "root" ]; then
+        PROMPT='# '
+    else
+        PROMPT="${PROMPT:-* }"
+    fi
+    printf '%s' "$PROMPT"
+}
+
 __ps1() {
     if [ "${USER:-}" = "root" ]; then
         PROMPT='# '
@@ -213,7 +223,12 @@ PROMPT_COMMAND="history -a"
 set -o vi
 if [ "$BASH" ]
 then
-    PS1='$(__ps1)'
+    if [ "${TMUX:-}" ]
+    then
+       PS1='$(__ps1_short)'
+    else
+       PS1='$(__ps1)'
+    fi
 fi
 
 # shellcheck disable=SC3037,SC3028
