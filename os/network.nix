@@ -129,6 +129,10 @@ in {
     inherit pkgs;
   };
   systemd.network.wait-online.timeout = 10;
+  systemd.globalEnvironment = {
+    SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
+    NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
+  };
   systemd.services = let
     restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   in {
