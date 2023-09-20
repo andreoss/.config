@@ -34,9 +34,17 @@ in {
       ''];
     };
     fonts = {
+      fontDir = { enable = true; };
+
       enableDefaultFonts = true;
       enableGhostscriptFonts = true;
       fonts = with pkgs; [
+        corefonts
+        (nerdfonts.override { fonts = [ "Hack" ]; })
+        noto-fonts
+        noto-fonts-cjk
+        noto-fonts-emoji
+        noto-fonts-extra
         fixedsys-excelsior
         gyre-fonts
         kawkab-mono-font
@@ -44,9 +52,12 @@ in {
         terminus_font
         terminus_font_ttf
         ucs-fonts
+        uw-ttyp0
       ];
       fontconfig = {
+        hinting.enable = true;
         hinting.autohint = true;
+        hinting.style = "full";
         useEmbeddedBitmaps = true;
         defaultFonts = {
           monospace = [ "Terminus" ];
