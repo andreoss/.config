@@ -117,7 +117,20 @@ in {
   services = {
     privoxy.enable = true;
     privoxy.inspectHttps = true;
-    privoxy.certsLifetime = "1d";
+    privoxy.certsLifetime = "1h";
+    privoxy.userFilters = ''
+      CLIENT-HEADER-FILTER: ua-fixes Fix UA
+      s/[(]X11; Linux x86_64[)]/(Windows NT 10.0; rv:109.0)/ig
+    '';
+    privoxy.userActions = ''
+      #
+      { +crunch-client-header{sec-ch-ua} }
+      /
+
+      #
+      { +client-header-filter{ua-fixes} }
+      /
+    '';
     privoxy.settings = {
       ca-cert-file = ../secrets/ssl/ca-cert.crt;
       ca-key-file = ../secrets/ssl/ca-key.pem;
