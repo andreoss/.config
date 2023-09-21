@@ -36,6 +36,18 @@ in {
     variables.SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
+    etc."ssl/proxy/cert.crt" = {
+      text = builtins.readFile ../secrets/ssl/ca-cert.crt;
+      user = "privoxy";
+      group = "privoxy";
+      mode = "0400";
+    };
+    etc."ssl/proxy/key.pem" = {
+      text = builtins.readFile ../secrets/ssl/ca-key.pem;
+      user = "privoxy";
+      group = "privoxy";
+      mode = "0400";
+    };
   };
   networking = {
     dns-crypt.enable = true;
@@ -61,7 +73,6 @@ in {
         iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -j REJECT
         iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
         iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
-
       '';
       extraStopCommands = ''
         iptables -D nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept || true
@@ -117,7 +128,7 @@ in {
   services = {
     privoxy.enable = true;
     privoxy.inspectHttps = true;
-    privoxy.certsLifetime = "1h";
+    privoxy.certsLifetime = "1d";
     privoxy.userFilters = ''
       CLIENT-HEADER-FILTER: ua-fixes Fix UA
       s/[(]X11; Linux x86_64[)]/(Windows NT 10.0; rv:109.0)/ig
@@ -132,8 +143,8 @@ in {
       /
     '';
     privoxy.settings = {
-      ca-cert-file = ../secrets/ssl/ca-cert.crt;
-      ca-key-file = ../secrets/ssl/ca-key.pem;
+      ca-cert-file = "/etc/ssl/proxy/cert.crt";
+      ca-key-file = "/etc/ssl/proxy/key.pem";
       ca-password = "1234";
     };
   };
