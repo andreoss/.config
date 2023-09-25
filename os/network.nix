@@ -126,12 +126,20 @@ in {
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
+    squid = {
+      enable = true;
+      extraConfig = ''
+        offline_mode on
+      '';
+    };
     privoxy.enable = true;
     privoxy.inspectHttps = true;
     privoxy.certsLifetime = "1d";
     privoxy.userFilters = ''
-      CLIENT-HEADER-FILTER: ua-fixes Fix UA
-      s/[(]X11; Linux x86_64[)]/(Windows NT 10.0; rv:109.0)/ig
+      CLIENT-HEADER-FILTER: ua-fixes-os Fix UA
+      s/[(]\w+; Linux \w+[)]/(Windows NT 10.0; rv:109.0)/ig
+      CLIENT-HEADER-FILTER: ua-fixes-qt Fix UA
+      s|[ ]?QtWebEngine[/]\S+||i
     '';
     privoxy.userActions = ''
       #
@@ -139,14 +147,28 @@ in {
       /
 
       #
-      { +client-header-filter{ua-fixes} }
+      { +client-header-filter{ua-fixes-os} }
+      /
+
+      #
+      { +client-header-filter{ua-fixes-qt} }
       /
     '';
     privoxy.settings = {
       ca-cert-file = "/etc/ssl/proxy/cert.crt";
       ca-key-file = "/etc/ssl/proxy/key.pem";
       ca-password = "1234";
+      forward = "/ localhost:3128 .";
     };
+  };
+  system.activationScripts = {
+    fix-rfkill.text = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
+    in ''
+      ${path}/rfkill block   all
+      ${path}/rfkill unblock all
+    '';
+    restart-unbound.text =
+      "${pkgs.systemd}/bin/systemctl restart unbound.service";
   };
   services.openvpn.servers = import ../secrets/vpn.nix {
     inherit lib;
@@ -160,16 +182,8 @@ in {
   systemd.services = let
     restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   in {
-    wpa_supplicant = {
-      postStart = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
-      in ''
-        ${path}/rfkill block   all
-        ${path}/rfkill unblock all
-      '';
-    };
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
-    #macchanger-eth0 = macchanger-service "eth0";
   } // (let
     merge = builtins.foldl' (x: y: x // y) { };
     cfx = builtins.attrNames config.services.openvpn.servers;
