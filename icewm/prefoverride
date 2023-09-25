@@ -13,7 +13,7 @@ ClockFontNameXft           = "Terminus:size=8"
 ApmFontNameXft             = "Terminus:size=8"
 LabelFontNameXft           = "Terminus:size=8"
 
-TimeFormat="%x %-I:%M"
+TimeFormat="%c"
 TimeFormatAlt="%x %-I:%M"
 DateFormat="%W/%j %c %Z"
 
