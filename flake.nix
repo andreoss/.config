@@ -100,7 +100,6 @@
                 mesa_drivers =
                   (import nixpkgs-mesa { inherit system; }).mesa_drivers;
               })
-            (final: prev: { notmuch = prev.pkgs.hello; })
             (final: prev:
               let pkgs_ = import nixpkgs { inherit system; };
               in {
