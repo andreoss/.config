@@ -26,13 +26,43 @@ in {
         };
       };
     };
+    home = {
+      file.".config/davmail-base.properties" = {
+        text = ''
+          davmail.server=true
+          davmail.url=https://outlook.office365.com/EWS/Exchange.asmx
+          davmail.mode=O365Interactive
+          davmail.caldavPort=1080
+          davmail.imapPort=1143
+          davmail.ldapPort=1389
+          davmail.popPort=1110
+          davmail.smtpPort=1025
+          davmail.enableProxy=true
+          davmail.useSystemProxies=true
+          davmail.ssl.nosecurecaldav=true
+          davmail.ssl.nosecureimap=true
+          davmail.ssl.nosecureldap=true
+          davmail.ssl.nosecurepop=true
+          davmail.ssl.nosecuresmtp=true
+          log4j.rootLogger=WARN
+        '';
+      };
+    };
     systemd = lib.attrsets.optionalAttrs (x) {
-      user.services.notmuch = {
+      user.services.notmuch = let
+        path = lib.strings.makeBinPath [
+          pkgs.isync
+          pkgs.pass
+          pkgs.gawk
+          pkgs.coreutils
+          pkgs.gnugrep
+        ];
+      in {
         Unit = { Requires = [ "davmail.service" ]; };
         Install = { WantedBy = [ "default.target" ]; };
         Service = {
           ExecStart = "${pkgs.notmuch}/bin/notmuch new";
-          Environment = [ "PATH=${pkgs.isync}/bin:${pkgs.pass}/bin:$PATH" ];
+          Environment = [ "PATH=${path}" ];
         };
       };
       user.timers.notmuch = {
@@ -43,28 +73,27 @@ in {
         };
       };
       user.services.davmail = let
-        writeProperties = pkgs.writeShellScript "write-properties" ''
-          touch "$HOME"/.davmail.properties
-          ${pkgs.perl536}/bin/perl -i -lnE '
-                 next if m/ davmail [.] (?: server | mode | url ) \s* = /xgsm;
-                 s/WARN/INFO/;
-                 say;
-                 if (eof) {
-                    say "davmail.server=true";
-                    say "davmail.url=https://outlook.office365.com/EWS/Exchange.asmx";
-                    say "davmail.mode=O365Manual";
-                 }
-          ' "$HOME"/.davmail.properties
+        write-properties = pkgs.writeShellScript "write-properties" ''
+          cat "$HOME"/.config/davmail-base.properties > "$HOME"/.config/davmail.properties
+        '';
+        run-davmail = pkgs.writeShellScript "run-davmail" ''
+          exec davmail "$HOME"/.config/davmail.properties
         '';
       in {
         Unit = {
           Description = "Davmail";
           PartOf = [ "graphical-session.target" ];
         };
-        Service = {
-          ExecStartPre = "${writeProperties}";
-          ExecStart = "${pkgs.davmail}/bin/davmail $HOME/.davmail.properties";
-          Environment = [ "PATH=${pkgs.coreutils}/bin:$PATH" ];
+        Service = let
+          path = lib.strings.makeBinPath [
+            pkgs.coreutils
+            pkgs.gnugrep
+            (pkgs.davmail.override { jre = pkgs.openjdk17; })
+          ];
+        in {
+          ExecStartPre = "${write-properties}";
+          ExecStart = "${run-davmail}";
+          Environment = [ "PATH=${path}" ];
         };
         Install = { WantedBy = [ "graphical-session.target" ]; };
       };
