@@ -126,12 +126,6 @@ in {
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
   services = {
-    squid = {
-      enable = true;
-      extraConfig = ''
-        offline_mode on
-      '';
-    };
     privoxy.enable = true;
     privoxy.inspectHttps = true;
     privoxy.certsLifetime = "1d";
@@ -158,7 +152,6 @@ in {
       ca-cert-file = "/etc/ssl/proxy/cert.crt";
       ca-key-file = "/etc/ssl/proxy/key.pem";
       ca-password = "1234";
-      forward = "/ localhost:3128 .";
     };
   };
   system.activationScripts = {
@@ -189,6 +182,7 @@ in {
     cfx = builtins.attrNames config.services.openvpn.servers;
   in merge (map (x: {
     "openvpn-${x}" = {
+      restartTriggers = [ config.environment.etc."version".source ];
       postStart = restartUnbound;
       conflicts =
         map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);
