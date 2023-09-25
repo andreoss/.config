@@ -58,6 +58,13 @@ in {
           ../hm/term.nix
           ../hm/work.nix
         ];
+        xsession = {
+          enable = true;
+          scriptPath = ".xsession";
+          windowManager.command = ''
+            exec ${pkgs.ratpoison}/bin/ratpoison
+          '';
+        };
       };
       systemd.services = {
         xsession = {
