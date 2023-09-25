@@ -25,6 +25,7 @@
         home.development = {
           perl.enable = true;
           java.enable = true;
+          js.enable = true;
           scala.enable = true;
           cxx.enable = true;
           haskell.enable = true;
