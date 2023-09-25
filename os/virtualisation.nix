@@ -1,5 +1,10 @@
 { config, ... }: {
   security.polkit.enable = true;
+  systemd.services.dockerd.environment = {
+    http_proxy = "";
+    https_proxy = "";
+    all_proxy = "";
+  };
   programs.extra-container.enable = true;
   virtualisation = {
     cri-o.enable = true;
