@@ -11,7 +11,7 @@ in {
   };
   config = {
     home = lib.mkIf cfg.enable {
-      packages = (with pkgs; [ nodejs_20 quick-lint-js rslint v8 ])
+      packages = (with pkgs; [ nodejs_18 quick-lint-js rslint v8 ])
         ++ (with pkgs.nodePackages; [
           eslint
           react-native-cli
@@ -20,6 +20,7 @@ in {
           typescript
           typescript-language-server
           yarn
+          pnpm
         ]);
     };
 
