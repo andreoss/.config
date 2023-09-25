@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ lib, pkgs, config, ... }: {
   system = { copySystemConfiguration = false; };
   services = {
     getty.extraArgs = [ "--nohostname" "--noissue" "--noclear" "--nohints" ];
@@ -33,4 +33,10 @@
   environment.etc."packages".text = builtins.toJSON
     (map (x: { "${x.name}" = x.meta or { }; })
       config.environment.systemPackages);
+  system.activationScripts = {
+    restart-journald.text = let path = lib.strings.makeBinPath [ pkgs.systemd ];
+    in ''
+      ${path}/systemctl restart systemd-journald
+    '';
+  };
 }
