@@ -14,7 +14,7 @@ in {
         fi
         PATH=$PATH:${inputs.dmenu.packages.x86_64-linux.dmenu}/bin
         export PATH
-        dwm &
+        while :; do eval $(dmenu </dev/null); done
         wait
       '';
     };
