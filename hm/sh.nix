@@ -15,6 +15,13 @@
       };
       man.enable = true;
       info.enable = true;
+      zsh = {
+        enable = true;
+        defaultKeymap = "viins";
+        autocd = true;
+        enableCompletion = true;
+        enableAutosuggestions = true;
+      };
     };
   };
 }
