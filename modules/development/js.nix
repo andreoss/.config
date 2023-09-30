@@ -11,8 +11,13 @@ in {
   };
   config = {
     home = lib.mkIf cfg.enable {
-      packages = (with pkgs; [ nodejs_18 quick-lint-js rslint v8 ])
-        ++ (with pkgs.nodePackages; [
+      packages = (with pkgs; [ nodejs_18 quick-lint-js rslint v8 mujs ])
+        ++ (with pkgs.elmPackages; [
+          elm
+          create-elm-app
+          elm-analyse
+          elm-coverage
+        ]) ++ (with pkgs.nodePackages; [
           eslint
           react-native-cli
           react-static
