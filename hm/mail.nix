@@ -49,6 +49,15 @@ in {
       };
     };
     systemd = lib.attrsets.optionalAttrs (x) {
+      user.services.mbsync = let
+        path = lib.strings.makeBinPath [
+          pkgs.isync
+          pkgs.pass
+          pkgs.gawk
+          pkgs.coreutils
+          pkgs.gnugrep
+        ];
+      in { Service = { Environment = [ "PATH=${path}" ]; }; };
       user.services.notmuch = let
         path = lib.strings.makeBinPath [
           pkgs.isync
