@@ -19,9 +19,6 @@ in {
           elm-coverage
         ]) ++ (with pkgs.nodePackages; [
           eslint
-          react-native-cli
-          react-static
-          react-tools
           typescript
           typescript-language-server
           yarn
