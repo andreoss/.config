@@ -16,7 +16,7 @@ let
     (mkJdk pkgs.adoptopenjdk-hotspot-bin-8 "JDK_8" "8")
     (mkJdk pkgs.adoptopenjdk-hotspot-bin-11 "JDK_11" "11")
     (mkJdk pkgs.openjdk11 "JDK_11_O" "11-o")
-    (mkJdk pkgs.graalvm17-ce "JDK_17" "17")
+    (mkJdk pkgs.graalvm-ce "JDK_GRAAL" "graal")
   ];
   variables = merge (map (x: x.sessionVariables) jdks) // {
     MAVEN_OPTS =
