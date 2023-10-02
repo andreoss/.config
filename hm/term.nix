@@ -24,6 +24,7 @@ in {
         "*color15" = white2;
         "*foreground" = white3;
       };
+    home.packages = with pkgs; [ mlterm tym ];
     home.file = {
       ".config/procps/toprc".source = ./../toprc;
       ".urxvt/ext/context".text =
