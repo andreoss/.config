@@ -13,9 +13,13 @@ let
       '';
     };
   jdks = [
-    (mkJdk pkgs.adoptopenjdk-hotspot-bin-8 "JDK_8" "8")
-    (mkJdk pkgs.adoptopenjdk-hotspot-bin-11 "JDK_11" "11")
-    (mkJdk pkgs.openjdk11 "JDK_11_O" "11-o")
+    (mkJdk pkgs.jdk "JDK_LATEST" "latest")
+    (mkJdk pkgs.jdk8 "JDK_8" "8")
+    (mkJdk pkgs.jdk11 "JDK_11" "11")
+    (mkJdk pkgs.jdk17 "JDK_17" "17")
+    (mkJdk pkgs.temurin-bin-8 "TEMURIN_JDK_8" "temurin-8")
+    (mkJdk pkgs.temurin-bin-11 "TEMURIN_JDK_11" "temurin-11")
+    (mkJdk pkgs.temurin-bin-17 "TEMURIN_JDK_17" "temurin-17")
     (mkJdk pkgs.graalvm-ce "JDK_GRAAL" "graal")
   ];
   variables = merge (map (x: x.sessionVariables) jdks) // {
