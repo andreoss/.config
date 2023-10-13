@@ -33,9 +33,26 @@ let
   };
 in {
   environment = {
+    variables.JAVAX_NET_SSL_TRUSTSTORE = "/etc/ssl/certs/java/keystore.jks";
     variables.SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+    variables.CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
+    etc."ssl/certs/java/keystore.jks".source = let
+      caBundle = config.environment.etc."ssl/certs/ca-bundle.crt".source;
+      p11kit = pkgs.p11-kit.overrideAttrs
+        (oldAttrs: { configureFlags = [ "--with-trust-paths=${caBundle}" ]; });
+    in derivation {
+      name = "java-cacerts";
+      builder = pkgs.writeShellScript "java-cacerts-builder" ''
+        ${p11kit.bin}/bin/trust \
+          extract \
+          --format=java-cacerts \
+          --purpose=server-auth \
+          $out
+      '';
+      system = pkgs.system;
+    };
     etc."ssl/proxy/cert.crt" = {
       text = builtins.readFile ../secrets/ssl/ca-cert.crt;
       user = "privoxy";
