@@ -65,26 +65,30 @@ in {
         keyMode = "vi";
         shortcut = "a";
         escapeTime = 50;
+        historyLimit = 1000000;
+        mouse = true;
+        aggressiveResize = true;
+        newSession = true;
         extraConfig = ''
-          set-option -g default-terminal "xterm-256color"
-          set  -g mouse             on
-          setw -g aggressive-resize on
 
           set-hook -g after-split-window 'selectp -T ""'
           set-hook -g after-new-window 'selectp -T ""'
           set-hook -g after-new-session 'selectp -T ""'
 
-          set-option -g set-titles on
-          set-option -g set-titles-string "#T / #S / #I #F #W"
+          set-option -g default-terminal "xterm-256color"
+          set-option        -g set-titles on
+          set-option        -g set-titles-string "#T / #S / #I #F #W"
+          set-window-option -g pane-border-status top
+          set-window-option -g pane-border-format '#T'
+          set -as terminal-overrides ',tmux*:Ms=\\E]52;%p1%s;%p2%s\\007'
+          set -as terminal-overrides ',screen*:Ms=\\E]52;%p1%s;%p2%s\\007'
 
           set-window-option -g automatic-rename on
-          set-option -g allow-rename on
+          set-option        -g allow-rename on
 
           set-window-option -g window-status-format         " #I #F #W"
           set-window-option -g window-status-current-format "→#I #F #W"
 
-          set -as terminal-overrides ',tmux*:Ms=\\E]52;%p1%s;%p2%s\\007'
-          set -as terminal-overrides ',screen*:Ms=\\E]52;%p1%s;%p2%s\\007'
           set -s set-clipboard on
 
           set -g status-style        fg=black,bg=darkgray
@@ -97,8 +101,6 @@ in {
           set -g status-right    '#(awk NF=3 /proc/loadavg)'
 
           set -g pane-active-border-style fg=black,bg=darkgray
-          set-window-option -g pane-border-status top
-          set-window-option -g pane-border-format '#T'
         '';
       };
       urxvt = {
@@ -121,7 +123,7 @@ in {
           "context.ssh.background " = "[90]${blue6}";
           "context.python.background" = "[90]${blue6}";
           "context.gdb.background" = "[90]${green4}";
-          "context.java.background" = "[90]${gray4}";
+          "context.java.background" = "[90]${blue6}";
           "context.vi.background" = "[90]${black2}";
           "background" = "[80]${black0}";
           "color0" = "[90]${black0}";
