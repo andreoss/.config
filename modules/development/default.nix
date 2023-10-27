@@ -29,6 +29,8 @@
       jo
       json2yaml
       kubernetes
+      kail
+      k9s
       lcov
       libxslt
       lsof
@@ -68,7 +70,6 @@
         google-cloud-sdk.components.cloud-build-local
         google-cloud-sdk.components.gke-gcloud-auth-plugin
       ]))
-      cloud-sql-proxy
       trivy
       mysql-workbench
       localstack
