@@ -13,7 +13,6 @@ let
       '';
     };
   jdks = [
-    (mkJdk pkgs.jdk "JDK_LATEST" "latest")
     (mkJdk pkgs.jdk8 "JDK_8" "8")
     (mkJdk pkgs.jdk11 "JDK_11" "11")
     (mkJdk pkgs.jdk17 "JDK_17" "17")
