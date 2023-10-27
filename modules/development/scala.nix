@@ -13,7 +13,7 @@ in {
     services.gnome-keyring.enable = true; # mysql-workbench
     programs.sbt = {
       enable = cfg.enable;
-      package = (pkgs.sbt.override { jre = pkgs.openjdk11; });
+      package = (pkgs.sbt.override { jre = pkgs.openjdk17; });
       plugins = [ ];
     };
     home = lib.mkIf cfg.enable {
