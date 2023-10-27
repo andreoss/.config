@@ -10,7 +10,7 @@
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
-      delta.enable = true;
+      difftastic.enable = true;
       userName = config.ao.primaryUser.handle;
       userEmail = config.ao.primaryUser.email;
       signing = {
@@ -39,6 +39,8 @@
         unstage = "reset HEAD -- ";
         xx = "reset HEAD";
         st = "status --short --branch";
+        cia = "commit --amend";
+        pufo = "push --force";
       };
       extraConfig = {
         pull.rebase = false;
