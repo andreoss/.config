@@ -4,6 +4,7 @@
     enable = true;
     configfile = ./../kbd;
     device = config.kbdDevice;
+    package = self.inputs.kmonad.packages.x86_64-linux.kmonad;
   };
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
@@ -14,9 +15,7 @@
   services.haveged.enable = true;
   programs.light.enable = true;
   programs.adb.enable = true;
-  services.udev.packages = [
-    pkgs.android-udev-rules
-  ];
+  services.udev.packages = [ pkgs.android-udev-rules ];
   hardware.acpilight.enable = true;
   services.acpid.enable = true;
   services.acpid.acEventCommands = ''
@@ -29,8 +28,8 @@
           ;;
     esac
   '';
-  services.throttled.enable  = true;
-  services.upower.enable  = true;
+  services.throttled.enable = true;
+  services.upower.enable = true;
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
   powerManagement.powerUpCommands = "${pkgs.acpilight}/bin/xbacklight -set 100";
