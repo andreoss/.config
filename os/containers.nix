@@ -19,6 +19,11 @@ in {
       security.wrappers = {
         firejail.source = "${pkgs.firejail.out}/bin/firejail";
       };
+      networking = { dns-crypt.enable = true; };
+      services.pipewire = {
+        enable = true;
+        systemWide = true;
+      };
       environment = {
         defaultPackages = with pkgs; [ ];
         systemPackages = with pkgs; [
@@ -28,7 +33,6 @@ in {
           python3Packages.avahi
           python3Packages.zeroconf
         ];
-        variables.PULSE_SERVER = "tcp:${host}:4713";
         etc = {
           inputrc.source = ../inputrc;
           issue.source = lib.mkOverride 0 (pkgs.writeText "issue" "");
@@ -40,7 +44,10 @@ in {
         "d /nix/var/nix/gcroots/per-user/${user} - ${user} - - -"
       ];
       home-manager.extraSpecialArgs = specialArgs;
-      imports = [ specialArgs.inputs.home-manager.nixosModule ];
+      imports = [
+        specialArgs.inputs.home-manager.nixosModule
+        specialArgs.inputs.dnscrypt-module.nixosModules.default
+      ];
       users.users."${user}" = {
         uid = cfg.primaryUser.uid;
         isNormalUser = true;
@@ -97,7 +104,7 @@ in {
             UtmpMode = "user";
             UnsetEnvirnment = "TERM";
             ExecStart =
-              "${pkgs.xorg.xorgserver}/bin/Xvfb :0 -screen 0 1600x1000x24";
+              "${pkgs.xorg.xorgserver}/bin/Xvfb :0 -screen 0 1300x700x24";
             Restart = "always";
             RestartSec = "3";
             Type = "idle";
