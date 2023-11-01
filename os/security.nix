@@ -23,19 +23,24 @@ in {
         options = [ "NOPASSWD" ];
       }];
     };
+    nopass = cmd: {
+      users = [ user ];
+      commands = [{
+        command = "/run/current-system/sw/bin/${cmd}";
+        options = [ "NOPASSWD" ];
+      }];
+    };
   in {
     enable = true;
     wheelNeedsPassword = true;
     extraConfig = "Defaults lecture=never";
     extraRules = [
-      (rule pkgs.coreutils "kill")
-      (rule pkgs.lsof "lsof")
-      (rule pkgs.openvpn "openvpn")
-      (rule pkgs.procps "pkill")
-      (rule pkgs.systemd "halt")
-      (rule pkgs.systemd "reboot")
-      (rule pkgs.systemd "systemctl")
-      (rule pkgs.util-linux "rfkill")
+      (nopass "kill")
+      (nopass "pkill")
+      (nopass "halt")
+      (nopass "reboot")
+      (nopass "systemctl")
+      (nopass "rfkill")
     ];
   };
 }
