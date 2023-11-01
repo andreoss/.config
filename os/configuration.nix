@@ -32,16 +32,14 @@
   };
   environment.etc."version".text = builtins.readFile
     (pkgs.runCommand "version" {
-      nativeBuildInputs = [ pkgs.gnutar pkgs.coreutils ];
-    } ''
-      tar cf - ${../.} | sha256sum > "$out"
-    '');
+      nativeBuildInputs = [ pkgs.coreutils pkgs.util-linux ];
+    } ''test -d ${../.} && uuidgen > "$out"'');
   environment.etc."packages".text = builtins.toJSON
     (map (x: { "${x.name}" = x.meta or { }; })
       config.environment.systemPackages);
   services.rsyslogd.enable = true;
-  services.journald.extraConfig = "Storage=volatile";
   services.journald.console = "/dev/tty2";
+  services.journald.extraConfig = "Storage=volatile";
   system.activationScripts = {
     restart-journald.text = let path = lib.strings.makeBinPath [ pkgs.systemd ];
     in "${path}/systemctl restart systemd-journald";
