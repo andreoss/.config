@@ -86,7 +86,7 @@ in {
           settings = mozilla-common-settings;
         };
 
-        package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+        package = pkgs.wrapFirefox pkgs.firefox-esr-unwrapped {
           extraPolicies = {
             NoDefaultBookmarks = true;
             DisableBuiltinPDFViewer = true;
