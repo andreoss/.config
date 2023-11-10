@@ -73,6 +73,7 @@
       trivy
       mysql-workbench
       localstack
+      turbovnc
     ];
   };
 }
