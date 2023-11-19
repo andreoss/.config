@@ -7,6 +7,7 @@
       userEmail = config.ao.primaryUser.email;
       package = pkgs.mercurialFull;
     };
+    programs.jujutsu = { enable = true; };
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
