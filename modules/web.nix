@@ -123,7 +123,9 @@ in {
                 "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim"
                 "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin"
                 "https://addons.mozilla.org/firefox/downloads/latest/umatrix"
+                "https://addons.mozilla.org/firefox/downloads/latest/tab-reloader"
                 "https://addons.mozilla.org/firefox/downloads/latest/windows-xp-internet-browser"
+                "https://addons.mozilla.org/firefox/downloads/lates/greasemonkey"
               ];
             };
             ExtensionSettings = {
