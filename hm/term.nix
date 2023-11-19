@@ -139,7 +139,7 @@ in {
           "keysym.M-f" = "perl:keyboard-select:search";
           "keysym.M-s" = "perl:keyboard-select:activate";
           "keysym.M-u" = "perl:url-select:select_next";
-          "letterSpace" = -1;
+          "letterSpace" = 0;
           "loginShell" = "true";
           "perl-ext-common" =
             "context,selection-to-clipboard,url-select,resize-font,keyboard-select";
