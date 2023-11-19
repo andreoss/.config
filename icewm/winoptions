@@ -1,4 +1,5 @@
 9menu.dTitleBar: 0
+Emacs.startMaximized: 1
 jetbrains-idea-ce.appTakesFocus: 1
 jetbrains-idea-ce.icon: java
 mpv.allWorkspaces: 1
