@@ -9,7 +9,10 @@
       "ru_RU.UTF-8/UTF-8"
     ];
     defaultLocale = "ru_RU.utf8";
-    extraLocaleSettings = { LC_MESSAGES = "en_GB.utf8"; };
+    extraLocaleSettings = {
+      LC_MESSAGES = "en_GB.utf8";
+      LC_TIME = "en_GB.utf8";
+    };
   };
   time.timeZone = "America/New_York";
   location = {
