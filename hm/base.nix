@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   config = {
     xdg.mimeApps = { enable = true; };
+    xdg.configFile."mimeapps.list".force = true;
     xdg.userDirs = {
       enable = true;
       createDirectories = true;
