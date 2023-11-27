@@ -36,8 +36,8 @@ in {
     };
     fonts = {
       fontDir = { enable = true; };
-      enableDefaultFonts = true;
-      enableGhostscriptFonts = true;
+      enableDefaultFonts = false;
+      enableGhostscriptFonts = false;
       fonts = with pkgs; [
         corefonts
         fixedsys-excelsior
