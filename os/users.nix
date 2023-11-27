@@ -53,7 +53,6 @@
       man-pages
       man-pages-posix
       mc
-      nvi
       psmisc
       stdmanpages
       wpa_supplicant_gui
