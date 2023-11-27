@@ -54,7 +54,6 @@ in {
         dig.dnsutils
         jwhois
         mtr
-        tdesktop
         monero-gui
         tor-browser-bundle-bin
       ];
