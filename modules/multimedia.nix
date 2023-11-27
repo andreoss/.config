@@ -12,6 +12,22 @@ in {
   };
   config = {
     home.file = lib.mkIf config.programs.mpv.enable {
+      ".local/bin/duration" = {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          set -e
+          __error() {
+                    >&2 echo "$*"
+                    exit 3
+          }
+          __duration() {
+             test -f "$1" || __error "file not found '$1'"
+             ffprobe -i "$1" -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal
+          }
+          __duration "$1"
+        '';
+      };
       ".local/bin/mpa" = {
         executable = true;
         text = ''
