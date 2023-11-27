@@ -77,6 +77,7 @@ in {
     networkmanager = { enable = lib.mkForce false; };
     enableIPv6 = lib.mkForce false;
     firewall = {
+      trustedInterfaces = [ "docker0" "br*" ];
       extraPackages = with pkgs; [ ipset ];
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
