@@ -14,6 +14,11 @@ in {
     };
   };
   config = {
+    home.activation = {
+      install-rakudo-modules = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        ${pkgs.zef}/bin/zef install Linenoise
+      '';
+    };
     home.packages = lib.optionals cfg.enable
       (with pkgs."perl${cfg.version}Packages";
         [
