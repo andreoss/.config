@@ -173,12 +173,13 @@
             ./hm/work.nix
             {
               home.development = {
-                perl.enable = true;
-                java.enable = true;
-                scala.enable = true;
-                js.enable = true;
                 cxx.enable = true;
                 haskell.enable = true;
+                java.enable = true;
+                js.enable = true;
+                perl.enable = true;
+                python.enable = true;
+                scala.enable = true;
               };
             }
             { home.multimedia.enable = false; }
