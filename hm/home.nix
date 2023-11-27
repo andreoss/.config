@@ -1,18 +1,7 @@
 { config, pkgs, lib, stdenv, self, ... }:
 let palette = import ../os/palette.nix;
 in {
-  nixpkgs.overlays = [
-    (self: super: {
-      heimdall = super.heimdall.overrideAttrs (old: {
-        src = pkgs.fetchFromGitHub {
-          owner = "deriamis";
-          repo = "Heimdall";
-          rev = "master";
-          sha256 = "sha256-b94W+uwgvPK5TZbMgijFin4kYH0llFajcbtoQdZpnYs=";
-        };
-      });
-    })
-  ];
+  nixpkgs.overlays = [ self.inputs.nur.overlay ];
   home.packages = with pkgs; [
     coreutils-full
     file
