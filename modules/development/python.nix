@@ -2,8 +2,7 @@
 let
   cfg = config.home.development.python;
   python3Plus = pkgs.python3.withPackages
-    (ps: with ps; [ pep8 ipython pandas pip meson seaborn pyqt5 tkinter ]);
-  python2Plus = pkgs.python27.withPackages (ps: with ps; [ pep8 pip ]);
+    (ps: with ps; [ pep8 ipython pandas pip meson tkinter ]);
 in {
   options = {
     home.development.python = with lib; {
@@ -15,7 +14,6 @@ in {
   };
 
   config = {
-    programs.matplotlib.enable = cfg.enable;
-    home.packages = lib.optionals cfg.enable [ python3Plus python2Plus ];
+    home.packages = lib.optionals cfg.enable [ python3Plus pkgs.virtualenv ];
   };
 }
