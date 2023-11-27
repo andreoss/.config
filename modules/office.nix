@@ -38,6 +38,7 @@ in {
         xlsxgrep
         zbar
         dmtx-utils
+        calibre
       ];
     };
     programs = {
