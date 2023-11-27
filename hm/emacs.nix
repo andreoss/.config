@@ -49,7 +49,7 @@
         '';
       };
       packages = with pkgs; [
-        nvi
+        zile
         coreutils-full
         (hunspellWithDicts [
           hunspellDicts.ru_RU
@@ -59,6 +59,6 @@
       ];
       sessionVariables = { EDITOR = "vi"; };
     };
-    services.emacs.enable = lib.mkForce true;
+    services.emacs.enable = lib.mkForce false;
   };
 }
