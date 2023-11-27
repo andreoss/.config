@@ -10,6 +10,8 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    nur.url = "github:nix-community/NUR";
+
     dmenu = {
       url = "github:andreoss/dmenu";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -88,6 +90,7 @@
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };
           overlays = [
+            inputs.nur.overlay
             inputs.emacs-d.overlays.default
             inputs.kernel-overlay.overlays.${system}.default
             (self: super:
