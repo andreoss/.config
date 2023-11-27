@@ -24,7 +24,7 @@ in {
         "*color15" = white2;
         "*foreground" = white3;
       };
-    home.packages = with pkgs; [ mlterm tym ];
+    home.packages = with pkgs; [ ];
     home.file = {
       ".config/procps/toprc".source = ./../toprc;
       ".urxvt/ext/context".text =
@@ -34,13 +34,6 @@ in {
         text = ''
           #!/bin/sh
           exec urxvtc "$@"
-        '';
-      };
-      ".local/bin/rxvts" = {
-        executable = true;
-        text = ''
-          #!/bin/sh
-          exec urxvtc -e screen -D -R -S "$\{1:-primary}" "$@"
         '';
       };
     };
