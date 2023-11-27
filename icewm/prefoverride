@@ -1,91 +1,37 @@
-TitleFontNameXft	   = "Terminus:size=8:bold"
-MenuFontNameXft	           = "Terminus:size=8"
-MinimizedWindowFontNameXft = "Terminus:size=8"
-ActiveButtonFontNameXft    = "Terminus:size=8"
-NormalButtonFontNameXft    = "Terminus:size=8"
-QuickSwitchFontNameXft     = "Terminus:size=8"
-ListBoxFontNameXft         = "Terminus:size=8"
-StatusFontNameXft          = "Terminus:size=8"
-ToolTipFontNameXft         = "Terminus:size=8"
-ActiveTaskBarFontNameXft   = "Terminus:size=8:bold"
-NormalTaskBarFontNameXft   = "Terminus:size=8"
-ClockFontNameXft           = "Terminus:size=8"
-ApmFontNameXft             = "Terminus:size=8"
-LabelFontNameXft           = "Terminus:size=8"
-
-TimeFormat="%c"
-TimeFormatAlt="%x %-I:%M"
-DateFormat="%W/%j %c %Z"
-
-AllowFullscreen=1
-Alpha=1
-
-CenterLarge=1
-CenterTransientsOnOwner=1
-
-CornerSizeX=30
-CornerSizeY=30
-
-SmartPlacement=1
-EdgeSwitch=0
+LockCommand="physlock"
+WorkspaceNames=" ", " ", " ", " ", " ",  " "
 GrabRootWindow=0
+
 KeySysShowDesktop="Super+d"
 KeySysTileHorizontal="Super+F3"
 KeySysTileVertical="Super+F2"
-KeyTileRight="Super+Right"
-KeyWinArrangeE="Super+Right"
-KeyWinArrangeW="Super+Left"
-LockCommand="physlock"
-MenuMouseTracking=1
-OpaqueMove=0
-OpaqueResize=0
-QuickSwitchFillSelection=1
-QuickSwitchToUrgent=1
-ShowEllipsis = 1
-ShowProgramsMenu=0
-SmartPlacement=1
-TaskBarAtTop=1
-TaskBarAutoHide=0
-TaskBarMailboxStatusBeepOnNewMail=0
-TaskBarShowAllWindows=0
-TaskBarShowAPMAuto=0
-TaskBarShowAPMGraph=0
-TaskBarShowAPMStatus=0
-TaskBarShowAPMStatus=0
-TaskBarShowAPMTime=0
-TaskBarShowAPMTime=0
-TaskBarShowClock=1
-TaskBarShowCollapseButton=0
-TaskBarShowCPUStatus = 0
 
-TaskBarShowMailboxStatus=0
-TaskBarShowMailboxStatus=0
+ActiveButtonFontNameXft    = "Sans:size=8"
+ActiveTaskBarFontNameXft   = "Sans:size=8:bold"
+ApmFontNameXft             = "Sans:size=8"
+ClockFontNameXft           = "Sans:size=8"
+LabelFontNameXft           = "Sans:size=8"
+ListBoxFontNameXft         = "Sans:size=8"
+MenuFontNameXft	           = "Sans:size=8"
+MinimizedWindowFontNameXft = "Sans:size=8"
+NormalButtonFontNameXft    = "Sans:size=8"
+NormalTaskBarFontNameXft   = "Sans:size=8"
+QuickSwitchFontNameXft     = "Sans:size=8"
+StatusFontNameXft          = "Sans:size=8"
+TitleFontNameXft	   = "Sans:size=8:bold"
+ToolTipFontNameXft         = "Sans:size=8"
+
+CornerSizeX=30
+CornerSizeY=30
+TimeFormat="%-I:%M %P"
+
+TaskBarShowAPMStatus=0
+TaskBarShowShowDesktopButton=0
+TaskBarShowAPMGraph=0
 TaskBarShowMailboxStatus=0
 TaskBarShowMEMStatus = 0
+TaskBarShowApmStatus = 0
 TaskBarShowNetStatus = 0
-TaskBarShowShowDesktopButton=0
 TaskBarShowStartMenu = 0
-TaskBarShowTray=1
-TaskBarShowWindowIcons=1
-TaskBarShowWindowListMenu=1
-TaskBarShowWindows=1
-TaskBarTaskGrouping = 0
-TaskBarWorkspacesLeft=1
-VerticalEdgeSwitch=0
-WarpPointer=1
 
-WorkspaceNames=" ", " ", " ", " ", " ",  " "
-
-EnableAddressBar=0
-ShowAddressBar=0
-
-KeySysCascade="Super+Alt+F4"
-KeySysArrange="Super+Alt+F5"
-KeySysUndoArrange="Super+Alt+F7"
-KeySysArrangeIcons="Super+Alt+F8"
-
-ColorClock="rgb:D4/D0/C8"
-ColorClockText="rgb:00/00/00"
-TaskBarClockLeds=0
-TaskBarShowShowDesktopButton=0
-TaskBarShowWindowListMenu=0
+PagerShowWindowIcons = 0

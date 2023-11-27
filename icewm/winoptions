@@ -1,8 +1,10 @@
 9menu.dTitleBar: 0
 Emacs.startMaximized: 1
+emacs.startMaximized: 1
 jetbrains-idea-ce.appTakesFocus: 1
 jetbrains-idea-ce.icon: java
-mpv.allWorkspaces: 1
+firefox.icon: webbrowser
+mpv.allWorkspaces: 0
 mpv.dTitleBar: 0
 Pinentry.allWorkspaces: 1
 Pinentry.dTitleBar: 0
