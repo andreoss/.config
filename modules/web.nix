@@ -83,63 +83,167 @@ in {
           id = 0;
           extraConfig = builtins.readFile "${inputs.user-js}/user.js";
           settings = mozilla-common-settings;
-        };
+          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+            ublock-origin
+            umatrix
+            decentraleyes
+            i-auto-fullscreen
+            browserpass
+            bypass-paywalls-clean
+            localcdn
+            temporary-containers
+            tridactyl
+            istilldontcareaboutcookies
+          ];
+          containers = {
+            "Work I" = {
+              color = "blue";
+              icon = "briefcase";
+              id = 1;
+            };
+            "Work II" = {
+              color = "red";
+              icon = "briefcase";
+              id = 2;
+            };
+            "Work III" = {
+              color = "purple";
+              icon = "briefcase";
+              id = 3;
+            };
+            "Work IV" = {
+              color = "yellow";
+              icon = "briefcase";
+              id = 5;
+            };
+            "Edu" = {
+              color = "yellow";
+              icon = "chill";
+              id = 6;
+            };
+            Dangerous = {
+              color = "red";
+              icon = "fruit";
+              id = 1000;
+            };
+          };
+          search = {
+            force = true;
+            order = [ "DuckDuckGo" ];
+            default = "DuckDuckGo";
+            engines = {
+              "Nix Packages" = {
+                urls = [{
+                  template = "https://search.nixos.org/packages";
+                  params = [
+                    {
+                      name = "type";
+                      value = "packages";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }];
+                icon =
+                  "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = [ "@np" ];
+              };
 
-        package = pkgs.wrapFirefox pkgs.firefox-esr-unwrapped {
-          extraPolicies = {
-            NoDefaultBookmarks = true;
-            DisableBuiltinPDFViewer = true;
-            PDFjs = { Enabled = false; };
-            Permissions = { Locked = true; };
-            PictureInPicture = {
-              Enabled = false;
-              Locked = true;
             };
-            CaptivePortal = false;
-            DisableFeedbackCommands = true;
-            DisableFirefoxAccounts = true;
-            DisableFirefoxScreenshots = true;
-            DisableFirefoxStudies = true;
-            DisableForgetButton = true;
-            DisableFormHistory = true;
-            DisableMasterPasswordCreation = true;
-            DisablePasswordReveal = true;
-            DisablePocket = true;
-            DisablePrivateBrowsing = true;
-            DisableProfileImport = true;
-            DisableProfileRefresh = true;
-            DisableSafeMode = true;
-            DisableSetDesktopBackground = true;
-            DisableSystemAddonUpdate = true;
-            DisableTelemetry = true;
-            ManagedBookmarks = [ ];
-            Bookmarks = [ ];
-            "Extensions" = {
-              "Install" = [
-                "https://addons.mozilla.org/firefox/downloads/latest/browserpass-ce"
-                "https://addons.mozilla.org/firefox/downloads/latest/containerise"
-                "https://addons.mozilla.org/firefox/downloads/latest/decentraleyes"
-                "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim"
-                "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin"
-                "https://addons.mozilla.org/firefox/downloads/latest/umatrix"
-                "https://addons.mozilla.org/firefox/downloads/latest/tab-reloader"
-                "https://addons.mozilla.org/firefox/downloads/latest/windows-xp-internet-browser"
-                "https://addons.mozilla.org/firefox/downloads/lates/greasemonkey"
-              ];
-            };
-            ExtensionSettings = {
-              "*" = { installation_mode = "force_installed"; };
-            };
-            NetworkPrediction = false;
-            NewTabPage = false;
-            OfferToSaveLogins = false;
-            PasswordManagerEnabled = false;
-            SanitizeOnShutdown = true;
-            SearchEngines = {
-              Default = "DuckDuckGo";
-              Remove = [ "Google" "Bing" "Amazon.com" ];
-              Add = [ ];
-            };
+          };
+          bookmarks = [
+            {
+              name = "wikipedia";
+              tags = [ "wiki" ];
+              keyword = "wiki";
+              url =
+                "https://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go";
+            }
+            {
+              name = "kernel.org";
+              url = "https://www.kernel.org";
+            }
+          ];
+        };
+        package = pkgs.firefox-esr;
+        policies = {
+          SearchBar = "separate";
+          AppUpdateURL = "file:///dev/null";
+          CaptivePortal = false;
+          NoDefaultBookmarks = true;
+          DisableBuiltinPDFViewer = true;
+          PDFjs = { Enabled = false; };
+          Permissions = { Locked = true; };
+          PictureInPicture = {
+            Enabled = false;
+            Locked = true;
+          };
+          DisableFeedbackCommands = true;
+          DisableFirefoxAccounts = true;
+          DisableFirefoxScreenshots = true;
+          DisableFirefoxStudies = true;
+          DisableForgetButton = true;
+          DisableFormHistory = true;
+          DisableMasterPasswordCreation = true;
+          DisablePasswordReveal = true;
+          DisablePocket = true;
+          DisablePrivateBrowsing = true;
+          DisableProfileImport = true;
+          DisableProfileRefresh = true;
+          DisableSafeMode = true;
+          DisableSetDesktopBackground = true;
+          DisableSystemAddonUpdate = true;
+          DisableTelemetry = true;
+          ManagedBookmarks = [ ];
+          Bookmarks = [ ];
+          Extensions = {
+            "Uninstall" = [
+              "google@search.mozilla.org"
+              "bing@search.mozilla.org"
+              "amazondotcom@search.mozilla.org"
+              "ebay@search.mozilla.org"
+              "twitter@search.mozilla.org"
+            ];
+            "Install" = [
+              "https://addons.mozilla.org/firefox/downloads/latest/browserpass-ce"
+              "https://addons.mozilla.org/firefox/downloads/latest/containerise"
+              "https://addons.mozilla.org/firefox/downloads/latest/decentraleyes"
+              "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim"
+              "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin"
+              "https://addons.mozilla.org/firefox/downloads/latest/umatrix"
+              "https://addons.mozilla.org/firefox/downloads/latest/tab-reloader"
+              "https://addons.mozilla.org/firefox/downloads/latest/windows-xp-internet-browser"
+              "https://addons.mozilla.org/firefox/downloads/latest/greasemonkey"
+            ];
+          };
+          ExtensionSettings = {
+            "*" = { installation_mode = "force_installed"; };
+          };
+          NetworkPrediction = false;
+          NewTabPage = false;
+          OverrideFirstRunPage = "";
+          OfferToSaveLogins = false;
+          PasswordManagerEnabled = false;
+          SanitizeOnShutdown = true;
+          SearchEngines = {
+            PreventInstalls = true;
+            Default = "DuckDuckGo";
+            Remove =
+              [ "Google" "Bing" "Amazon.com" "Amazon.es" "eBay" "Twitter" ];
+            Add = [ ];
+          };
+          FirefoxSuggest = {
+            "WebSuggestions" = false;
+            "SponsoredSuggestions" = false;
+            "ImproveSuggest" = false;
+            "Locked" = true;
+          };
+          Homepage = {
+            Locked = true;
+            URL = "https://lobste.rs";
+            StartPage = "homepage-locked";
           };
         };
       };
