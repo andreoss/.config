@@ -86,6 +86,7 @@
         import nixpkgs {
           inherit system;
           config = {
+            joypixels.acceptLicense = true;
             allowUnfree = true;
             permittedInsecurePackages = [ "mupdf-1.17.0" ];
           };

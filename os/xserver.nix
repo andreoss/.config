@@ -39,7 +39,14 @@ in {
       enableDefaultFonts = false;
       enableGhostscriptFonts = false;
       fonts = with pkgs; [
-        corefonts
+        _3270font
+        julia-mono
+        hermit
+        intel-one-mono
+        maple-mono
+        martian-mono
+        mno16
+        joypixels
         fixedsys-excelsior
         terminus_font
         terminus_font_ttf
@@ -55,6 +62,7 @@ in {
           monospace = [ "Terminus" ];
           sansSerif = [ "Terminus" ];
           serif = [ "Terminus" ];
+          emoji = [ "Unifont" ];
         };
       };
     };
