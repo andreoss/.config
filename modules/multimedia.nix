@@ -98,7 +98,9 @@ in {
     programs.yt-dlp = {
       enable = cfg.enable;
       settings = {
-        convert-subs = "srt";
+        downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
+        downloader = "aria2c";
+        compat-options = "no-certifi";
         embed-chapters = true;
         embed-info-json = true;
         embed-metadata = true;
@@ -109,14 +111,10 @@ in {
         mtime = true;
         no-part = true;
         retries = 50;
-        sub-langs = "all";
+        sub-langs = "(fr|en|es|pt|ru).*";
         windows-filenames = true;
         write-auto-sub = true;
         write-sub = true;
-        compat-options = "no-certifi";
-      } // lib.mkIf config.programs.aria2.enable {
-        downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
-        downloader = "aria2c";
       };
     };
   };
