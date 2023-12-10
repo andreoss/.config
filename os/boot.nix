@@ -72,7 +72,7 @@ in {
   };
   console = {
     packages = [ pkgs.uw-ttyp0 ];
-    font = "t0-12b-uni";
+    font = "t0-18b-uni";
     colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
       (with palette; [
         black1
