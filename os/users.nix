@@ -20,6 +20,7 @@
   users.groups.input.members = [ config.ao.primaryUser.name ];
   users.groups.video.members = [ config.ao.primaryUser.name ];
   users.groups.uinput.members = [ config.ao.primaryUser.name ];
+  users.groups.disk.members = [ config.ao.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
