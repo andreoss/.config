@@ -27,11 +27,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    guix-overlay = {
-      url = "github:foo-dogsquared/nix-overlay-guix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -131,15 +126,14 @@
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
             inputs.home-manager.nixosModule
-            inputs.guix-overlay.nixosModules.guix
             inputs.hosts.nixosModule
             { networking.stevenBlackHosts.enable = true; }
             { networking.hostName = host.hostname; }
-            { services.guix.enable = false; }
 
           ] ++ host.modules ++ [
             ./os/hm.nix
             ./os/nix.nix
+            ./os/guix.nix
             ./os/configuration.nix
             ./os/hw.nix
             ./os/security.nix
