@@ -39,13 +39,12 @@ in {
         zbar
         dmtx-utils
         calibre
+        libreoffice
+        texlive.combined.scheme-full
+        poppler_utils
       ];
     };
     programs = {
-      texlive = {
-        enable = true;
-        packageSet = pkgs.texlive;
-      };
       sioyek.enable = config.xsession.enable;
       zathura = {
         enable = config.xsession.enable;
@@ -56,8 +55,8 @@ in {
         options = {
           selection-clipboard = "clipboard";
           sandbox = "strict";
-          default-bg = palette.white2;
-          default-fg = palette.black1;
+          default-bg = palette.white3;
+          default-fg = palette.black2;
         };
       };
     };
