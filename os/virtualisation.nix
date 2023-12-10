@@ -6,6 +6,7 @@
     all_proxy = "";
   };
   programs.extra-container.enable = true;
+  systemd.services.docker = { serviceConfig = { LimitNOFILE = 65536; }; };
   virtualisation = {
     cri-o.enable = true;
     kvmgt.enable = !config.mini;
