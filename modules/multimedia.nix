@@ -79,11 +79,22 @@ in {
     programs.ncmpcpp = { enable = cfg.enable; };
     programs.mpv = {
       enable = cfg.enable;
+      bindings = {
+        "Alt+0" = "set window-scale 0.5";
+        "ALT+j" = "add sub-scale +0.1";
+        "ALT+k" = "add sub-scale -0.1";
+        WHEEL_DOWN = "seek -10";
+        WHEEL_UP = "seek 10";
+      };
       config = {
-        save-position-on-quit = true;
         osc = "yes";
+        osd-color = palette.blue4;
+        sub-color = palette.white4;
+        sub-shadow-color = palette.black2;
         osd-font-size = 24;
-        osd-color = palette.white2;
+        save-position-on-quit = true;
+        sub-border-size = 1;
+        sub-shadow-offset = 2;
       };
       scripts = with pkgs.mpvScripts; [ mpris ];
     };
