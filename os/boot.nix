@@ -52,14 +52,16 @@ in {
     blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
     initrd = {
       kernelModules = [
-        "usb_storage"
-        "uas"
-        "nvme"
-        "xhci_pci"
         "ahci"
-        "usbhid"
+        "amdgpu"
+        "nvme"
         "sd_mod"
         "sr_mod"
+        "uas"
+        "usbhid"
+        "usb_storage"
+        "vfio-pci"
+        "xhci_pci"
       ];
       verbose = true;
     };
