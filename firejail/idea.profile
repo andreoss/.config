@@ -9,6 +9,7 @@ noblacklist ${HOME}/.local/share/JetBrains
 noblacklist ${HOME}/.tooling
 noblacklist ${HOME}/.m2
 noblacklist ${HOME}/.java
+noblacklist ${HOME}/.ivy2
 noblacklist ${HOME}/.jdk
 noblacklist ${HOME}/.sbt
 noblacklist ${HOME}/.gradle
