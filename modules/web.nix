@@ -56,6 +56,7 @@ in {
         mtr
         monero-gui
         tor-browser-bundle-bin
+        ungoogled-chromium
       ];
     };
     programs = {
@@ -89,7 +90,6 @@ in {
             decentraleyes
             i-auto-fullscreen
             browserpass
-            bypass-paywalls-clean
             localcdn
             temporary-containers
             tridactyl
