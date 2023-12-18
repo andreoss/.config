@@ -66,11 +66,36 @@ in {
       mode = "0400";
     };
   };
+
+  services.kea.dhcp4 = {
+    enable = true;
+    settings = {
+      interfaces-config = { interfaces = [ "virbr0" ]; };
+      subnet4 = [{
+        pools = [{ pool = "203.0.113.100 - 203.0.113.240"; }];
+        subnet = "203.0.113.0/24";
+      }];
+      option-data = [{
+        "name" = "routers";
+        "data" = "203.0.113.1";
+      }];
+      valid-lifetime = 4000;
+    };
+  };
   networking = {
     dns-crypt.enable = true;
+    bridges = { virbr0 = { interfaces = [ ]; }; };
+    interfaces = {
+      virbr0 = {
+        ipv4.addresses = [{
+          address = "203.0.113.1";
+          prefixLength = 24;
+        }];
+      };
+    };
     nat = {
       enable = true;
-      internalInterfaces = [ "ve-+" ];
+      internalInterfaces = [ "ve-+" "virbr0" ];
       externalInterface = "tun0";
     };
     timeServers = [ ];
