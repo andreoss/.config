@@ -32,8 +32,12 @@
   };
   environment.etc."version".text = builtins.readFile
     (pkgs.runCommand "version" {
-      nativeBuildInputs = [ pkgs.coreutils pkgs.util-linux ];
-    } ''test -d ${../.} && uuidgen > "$out"'');
+      nativeBuildInputs = [ pkgs.coreutils pkgs.util-linux pkgs.git ];
+    } ''
+      cd ${../.}
+      date --iso-8601         >> $out
+      tar cf - . | sha256sum  >> $out
+    '');
   environment.etc."packages".text = builtins.toJSON
     (map (x: { "${x.name}" = x.meta or { }; })
       config.environment.systemPackages);
