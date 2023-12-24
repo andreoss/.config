@@ -26,8 +26,8 @@ in {
     services.sxhkd = {
       enable = config.xsession.enable;
       keybindings = {
-        "alt + slash" = "rofi -show-icons -show combi";
-        "ctrl + alt + slash" = "rofi -show-icons -show filebrowser";
+        "alt + slash" = "dbus-launch rofi -show-icons -show combi";
+        "ctrl + alt + slash" = "dbus-launch rofi -show-icons -show filebrowser";
         "alt + BackSpace" =
           "${inputs.dmenu.packages.x86_64-linux.dmenu}/bin/dmenu_run";
       };
