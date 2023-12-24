@@ -77,6 +77,20 @@ in {
       interfaces-config = { interfaces = [ "virbr0" ]; };
       subnet4 = [{
         pools = [{ pool = "203.0.113.100 - 203.0.113.250"; }];
+        reservations = [
+          {
+            "hw-address" = "00:00:00:00:00:00";
+            "ip-address" = "203.0.113.100";
+          }
+          {
+            "hw-address" = "00:00:00:00:00:01";
+            "ip-address" = "203.0.113.101";
+          }
+          {
+            "hw-address" = "00:00:00:00:00:02";
+            "ip-address" = "203.0.113.102";
+          }
+        ];
         subnet = "203.0.113.0/24";
       }];
       option-data = [{
