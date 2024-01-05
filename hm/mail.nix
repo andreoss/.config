@@ -27,6 +27,7 @@ in {
       };
     };
     home = {
+      packages = with pkgs; [ rss2email ];
       file.".config/davmail-base.properties" = {
         text = ''
           davmail.server=true
