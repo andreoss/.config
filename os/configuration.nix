@@ -26,7 +26,6 @@
   systemd = {
     oomd = {
       enable = true;
-      enableUserServices = true;
       extraConfig = { DefaultMemoryPressureDurationSec = "20s"; };
     };
   };
