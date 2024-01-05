@@ -147,42 +147,6 @@
           ];
         };
     in rec {
-      homeConfigurations = {
-        imports = [ ./config.nix ];
-        "a" = home-manager.lib.homeManagerConfiguration {
-          pkgs = legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs self; };
-          modules = [
-            ./modules/development
-            ./modules/multimedia.nix
-            ./modules/web.nix
-            ./modules/office.nix
-            ./hm/base.nix
-            ./hm/home.nix
-            # ./hm/mail.nix
-            ./hm/emacs.nix
-            ./hm/sh.nix
-            ./hm/term.nix
-            ./hm/xsession-base.nix
-            ./hm/xsession.nix
-            ./hm/work.nix
-            {
-              home.development = {
-                cxx.enable = true;
-                haskell.enable = true;
-                java.enable = true;
-                js.enable = true;
-                perl.enable = true;
-                python.enable = true;
-                scala.enable = true;
-              };
-            }
-            { home.multimedia.enable = false; }
-            { home.web.enable = false; }
-            { home.office.enable = false; }
-          ];
-        };
-      };
       nixosConfigurations.tx = mkSystem {
         hostname = "tx";
         modules = [
