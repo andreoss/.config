@@ -30,6 +30,7 @@
   esctl    (tap-hold-next 200 esc lctl)
   rectl    (tap-hold-next 200 ret rctl)
   altab    (tap-hold      200 tab lalt)
+  altspc    (tap-hold      200 spc lalt)
   altslash (tap-hold      200 \   lalt)
 
   ;; Home row
@@ -37,43 +38,44 @@
   /s (tap-hold 200 s lalt)
   /d (tap-hold 200 d lmet)
   /f (tap-hold 200 f lsft)
-  ;;
-  /j j ;;(tap-hold      200 j rctl)
-  /k k ;;(tap-hold      200 k ralt)
+  /j j ;;(tap-hold      200 j ratl)
+  /k k ;;(tap-hold      200 k rctr)
   /l l ;;(tap-hold      200 l rmet)
-  /; (tap-hold-next 800 ; :)
-
-  // (tap-hold 200 / rsft)
-  /z (tap-hold 200 z lsft)
-
-  /4  (tap-hold-next 1200 4 #(S-4))
-  /5 (tap-hold-next 1200 5 #(S-5))
-  /6  (tap-hold-next 1200 6 #(S-6))
-  /9  (tap-hold-next 1200 9 \()
-  /0  (tap-hold-next 1200 0 \))
+  /; (tap-hold 800 ; :)
+  /, (tap-hold 800 , .)
+  /. (tap-hold 800 . |)
+  //  (tap-hold 200 / rsft)
+  /z  (tap-hold 200 z lsft)
+  /1  (tap-hold 1200 1 #(S-1))
+  /2  (tap-hold 1200 2 #(S-2))
+  /3  (tap-hold 1200 3 #(S-3))
+  /4  (tap-hold 1200 4 #(S-4))
+  /5  (tap-hold 1200 5 #(S-5))
+  /6  (tap-hold 1200 6 #(S-6))
+  /9  (tap-hold 1200 9 \()
+  /0  (tap-hold 1200 0 \))
 
   fn1 (tap-next-release lctl (layer-toggle fn1))
-
   /n  (tap-hold-next-release 200 n (layer-next castellano))
   cap (layer-next castellanocaps)
 )
 
+
 (deflayer qwerty
      lmet     f1    f2      f3   f4   f5   f6   f7   f8   f9   f10  f11  f12   prnt ins  del
-     grv      1     2       3  @/4    @/5  @/6    7    8   @/9  @/0    -    =   bspc
+     grv      @/1     @/2       @/3  @/4    @/5  @/6    7    8   @/9  @/0    -    =   bspc
      @altab   q     w       e    r    t    y    u    i    o    p    [    ]    @altslash
      @esctl   @/a @/s     @/d  @/f    g    h  @/j  @/k  @/l    @/;    '       @rectl
-     lsft     @/z   x       c    v    b  @/n    m    ,    .    @//  rsft
-     @fn1     lmet  lalt    spc                   ralt    @fn1      left up   down rght
+     lsft     @/z   x       c    v    b  @/n    m    @/,    @/.    @//  rsft
+     @fn1     lmet  lalt    @altspc            ralt    @fn1      left up   down rght
 )
-
 
 (deflayer castellano
 _      _  _  _  _  _  _  _  _  _  _  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _  _  _  _
-@cap   _  _  _  _  _  ñ  _  _  _  _  @cap
+@cap   _  _  ç  _  _  ñ  _  _  _  _  @cap
 _      _  _  _  _  _  _  _  _  _
 )
 
@@ -82,15 +84,15 @@ _      _  _  _  _  _  _  _  _  _  _  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _  _  _  _
-_      _  _  _  _  _  Ñ  _  _  _  _  _
+_      _  _  Ç  _  _  Ñ  _  _  _  _  _
 _      _  _  _  _  _  _  _  _  _
 )
 
 (deflayer fn1
   _    _    _    _    _    _    _    _    _    _     _    _    _    _  _ _
   _    f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12  del
-  _    q    w    e    r    t    y    u    ins  o     p    [    ]    \
-  _    a    s    d    f    esc  left down up   right ;    '    ret
+  _    home    up     end    r    t    y    u    ins  o     p    [    ]    \
+  _    left    down   right    f    esc  left down up   right ;    '    ret
   lsft z    x    c    v    b    home end  pgup  pgdn     /    rsft
   lctl      lmet lalt spc                 ralt rctl      left up   down rght
   )
