@@ -19,11 +19,6 @@
     };
     home.sessionVariables = { WLR_NO_HARDWARE_CURSORS = 1; };
     programs.ssh = { enable = true; };
-    programs.keychain = {
-      enable = true;
-      enableBashIntegration = true;
-    };
-    programs.gpg.enable = true;
     programs.password-store = {
       enable = true;
       package = pkgs.pass.withExtensions (exts: [
@@ -33,12 +28,22 @@
         exts.pass-genphrase
       ]);
     };
+    programs.keychain = {
+      enable = true;
+      enableBashIntegration = true;
+    };
+    programs.gpg = { enable = true; };
     services.gpg-agent = {
       grabKeyboardAndMouse = true;
       enable = true;
-      defaultCacheTtl = 7200;
       enableSshSupport = true;
-      pinentryFlavor = "gtk2";
+      enableExtraSocket = true;
+      pinentryFlavor = "qt";
+      maxCacheTtl = 24 * 60 * 60;
+      extraConfig = ''
+        allow-emacs-pinentry
+        allow-loopback-pinentry
+      '';
     };
     systemd.user.startServices = true;
     systemd.user.servicesStartTimeoutMs = 10000;
