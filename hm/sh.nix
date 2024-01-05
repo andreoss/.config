@@ -5,6 +5,14 @@
       sessionVariables.NO_COLOR = "true";
     };
     programs = {
+      keychain = {
+        enable = true;
+        enableBashIntegration = true;
+        enableXsessionIntegration = true;
+        extraFlags = [ "--quiet" ];
+        agents = [ "ssh" ];
+        keys = [ "id_rsa" ];
+      };
       bash = {
         enable = true;
         initExtra = builtins.readFile ../shrc;
