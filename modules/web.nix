@@ -70,7 +70,7 @@ in {
       };
       browserpass = {
         enable = cfg.enable && config.programs.password-store.enable;
-        browsers = [ "brave" "chromium" "firefox" "librewolf" ];
+        browsers = lib.mkForce [ "brave" "chromium" "firefox" "librewolf" ];
       };
       librewolf = {
         enable = cfg.enable;
@@ -116,10 +116,15 @@ in {
               icon = "briefcase";
               id = 5;
             };
-            "Edu" = {
+            Edu = {
               color = "yellow";
               icon = "chill";
               id = 6;
+            };
+            Media = {
+              color = "red";
+              icon = "chill";
+              id = 7;
             };
             Dangerous = {
               color = "red";
