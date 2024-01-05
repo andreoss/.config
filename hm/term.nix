@@ -68,7 +68,7 @@ in {
           set-hook -g after-new-window 'selectp -T ""'
           set-hook -g after-new-session 'selectp -T ""'
 
-          set-option -g default-terminal "xterm-256color"
+          set-option        -g default-terminal "xterm-256color"
           set-option        -g set-titles on
           set-option        -g set-titles-string "#T / #S / #I #F #W"
           set-window-option -g pane-border-status top
