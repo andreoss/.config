@@ -28,10 +28,6 @@
         exts.pass-genphrase
       ]);
     };
-    programs.keychain = {
-      enable = true;
-      enableBashIntegration = true;
-    };
     programs.gpg = { enable = true; };
     services.gpg-agent = {
       grabKeyboardAndMouse = true;
