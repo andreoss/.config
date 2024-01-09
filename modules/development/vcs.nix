@@ -34,6 +34,9 @@
         l = "log --graph --oneline --abbrev-commit --decorate=short";
         me = "merge";
         pu = "pull";
+        pl = "pull";
+        ps = "push";
+        pf = "push --force";
         pure = "pull --rebase";
         ri = "rebase --interactive";
         spull = "!git stash && git pull && git stash pop";
