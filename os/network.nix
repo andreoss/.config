@@ -31,28 +31,28 @@ let
     environmentFile = pkgs.writeShellScript "secrets.env"
       (builtins.readFile ../secrets/network.env);
   };
+  keystore = "/etc/ssl/certs/java/keystore.jks";
 in {
+  system.activationScripts = {
+    generate-keystore-jks.text = let
+      path =
+        lib.strings.makeBinPath [ pkgs.systemd pkgs.p11-kit pkgs.coreutils ];
+    in ''
+      PATH="$PATH:${path}"
+      rm --force ${keystore}
+      trust \
+        extract \
+        --format=java-cacerts \
+        --purpose=server-auth \
+        ${keystore}
+    '';
+  };
   environment = {
-    variables.JAVAX_NET_SSL_TRUSTSTORE = "/etc/ssl/certs/java/keystore.jks";
+    systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
+    variables.JAVAX_NET_SSL_TRUSTSTORE = keystore;
     variables.SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
-    systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
-    etc."ssl/certs/java/keystore.jks".source = let
-      caBundle = config.environment.etc."ssl/certs/ca-bundle.crt".source;
-      p11kit = pkgs.p11-kit.overrideAttrs
-        (oldAttrs: { configureFlags = [ "--with-trust-paths=${caBundle}" ]; });
-    in derivation {
-      name = "java-cacerts";
-      builder = pkgs.writeShellScript "java-cacerts-builder" ''
-        ${p11kit.bin}/bin/trust \
-          extract \
-          --format=java-cacerts \
-          --purpose=server-auth \
-          $out
-      '';
-      system = pkgs.system;
-    };
     etc."ssl/proxy/cert.crt" = {
       text = builtins.readFile ../secrets/ssl/ca-cert.crt;
       user = "privoxy";
