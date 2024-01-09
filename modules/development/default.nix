@@ -36,7 +36,6 @@
       lsof
       mariadb-client
       minikube
-      minishift
       nil
       ninja
       nix
@@ -44,7 +43,6 @@
       nix-tree
       nodePackages_latest.bash-language-server
       openshift
-      packer
       postgresql
       pgtop
       psmisc
