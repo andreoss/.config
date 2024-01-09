@@ -7,7 +7,6 @@ in {
     file
     oathToolkit
     openvpn
-    packer
     rsync
     screen
     (hunspellWithDicts [
