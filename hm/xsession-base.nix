@@ -103,7 +103,6 @@ in {
       luculent
       paratype-pt-mono
       recursive
-      rox-filer
       sudo-font
       terminus_font
       terminus_font_ttf
@@ -119,6 +118,7 @@ in {
       xorg.xkill
       xorg.xwd
       xpra
+      pcmanfm
     ]);
     home.sessionVariables = lib.mkIf config.xsession.enable {
       XDG_SESSION_PATH = "";
