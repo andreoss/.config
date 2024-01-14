@@ -16,7 +16,7 @@ in {
     home = {
       packages = with pkgs; [ roswell sbcl babashka leiningen clojure ];
       activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        ros init
+        ${pkgs.roswell}/bin/ros init
       '';
     };
   };
