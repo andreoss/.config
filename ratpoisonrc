@@ -7,7 +7,7 @@ exec wmname LG3D
 exec xhost +local:
 set barborder 0
 set barborder 3
-set bargravity nw
+set bargravity se
 set barinpadding 0
 set barpadding 20 0
 set bgcolor #121212
