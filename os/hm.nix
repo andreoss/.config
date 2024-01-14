@@ -29,6 +29,7 @@
           scala.enable = true;
           cxx.enable = true;
           haskell.enable = true;
+          lisp.enable = true;
         };
       }
       { home.multimedia.enable = true; }
