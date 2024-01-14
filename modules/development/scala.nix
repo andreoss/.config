@@ -27,6 +27,7 @@ in {
         httpie
         scalafix
         leiningen
+        coursier
       ];
     };
     programs.vscode = {
