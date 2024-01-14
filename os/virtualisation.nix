@@ -1,11 +1,6 @@
 { config, ... }: {
   security.polkit.enable = true;
-  systemd.services.dockerd.environment = {
-    http_proxy = "";
-    https_proxy = "";
-    all_proxy = "";
-  };
-  programs.extra-container.enable = true;
+  systemd.services.dockerd.environment = { };
   systemd.services.docker = { serviceConfig = { LimitNOFILE = 65536; }; };
   programs.extra-container.enable = true;
   virtualisation = {
