@@ -31,7 +31,7 @@
   };
   environment.etc."version".text = builtins.readFile
     (pkgs.runCommand "version" {
-      nativeBuildInputs = [ pkgs.coreutils pkgs.util-linux pkgs.git ];
+      nativeBuildInputs = [ pkgs.coreutils pkgs.util-linux ];
     } ''
       cd ${../.}
       date --iso-8601         >> $out
