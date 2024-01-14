@@ -2,11 +2,6 @@
 let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
-    xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-      xdgOpenUsePortal = true;
-    };
     services.startx = {
       enable = true;
       user = if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
