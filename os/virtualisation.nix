@@ -7,6 +7,7 @@
   };
   programs.extra-container.enable = true;
   systemd.services.docker = { serviceConfig = { LimitNOFILE = 65536; }; };
+  programs.extra-container.enable = true;
   virtualisation = {
     cri-o.enable = true;
     kvmgt.enable = !config.mini;
