@@ -33,19 +33,23 @@ let
   };
   keystore = "/etc/ssl/certs/java/keystore.jks";
 in {
+  systemd.globalEnvironment = {
+    SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
+    NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
+  };
   system.activationScripts = {
-    generate-keystore-jks.text = let
-      path =
-        lib.strings.makeBinPath [ pkgs.systemd pkgs.p11-kit pkgs.coreutils ];
-    in ''
-      PATH="$PATH:${path}"
-      rm --force ${keystore}
-      trust \
-        extract \
-        --format=java-cacerts \
-        --purpose=server-auth \
-        ${keystore}
-    '';
+    generate-keystore-jks.text =
+      let path = lib.strings.makeBinPath [ pkgs.p11-kit ];
+      in ''
+        PATH="$PATH:${path}"
+        rm --force ${keystore}
+        mkdir --parent $(dirname ${keystore})
+        trust \
+          extract \
+          --format=java-cacerts \
+          --purpose=server-auth \
+          ${keystore}
+      '';
   };
   environment = {
     systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
@@ -156,7 +160,7 @@ in {
       enable = true;
       dbusControlled = true;
       scanOnLowSignal = false;
-      userControlled.enable = true;
+      # userControlled.enable = true;
       networks = if networks.success then networks.value.networks else { };
       environmentFile = if networks.success then
         networks.value.environmentFile
@@ -218,8 +222,11 @@ in {
   system.activationScripts = {
     fix-rfkill.text = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
     in ''
-      ${path}/rfkill block   all
-      ${path}/rfkill unblock all
+      if [ -e /dev/rfkill ]
+      then
+         ${path}/rfkill block   all
+         ${path}/rfkill unblock all
+      fi
     '';
     restart-unbound.text =
       "${pkgs.systemd}/bin/systemctl restart unbound.service";
@@ -229,10 +236,6 @@ in {
     inherit pkgs;
   };
   systemd.network.wait-online.timeout = 10;
-  systemd.globalEnvironment = {
-    SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
-    NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
-  };
   systemd.services = let
     restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   in {
