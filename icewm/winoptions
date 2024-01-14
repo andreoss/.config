@@ -3,7 +3,6 @@ Emacs.startMaximized: 1
 emacs.startMaximized: 1
 jetbrains-idea-ce.appTakesFocus: 1
 jetbrains-idea-ce.icon: java
-firefox.icon: webbrowser
 mpv.allWorkspaces: 0
 mpv.dTitleBar: 0
 Pinentry.allWorkspaces: 1
