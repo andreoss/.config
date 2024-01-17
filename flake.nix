@@ -65,10 +65,10 @@
       url = "github:arkenfox/user.js";
       flake = false;
     };
-    kmonad = {
-      url = "git+https://github.com/kmonad/kmonad?submodules=1&dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+     kmonad = {
+       url = "git+https://github.com/kmonad/kmonad?submodules=0&dir=nix";
+       inputs.nixpkgs.follows = "nixpkgs";
+     };
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
