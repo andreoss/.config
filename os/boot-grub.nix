@@ -11,7 +11,7 @@
         theme = null;
         gfxmodeBios = "1920x1080";
         gfxmodeEfi = "1920x1080";
-        fontSize = 24;
+        fontSize = 36;
         font =
           "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
       };
