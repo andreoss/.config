@@ -20,7 +20,7 @@
       gc = {
         automatic = true;
         dates = "00:00";
-        options = "--delete-older-than 5d";
+        options = "--delete-older-than 100d";
       };
     };
 }
