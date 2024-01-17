@@ -25,13 +25,21 @@ CornerSizeX=30
 CornerSizeY=30
 TimeFormat="%-I:%M %P"
 
-TaskBarShowAPMStatus=0
-TaskBarShowShowDesktopButton=0
+PagerShowWindowIcons = 0
+SupportSemitransparency=1
+TaskBarAtTop=0
+TaskBarEnableSystemTray=1
+TaskBarShowAPMAuto=0
 TaskBarShowAPMGraph=0
+TaskBarShowApmStatus = 0
+TaskBarShowAPMStatus=0
+TaskBarShowAPMTime=0
 TaskBarShowMailboxStatus=0
 TaskBarShowMEMStatus = 0
-TaskBarShowApmStatus = 0
 TaskBarShowNetStatus = 0
+TaskBarShowShowDesktopButton=0
 TaskBarShowStartMenu = 0
-
-PagerShowWindowIcons = 0
+TaskBarShowTray=1
+TrayDrawBevel=1
+TrayIconMaxHeight=16
+TrayIconMaxWidth=16
