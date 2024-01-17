@@ -153,6 +153,7 @@ alias dmesg='dmesg --human'
 alias acpi='acpi -a -t -b'
 alias ping='ping -c 4'
 alias watch='watch -n 0.2'
+alias topm='top -o %MEM'
 __du() {
     \du --bytes --summarize "$@" \
         | sort --reverse --numeric-sort \
