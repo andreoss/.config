@@ -41,7 +41,6 @@
       lsof
       mariadb-client
       minikube
-      mysql-workbench
       nil
       ninja
       nix
