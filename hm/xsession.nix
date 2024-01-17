@@ -7,14 +7,23 @@ in {
     xsession = {
       enable = true;
       scriptPath = ".xinitrc";
-      windowManager.command = ''
+      windowManager.command = let path = lib.strings.makeBinPath [ pkgs.icewm ];
+      in ''
         if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
         then
             autorandr docked
         fi
-        PATH=$PATH:${inputs.dmenu.packages.x86_64-linux.dmenu}/bin
+        PATH=$PATH:${path}
         export PATH
-        while :; do eval $(dmenu </dev/null); done
+        icewm-session
+        while :
+        do
+              CMD=$(dmenu </dev/null)
+              if [ "$CMD" = "exit" ]
+              then
+                exit
+              fi
+        done
         wait
       '';
     };
