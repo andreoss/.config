@@ -24,18 +24,24 @@
       cloc
       ctop
       docker
+      docker-credential-gcr
       dockfmt
       dos2unix
+      (google-cloud-sdk.withExtraComponents ([
+        google-cloud-sdk.components.cloud-build-local
+        google-cloud-sdk.components.gke-gcloud-auth-plugin
+      ]))
       jo
       json2yaml
-      kubernetes
-      kail
       k9s
+      kail
+      kubernetes
       lcov
       libxslt
       lsof
       mariadb-client
       minikube
+      mysql-workbench
       nil
       ninja
       nix
@@ -43,8 +49,8 @@
       nix-tree
       nodePackages_latest.bash-language-server
       openshift
-      postgresql
       pgtop
+      postgresql
       psmisc
       pv
       qrencode
@@ -55,7 +61,10 @@
       shfmt
       silver-searcher
       sleek
+      sshfs
       sysstat
+      trivy
+      turbovnc
       unar
       unzip
       xmlformat
@@ -63,15 +72,6 @@
       yamllint
       yaml-merge
       zip
-      docker-credential-gcr
-      (google-cloud-sdk.withExtraComponents ([
-        google-cloud-sdk.components.cloud-build-local
-        google-cloud-sdk.components.gke-gcloud-auth-plugin
-      ]))
-      trivy
-      mysql-workbench
-      localstack
-      turbovnc
     ];
   };
 }
