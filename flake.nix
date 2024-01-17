@@ -188,6 +188,17 @@
         ];
       };
 
+      nixosConfigurations."0000" = mkSystem {
+        hostname = "ps";
+        modules = [
+          ./secrets/3
+          ./os/boot-grub-efi.nix
+          ./secrets/tx-hw.nix
+          ./os/btrfs-swap.nix
+          ./os/containers.nix
+        ];
+      };
+
       nixosConfigurations.rr = mkSystem {
         hostname = "rr";
         modules = [
