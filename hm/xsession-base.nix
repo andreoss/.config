@@ -86,10 +86,10 @@ in {
         gtk-enable-input-feedback-sounds = 0;
       };
       gtk3.bookmarks = [
-        "file://${config.home.homeDirectory}/Books/"
-        "file://${config.home.homeDirectory}/Work/"
-        "file://${config.home.homeDirectory}/Finance/"
-        "file://${config.home.homeDirectory}/Official/"
+        "file://${config.home.homeDirectory}/Книги/"
+        "file://${config.home.homeDirectory}/Код/"
+        "file://${config.home.homeDirectory}/Работа/"
+        "file://${config.home.homeDirectory}/Документы/"
       ];
     };
     qt = {
