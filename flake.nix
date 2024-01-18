@@ -121,7 +121,6 @@
           ] ++ host.modules ++ [
             ./os/hm.nix
             ./os/nix.nix
-            ./os/guix.nix
             ./os/configuration.nix
             ./os/hw.nix
             ./os/security.nix
