@@ -19,11 +19,10 @@
             ${pkgs.btrfs-progs}/bin/btrfs filesystem mkswapfile --size ${
               builtins.toString memInfo.MemTotal
             }K ${swapFile}
-            ${pkgs.util-linux}/bin/swapon ${swapFile} 
           '';
         };
       };
     };
-    swapDevices = [{ device = "/nix/var/tmp/swap"; }];
+    swapDevices = [{ device = "/nix/var/swap"; }];
   };
 }
