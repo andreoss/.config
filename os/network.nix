@@ -154,13 +154,13 @@ in {
       httpProxy = "http://127.0.0.1:8118";
       ftpProxy = "http://127.0.0.1:8118";
       default = "http://127.0.0.1:8118";
+      noProxy = "gcr.io,zoom.us,slack.com";
     };
     usePredictableInterfaceNames = false;
     wireless = {
       enable = true;
       dbusControlled = true;
       scanOnLowSignal = false;
-      # userControlled.enable = true;
       networks = if networks.success then networks.value.networks else { };
       environmentFile = if networks.success then
         networks.value.environmentFile
