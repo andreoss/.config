@@ -45,6 +45,8 @@
         st = "status --short --branch";
         cia = "commit --amend";
         pufo = "push --force";
+        pode = "pull origin develop";
+        poma = "pull origin master";
       };
       extraConfig = {
         pull.rebase = false;
