@@ -17,10 +17,10 @@ in with lib; {
         Placeholder for device.
       '';
     };
-    device = mkOption {
-      type = types.string;
-      default = "";
-      example = "/dev/input/by-id/xxx-event-kbd";
+    devices = mkOption {
+      type = types.listOf types.string;
+      default = [ ];
+      example = [ "/dev/input/by-id/xxx-event-kbd" ];
       description = ''
         Actual device.
       '';
@@ -41,9 +41,33 @@ in with lib; {
     };
   };
 
-  config = {
-    environment.systemPackages = [ cfg.package ];
-
+  config = let
+    merge = builtins.foldl' (x: y: x // y) { };
+    mkKmonadService = d: {
+      "kmonad-${strings.sanitizeDerivationName d}" = {
+        enable = true;
+        description = "KMonad for ${d}";
+        restartTriggers = [ d ];
+        serviceConfig = {
+          Type = "simple";
+          Restart = "on-failure";
+          RestartSec = "1s";
+          ExecStart = let
+            c = (builtins.toFile "kbd"
+              (builtins.replaceStrings [ cfg.placeholder ] [ d ]
+                (builtins.readFile cfg.configfile)));
+          in pkgs.writeShellScript "kmonad.sh" ''
+            while [ ! -e ${d} ]
+            do
+                sleep 1
+            done
+            ${cfg.package}/bin/kmonad ${c}
+          '';
+        };
+        wantedBy = [ "graphical.target" ];
+      };
+    };
+  in {
     users.groups.uinput = { };
 
     services.udev.extraRules = mkIf cfg.enable ''
@@ -51,16 +75,7 @@ in with lib; {
       KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
     '';
 
-    systemd.services.kmonad = mkIf cfg.enable {
-      enable = true;
-      description = "KMonad";
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${cfg.package}/bin/kmonad " + (builtins.toFile "kbd"
-          (builtins.replaceStrings [ cfg.placeholder ] [ cfg.device ]
-            (builtins.readFile cfg.configfile)));
-      };
-      wantedBy = [ "graphical.target" ];
-    };
+    systemd.services =
+      mkIf cfg.enable (merge (map (d: mkKmonadService d) cfg.devices));
   };
 }
