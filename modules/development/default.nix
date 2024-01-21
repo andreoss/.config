@@ -66,7 +66,6 @@
       turbovnc
       unar
       unzip
-      xmlformat
       yaml2json
       yamllint
       yaml-merge
