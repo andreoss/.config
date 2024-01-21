@@ -47,6 +47,8 @@
         pufo = "push --force";
         pode = "pull origin develop";
         poma = "pull origin master";
+        rede = "pure origin develop";
+        rema = "pure origin master";
       };
       extraConfig = {
         pull.rebase = false;
