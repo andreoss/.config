@@ -33,7 +33,7 @@ in {
       fontDir = { enable = true; };
       enableDefaultFonts = false;
       enableGhostscriptFonts = false;
-      fonts = with pkgs; [
+      packages = with pkgs; [
         _3270font
         julia-mono
         hermit
