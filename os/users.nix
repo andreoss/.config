@@ -60,7 +60,18 @@
       links2
       molly-guard
     ];
-    shellAliases = { };
+    shellAliases = {
+      g = "git";
+      "cd.." = "cd ..";
+      more = "less";
+      less = "less -R";
+      l = "ls";
+      ll = "ls -lasth";
+      lh = "ls -asht";
+      cx = "chmod +x";
+      iec = "numfmt --to=iec";
+      ping = "ping -c 4";
+    };
     homeBinInPath = true;
     variables.TOR_SOCKS_PORT = "9150";
     variables.EDITOR = "vi";
