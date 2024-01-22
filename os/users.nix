@@ -44,6 +44,7 @@
     shells = [ pkgs.bash pkgs.zsh ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
+      bcachefs-tools
       openvpn
       wireguard-tools
       zsh
