@@ -35,8 +35,12 @@ in {
         day = 8000;
         night = 4500;
       };
+      tray = true;
     };
-    services.udiskie.enable = config.xsession.enable;
+    services.udiskie = {
+      enable = config.xsession.enable;
+      automount = false;
+    };
     services.cbatticon.enable = config.xsession.enable;
     services.keynav.enable = config.xsession.enable;
     programs.autorandr = {
