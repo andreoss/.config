@@ -35,14 +35,6 @@ zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s%p
 zstyle ':completion:*' rehash true
 
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
-
-
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
@@ -112,3 +104,6 @@ if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|s
         add-zsh-hook -Uz precmd xterm_title_precmd
         add-zsh-hook -Uz preexec xterm_title_preexec
 fi
+
+bindkey -v
+bindkey '^R' history-incremental-search-backward
