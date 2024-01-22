@@ -59,6 +59,13 @@
       ];
       sessionVariables = { EDITOR = "vi"; };
     };
-    services.emacs.enable = lib.mkForce false;
+    services.emacs = {
+      enable = true;
+      startWithUserSession = "graphical";
+      client = {
+        enable = true;
+        arguments = [ "-c" ];
+      };
+    };
   };
 }
