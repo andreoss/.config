@@ -15,7 +15,7 @@ in {
         fi
         PATH=$PATH:${path}
         export PATH
-        icewm-session
+        LC_MESSAGES="$LC_NAME" icewm-session
         while :
         do
               CMD=$(dmenu </dev/null)
