@@ -10,6 +10,7 @@
     isNormalUser = true;
     createHome = true;
     home = config.ao.primaryUser.home;
+    linger = true;
   };
   users.groups = {
     uinput = { };
