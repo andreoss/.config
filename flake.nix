@@ -108,7 +108,10 @@
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           pkgs = legacyPackages."x86_64-linux";
-          specialArgs = { inherit inputs self; };
+          specialArgs = {
+            inputs = inputs;
+            overlays = legacyPackages."x86_64-linux".overlays;
+          };
           modules = [
             { system.stateVersion = options.main.stateVersion; }
             ./config.nix

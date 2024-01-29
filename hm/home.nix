@@ -1,7 +1,6 @@
 { config, pkgs, lib, stdenv, self, ... }:
 let palette = import ../os/palette.nix;
 in {
-  nixpkgs.overlays = [ self.inputs.nur.overlay ];
   home.packages = with pkgs; [
     coreutils-full
     file
