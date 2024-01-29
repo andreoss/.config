@@ -5,7 +5,7 @@
     imports = [ ../config.nix ./hm-root.nix ];
   };
   home-manager.users."${config.ao.primaryUser.name}" = {
-    nixpkgs.overlays = [ specialArgs.inputs.emacs-d.overlays.default ];
+    nixpkgs.overlays = specialArgs.overlays;
     home.stateVersion = config.ao.stateVersion;
     imports = [
       ../modules/development
