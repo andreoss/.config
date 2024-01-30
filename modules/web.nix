@@ -85,6 +85,7 @@ in {
           extraConfig = builtins.readFile "${inputs.user-js}/user.js";
           settings = mozilla-common-settings;
           extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+            passff
             ublock-origin
             umatrix
             decentraleyes
@@ -172,7 +173,10 @@ in {
             }
           ];
         };
-        package = pkgs.firefox-esr;
+        package = with pkgs;
+          (firefox-esr.override {
+            extraNativeMessagingHosts = [ passff-host ];
+          });
         policies = {
           SearchBar = "separate";
           AppUpdateURL = "file:///dev/null";
