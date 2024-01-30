@@ -31,18 +31,14 @@ in {
     };
     fonts = {
       fontDir = { enable = true; };
-      enableDefaultFonts = false;
-      enableGhostscriptFonts = false;
+      enableDefaultPackages = true;
+      enableGhostscriptFonts = true;
       packages = with pkgs; [
         _3270font
-        julia-mono
-        hermit
-        intel-one-mono
-        maple-mono
-        martian-mono
-        mno16
-        joypixels
         fixedsys-excelsior
+        hermit
+        julia-mono
+        maple-mono
         terminus_font
         terminus_font_ttf
         ucs-fonts
