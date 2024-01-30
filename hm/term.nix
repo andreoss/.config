@@ -100,7 +100,7 @@ in {
         enable = true;
         package = pkgs.rxvt-unicode-unwrapped;
         iso14755 = true;
-        fonts = [ "xft:Terminus:size=12" ];
+        fonts = [ "xft:Ttyp0:size=12" ];
         scroll = {
           bar = {
             enable = true;
