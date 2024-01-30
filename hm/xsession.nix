@@ -7,25 +7,29 @@ in {
     xsession = {
       enable = true;
       scriptPath = ".xinitrc";
-      windowManager.command = let path = lib.strings.makeBinPath [ pkgs.icewm ];
-      in ''
-        if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
-        then
-            autorandr docked
-        fi
-        PATH=$PATH:${path}
-        export PATH
-        LC_MESSAGES="$LC_NAME" icewm-session
-        while :
-        do
-              CMD=$(dmenu </dev/null)
-              if [ "$CMD" = "exit" ]
-              then
-                exit
-              fi
-        done
-        wait
-      '';
+      windowManager.command =
+        let path = lib.strings.makeBinPath [ pkgs.icewm pkgs.dmenu ];
+        in ''
+          PATH=$PATH:${path}
+          PATH=$PATH:$HOME/.local/bin
+          export PATH
+          if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
+          then
+              autorandr docked
+          fi
+          LC_MESSAGES="$LC_NAME" icewm-session
+          while :
+          do
+                CMD=$(dmenu </dev/null)
+                if [ "$CMD" = "exit" ]
+                then
+                  exit
+                else
+                  $CMD
+                fi
+          done
+          wait
+        '';
     };
     services.gammastep = {
       enable = config.xsession.enable;
