@@ -19,6 +19,8 @@
     home.packages = with pkgs; [
       ack
       act
+      inetutils
+      sharutils
       ascii
       atool
       cloc
