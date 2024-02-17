@@ -19,8 +19,6 @@
     home.packages = with pkgs; [
       ack
       act
-      inetutils
-      sharutils
       ascii
       atool
       cloc
@@ -33,6 +31,7 @@
         google-cloud-sdk.components.cloud-build-local
         google-cloud-sdk.components.gke-gcloud-auth-plugin
       ]))
+      inetutils
       jo
       json2yaml
       k9s
@@ -58,6 +57,7 @@
       ripgrep
       rnix-lsp
       rsync
+      sharutils
       shellcheck
       shfmt
       silver-searcher
