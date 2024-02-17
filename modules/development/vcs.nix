@@ -23,7 +23,11 @@
         alias = ''!f() { git config --get-regexp "^alias.''${1}$" ;}; f'';
         au = "add -u";
         branch = "branch --sort=-committerdate";
+        br = "branch";
+        brd = "branch -D";
+        cb = "co -b";
         cc = "clone";
+        cia = "commit --amend";
         ci = "commit";
         cn = "!f() { git checkout -b \${1} origin/master ; }; f";
         co = "checkout";
@@ -33,22 +37,21 @@
         ll = "log --oneline";
         l = "log --graph --oneline --abbrev-commit --decorate=short";
         me = "merge";
-        pu = "pull";
-        pl = "pull";
-        ps = "push";
         pf = "push --force";
-        pure = "pull --rebase";
-        ri = "rebase --interactive";
-        spull = "!git stash && git pull && git stash pop";
-        unstage = "reset HEAD -- ";
-        xx = "reset HEAD";
-        st = "status --short --branch";
-        cia = "commit --amend";
-        pufo = "push --force";
+        pl = "pull";
         pode = "pull origin develop";
         poma = "pull origin master";
+        ps = "push";
+        pufo = "push --force";
+        pu = "pull";
+        pure = "pull --rebase";
         rede = "pure origin develop";
         rema = "pure origin master";
+        ri = "rebase --interactive";
+        spull = "!git stash && git pull && git stash pop";
+        st = "status --short --branch";
+        unstage = "reset HEAD -- ";
+        xx = "reset HEAD";
       };
       extraConfig = {
         pull.rebase = false;
@@ -66,6 +69,7 @@
         aliases = {
           co = "pr checkout";
           pv = "pr view";
+          pc = "pr create";
         };
         git_protocol = "ssh";
       };
