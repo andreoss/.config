@@ -9,7 +9,5 @@ in {
       };
     };
   };
-  config = with pkgs; {
-    home.packages = lib.optionals cfg.enable [ rust-analyzer rustup ];
-  };
+  config = with pkgs; { home.packages = lib.optionals cfg.enable [ rustup ]; };
 }
