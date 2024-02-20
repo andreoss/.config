@@ -1,7 +1,6 @@
 { lib, pkgs, config, self, ... }: {
   users.mutableUsers = false;
   users.motd = "";
-  users.defaultUserShell = pkgs.bash;
   users.users.root.initialHashedPassword = lib.mkForce
     "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
   users.users."${config.ao.primaryUser.name}" = {
@@ -11,6 +10,7 @@
     createHome = true;
     home = config.ao.primaryUser.home;
     linger = true;
+    shell = pkgs.zsh;
   };
   users.groups = {
     uinput = { };
