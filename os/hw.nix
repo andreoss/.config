@@ -1,17 +1,14 @@
-{ pkgs, lib, config, self, ... }: {
+{ pkgs, lib, config, specialArgs, ... }: {
+
   imports = [ ./kmonad.nix ];
   services.kmonad = {
     enable = true;
     configfile = ./../kbd;
-    device = config.kbdDevice;
-    package = self.inputs.kmonad.packages.x86_64-linux.kmonad;
+    package = specialArgs.inputs.kmonad.packages.x86_64-linux.kmonad;
+    devices = [ ];
   };
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
-  hardware.openrazer = {
-    enable = false;
-    users = [ self.config.primaryUser.name ];
-  };
   services.haveged.enable = true;
   programs.light.enable = true;
   programs.adb.enable = true;
