@@ -43,6 +43,7 @@ in {
         terminus_font_ttf
         ucs-fonts
         uw-ttyp0
+        spleen
       ];
       fontconfig = {
         hinting.enable = true;
