@@ -2,14 +2,50 @@
 let
   palette = import ../os/palette.nix;
   font = "Terminus";
+  icons-src = pkgs.fetchzip {
+    url =
+      "https://codeload.github.com/B00merang-Artwork/Windows-XP/zip/refs/heads/master";
+    sha256 = "sha256-TzgvvwAdqUmbdQJ0jARKXAObyHQVyGv4TJyI2dH4YiE=";
+    extension = "zip";
+  };
 in {
   options = { };
   config = {
     home.pointerCursor = {
-      package = pkgs.openzone-cursors;
-      name = "OpenZone_White";
+      name = "Windows-XP";
       x11.enable = config.xsession.enable;
       x11.defaultCursor = "left_ptr";
+      package = (pkgs.runCommand "icons" { nativeBuildInputs = [ icons-src ]; }
+        "mkdir --parent $out/share/icons/Windows-XP; cp --recursive ${icons-src}/* $out/share/icons/Windows-XP/");
+    };
+    gtk = {
+      enable = config.xsession.enable;
+      font.package = pkgs.terminus_font_ttf;
+      font.name = "${font} 9";
+      iconTheme = { name = "Windows-XP"; };
+      gtk2.extraConfig = "";
+      gtk3.extraConfig = {
+        gtk-xft-antialias = 1;
+        gtk-xft-hinting = 1;
+        gtk-xft-hintstyle = "hintfull";
+        gtk-xft-rgba = "rgb";
+        gtk-fallback-icon-theme = "gnome";
+        gtk-button-images = 0;
+        gtk-cursor-theme-size = 0;
+        gtk-enable-animations = false;
+        gtk-enable-event-sounds = 0;
+        gtk-enable-input-feedback-sounds = 0;
+      };
+      gtk3.bookmarks = [
+        "file://${config.home.homeDirectory}/Книги/"
+        "file://${config.home.homeDirectory}/Код/"
+        "file://${config.home.homeDirectory}/Работа/"
+        "file://${config.home.homeDirectory}/Документы/"
+      ];
+    };
+    qt = {
+      enable = config.xsession.enable;
+      style.package = pkgs.adwaita-qt;
     };
     home.activation = lib.mkIf config.services.sxhkd.enable {
       sxhkdUpdate = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -64,38 +100,6 @@ in {
       };
     };
     fonts.fontconfig.enable = config.xsession.enable;
-    gtk = {
-      enable = config.xsession.enable;
-      font.package = pkgs.terminus_font_ttf;
-      font.name = "${font} 9";
-      iconTheme = {
-        name = "Adwaita";
-        package = pkgs.gnome.adwaita-icon-theme;
-      };
-      gtk2.extraConfig = "";
-      gtk3.extraConfig = {
-        gtk-xft-antialias = 1;
-        gtk-xft-hinting = 1;
-        gtk-xft-hintstyle = "hintfull";
-        gtk-xft-rgba = "rgb";
-        gtk-fallback-icon-theme = "gnome";
-        gtk-button-images = 0;
-        gtk-cursor-theme-size = 0;
-        gtk-enable-animations = false;
-        gtk-enable-event-sounds = 0;
-        gtk-enable-input-feedback-sounds = 0;
-      };
-      gtk3.bookmarks = [
-        "file://${config.home.homeDirectory}/Книги/"
-        "file://${config.home.homeDirectory}/Код/"
-        "file://${config.home.homeDirectory}/Работа/"
-        "file://${config.home.homeDirectory}/Документы/"
-      ];
-    };
-    qt = {
-      enable = config.xsession.enable;
-      style.package = pkgs.adwaita-qt;
-    };
     home.packages = lib.optionals config.xsession.enable (with pkgs; [
       comic-mono
       fontpreview
