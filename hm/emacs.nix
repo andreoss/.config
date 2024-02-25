@@ -17,8 +17,8 @@
     xresources.properties = {
       "Emacs*toolBar" = 0;
       "Emacs*menuBar" = 0;
-      "Emacs*font" = "Terminus";
-      "Emacs*geometry" = "80x48";
+      "Emacs*font" = "Spleen";
+      "Emacs*geometry" = "80x38";
       "Emacs*scrollBar" = "on";
       "Emacs*scrollBarWidth" = 6;
     };
@@ -27,14 +27,14 @@
         executable = true;
         text = ''
           #!/bin/sh
-          exec emacsclient -t "$*"
+          exec emacsclient -t "$@"
         '';
       };
       file.".local/bin/ec" = {
         executable = true;
         text = ''
           #!/bin/sh
-          exec emacsclient -c "$*"
+          exec emacsclient -c "$@"
         '';
       };
       file.".local/bin/emacs-nox" = {
@@ -42,7 +42,7 @@
         text = ''
           #!/bin/sh
           PATH=${inputs.emacs-d.packages.x86_64-linux.emacs-nox.out}/bin:$PATH
-          exec emacs "$*"
+          exec emacs "$@"
         '';
       };
       file.".local/bin/me" = {
