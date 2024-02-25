@@ -162,6 +162,7 @@
             ./os/users.nix
             ./os/virtualisation.nix
             ./os/xserver.nix
+            ./os/vpn.nix
             ./os/network.nix
             ./os/i18n.nix
             ./os/boot.nix
