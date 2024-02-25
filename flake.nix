@@ -104,6 +104,37 @@
               })
           ];
         });
+      mkSystemGeneric = host:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          pkgs = legacyPackages."x86_64-linux";
+          specialArgs = {
+            inputs = inputs;
+            overlays = legacyPackages."x86_64-linux".overlays;
+          };
+          modules = [
+            { system.stateVersion = options.main.stateVersion; }
+            inputs.nodm-module.nixosModules.default
+            inputs.dnscrypt-module.nixosModules.default
+            inputs.home-manager.nixosModule
+            inputs.hosts.nixosModule
+            { networking.stevenBlackHosts.enable = true; }
+            { networking.hostName = host.hostname; }
+          ] ++ host.modules ++ [
+            ./os/hm.nix
+            ./os/nix.nix
+            ./os/configuration.nix
+            ./os/hw.nix
+            ./os/security.nix
+            ./os/audio.nix
+            ./os/users.nix
+            ./os/virtualisation.nix
+            ./os/xserver.nix
+            ./os/network.nix
+            ./os/i18n.nix
+            ./os/boot.nix
+          ];
+        };
       mkSystem = host:
         nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -182,9 +213,18 @@
         modules = [
           ./secrets/3
           ./os/boot-grub-efi.nix
-          ./secrets/tx-hw.nix
           ./os/btrfs-swap.nix
           ./os/containers.nix
+        ];
+      };
+
+      nixosConfigurations."v" = mkSystemGeneric {
+        hostname = "v";
+        modules = [
+          { config.hostId = "000a"; }
+          ./os/boot-grub-efi.nix
+          ./os/btrfs.nix
+          ./os/btrfs-swap.nix
         ];
       };
 
