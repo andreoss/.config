@@ -15,10 +15,10 @@
       ../hm/base.nix
       ../hm/home.nix
       ../hm/mail.nix
-      ../hm/emacs.nix
       ../hm/sh.nix
       ../hm/term.nix
       ../hm/xsession-base.nix
+      specialArgs.inputs.emacs-d.nixosModules.home-manager
       ../hm/xsession.nix
       ../hm/work.nix
       {
