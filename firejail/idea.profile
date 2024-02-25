@@ -9,21 +9,20 @@ include idea.sh.local
 
 netfilter
 
+noblacklist ${HOME}/.local/share/JetBrains/*
+noblacklist ${HOME}/.config/JetBrains/*
 noblacklist ${HOME}/.android
-noblacklist ${HOME}/.config/JetBrains
 noblacklist ${HOME}/.gradle
-noblacklist ${HOME}/.idea
-noblacklist ${HOME}/.IdeaIC*
+noblacklist ${HOME}/.idea-build
 noblacklist ${HOME}/.ideavimrc
 noblacklist ${HOME}/.ivy2
-noblacklist ${HOME}/.jack-server
-noblacklist ${HOME}/.jack-settings
 noblacklist ${HOME}/.java
 noblacklist ${HOME}/.jdk
-noblacklist ${HOME}/.local/share/JetBrains
 noblacklist ${HOME}/.m2
 noblacklist ${HOME}/.sbt
 noblacklist ${HOME}/.tooling
+noblacklist ${HOME}/.editorconfig
+
 noblacklist ${HOME}/src
 noblacklist ${HOME}/work
 
