@@ -113,6 +113,7 @@
             overlays = legacyPackages."x86_64-linux".overlays;
           };
           modules = [
+            ./parameters.nix
             { system.stateVersion = options.main.stateVersion; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
@@ -144,6 +145,7 @@
             overlays = legacyPackages."x86_64-linux".overlays;
           };
           modules = [
+            ./parameters.nix
             { system.stateVersion = options.main.stateVersion; }
             ./config.nix
             inputs.nodm-module.nixosModules.default
