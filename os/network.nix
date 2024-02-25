@@ -115,11 +115,7 @@ in {
         }];
       };
     };
-    nat = {
-      enable = true;
-      internalInterfaces = [ "ve-+" "virbr0" ];
-      externalInterface = "tun0";
-    };
+    nat = { internalInterfaces = [ "ve-+" "virbr0" ]; };
     timeServers = [ ];
     networkmanager = { enable = lib.mkForce false; };
     enableIPv6 = lib.mkForce false;
@@ -132,11 +128,6 @@ in {
       allowPing = true;
       pingLimit = "--limit 1/minute --limit-burst 5";
       extraCommands = ''
-        iptables -A INPUT -i lo -j ACCEPT
-        iptables -A OUTPUT -o lo -j ACCEPT
-        iptables -I OUTPUT -o wlan+ -m owner \! --gid-owner tunnel -j REJECT
-        iptables -I OUTPUT -o eth+  -m owner \! --gid-owner tunnel -j REJECT
-        iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
         iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
       '';
       extraStopCommands = ''
@@ -149,11 +140,11 @@ in {
       extraConfig = "";
     };
     proxy = {
-      allProxy = "http://127.0.0.1:8118";
-      httpsProxy = "http://127.0.0.1:8118";
-      httpProxy = "http://127.0.0.1:8118";
-      ftpProxy = "http://127.0.0.1:8118";
-      default = "http://127.0.0.1:8118";
+      # allProxy = "http://127.0.0.1:8118";
+      # httpsProxy = "http://127.0.0.1:8118";
+      # httpProxy = "http://127.0.0.1:8118";
+      # ftpProxy = "http://127.0.0.1:8118";
+      # default = "http://127.0.0.1:8118";
       noProxy = "gcr.io,zoom.us,slack.com";
     };
     usePredictableInterfaceNames = false;
@@ -231,26 +222,9 @@ in {
     restart-unbound.text =
       "${pkgs.systemd}/bin/systemctl restart unbound.service";
   };
-  services.openvpn.servers = import ../secrets/vpn.nix {
-    inherit lib;
-    inherit pkgs;
-  };
   systemd.network.wait-online.timeout = 10;
-  systemd.services = let
-    restartUnbound = "${pkgs.systemd}/bin/systemctl restart unbound.service";
-  in {
+  systemd.services = {
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
-  } // (let
-    merge = builtins.foldl' (x: y: x // y) { };
-    cfx = builtins.attrNames config.services.openvpn.servers;
-  in merge (map (x: {
-    "openvpn-${x}" = {
-      restartTriggers = [ config.environment.etc."version".source ];
-      postStart = restartUnbound;
-      conflicts =
-        map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);
-      serviceConfig.Group = "tunnel";
-    };
-  }) cfx));
+  };
 }
