@@ -57,6 +57,7 @@ in {
         monero-gui
         tor-browser-bundle-bin
         ungoogled-chromium
+        tdesktop
       ];
     };
     programs = {
@@ -71,10 +72,6 @@ in {
       browserpass = {
         enable = cfg.enable && config.programs.password-store.enable;
         browsers = lib.mkForce [ "brave" "chromium" "firefox" "librewolf" ];
-      };
-      librewolf = {
-        enable = cfg.enable;
-        settings = mozilla-common-settings;
       };
       chromium.enable = cfg.enable;
       chromium.package = pkgs.brave;
