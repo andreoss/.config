@@ -11,7 +11,6 @@
     defaultLocale = "ru_RU.utf8";
     extraLocaleSettings = { LC_MESSAGES = "en_GB.utf8"; };
   };
-  time.timeZone = "America/New_York";
   location = {
     provider = "manual";
     latitude = -28.0;
