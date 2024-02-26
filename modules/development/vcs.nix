@@ -1,5 +1,4 @@
 { config, pkgs, lib, stdenv, ... }: {
-  imports = [ ../../secrets ];
   config = {
     programs.mercurial = {
       enable = true;
