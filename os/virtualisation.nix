@@ -5,13 +5,13 @@
   programs.extra-container.enable = true;
   virtualisation = {
     cri-o.enable = true;
-    kvmgt.enable = !config.mini;
+    kvmgt.enable = !config.minimalInstallation;
     lxc.enable = false;
     lxc.lxcfs.enable = false;
     lxd.enable = false;
     waydroid.enable = false;
     docker = {
-      enable = !config.mini;
+      enable = !config.minimalInstallation;
       autoPrune.enable = true;
     };
     virtualbox.guest = {
@@ -19,14 +19,14 @@
       x11 = false;
     };
     virtualbox.host = {
-      enable = true;
+      enable = !config.minimalInstallation;
       headless = false;
       enableExtensionPack = true;
       enableHardening = false;
     };
-    libvirtd.enable = !config.mini;
+    libvirtd.enable = !config.minimalInstallation;
   };
-  users = let user = config.ao.primaryUser.name;
+  users = let user = config.primaryUser.name;
   in {
     groups = {
       docker.members = [ user ];
