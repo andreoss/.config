@@ -105,7 +105,6 @@ in {
     };
   };
   networking = {
-    dns-crypt.enable = true;
     bridges = { virbr0 = { interfaces = [ ]; }; };
     interfaces = {
       virbr0 = {
@@ -146,6 +145,10 @@ in {
       enable = true;
       dbusControlled = true;
       scanOnLowSignal = false;
+      userControlled = {
+        enable = true;
+        group = "wheel";
+      };
       networks = if networks.success then networks.value.networks else { };
       environmentFile = if networks.success then
         networks.value.environmentFile
