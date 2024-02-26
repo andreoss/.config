@@ -117,6 +117,7 @@
             { system.stateVersion = options.main.stateVersion; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
+            { networking.dns-crypt.enable = true; }
             inputs.home-manager.nixosModule
             inputs.hosts.nixosModule
             { networking.stevenBlackHosts.enable = true; }
@@ -152,6 +153,7 @@
             { networking.hostName = host.hostname; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
+            { networking.dns-crypt.enable = true; }
             inputs.home-manager.nixosModule
             inputs.hosts.nixosModule
           ] ++ host.modules ++ [
@@ -168,6 +170,16 @@
             ./os/network.nix
             ./os/i18n.nix
             ./os/boot.nix
+            {
+              system.autoUpgrade = {
+                enable = true;
+                flake = inputs.self.outPath;
+                flags =
+                  [ "--update-input" "nixpkgs" "--no-write-lock-file" "-L" ];
+                dates = "02:00";
+                randomizedDelaySec = "45min";
+              };
+            }
           ];
         };
     in rec {
@@ -211,7 +223,7 @@
         ];
       };
 
-      nixosConfigurations."0000" = mkSystem {
+      nixosConfigurations."ps" = mkSystem {
         hostname = "ps";
         modules = [
           ./secrets/3
