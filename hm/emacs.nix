@@ -53,6 +53,7 @@
         '';
       };
       packages = with pkgs; [
+        spleen
         zile
         coreutils-full
         (hunspellWithDicts [
