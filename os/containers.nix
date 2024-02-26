@@ -1,6 +1,6 @@
 { specialArgs, inputs, lib, pkgs, config, ... }:
 let
-  cfg = config.ao;
+  cfg = config;
   host = "192.168.99.1";
   user = cfg.primaryUser.name;
 in {
@@ -21,7 +21,7 @@ in {
         uid = cfg.primaryUser.uid;
         isNormalUser = true;
         createHome = true;
-        openssh.authorizedKeys.keys = cfg.primaryUser.keys;
+        openssh.authorizedKeys.keys = cfg.primaryUser.authorizedKeys;
       };
       environment = {
         defaultPackages = with pkgs; [ ];
@@ -77,13 +77,14 @@ in {
         uid = cfg.primaryUser.uid;
         isNormalUser = true;
         createHome = true;
-        openssh.authorizedKeys.keys = cfg.primaryUser.keys;
+        openssh.authorizedKeys.keys = cfg.primaryUser.authorizedKeys;
         home = cfg.primaryUser.home;
       };
       home-manager.users."${user}" = {
         home.stateVersion = cfg.stateVersion;
         imports = [
-          ../config.nix
+          ../default.nix
+          ../secrets
           ../hm/base.nix
           ../hm/xsession-base.nix
           ../hm/sh.nix
