@@ -127,12 +127,6 @@ in {
       enable = true;
       allowPing = true;
       pingLimit = "--limit 1/minute --limit-burst 5";
-      extraCommands = ''
-        iptables -A nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept
-      '';
-      extraStopCommands = ''
-        iptables -D nixos-fw -p udp --source 192.168.99.0/28 --dport 53 -j nixos-fw-accept || true
-      '';
     };
 
     resolvconf = {
