@@ -1,10 +1,10 @@
 { config, pkgs, lib, stdenv, ... }: {
-  imports = [ ../../config.nix ];
+  imports = [ ../../secrets ];
   config = {
     programs.mercurial = {
       enable = true;
-      userName = config.ao.primaryUser.handle;
-      userEmail = config.ao.primaryUser.email;
+      userName = config.primaryUser.handle;
+      userEmail = config.primaryUser.email;
       package = pkgs.mercurialFull;
     };
     programs.jujutsu = { enable = true; };
@@ -12,10 +12,10 @@
       enable = true;
       package = pkgs.gitAndTools.gitFull;
       difftastic.enable = true;
-      userName = config.ao.primaryUser.handle;
-      userEmail = config.ao.primaryUser.email;
+      userName = config.primaryUser.handle;
+      userEmail = config.primaryUser.email;
       signing = {
-        key = config.ao.primaryUser.key;
+        key = config.primaryUser.key;
         signByDefault = true;
       };
       extraConfig = { init = { defaultBranch = "master"; }; };

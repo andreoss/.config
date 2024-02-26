@@ -1,17 +1,15 @@
 { lib, config, ... }:
-let
-  cfg = config.ao;
-  user = cfg.primaryUser.name;
+let user = config.primaryUser.name;
 in {
   hardware.bluetooth.enable = false;
-  security.rtkit.enable = !config.ao.pipewireReplacesPulseaudio;
+  security.rtkit.enable = !config.preferPipewire;
   hardware.pulseaudio = {
-    enable = !config.ao.pipewireReplacesPulseaudio;
+    enable = !config.preferPipewire;
     systemWide = true;
   };
-  services.pipewire.enable = lib.mkForce config.ao.pipewireReplacesPulseaudio;
-  services.pipewire.alsa.enable = config.ao.pipewireReplacesPulseaudio;
-  services.pipewire.pulse.enable = config.ao.pipewireReplacesPulseaudio;
+  services.pipewire.enable = lib.mkForce config.preferPipewire;
+  services.pipewire.alsa.enable = config.preferPipewire;
+  services.pipewire.pulse.enable = config.preferPipewire;
   users.groups.audio.members = [ user ];
   users.groups.pulse.members = [ user ];
   users.groups.pulse-access.members = [ user ];

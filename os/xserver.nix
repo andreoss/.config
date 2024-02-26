@@ -4,7 +4,7 @@ in {
   config = {
     services.startx = {
       enable = true;
-      user = if (!config.isLivecd) then config.ao.primaryUser.name else "nixos";
+      user = config.primaryUser.name;
     };
     services.xserver = {
       enable = true;

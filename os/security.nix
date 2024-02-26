@@ -1,5 +1,5 @@
 { pkgs, lib, config, ... }:
-let user = config.ao.primaryUser.name;
+let user = config.primaryUser.name;
 in {
   services.usbguard = {
     enable = (lib.pathExists ./usb-whitelist);

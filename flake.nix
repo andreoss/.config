@@ -73,7 +73,7 @@
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
-      imports = [ ./config.nix ];
+      imports = [ ./default.nix ];
       systems = lib.systems.flakeExposed;
       lib = nixpkgs.lib;
       eachSystem = lib.genAttrs systems;
@@ -113,7 +113,7 @@
             overlays = legacyPackages."x86_64-linux".overlays;
           };
           modules = [
-            ./parameters.nix
+            ./default.nix
             { system.stateVersion = options.main.stateVersion; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
@@ -145,15 +145,15 @@
             overlays = legacyPackages."x86_64-linux".overlays;
           };
           modules = [
-            ./parameters.nix
-            { system.stateVersion = options.main.stateVersion; }
-            ./config.nix
+            ./default.nix
+            ./secrets
+            { time.timeZone = "America/New_York"; }
+            { networking.stevenBlackHosts.enable = true; }
+            { networking.hostName = host.hostname; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
             inputs.home-manager.nixosModule
             inputs.hosts.nixosModule
-            { networking.stevenBlackHosts.enable = true; }
-            { networking.hostName = host.hostname; }
           ] ++ host.modules ++ [
             ./os/hm.nix
             ./os/nix.nix
@@ -224,7 +224,22 @@
       nixosConfigurations."v" = mkSystemGeneric {
         hostname = "v";
         modules = [
-          { config.hostId = "000a"; }
+          {
+            config.hostId = "000a";
+            config.primaryUser = {
+              name = "v";
+              authorizedKeys = [ ];
+              uid = 1338;
+              home = "/user";
+              passwd = "*";
+            };
+            config.minimalInstallation = false;
+            config.autoLogin = true;
+            config.preferPipewire = true;
+            config.features = [ ];
+
+          }
+          { time.timeZone = "Europe/Moscow"; }
           ./os/boot-grub-efi.nix
           ./os/btrfs.nix
           ./os/btrfs-swap.nix
@@ -259,11 +274,9 @@
         modules = [
           inputs.nodm-module.nixosModules.default
           inputs.dnscrypt-module.nixosModules.default
-          ./config.nix
           {
-            config.isLivecd = true;
-            config.mini = true;
-            config.ao.primaryUser.name = "nixos";
+            config.minimalInstallation = true;
+            config.primaryUser.name = "nixos";
           }
           inputs.home-manager.nixosModule
           ./os/xserver.nix

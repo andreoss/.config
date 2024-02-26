@@ -15,8 +15,8 @@
     snapper = {
       configs = {
         home = {
-          SUBVOLUME = "${config.ao.primaryUser.home}";
-          ALLOW_USERS = [ "${config.ao.primaryUser.name}" ];
+          SUBVOLUME = "${config.primaryUser.home}";
+          ALLOW_USERS = [ "${config.primaryUser.name}" ];
           TIMELINE_CREATE = true;
           TIMELINE_CLEANUP = true;
         };

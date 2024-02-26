@@ -3,24 +3,21 @@
   users.motd = "";
   users.users.root.initialHashedPassword = lib.mkForce
     "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
-  users.users."${config.ao.primaryUser.name}" = {
-    uid = config.ao.primaryUser.uid;
-    initialHashedPassword = config.ao.primaryUser.passwd;
+  users.users."${config.primaryUser.name}" = {
+    uid = config.primaryUser.uid;
+    initialHashedPassword = config.primaryUser.passwd;
     isNormalUser = true;
     createHome = true;
-    home = config.ao.primaryUser.home;
+    home = config.primaryUser.home;
     linger = true;
     shell = pkgs.zsh;
   };
-  users.groups = {
-    uinput = { };
-    tunnel = { };
-  };
-  users.groups.wheel.members = [ config.ao.primaryUser.name ];
-  users.groups.input.members = [ config.ao.primaryUser.name ];
-  users.groups.video.members = [ config.ao.primaryUser.name ];
-  users.groups.uinput.members = [ config.ao.primaryUser.name ];
-  users.groups.disk.members = [ config.ao.primaryUser.name ];
+  users.groups = { uinput = { }; };
+  users.groups.wheel.members = [ config.primaryUser.name ];
+  users.groups.input.members = [ config.primaryUser.name ];
+  users.groups.video.members = [ config.primaryUser.name ];
+  users.groups.uinput.members = [ config.primaryUser.name ];
+  users.groups.disk.members = [ config.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.extraConfig = "";
