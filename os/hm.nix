@@ -1,17 +1,21 @@
-{ specialArgs, lib, pkgs, config, ... }: {
+{ specialArgs, lib, pkgs, config, ... }:
+let isOn = (x: (builtins.elem x config.features));
+in {
   home-manager.extraSpecialArgs = specialArgs;
+  home-manager.useGlobalPkgs = true;
+  home-manager.verbose = true;
+  home-manager.sharedModules =
+    [{ home.sessionVariables = { NIX_SHELL_PRESERVE_PROMPT = 1; }; }];
   home-manager.users.root = {
     home.stateVersion = config.stateVersion;
-    imports = [{
-      home.packages = with pkgs; [ nvi pciutils usbutils ];
-      home.sessionVariables = { NIX_SHELL_PRESERVE_PROMPT = 1; };
-    }];
+    imports = [{ home.packages = with pkgs; [ nvi pciutils usbutils ]; }];
   };
   home-manager.users."${config.primaryUser.name}" = {
     nixpkgs.overlays = specialArgs.overlays;
     home.stateVersion = config.stateVersion;
     imports = [
       ../default.nix
+      ../secrets
       specialArgs.inputs.emacs-d.nixosModules.home-manager
       ../modules/development
       ../modules/multimedia.nix
@@ -23,25 +27,23 @@
       ../hm/term.nix
       ../hm/xsession-base.nix
       ../hm/xsession.nix
-    ] ++ (lib.optionals (builtins.elem "work" config.features)
-      [ ../hm/work.nix ])
-      ++ (lib.optionals (builtins.elem "email" config.features)
-        [ ../hm/mail.nix ]) ++ [
-          {
-            home.development = {
-              cxx.enable = true;
-              haskell.enable = true;
-              java.enable = true;
-              js.enable = true;
-              lisp.enable = true;
-              perl.enable = true;
-              rust.enable = true;
-              scala.enable = true;
-            };
-          }
-          { home.multimedia.enable = true; }
-          { home.web.enable = true; }
-          { home.office.enable = true; }
-        ];
+    ] ++ (lib.optionals (isOn "work") [ ../hm/work.nix ])
+      ++ (lib.optionals (isOn "email") [ ../hm/mail.nix ]) ++ [
+        { home.web.enable = true; }
+        {
+          home.development = {
+            cxx.enable = isOn "cxx";
+            haskell.enable = isOn "haskell";
+            java.enable = isOn "java";
+            js.enable = isOn "js";
+            lisp.enable = isOn "lisp";
+            perl.enable = isOn "perl";
+            rust.enable = isOn "rust";
+            scala.enable = isOn "scala";
+          };
+        }
+        { home.multimedia.enable = isOn "multimedia"; }
+        { home.office.enable = isOn "office"; }
+      ];
   };
 }

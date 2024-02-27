@@ -4,6 +4,9 @@
       efi.efiSysMountPoint = "/boot/efi";
       efi.canTouchEfiVariables = false;
       grub = {
+        configurationName = "${config.environment.etc."nixos/version".text} ${
+            config.environment.etc."nixos/date".text
+          }";
         configurationLimit = 3;
         devices = [ "nodev" ];
         efiInstallAsRemovable = true;

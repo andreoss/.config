@@ -14,7 +14,7 @@
       userName = config.primaryUser.handle;
       userEmail = config.primaryUser.email;
       signing = {
-        key = config.primaryUser.key;
+        key = config.primaryUser.gpgKey;
         signByDefault = true;
       };
       extraConfig = { init = { defaultBranch = "master"; }; };
