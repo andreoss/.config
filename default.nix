@@ -43,4 +43,8 @@ with lib; {
     default = [ ];
   };
 
+  options.locale = mkOption {
+    type = types.str;
+    default = "ru_RU.utf8";
+  };
 }

@@ -28,7 +28,7 @@
     cfx = builtins.attrNames config.services.openvpn.servers;
   in merge (map (x: {
     "openvpn-${x}" = {
-      restartTriggers = [ config.environment.etc."version".source ];
+      restartTriggers = [ config.environment.etc."nixos/version".source ];
       postStart = "${pkgs.systemd}/bin/systemctl restart unbound.service";
       conflicts =
         map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);

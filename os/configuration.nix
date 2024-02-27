@@ -12,7 +12,7 @@
         [ "-g" "--avoid '^(X|brave|java|emacs)$'" "--prefer '^(firefox)$'" ];
     };
     udisks2.enable = true;
-    snapper = {
+    snapper = lib.mkIf (!config.minimalInstallation) {
       configs = {
         home = {
           SUBVOLUME = "${config.primaryUser.home}";
@@ -29,13 +29,13 @@
       extraConfig = { DefaultMemoryPressureDurationSec = "20s"; };
     };
   };
-  environment.etc."version".text = builtins.readFile
+  environment.etc."nixos/version".text = config.system.nixos.label;
+  environment.etc."nixos/date".text = builtins.readFile
     (pkgs.runCommand "version" {
       nativeBuildInputs = [ pkgs.coreutils pkgs.util-linux ];
     } ''
       cd ${../.}
-      date --iso-8601         >> $out
-      tar cf - . | sha256sum  >> $out
+      date --iso-8601=ns      >> $out
     '');
   environment.etc."packages".text = builtins.toJSON
     (map (x: { "${x.name}" = x.meta or { }; })

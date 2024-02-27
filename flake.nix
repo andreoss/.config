@@ -284,20 +284,30 @@
         specialArgs = { inherit inputs self; };
         pkgs = legacyPackages."x86_64-linux";
         modules = [
+          ./default.nix
           inputs.nodm-module.nixosModules.default
           inputs.dnscrypt-module.nixosModules.default
           {
+            config.hostId = "ffff";
+            config.primaryUser = {
+              name = "nixos";
+              authorizedKeys = [ ];
+              uid = 1000;
+              home = "/user";
+              passwd = "nixos";
+            };
             config.minimalInstallation = true;
-            config.primaryUser.name = "nixos";
+            config.autoLogin = false;
+            config.preferPipewire = true;
+            config.features = [ ];
           }
           inputs.home-manager.nixosModule
+          ./os/iso.nix
           ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
-          ./os/hm-iso.nix
+          ./os/hm.nix
           ./os/hw.nix
-          ./os/i18n.nix
-          ./os/iso.nix
           ./os/network.nix
           ./os/nix.nix
         ];
