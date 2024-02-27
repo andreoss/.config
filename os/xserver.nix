@@ -3,7 +3,7 @@ let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
     services.startx = {
-      enable = true;
+      enable = config.autoLogin;
       user = config.primaryUser.name;
     };
     services.xserver = {
@@ -14,7 +14,7 @@ in {
         time = 10;
         extraOptions = [ "-detectsleep" ];
         notifier =
-          ''${pkgs.libnotify}/bin/notify-send "Locking in 10 seconds"'';
+          ''${pkgs.libnotify}/bin/notify-send "Блокировка через 10 секунд"'';
         locker = "/run/wrappers/bin/physlock";
         enableNotifier = true;
       };
