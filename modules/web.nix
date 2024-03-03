@@ -22,6 +22,8 @@ in {
         monero-gui
         ungoogled-chromium
         tdesktop
+        signal-desktop
+        transmission-gtk
       ];
     };
     programs = {
