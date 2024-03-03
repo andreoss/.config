@@ -26,11 +26,6 @@ let
       ExecStart = "${change-mac} ${interface}";
     };
   };
-  networks = builtins.tryEval {
-    networks = import ../secrets/networks.nix;
-    environmentFile = pkgs.writeShellScript "secrets.env"
-      (builtins.readFile ../secrets/network.env);
-  };
   keystore = "/etc/ssl/certs/java/keystore.jks";
 in {
   systemd.globalEnvironment = {
@@ -70,56 +65,11 @@ in {
       mode = "0400";
     };
   };
-
-  services.kea.dhcp4 = {
-    enable = true;
-    settings = {
-      lease-database = {
-        type = "memfile";
-        persist = false;
-      };
-      interfaces-config = { interfaces = [ "virbr0" ]; };
-      subnet4 = [{
-        pools = [{ pool = "203.0.113.100 - 203.0.113.250"; }];
-        reservations = [
-          {
-            "hw-address" = "00:00:00:00:00:00";
-            "ip-address" = "203.0.113.100";
-          }
-          {
-            "hw-address" = "00:00:00:00:00:01";
-            "ip-address" = "203.0.113.101";
-          }
-          {
-            "hw-address" = "00:00:00:00:00:02";
-            "ip-address" = "203.0.113.102";
-          }
-        ];
-        subnet = "203.0.113.0/24";
-      }];
-      option-data = [{
-        "name" = "routers";
-        "data" = "203.0.113.1";
-      }];
-      valid-lifetime = 4000;
-    };
-  };
   networking = {
-    bridges = { virbr0 = { interfaces = [ ]; }; };
-    interfaces = {
-      virbr0 = {
-        ipv4.addresses = [{
-          address = "203.0.113.1";
-          prefixLength = 24;
-        }];
-      };
-    };
-    nat = { internalInterfaces = [ "ve-+" "virbr0" ]; };
     timeServers = [ ];
     networkmanager = { enable = lib.mkForce false; };
     enableIPv6 = lib.mkForce false;
     firewall = {
-      trustedInterfaces = [ "docker0" "br*" ];
       extraPackages = with pkgs; [ ipset ];
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
