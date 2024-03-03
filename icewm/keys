@@ -1,5 +1,6 @@
 key "Super+c"           icesh -f center
-key "Super+r"           icesh -f restore
+key "Super+r"           rofi -show run
+key "Super+e"           pcmanfm
 key "Super+Down"        icesh -f restore
 key "Super+Right"       icesh -f restore vertical top right
 key "Super+Left"        icesh -f restore vertical top left
@@ -10,4 +11,5 @@ key "Super+Prior"       icesh -f sizeto 49% 49% top right
 key "Super+Next"        icesh -f sizeto 49% 49% bottom right
 key "Super+End"         icesh -f sizeto 49% 49% bottom left
 key "Super+Begin"       icesh -f sizeto 49% 49% center
+key "Super+slash"       icesh -f windowlist
 key "Super+slash"       icesh -f windowlist
