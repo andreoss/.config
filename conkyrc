@@ -52,4 +52,7 @@ ${mpd_file}
 ${alignc}${mpd_elapsed} / ${mpd_length}
 ${mpd_bar 5,480}
 $endif
+${hr 1}
+${execpi 60 DJS=`date +%_d`; cal | sed s/"$DJS"'\b'/'${color orange}'"$DJS"'$color'/ | sed s/^/'${alignc}/'}
+${hr 1}
 ]]
