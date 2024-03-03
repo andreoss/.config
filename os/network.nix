@@ -1,5 +1,6 @@
 { lib, config, pkgs, ... }:
 let
+  isOn = (x: (builtins.elem x config.features));
   change-mac = pkgs.writeShellScript "change-mac" ''
     PATH=${lib.strings.makeBinPath [ pkgs.iproute2 pkgs.macchanger ]}:$PATH
     IFDEV="$1"
@@ -46,20 +47,20 @@ in {
           ${keystore}
       '';
   };
-  environment = {
+  environment = lib.mkIf config.sslProxy.enable {
     systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
     variables.JAVAX_NET_SSL_TRUSTSTORE = keystore;
     variables.SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     etc."ssl/proxy/cert.crt" = {
-      text = builtins.readFile ../secrets/ssl/ca-cert.crt;
+      text = config.sslProxy.crt;
       user = "privoxy";
       group = "privoxy";
       mode = "0400";
     };
     etc."ssl/proxy/key.pem" = {
-      text = builtins.readFile ../secrets/ssl/ca-key.pem;
+      text = config.sslProxy.crt;
       user = "privoxy";
       group = "privoxy";
       mode = "0400";
@@ -120,11 +121,10 @@ in {
         url = "${russianCa}/russian_trusted_sub_ca_pem.crt";
         sha256 = "sha256:19jffjrawgbpdlivdvpzy7kcqbyl115rixs86vpjjkvp6sgmibph";
       })
-      ../secrets/ssl/ca-cert.crt
     ];
     pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
   };
-  services = {
+  services = lib.mkIf config.sslProxy.enable {
     privoxy.enable = true;
     privoxy.inspectHttps = true;
     privoxy.certsLifetime = "1d";
