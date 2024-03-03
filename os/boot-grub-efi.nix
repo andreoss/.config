@@ -16,8 +16,8 @@
         font =
           "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
         fontSize = 36;
-        gfxmodeBios = "1920x1080";
-        gfxmodeEfi = "1920x1080";
+        gfxmodeBios = lib.mkForce "1920x1080";
+        gfxmodeEfi = lib.mkForce "1920x1080";
         splashImage = ../wp/1.jpeg;
         splashMode = "stretch";
         theme = null;
