@@ -2,11 +2,8 @@
 
 let isOn = (x: (builtins.elem x config.features));
 in {
-{
   config = {
-    programs.mercurial = {
-      enable = true;
-    };
+    programs.mercurial = { enable = true; };
     programs.mercurial = lib.mkIf (isOn "vcs") {
       userName = config.primaryUser.handle;
       userEmail = config.primaryUser.email;
