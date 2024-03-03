@@ -110,7 +110,7 @@ in {
             WorkingDirectory = "~";
             PAMName = "login";
             UtmpMode = "user";
-            UnsetEnvirnment = "TERM";
+            UnsetEnvironment = "TERM";
             ExecStart =
               "${pkgs.bash}/bin/bash --login -c 'export DISPLAY=:0; xpra shadow; exec /user/.xsession'";
             Restart = "always";
@@ -128,7 +128,7 @@ in {
             PAMName = "login";
             UtmpIdentifier = "tty1";
             UtmpMode = "user";
-            UnsetEnvirnment = "TERM";
+            UnsetEnvironment = "TERM";
             ExecStart =
               "${pkgs.xorg.xorgserver}/bin/Xvfb :0 -screen 0 1300x700x24";
             Restart = "always";
