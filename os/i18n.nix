@@ -9,7 +9,6 @@
       "ru_RU.UTF-8/UTF-8"
     ];
     defaultLocale = config.locale;
-    extraLocaleSettings = { LC_MESSAGES = "en_GB.utf8"; };
   };
   location = {
     provider = "manual";
