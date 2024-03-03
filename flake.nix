@@ -42,8 +42,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware = { url = "github:NixOS/nixos-hardware"; };
-
     nodm-module = {
       url = "github:andreoss/nodm-nixos-module";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,7 +72,6 @@
       systems = lib.systems.flakeExposed;
       lib = nixpkgs.lib;
       eachSystem = lib.genAttrs systems;
-      options = builtins.fromTOML (builtins.readFile ./secrets/options.toml);
       legacyPackages = eachSystem (system:
         import nixpkgs {
           inherit system;
@@ -113,7 +110,6 @@
           modules = [
             ./default.nix
             host.config
-            { system.stateVersion = options.main.stateVersion; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
             { networking.dns-crypt.enable = true; }
@@ -187,7 +183,6 @@
         hostname = "tx";
         config = import ./secrets { lib = lib; };
         modules = [
-          inputs.nixos-hardware.nixosModules.${options.tx.model}
           ./secrets/tx-hw.nix
           ./os/fs-crypt.nix
           ./os/boot-loader.nix
@@ -234,7 +229,6 @@
       nixosConfigurations.rr = mkSystem {
         hostname = "rr";
         modules = [
-          inputs.nixos-hardware.nixosModules.${options.ss.model}
           ./secrets/rr
           ./os/boot-loaderspecialArgs..nix
           ./secrets/tx-hw.nix
