@@ -141,19 +141,15 @@ in {
       noProxy = "gcr.io,zoom.us,slack.com";
     };
     usePredictableInterfaceNames = false;
-    wireless = {
-      enable = true;
-      dbusControlled = true;
-      scanOnLowSignal = false;
+    supplicant."wlan0" = {
+      configFile = {
+        path = "/var/db/wpa_supplicant.conf";
+        writable = true;
+      };
       userControlled = {
         enable = true;
         group = "wheel";
       };
-      networks = if networks.success then networks.value.networks else { };
-      environmentFile = if networks.success then
-        networks.value.environmentFile
-      else
-        (pkgs.writeShellScript "empty.env" "");
     };
     dhcpcd = {
       wait = "background";
