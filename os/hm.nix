@@ -15,7 +15,7 @@ in {
     home.stateVersion = config.stateVersion;
     imports = [
       ../default.nix
-      ../secrets
+      specialArgs.cfg
       specialArgs.inputs.emacs-d.nixosModules.home-manager
       specialArgs.inputs.ff-hm.homeManagerModules.default
       ../modules/development
