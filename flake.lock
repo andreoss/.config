@@ -529,22 +529,6 @@
         "type": "github"
       }
     },
-    "password-store": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1703503823,
-        "narHash": "sha256-CVY4YdiL8WeIstvlB/DOcEueD+FVW33uTw/b3vuKNhA=",
-        "ref": "refs/heads/master",
-        "rev": "795ba7875c5d594fa48004fe2a56d141c7ac7367",
-        "revCount": 2,
-        "type": "git",
-        "url": "ssh://git@github.com/andreoss/.password-store.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/andreoss/.password-store.git"
-      }
-    },
     "root": {
       "inputs": {
         "dmenu": "dmenu",
@@ -561,7 +545,6 @@
         "nixpkgs": "nixpkgs_3",
         "nodm-module": "nodm-module",
         "nur": "nur_2",
-        "password-store": "password-store",
         "urxvt-context-ext": "urxvt-context-ext",
         "user-js": "user-js_2",
         "wfica": "wfica"
