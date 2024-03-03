@@ -108,9 +108,11 @@
           specialArgs = {
             inputs = inputs;
             overlays = legacyPackages."x86_64-linux".overlays;
+            cfg = host.config;
           };
           modules = [
             ./default.nix
+            host.config
             { system.stateVersion = options.main.stateVersion; }
             inputs.nodm-module.nixosModules.default
             inputs.dnscrypt-module.nixosModules.default
@@ -141,10 +143,11 @@
           specialArgs = {
             inputs = inputs;
             overlays = legacyPackages."x86_64-linux".overlays;
+            cfg = host.config;
           };
           modules = [
             ./default.nix
-            ./secrets
+            host.config
             { time.timeZone = "America/New_York"; }
             { networking.stevenBlackHosts.enable = true; }
             { networking.hostName = host.hostname; }
@@ -182,6 +185,7 @@
     in rec {
       nixosConfigurations.tx = mkSystem {
         hostname = "tx";
+        config = import ./secrets { lib = lib; };
         modules = [
           inputs.nixos-hardware.nixosModules.${options.tx.model}
           ./secrets/tx-hw.nix
@@ -190,38 +194,9 @@
           ./os/containers.nix
         ];
       };
-      nixosConfigurations.ts = mkSystem {
-        hostname = "ts";
-        modules = [
-          inputs.nixos-hardware.nixosModules.${options.ts.model}
-          ./secrets/fs-ts.nix
-          ./secrets/ts-hw.nix
-          ./os/boot-loader.nix
-        ];
-      };
-      nixosConfigurations.ss = mkSystem {
-        hostname = "ss";
-        modules = [
-          inputs.nixos-hardware.nixosModules.${options.ss.model}
-          ./secrets/ss-hw.nix
-          ./os/boot-grub.nix
-          ./secrets/tx-hw.nix
-          ./os/containers.nix
-        ];
-      };
-
-      nixosConfigurations.dx = mkSystem {
-        hostname = "dx";
-        modules = [
-          ./secrets/dx
-          ./os/boot-loader.nix
-          ./secrets/tx-hw.nix
-          ./os/containers.nix
-        ];
-      };
-
       nixosConfigurations."ps" = mkSystem {
         hostname = "ps";
+        config = import ./secrets { lib = lib; };
         modules = [
           ./secrets/3
           ./os/boot-grub-efi.nix
@@ -232,22 +207,23 @@
 
       nixosConfigurations."v" = mkSystemGeneric {
         hostname = "v";
-        modules = [
-          {
-            config.hostId = "000a";
-            config.primaryUser = {
-              name = "v";
-              authorizedKeys = [ ];
-              uid = 1338;
-              home = "/user";
-              passwd = "*";
-            };
-            config.minimalInstallation = false;
-            config.autoLogin = true;
-            config.preferPipewire = true;
-            config.features = [ ];
+        config = {
+          config.hostId = "000a";
+          config.primaryUser = {
+            name = "v";
+            authorizedKeys = [ ];
+            uid = 1338;
+            home = "/user";
+            passwd = "*";
+          };
+          config.minimalInstallation = false;
+          config.autoLogin = true;
+          config.preferPipewire = true;
+          config.features = [ ];
 
-          }
+        };
+        modules = [
+
           { time.timeZone = "Europe/Moscow"; }
           ./os/boot-grub-efi.nix
           ./os/btrfs.nix
@@ -260,7 +236,7 @@
         modules = [
           inputs.nixos-hardware.nixosModules.${options.ss.model}
           ./secrets/rr
-          ./os/boot-loader.nix
+          ./os/boot-loaderspecialArgs..nix
           ./secrets/tx-hw.nix
           ./os/containers.nix
         ];
