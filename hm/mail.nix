@@ -58,7 +58,13 @@ in {
           pkgs.coreutils
           pkgs.gnugrep
         ];
-      in { Service = { Environment = [ "PATH=${path}" ]; }; };
+      in {
+        Service = {
+          Environment = [ "PATH=${path}" ];
+          ExecStartPre =
+            "systemctl is-active sys-devices-virtual-net-tun0.device";
+        };
+      };
       user.services.notmuch = let
         path = lib.strings.makeBinPath [
           pkgs.isync
