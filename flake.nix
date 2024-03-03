@@ -55,6 +55,7 @@
       url = "git+ssh://git@github.com/andreoss/.password-store.git";
       flake = false;
     };
+    ff-hm.url = "github.com:andreoss/ff-hm-module";
 
     urxvt-context-ext = {
       url = "github:andreoss/urxvt-context";
@@ -287,6 +288,7 @@
           ./default.nix
           inputs.nodm-module.nixosModules.default
           inputs.dnscrypt-module.nixosModules.default
+          { networking.dns-crypt.enable = true; }
           {
             config.hostId = "ffff";
             config.primaryUser = {
@@ -297,7 +299,7 @@
               passwd = "nixos";
             };
             config.minimalInstallation = true;
-            config.autoLogin = false;
+            config.autoLogin = true;
             config.preferPipewire = true;
             config.features = [ ];
           }
