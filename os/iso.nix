@@ -23,7 +23,7 @@ in {
       };
       supportedFilesystems =
         lib.mkForce [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" "ext4" ];
-      plymouth = { enable = true; };
+      plymouth = { enable = lib.mkForce false; };
     };
     console = {
       packages = [ pkgs.terminus_font ];
@@ -39,7 +39,7 @@ in {
           blue1
           red3
           cyan1
-          yellow2
+          white3
           black2
           orange1
           gray1
