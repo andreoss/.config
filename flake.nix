@@ -51,10 +51,6 @@
 
     wfica = { url = "github:andreoss/citrix"; };
 
-    password-store = {
-      url = "git+ssh://git@github.com/andreoss/.password-store.git";
-      flake = false;
-    };
     ff-hm.url = "github:andreoss/ff-hm-module";
 
     urxvt-context-ext = {
