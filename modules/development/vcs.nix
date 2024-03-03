@@ -3,19 +3,12 @@
 let isOn = (x: (builtins.elem x config.features));
 in {
   config = {
-    programs.mercurial = { enable = true; };
-    programs.mercurial = lib.mkIf (isOn "vcs") {
+    programs.mercurial = {
+      enable = true;
+    } // lib.mkIf (isOn "vcs") {
       userName = config.primaryUser.handle;
       userEmail = config.primaryUser.email;
       package = pkgs.mercurialFull;
-    };
-    programs.git = lib.mkIf (isOn "vcs") {
-      userName = config.primaryUser.handle;
-      userEmail = config.primaryUser.email;
-      signing = {
-        key = config.primaryUser.gpgKey;
-        signByDefault = true;
-      };
     };
     programs.jujutsu = { enable = true; };
     programs.git = {
@@ -66,6 +59,13 @@ in {
         path = ../../git/config.work;
         condition = "gitdir:~/work";
       }];
+    } // lib.mkIf (isOn "vcs") {
+      userName = config.primaryUser.handle;
+      userEmail = config.primaryUser.email;
+      signing = {
+        key = config.primaryUser.gpgKey;
+        signByDefault = true;
+      };
     };
     programs.gh = {
       enable = true;
