@@ -17,6 +17,7 @@ in {
       ../default.nix
       ../secrets
       specialArgs.inputs.emacs-d.nixosModules.home-manager
+      specialArgs.inputs.ff-hm.homeManagerModules.default
       ../modules/development
       ../modules/multimedia.nix
       ../modules/web.nix
@@ -29,7 +30,12 @@ in {
       ../hm/xsession.nix
     ] ++ (lib.optionals (isOn "work") [ ../hm/work.nix ])
       ++ (lib.optionals (isOn "email") [ ../hm/mail.nix ]) ++ [
-        { home.web.enable = true; }
+        {
+          home.firefox = {
+            enable = true;
+            homePage = "https://opennet.ru";
+          };
+        }
         {
           home.development = {
             cxx.enable = isOn "cxx";
@@ -44,6 +50,7 @@ in {
         }
         { home.multimedia.enable = isOn "multimedia"; }
         { home.office.enable = isOn "office"; }
+        { home.web.enable = isOn "web"; }
       ];
   };
 }
