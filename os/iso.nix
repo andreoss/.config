@@ -50,7 +50,7 @@ in {
           white1
         ]);
     };
-    systemd.extraConfig = ''
+    systemd.extraConfig = lib.mkForce ''
       DefaultTimeoutStartSec=10s
       DefaultTimeoutStopSec=10s
       DefaultOOMPolicy=kill
