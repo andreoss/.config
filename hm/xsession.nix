@@ -85,7 +85,15 @@ in {
     systemd.user.services = lib.mkIf config.xsession.enable {
       keynav.Service.Environment =
         [ "PATH=${pkgs.xdotool}/bin:${pkgs.wmctrl}/bin:$PATH" ];
-      conky = {
+      conky = let
+        path = lib.strings.makeBinPath [
+          pkgs.coreutils
+          pkgs.notmuch
+          pkgs.util-linux
+          pkgs.gnused
+          pkgs.conky
+        ];
+      in {
         Unit = {
           Description = "Conky";
           PartOf = [ "graphical-session.target" ];
@@ -93,8 +101,7 @@ in {
         Service = {
           ExecStart =
             "${pkgs.conky}/bin/conky --daemonize --config=${../conkyrc}";
-          Environment =
-            [ "PATH=${pkgs.coreutils}/bin:${pkgs.notmuch}/bin:$PATH" ];
+          Environment = [ "PATH=${path}" ];
           Type = "forking";
         };
         Install = { WantedBy = [ "graphical-session.target" ]; };
