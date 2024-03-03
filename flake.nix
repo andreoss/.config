@@ -297,13 +297,14 @@
             config.minimalInstallation = true;
             config.autoLogin = true;
             config.preferPipewire = true;
-            config.features = [ ];
+            config.features = [ "livecd" ];
           }
           inputs.home-manager.nixosModule
           ./os/iso.nix
           ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
+          ./os/virtualisation.nix
           ./os/hm.nix
           ./os/hw.nix
           ./os/network.nix
