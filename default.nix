@@ -19,7 +19,6 @@ with lib; {
       type = types.str;
       default = "/user";
     };
-
     passwd = mkOption {
       type = types.str;
       default = "*";
@@ -46,5 +45,13 @@ with lib; {
   options.locale = mkOption {
     type = types.str;
     default = "ru_RU.utf8";
+  };
+  options.sslProxy = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+    };
+    crt = mkOption { type = types.str; };
+    pem = mkOption { type = types.str; };
   };
 }
