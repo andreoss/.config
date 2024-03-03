@@ -3,7 +3,7 @@ let wallpaper = ./../wp/1.jpeg;
 in {
   config = {
     services.startx = {
-      enable = config.autoLogin;
+      enable = lib.mkForce config.autoLogin;
       user = config.primaryUser.name;
     };
     services.xserver = {
