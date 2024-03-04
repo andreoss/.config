@@ -52,7 +52,7 @@ nixos-install --flake '.#v' --root /mnt-2 --no-root-passwd
 ```
 ### Add LUKS key
 ```console
-cryptsetup luksAddKey  --key-file secrets/system-000a /dev/nvme0n12
+cryptsetup luksAddKey  --key-file secrets/system-000a /dev/nvme0n1p2
 ```
 ### Unmount & reboot
 ```
