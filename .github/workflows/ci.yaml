@@ -1,0 +1,26 @@
+name: ci
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    strategy:
+        matrix:
+           package:
+           - nixosConfigurations.livecd.config.system.build.isoImage
+           channel:
+           - nixos-unstable
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Nix
+      uses: cachix/install-nix-action@v13
+      with:
+        install_url: https://releases.nixos.org/nix/nix-2.13.3/install
+        nix_path: nixpkgs=channel:${{matrix.channel}}
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+    - name: Build
+      run: nix build '.#${{matrix.package}}'
