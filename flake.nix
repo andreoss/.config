@@ -130,6 +130,7 @@
             ./os/network.nix
             ./os/i18n.nix
             ./os/boot.nix
+            ./os/console.nix
           ];
         };
       mkSystem = host:
@@ -166,6 +167,7 @@
             ./os/network.nix
             ./os/i18n.nix
             ./os/boot.nix
+            ./os/console.nix
             {
               system.autoUpgrade = {
                 enable = true;
@@ -246,31 +248,40 @@
           ./os/i18n.nix
         ];
       };
-      nixosConfigurations.livecd = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.livecd = let
+        cfg = {
+          config.hostId = "ffff";
+          config.primaryUser = {
+            name = "nixos";
+            authorizedKeys = [ ];
+            uid = 1000;
+            home = "/user";
+            passwd = "nixos";
+          };
+          config.minimalInstallation = true;
+          config.autoLogin = true;
+          config.autoLock.enable = false;
+          config.preferPipewire = true;
+          config.features = [ "livecd" ];
+        };
+
+      in nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs self; };
         pkgs = legacyPackages."x86_64-linux";
+
+        specialArgs = {
+          inherit inputs self;
+          cfg = cfg;
+        };
         modules = [
           ./default.nix
+          cfg
           inputs.nodm-module.nixosModules.default
           inputs.dnscrypt-module.nixosModules.default
           { networking.dns-crypt.enable = true; }
-          {
-            config.hostId = "ffff";
-            config.primaryUser = {
-              name = "nixos";
-              authorizedKeys = [ ];
-              uid = 1000;
-              home = "/user";
-              passwd = "nixos";
-            };
-            config.minimalInstallation = true;
-            config.autoLogin = true;
-            config.preferPipewire = true;
-            config.features = [ "livecd" ];
-          }
           inputs.home-manager.nixosModule
           ./os/iso.nix
+          ./os/console.nix
           ./os/xserver.nix
           ./os/audio.nix
           ./os/configuration.nix
