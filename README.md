@@ -41,8 +41,8 @@ cd .config
 ### Format disk
 ```
 export HOST_ID=10
-./scripts/format-disk.sh -f -C -E -L gpt -d /dev/sda -H "$HOST_ID" -F btrfs
-./scripts/format-disk.sh -m -C -E -L gpt -d /dev/sda -H "$HOST_ID" -F btrfs
+./scripts/format-disk.sh -f -C -E -L gpt -d /dev/nvme0n1 -H "$HOST_ID" -F btrfs
+./scripts/format-disk.sh -m -C -E -L gpt -d /dev/nvme0n1 -H "$HOST_ID" -F btrfs
 git add -f secrets/system-000a
 ```
 ### Install
@@ -52,10 +52,10 @@ nixos-install --flake '.#v' --root /mnt-2 --no-root-passwd
 ```
 ### Add LUKS key
 ```console
-cryptsetup luksAddKey  --key-file secrets/system-000a /dev/sda2
+cryptsetup luksAddKey  --key-file secrets/system-000a /dev/nvme0n12
 ```
 ### Unmount & reboot
 ```
-./scripts/format-disk.sh -u -C -E -L gpt -d /dev/sda -H "$HOST_ID" -F btrfs
+./scripts/format-disk.sh -u -C -E -L gpt -d /dev/nvme0n1 -H "$HOST_ID" -F btrfs
 reboot
 ```
