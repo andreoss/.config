@@ -32,7 +32,7 @@ in {
     };
   in {
     enable = true;
-    wheelNeedsPassword = true;
+    wheelNeedsPassword = config.autoLock.enable;
     extraConfig = "Defaults lecture=never";
     extraRules = [
       (nopass "kill")
