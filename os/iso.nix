@@ -1,4 +1,4 @@
-{ lib, pkgs, modulesPath, ... }:
+{ lib, pkgs, config, modulesPath, ... }:
 let palette = import ./palette.nix;
 in {
   imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
@@ -23,32 +23,13 @@ in {
       };
       supportedFilesystems =
         lib.mkForce [ "btrfs" "vfat" "f2fs" "xfs" "ntfs" "ext4" ];
-      plymouth = { enable = lib.mkForce false; };
     };
-    console = {
-      packages = [ pkgs.terminus_font ];
-      font = "ter-132n";
-      earlySetup = true;
-      useXkbConfig = true;
-      colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
-        (with palette; [
-          black1
-          red1
-          green1
-          yellow1
-          blue1
-          red3
-          cyan1
-          white3
-          black2
-          orange1
-          gray1
-          gray2
-          gray3
-          magenta
-          red3
-          white1
-        ]);
+    boot.plymouth = {
+      enable = true;
+      theme = "bgrt";
+      logo = config.backgroundImage;
+      font =
+        "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
     };
     systemd.extraConfig = lib.mkForce ''
       DefaultTimeoutStartSec=10s
