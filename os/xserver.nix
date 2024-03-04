@@ -1,6 +1,4 @@
-{ lib, config, pkgs, self, ... }:
-let wallpaper = ./../wp/1.jpeg;
-in {
+{ lib, config, pkgs, self, ... }: {
   config = {
     services.startx = {
       enable = lib.mkForce config.autoLogin;
@@ -9,9 +7,9 @@ in {
     services.xserver = {
       enable = true;
       excludePackages = [ pkgs.xterm ];
-      xautolock = {
+      xautolock = lib.mkIf config.autoLock.enable {
         enable = true;
-        time = 10;
+        time = config.autoLock.time;
         extraOptions = [ "-detectsleep" ];
         notifier =
           ''${pkgs.libnotify}/bin/notify-send "Блокировка через 10 секунд"'';
