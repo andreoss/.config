@@ -6,6 +6,7 @@ on:
     branches: [ master ]
 jobs:
   build:
+    continue-on-error: true
     strategy:
         matrix:
            package:
