@@ -107,3 +107,5 @@ fi
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
+
+precmd () {print -Pn "\e]0;\a"}
