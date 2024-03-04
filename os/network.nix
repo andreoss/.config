@@ -21,10 +21,10 @@ let
     before = [ "network-pre.target" ];
     bindsTo = [ "sys-subsystem-net-devices-${interface}.device" ];
     after = [ "sys-subsystem-net-devices-${interface}.device" ];
-    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${change-mac} ${interface}";
+      ConditionPathExists = "/sys/class/net/${interface}";
     };
   };
   keystore = "/etc/ssl/certs/java/keystore.jks";
@@ -169,5 +169,9 @@ in {
   systemd.services = {
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
+    supplicant-wlan0 = {
+      after = [ "macchanger-wlan0.service" ];
+      serviceConfig = { ConditionPathExists = "/sys/class/net/wlan0"; };
+    };
   };
 }
