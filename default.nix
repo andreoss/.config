@@ -24,11 +24,25 @@ with lib; {
       default = "*";
     };
   };
+  options.backgroundImage = mkOption {
+    type = types.path;
+    default = ./wp/1.jpeg;
+  };
   options.minimalInstallation = mkOption {
     type = types.bool;
     default = false;
   };
   options.autoLogin = mkOption { type = types.bool; };
+  options.autoLock = {
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+    };
+    time = mkOption {
+      type = types.int;
+      default = 10;
+    };
+  };
   options.preferPipewire = mkOption {
     type = types.bool;
     default = true;
