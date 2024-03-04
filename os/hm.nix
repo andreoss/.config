@@ -16,6 +16,7 @@ in {
     imports = [
       ../default.nix
       specialArgs.cfg
+      specialArgs.inputs.emacs-d.nixosModules.home-manager
       specialArgs.inputs.ff-hm.homeManagerModules.default
       ../modules/development
       ../modules/multimedia.nix
