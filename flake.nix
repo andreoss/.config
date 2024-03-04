@@ -181,16 +181,7 @@
           ];
         };
     in rec {
-      nixosConfigurations.tx = mkSystem {
-        hostname = "tx";
-        config = import ./secrets { lib = lib; };
-        modules = [
-          ./secrets/tx-hw.nix
-          ./os/fs-crypt.nix
-          ./os/boot-loader.nix
-          ./os/containers.nix
-        ];
-      };
+
       nixosConfigurations."ps" = mkSystem {
         hostname = "ps";
         config = import ./secrets { lib = lib; };
