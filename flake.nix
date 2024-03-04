@@ -216,7 +216,7 @@
           config.minimalInstallation = false;
           config.autoLogin = true;
           config.preferPipewire = true;
-          config.features = [ "vm" "work" "multimedia" "web" "office" ];
+          config.features = [ "vm" "multimedia" "web" "office" ];
 
         };
         modules = [
