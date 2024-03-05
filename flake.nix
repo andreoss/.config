@@ -211,7 +211,6 @@
 
         };
         modules = [
-
           { time.timeZone = "Europe/Moscow"; }
           ./os/boot-grub-efi.nix
           ./os/btrfs.nix
@@ -219,26 +218,6 @@
         ];
       };
 
-      nixosConfigurations.rr = mkSystem {
-        hostname = "rr";
-        modules = [
-          ./secrets/rr
-          ./os/boot-loaderspecialArgs..nix
-          ./secrets/tx-hw.nix
-          ./os/containers.nix
-        ];
-      };
-
-      nixosConfigurations.wsl = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs self; };
-        modules = [
-          inputs.home-manager.nixosModule
-          ./os/wsl.nix
-          ./os/nix.nix
-          ./os/i18n.nix
-        ];
-      };
       nixosConfigurations.livecd = let
         cfg = {
           config.hostId = "ffff";
