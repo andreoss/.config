@@ -1,6 +1,8 @@
 key "Super+c"           icesh -f center
 key "Super+r"           rofi -show run
 key "Super+e"           pcmanfm
+key "Super+1"           firefox-esr
+key "Super+2"           brave
 key "Super+Down"        icesh -f restore
 key "Super+Right"       icesh -f restore vertical top right
 key "Super+Left"        icesh -f restore vertical top left
