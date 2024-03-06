@@ -5,6 +5,7 @@
       user = config.primaryUser.name;
     };
     services.xserver = {
+      dpi = config.dpi;
       enable = true;
       excludePackages = [ pkgs.xterm ];
       xautolock = lib.mkIf config.autoLock.enable {

@@ -11,7 +11,7 @@
     ./ruby.nix
     ./rust.nix
     ./scala.nix
-    #./vcs.nix
+    ./vcs.nix
   ];
 
   config = {

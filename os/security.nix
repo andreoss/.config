@@ -34,7 +34,7 @@ in {
     enable = true;
     wheelNeedsPassword = config.autoLock.enable;
     extraConfig = "Defaults lecture=never";
-    extraRules = [
+    extraRules = lib.mkIf config.autoLock.enable [
       (nopass "kill")
       (nopass "pkill")
       (nopass "halt")
