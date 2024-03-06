@@ -4,8 +4,8 @@ in {
   imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
   config = {
     isoImage = {
-      efiSplashImage = ./../wp/1.jpeg;
-      splashImage = ./../wp/1.jpeg;
+      efiSplashImage = config.backgroundImage;
+      splashImage = config.backgroundImage;
     };
     boot = {
       initrd = {

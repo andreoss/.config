@@ -18,7 +18,7 @@
         fontSize = 36;
         gfxmodeBios = lib.mkForce "1920x1080";
         gfxmodeEfi = lib.mkForce "1920x1080";
-        splashImage = ../wp/1.jpeg;
+        splashImage = config.backgroundImage;
         splashMode = "stretch";
         theme = null;
       };
