@@ -17,7 +17,9 @@ in {
           then
               autorandr docked
           fi
-          echo "Xft.dpi: ${config.dpi}" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          echo "Xft.dpi: ${
+            builtins.toString config.dpi
+          }" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
           LC_MESSAGES="$LC_NAME" icewm-session
           while :
           do
@@ -58,11 +60,10 @@ in {
           fix-dpi = ''
             case "$AUTORANDR_CURRENT_PROFILE" in
                 docked)
-                DPI=192
+                DPI=${builtins.toString (config.dpi * 2)}";
                 ;;
                 mobile)
-                DPI=96
-                ;;
+                DPI=${builtins.toString config.dpi}";
                 *)
                 echo "Unknown profile: $AUTORANDR_CURRENT_PROFILE"
                 exit 1
