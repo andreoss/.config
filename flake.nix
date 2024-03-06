@@ -202,13 +202,14 @@
             authorizedKeys = [ ];
             uid = 1338;
             home = "/user";
-            passwd = "*";
+            passwd =
+              "$6$wQMDzeSSe0JgUStV$oYkJz.j6hHI8bjUxX5Pk0adAF6aj7Zzjo.3YVMl.bUUqDNAO6gTAiPbnf8enCIqL2M7LYXlKEEDZDNfyXKbb3.";
           };
           config.minimalInstallation = false;
           config.autoLogin = true;
           config.preferPipewire = true;
           config.dpi = 140;
-          config.features = [ "multimedia" "web" "office" ];
+          config.features = [ "multimedia" "web" "office" "vm" ];
         };
         modules = [
           { time.timeZone = "Europe/Moscow"; }
