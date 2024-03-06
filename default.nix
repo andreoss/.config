@@ -58,7 +58,7 @@ with lib; {
 
   options.dpi = mkOption {
     type = types.int;
-    default = 96;
+    default = 100;
   };
   options.locale = mkOption {
     type = types.str;

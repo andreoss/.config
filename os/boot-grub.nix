@@ -6,7 +6,7 @@
         efiSupport = false;
         enableCryptodisk = true;
         enable = true;
-        splashImage = ../wp/1.jpeg;
+        splashImage = config.backgroundImage;
         splashMode = "stretch";
         theme = null;
         gfxmodeBios = "1920x1080";
