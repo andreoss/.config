@@ -17,6 +17,7 @@ in {
           then
               autorandr docked
           fi
+          echo "Xft.dpi: 120" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
           LC_MESSAGES="$LC_NAME" icewm-session
           while :
           do
