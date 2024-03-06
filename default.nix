@@ -56,6 +56,10 @@ with lib; {
     default = [ ];
   };
 
+  options.dpi = mkOption {
+    type = types.int;
+    default = 96;
+  };
   options.locale = mkOption {
     type = types.str;
     default = "ru_RU.utf8";

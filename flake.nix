@@ -207,10 +207,10 @@
           config.minimalInstallation = false;
           config.autoLogin = true;
           config.preferPipewire = true;
+          config.dpi = 140;
           config.features = [ "multimedia" "web" "office" ];
         };
         modules = [
-          { services.xserver.dpi = 120; }
           { time.timeZone = "Europe/Moscow"; }
           ./os/boot-grub-efi.nix
           ./os/btrfs.nix
