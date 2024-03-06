@@ -208,9 +208,9 @@
           config.autoLogin = true;
           config.preferPipewire = true;
           config.features = [ "multimedia" "web" "office" ];
-
         };
         modules = [
+          { services.xserver.dpi = "120"; }
           { time.timeZone = "Europe/Moscow"; }
           ./os/boot-grub-efi.nix
           ./os/btrfs.nix
