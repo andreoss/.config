@@ -234,11 +234,9 @@
           config.preferPipewire = true;
           config.features = [ "livecd" ];
         };
-
       in nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         pkgs = legacyPackages."x86_64-linux";
-
         specialArgs = {
           inherit inputs self;
           cfg = cfg;
@@ -250,16 +248,14 @@
           inputs.dnscrypt-module.nixosModules.default
           { networking.dns-crypt.enable = true; }
           inputs.home-manager.nixosModule
-          ./os/iso.nix
-          ./os/console.nix
-          ./os/xserver.nix
-          ./os/audio.nix
           ./os/configuration.nix
-          ./os/virtualisation.nix
+          ./os/console.nix
           ./os/hm.nix
           ./os/hw.nix
+          ./os/iso.nix
           ./os/network.nix
           ./os/nix.nix
+          ./os/xserver.nix
         ];
       };
     };
