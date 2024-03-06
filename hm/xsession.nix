@@ -60,10 +60,11 @@ in {
           fix-dpi = ''
             case "$AUTORANDR_CURRENT_PROFILE" in
                 docked)
-                DPI=${builtins.toString (config.dpi * 2)}";
+                DPI=${builtins.toString (2 * config.dpi)}";
                 ;;
                 mobile)
                 DPI=${builtins.toString config.dpi}";
+                ;;
                 *)
                 echo "Unknown profile: $AUTORANDR_CURRENT_PROFILE"
                 exit 1
