@@ -5,11 +5,12 @@ in {
   config = {
     programs.mercurial = {
       enable = true;
-    } // lib.mkIf (isOn "vcs") {
+    } // (if (isOn "vcs") then {
       userName = config.primaryUser.handle;
       userEmail = config.primaryUser.email;
       package = pkgs.mercurialFull;
-    };
+    } else
+      { });
     programs.jujutsu = { enable = true; };
     programs.git = {
       enable = true;
@@ -59,14 +60,15 @@ in {
         path = ../../git/config.work;
         condition = "gitdir:~/work";
       }];
-    } // lib.mkIf (isOn "vcs") {
+    } // (if (isOn "vcs") then {
       userName = config.primaryUser.handle;
       userEmail = config.primaryUser.email;
       signing = {
         key = config.primaryUser.gpgKey;
         signByDefault = true;
       };
-    };
+    } else
+      { });
     programs.gh = {
       enable = true;
       settings = {
