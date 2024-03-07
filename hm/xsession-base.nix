@@ -74,7 +74,7 @@ in {
         global = {
           frame_color = black1;
           separator_color = gray4;
-          transparency = 80;
+          transparency = 10;
           font = "${font}";
           alignment = "center";
           word_warp = "true";
@@ -84,12 +84,12 @@ in {
         urgency_low = {
           background = gray5;
           foreground = black0;
-          timeout = 10;
+          timeout = 30;
         };
         urgency_normal = {
           background = gray5;
           foreground = black0;
-          timeout = 20;
+          timeout = 60;
         };
         urgency_critical = {
           background = white3;
