@@ -7,32 +7,36 @@ in {
     xsession = {
       enable = true;
       scriptPath = ".xinitrc";
-      windowManager.command =
-        let path = lib.strings.makeBinPath [ pkgs.icewm pkgs.dmenu ];
-        in ''
-          PATH=$PATH:${path}
-          PATH=$PATH:$HOME/.local/bin
-          export PATH
-          if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
-          then
-              autorandr docked
-          fi
-          echo "Xft.dpi: ${
-            builtins.toString config.dpi
-          }" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
-          LC_MESSAGES="$LC_NAME" icewm-session
-          while :
-          do
-                CMD=$(dmenu </dev/null)
-                if [ "$CMD" = "exit" ]
-                then
-                  exit
-                else
-                  $CMD
-                fi
-          done
-          wait
-        '';
+      windowManager.command = let
+        path =
+          lib.strings.makeBinPath [ pkgs.icewm pkgs.dmenu pkgs.xdgmenumaker ];
+      in ''
+        PATH=$PATH:${path}
+        PATH=$PATH:$HOME/.local/bin
+        export PATH
+        if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
+        then
+            autorandr docked
+        fi
+        echo "Xft.dpi: ${
+          builtins.toString config.dpi
+        }" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+        mkdir --parent ~/.config/icewm
+        rm --force ~/.config/icewm/menu
+        xdgmenumaker -i -f icewm > ~/.config/icewm/menu
+        LC_MESSAGES="$LC_NAME" icewm-session
+        while :
+        do
+              CMD=$(dmenu </dev/null)
+              if [ "$CMD" = "exit" ]
+              then
+                exit
+              else
+                $CMD
+              fi
+        done
+        wait
+      '';
     };
     services.gammastep = {
       enable = config.xsession.enable;
@@ -124,19 +128,14 @@ in {
       };
     };
     services.picom = {
-      enable = true;
-      backend = "glx";
+      enable = !config.minimalInstallation;
       settings = {
-        detect-client-opacity = false;
-        detect-rounded-corners = false;
-        blur = {
-          background = false;
-          background-fixed = false;
-          background-frame = false;
-          method = "kawase";
-          strength = 1;
-        };
+        backend = "glx";
+        frame-opacity = 1.0;
+        shadow = true;
+        blur = { method = "dual_kawase"; };
         blur-background-exclude = [ "class_g = 'keynav'" ];
+        shadow-exclude = [ "class_g = 'firefox'" "class_g = 'conky'" ];
       };
     };
   };
