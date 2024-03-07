@@ -209,7 +209,7 @@
           config.autoLogin = true;
           config.preferPipewire = true;
           config.dpi = 140;
-          config.features = [ "multimedia" "web" "office" "vm" ];
+          config.features = [ "multimedia" "web" "office" ];
         };
         modules = [
           { time.timeZone = "Europe/Moscow"; }
