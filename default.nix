@@ -64,6 +64,10 @@ with lib; {
     type = types.str;
     default = "ru_RU.utf8";
   };
+  options.kernel = mkOption {
+    type = types.str;
+    default = "linuxPackages";
+  };
   options.sslProxy = {
     enable = mkOption {
       type = types.bool;
