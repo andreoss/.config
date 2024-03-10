@@ -49,7 +49,10 @@
 
     wfica = { url = "github:andreoss/citrix"; };
 
-    ff-hm.url = "github:andreoss/ff-hm-module";
+    ff-hm = {
+      url = "github:andreoss/ff-hm-module";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     urxvt-context-ext = {
       url = "github:andreoss/urxvt-context";
