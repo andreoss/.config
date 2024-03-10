@@ -131,6 +131,16 @@
             ./os/i18n.nix
             ./os/boot.nix
             ./os/console.nix
+            {
+              system.autoUpgrade = {
+                enable = true;
+                flake = inputs.self.outPath;
+                flags =
+                  [ "--update-input" "nixpkgs" "--no-write-lock-file" "-L" ];
+                dates = "02:00";
+                randomizedDelaySec = "45min";
+              };
+            }
           ];
         };
       mkSystem = host:
@@ -207,6 +217,7 @@
           };
           config.minimalInstallation = false;
           config.autoLogin = true;
+          config.autoLock.enable = false;
           config.preferPipewire = true;
           config.dpi = 140;
           config.features = [ "multimedia" "web" "office" ];
