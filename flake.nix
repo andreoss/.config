@@ -81,7 +81,7 @@
           config = {
             joypixels.acceptLicense = true;
             allowUnfree = true;
-            permittedInsecurePackages = [ "mupdf-1.17.0" ];
+            permittedInsecurePackages = [ "mupdf-1.17.0" "nix-2.15.3" ];
           };
           overlays = [
             inputs.nur.overlay
