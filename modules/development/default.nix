@@ -11,11 +11,12 @@
     ./ruby.nix
     ./rust.nix
     ./scala.nix
-    #    ./vcs.nix
+    ./vcs.nix
   ];
 
   config = {
     programs.jq.enable = true;
+    programs.git.enable = true;
     home.packages = with pkgs; [
       ack
       act
