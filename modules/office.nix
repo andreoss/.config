@@ -52,18 +52,28 @@ in {
     home = {
       packages = with pkgs; [
         abiword
+        calibre
+        d2
+        ditaa
         djview
+        dmtx-utils
+        drawio
+        goat
         libertine
+        libreoffice
+        mermaid-filter
         pandoc
+        pandoc-drawio-filter
+        pandoc-imagine
+        pandoc-katex
+        pandoc-plantuml-filter
+        plantuml
+        poppler_utils
         sdcv
+        texlive.combined.scheme-full
         xlsx2csv
         xlsxgrep
         zbar
-        dmtx-utils
-        calibre
-        libreoffice
-        texlive.combined.scheme-full
-        poppler_utils
       ];
     };
     programs = {
