@@ -23,7 +23,6 @@ in {
         nailgun
         dotty
         scalafmt
-        ammonite
         httpie
         scalafix
         leiningen
