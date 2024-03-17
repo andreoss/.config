@@ -34,7 +34,7 @@
       enable = true;
       enableSshSupport = true;
       enableExtraSocket = true;
-      pinentryFlavor = "qt";
+      pinentryPackage = pkgs.pinentry-all;
       maxCacheTtl = 24 * 60 * 60;
       extraConfig = ''
         allow-emacs-pinentry
