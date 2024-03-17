@@ -56,7 +56,6 @@
       pv
       qrencode
       ripgrep
-      rnix-lsp
       rsync
       sharutils
       shellcheck
