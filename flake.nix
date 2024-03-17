@@ -195,6 +195,21 @@
         };
     in rec {
 
+      nixosConfigurations."dx" = mkSystem {
+        hostname = "dx";
+        config = import ./secrets { lib = lib; };
+        modules = [
+          ./secrets/dx
+          ./os/boot-loader.nix
+          ./secrets/tx-hw.nix
+          ./os/containers.nix
+          {
+            services.sshd.enable = true;
+            systemd.services.sshd.serviceConfig.Group = "tunnel";
+          }
+        ];
+      };
+
       nixosConfigurations."ps" = mkSystem {
         hostname = "ps";
         config = import ./secrets { lib = lib; };
