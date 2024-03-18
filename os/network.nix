@@ -24,7 +24,6 @@ let
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${change-mac} ${interface}";
-      ExecCondition = "${pkgs.findutils}/bin/find /sys/class/net/${interface}";
     };
   };
   keystore = "/etc/ssl/certs/java/keystore.jks";
@@ -48,7 +47,12 @@ in {
       '';
   };
   environment = lib.mkIf config.sslProxy.enable {
-    systemPackages = with pkgs; [ traceroute dig.dnsutils jwhois ];
+    systemPackages = with pkgs; [
+      traceroute
+      dig.dnsutils
+      jwhois
+      wirelesstools
+    ];
     variables.JAVAX_NET_SSL_TRUSTSTORE = keystore;
     variables.SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
     variables.CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
@@ -169,9 +173,14 @@ in {
   systemd.services = {
     dhcpcd = { partOf = [ "network.target" ]; };
     macchanger-wlan0 = macchanger-service "wlan0";
+    macchanger-wlan1 = macchanger-service "wlan1";
+    macchanger-eth0 = macchanger-service "eth0";
     supplicant-wlan0 = {
-      after = [ "macchanger-wlan0.service" ];
-      serviceConfig = { ConditionPathExists = "/sys/class/net/wlan0"; };
+      requires = [ "macchanger-wlan0.service" ];
+      bindsTo = [ "sys-subsystem-net-devices-wlan0.device" ];
+      serviceConfig = {
+        ExecCondition = "${pkgs.findutils}/bin/find /sys/class/net/wlan0";
+      };
     };
   };
 }
