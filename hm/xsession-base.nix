@@ -152,9 +152,10 @@ in {
           PartOf = [ "graphical-session.target" ];
         };
         Service = {
+          ExecStartPre = "${pkgs.coreutils}/bin/sleep 5s";
           ExecStart =
-            "${pkgs.feh}/bin/feh --no-fehbg --bg-fill ${../wp/1.jpeg}";
-          Restart = "never";
+            "${pkgs.feh}/bin/feh --no-fehbg --bg-fill ${config.backgroundImage}";
+          Restart = "always";
         };
         Install = { WantedBy = [ "graphical-session.target" ]; };
       };

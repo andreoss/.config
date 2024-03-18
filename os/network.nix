@@ -24,7 +24,7 @@ let
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${change-mac} ${interface}";
-      ConditionPathExists = "/sys/class/net/${interface}";
+      ExecCondition = "${pkgs.findutils}/bin/find /sys/class/net/${interface}";
     };
   };
   keystore = "/etc/ssl/certs/java/keystore.jks";
