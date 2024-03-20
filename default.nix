@@ -81,7 +81,7 @@ with lib; {
     default = "192.168.0.100";
   };
   options.dhcpcdExtraConfig = mkOption {
-    type = types.str;
-    default = "";
+    type = types.functionTo (types.str);
+    default = ip: "";
   };
 }
