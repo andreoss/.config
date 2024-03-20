@@ -76,4 +76,8 @@ with lib; {
     crt = mkOption { type = types.str; };
     pem = mkOption { type = types.str; };
   };
+  options.dhcpcdExtraConfig = mkOption {
+    type = types.str;
+    default = "";
+  };
 }
