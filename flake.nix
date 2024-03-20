@@ -203,6 +203,7 @@
           ./os/boot-loader.nix
           ./secrets/tx-hw.nix
           ./os/containers.nix
+          { config.preferedLocalIp = "192.168.0.64"; }
           {
             services.sshd.enable = true;
             systemd.services.sshd.serviceConfig.Group = "tunnel";
@@ -214,6 +215,7 @@
         hostname = "ps";
         config = import ./secrets { lib = lib; };
         modules = [
+          { config.preferedLocalIp = "192.168.0.32"; }
           ./secrets/3
           ./os/boot-grub-efi.nix
           ./os/btrfs-swap.nix
