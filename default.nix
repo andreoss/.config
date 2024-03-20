@@ -76,6 +76,10 @@ with lib; {
     crt = mkOption { type = types.str; };
     pem = mkOption { type = types.str; };
   };
+  options.preferedLocalIp = mkOption {
+    type = types.str;
+    default = "192.168.0.100";
+  };
   options.dhcpcdExtraConfig = mkOption {
     type = types.str;
     default = "";
