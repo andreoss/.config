@@ -112,6 +112,9 @@ in {
         "if [[ $reason =~ BOUND ]]; then echo $interface: Routers are $new_routers - were $old_routers; fi";
       enable = true;
       allowInterfaces = [ "eth*" "wlan*" ];
+      extraConfig = ''
+        ${config.dhcpcdExtraConfig}
+      '';
     };
   };
   security = let russianCa = "https://gu-st.ru/content/lending/";
