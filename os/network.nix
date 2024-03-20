@@ -113,7 +113,7 @@ in {
       enable = true;
       allowInterfaces = [ "eth*" "wlan*" ];
       extraConfig = ''
-        ${config.dhcpcdExtraConfig}
+        ${config.dhcpcdExtraConfig config.preferedLocalIp}
       '';
     };
   };
