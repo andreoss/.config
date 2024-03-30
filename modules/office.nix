@@ -53,7 +53,6 @@ in {
       packages = with pkgs; [
         abiword
         calibre
-        d2
         ditaa
         djview
         dmtx-utils
