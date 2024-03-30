@@ -76,28 +76,6 @@ in {
         enable = cfg.enable;
         package = pkgs.openjdk;
       };
-      eclipse = {
-        enable = config.programs.java.enable;
-        enableLombok = config.programs.eclipse.enable;
-        package = pkgs.eclipses.eclipse-jee;
-        plugins = with pkgs.eclipses.plugins; [
-          vrapper
-          spotbugs
-          color-theme
-          cdt
-          jsonedit
-          drools
-          jdt-codemining
-          (buildEclipseUpdateSite rec {
-            name = "IntelliJIdeaKeymap4Eclipse";
-            src = pkgs.fetchzip {
-              url =
-                "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
-              sha256 = "sha256-L43JWpYy/9JvOLi9t+UioT/uQbBLL08pgHrW8SuGQ8M=";
-            };
-          })
-        ];
-      };
     };
   };
 }
