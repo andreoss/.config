@@ -57,7 +57,6 @@ in {
     };
     virtualbox.guest = {
       enable = isOn "livecd";
-      x11 = isOn "livecd";
     };
     virtualbox.host = {
       enable = !(config.minimalInstallation || isOn "livecd") && isOn "vm";
