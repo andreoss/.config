@@ -19,6 +19,7 @@
       extraStopCommands = "";
     };
   };
+  services.openvpn.restartAfterSleep = true;
   services.openvpn.servers = import ../secrets/vpn.nix {
     inherit lib;
     inherit pkgs;
