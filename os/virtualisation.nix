@@ -55,11 +55,10 @@ in {
       enable = !config.minimalInstallation;
       autoPrune.enable = true;
     };
-    virtualbox.guest = {
-      enable = isOn "livecd";
-    };
+    virtualbox.guest = { enable = isOn "livecd"; };
     virtualbox.host = {
-      enable = !(config.minimalInstallation || isOn "livecd") && isOn "vm";
+      enable = !(config.minimalInstallation || isOn "livecd")
+        && isOn "virtualbox";
       headless = false;
       enableExtensionPack = true;
       enableHardening = false;
