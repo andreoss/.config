@@ -28,7 +28,7 @@
         defaultKeymap = "viins";
         autocd = true;
         enableCompletion = true;
-        enableAutosuggestions = true;
+        autosuggestion.enable = true;
         zplug = {
           enable = true;
           plugins = [{ name = "nnao45/zsh-kubectl-completion"; }];
