@@ -9,3 +9,4 @@ Pinentry.allWorkspaces: 1
 Pinentry.dTitleBar: 0
 URxvt.icon: xterm
 Zathura.startMaximized: 1
+xpra-linux-unknown.icon: run2
