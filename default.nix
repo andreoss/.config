@@ -80,6 +80,10 @@ with lib; {
     type = types.str;
     default = "192.168.0.100";
   };
+  options.extraHosts = mkOption {
+    type = types.str;
+    default = "";
+  };
   options.dhcpcdExtraConfig = mkOption {
     type = types.functionTo (types.str);
     default = ip: "";

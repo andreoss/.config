@@ -82,7 +82,6 @@ in {
       allowPing = true;
       pingLimit = "--limit 1/minute --limit-burst 5";
     };
-
     resolvconf = {
       enable = true;
       extraConfig = "";
@@ -96,6 +95,7 @@ in {
       noProxy = "gcr.io,zoom.us,slack.com";
     };
     usePredictableInterfaceNames = false;
+    extraHosts = config.extraHosts;
     supplicant."wlan0" = {
       configFile = {
         path = "/var/db/wpa_supplicant.conf";
