@@ -13,6 +13,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       ghc
+      smlnj
       haskellPackages.stack
       haskell-language-server
     ];
