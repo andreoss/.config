@@ -17,6 +17,7 @@ in {
       plugins = [ ];
     };
     home = lib.mkIf cfg.enable {
+      sessionVariables = { "SBT_OPTS" = "-Xmx32G"; };
       packages = with pkgs; [
         metals
         mill
