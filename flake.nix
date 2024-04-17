@@ -78,11 +78,7 @@
       legacyPackages = eachSystem (system:
         import nixpkgs {
           inherit system;
-          config = {
-            joypixels.acceptLicense = true;
-            allowUnfree = true;
-            permittedInsecurePackages = [ "mupdf-1.17.0" "nix-2.15.3" ];
-          };
+          config = { allowUnfree = true; };
           overlays = [
             inputs.nur.overlay
             inputs.emacs-d.overlays.default
