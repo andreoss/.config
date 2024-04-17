@@ -10,7 +10,6 @@ in {
     };
   };
   config = {
-    services.gnome-keyring.enable = true; # mysql-workbench
     programs.sbt = {
       enable = cfg.enable;
       package = (pkgs.sbt.override { jre = pkgs.openjdk21; });
