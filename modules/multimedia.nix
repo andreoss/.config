@@ -12,6 +12,13 @@ in {
   };
   config = {
     home.file = lib.mkIf config.programs.mpv.enable {
+      ".local/bin/mpv-hdmi" = {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          mpv --vo=drm --drm-connector=HDMI-A-1 "$@"
+        '';
+      };
       ".local/bin/duration" = {
         executable = true;
         text = ''
