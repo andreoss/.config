@@ -25,6 +25,13 @@
       info.enable = true;
       zsh = {
         enable = true;
+        history = {
+          extended = true;
+          ignoreDups = true;
+          ignorePatterns = [ "rm *" "pkill *" ];
+          save = 10000000;
+          size = 10000000;
+        };
         defaultKeymap = "viins";
         autocd = true;
         enableCompletion = true;
@@ -33,6 +40,10 @@
           enable = true;
           plugins = [{ name = "nnao45/zsh-kubectl-completion"; }];
         };
+        initExtra = builtins.readFile ../shrc;
+        shellAliases = { "g" = "git"; };
+        shellGlobalAliases = { "L" = "| less"; };
+        syntaxHighlighting = { highlighters = [ "brackets" ]; };
       };
     };
   };
