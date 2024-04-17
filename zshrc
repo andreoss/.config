@@ -91,13 +91,13 @@ add-zsh-hook -Uz precmd reset_broken_terminal
 autoload -Uz add-zsh-hook
 
 function xterm_title_precmd () {
-        print -Pn -- '\e]2;%n@%m %~\a'
-        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
+        print -Pn -- '\e]2;%m:~\a'
+        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
 }
 
 function xterm_title_preexec () {
-        print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
-        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
+        print -Pn -- '\e]2;%m: %~ %# ' && print -n -- "${(q)1}\a"
+        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
 }
 
 if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
