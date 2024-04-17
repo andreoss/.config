@@ -41,10 +41,5 @@
     (map (x: { "${x.name}" = x.meta or { }; })
       config.environment.systemPackages);
   services.rsyslogd.enable = true;
-  services.journald.console = "/dev/tty3";
   services.journald.extraConfig = "Storage=volatile";
-  system.activationScripts = {
-    restart-journald.text = let path = lib.strings.makeBinPath [ pkgs.systemd ];
-    in "${path}/systemctl restart systemd-journald";
-  };
 }
