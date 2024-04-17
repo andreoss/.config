@@ -78,7 +78,7 @@
       legacyPackages = eachSystem (system:
         import nixpkgs {
           inherit system;
-          config = { allowUnfree = true; };
+          config = { allowUnfree = false; };
           overlays = [
             inputs.nur.overlay
             inputs.emacs-d.overlays.default
