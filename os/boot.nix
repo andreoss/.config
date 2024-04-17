@@ -25,9 +25,6 @@ in {
       "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
       # Ignore bad ICMP errors
       "net.ipv4.icmp_ignore_bogus_error_responses" = 1;
-      # Reverse-path filter for spoof protection
-      "net.ipv4.conf.default.rp_filter" = 1;
-      "net.ipv4.conf.all.rp_filter" = 1;
       # SYN flood protection
       "net.ipv4.tcp_syncookies" = 1;
       # Do not send ICMP redirects (we are not a router)
@@ -47,6 +44,20 @@ in {
       "fs.inotify.max_user_watches" = 1048576; # default:  8192
       "fs.inotify.max_user_instances" = 1024; # default:   128
       "fs.inotify.max_queued_events" = 32768; # default: 16384
+      # IP hardening.
+      "net.ipv4.conf.all.log_martians" = 1;
+      "net.ipv4.conf.default.accept_redirects" = 0;
+      "net.ipv4.conf.default.accept_source_route" = 0;
+      "net.ipv4.conf.default.log_martians" = 0;
+      "net.ipv4.tcp_timestamps" = 0;
+      "net.ipv6.conf.default.accept_redirects" = 0;
+
+      # Reverse-path filter for spoof protection
+      "net.ipv4.conf.default.rp_filter" = 1;
+      "net.ipv4.conf.all.rp_filter" = 1;
+
+      # Ttl. Windows default.
+      "net.ipv4.ip_default_ttl" = 128;
     };
     consoleLogLevel = 0;
     blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
