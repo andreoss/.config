@@ -19,15 +19,15 @@ in {
     home = lib.mkIf cfg.enable {
       sessionVariables = { "SBT_OPTS" = "-Xmx32G"; };
       packages = with pkgs; [
+        coursier
+        dotty
+        httpie
+        leiningen
         metals
         mill
         nailgun
-        dotty
-        scalafmt
-        httpie
         scalafix
-        leiningen
-        coursier
+        scalafmt
       ];
     };
     programs.vscode = {
