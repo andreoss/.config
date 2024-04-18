@@ -103,7 +103,7 @@ in {
         sub-border-size = 1;
         sub-shadow-offset = 2;
       };
-      scripts = with pkgs.mpvScripts; [ mpris ];
+      scripts = with pkgs.mpvScripts; [ mpris thumbnail visualizer ];
     };
     services.mpd = {
       enable = cfg.enable;
