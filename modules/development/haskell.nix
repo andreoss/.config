@@ -15,6 +15,7 @@ in {
       ghc
       smlnj
       haskellPackages.stack
+      haskellPackages.cabal-install
       haskell-language-server
     ];
   };
