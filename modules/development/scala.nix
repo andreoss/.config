@@ -17,6 +17,23 @@ in {
     };
     home = lib.mkIf cfg.enable {
       sessionVariables = { "SBT_OPTS" = "-Xmx32G"; };
+      file.".local/bin/sbt-17" = let
+        sbt-script = (pkgs.writeShellScript "sbt-17" ''
+          PATH=${
+            lib.strings.makeBinPath [
+              (pkgs.sbt.override { jre = pkgs.openjdk17; })
+              pkgs.openjdk17
+            ]
+          }:$PATH
+          exec "sbt" "$@"
+        '');
+      in {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          exec ${sbt-script} "$@"
+        '';
+      };
       packages = with pkgs; [
         coursier
         dotty
