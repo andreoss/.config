@@ -65,7 +65,7 @@
       sshfs
       sysstat
       trivy
-      turbovnc
+      tigervnc
       unar
       unzip
       yaml2json
