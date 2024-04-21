@@ -12,17 +12,17 @@ in {
   config = {
     programs.sbt = {
       enable = cfg.enable;
-      package = (pkgs.sbt.override { jre = pkgs.openjdk21; });
+      package = (pkgs.sbt.override { jre = pkgs.openjdk17; });
       plugins = [ ];
     };
     home = lib.mkIf cfg.enable {
       sessionVariables = { "SBT_OPTS" = "-Xmx32G"; };
-      file.".local/bin/sbt-17" = let
-        sbt-script = (pkgs.writeShellScript "sbt-17" ''
+      file.".local/bin/sbt-21" = let
+        sbt-script = (pkgs.writeShellScript "sbt-21" ''
           PATH=${
             lib.strings.makeBinPath [
-              (pkgs.sbt.override { jre = pkgs.openjdk17; })
-              pkgs.openjdk17
+              (pkgs.sbt.override { jre = pkgs.openjdk21; })
+              pkgs.openjdk21
             ]
           }:$PATH
           exec "sbt" "$@"
@@ -51,10 +51,10 @@ in {
       package = pkgs.vscodium;
       extensions = with pkgs.vscode-extensions; [
         dracula-theme.theme-dracula
-        vscodevim.vim
-        yzhang.markdown-all-in-one
         scala-lang.scala
         scalameta.metals
+        vscodevim.vim
+        yzhang.markdown-all-in-one
       ];
     };
   };
