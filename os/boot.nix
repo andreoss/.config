@@ -15,6 +15,7 @@ in {
     ];
     extraModprobeConfig = ''
       options thinkpad_acpi fan_control=1
+      options usbcore autosuspend=-1
       options binder_linux devices=binder,hwbinder,vndbinder
     '';
     kernel.sysctl = {
