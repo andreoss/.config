@@ -48,7 +48,6 @@
       nix
       nixfmt-rfc-style
       nix-tree
-      nodePackages_latest.bash-language-server
       openshift
       pgtop
       postgresql
