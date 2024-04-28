@@ -46,7 +46,7 @@
       nil
       ninja
       nix
-      nixfmt
+      nixfmt-rfc-style
       nix-tree
       nodePackages_latest.bash-language-server
       openshift
