@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.home.development.haskell;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.home.development.haskell;
+in
+{
   imports = [ ];
   options = {
     home.development.haskell = with lib; {

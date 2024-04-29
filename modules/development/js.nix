@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.home.development.js;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.home.development.js;
+in
+{
   options = with lib; {
     home.development.js = {
       enable = mkOption {
@@ -11,13 +18,21 @@ in {
   };
   config = {
     home = lib.mkIf cfg.enable {
-      packages = (with pkgs; [ nodejs_18 quick-lint-js rslint v8 mujs ])
+      packages =
+        (with pkgs; [
+          nodejs_18
+          quick-lint-js
+          rslint
+          v8
+          mujs
+        ])
         ++ (with pkgs.elmPackages; [
           elm
           create-elm-app
           elm-analyse
           elm-coverage
-        ]) ++ (with pkgs.nodePackages; [
+        ])
+        ++ (with pkgs.nodePackages; [
           eslint
           typescript
           typescript-language-server
@@ -25,6 +40,5 @@ in {
           pnpm
         ]);
     };
-
   };
 }
