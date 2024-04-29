@@ -1,6 +1,15 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-let cfg = config.home.development.go;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
+let
+  cfg = config.home.development.go;
+in
+{
   options = {
     home.development.go = with lib; {
       enable = mkOption {
@@ -14,6 +23,9 @@ in {
       enable = true;
       packages = { };
     };
-    home.packages = with pkgs; [ gotools gocode ];
+    home.packages = with pkgs; [
+      gotools
+      gocode
+    ];
   };
 }
