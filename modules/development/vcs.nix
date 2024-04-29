@@ -1,7 +1,15 @@
-{ config, pkgs, lib, stdenv, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  ...
+}:
 
-let isOn = (x: (builtins.elem x config.features));
-in {
+let
+  isOn = (x: (builtins.elem x config.features));
+in
+{
   config = lib.mkIf (isOn "vcs") {
     programs.mercurial = {
       enable = true;
@@ -9,11 +17,17 @@ in {
       userEmail = config.primaryUser.email;
       package = pkgs.mercurialFull;
     };
-    programs.jujutsu = { enable = true; };
+    programs.jujutsu = {
+      enable = true;
+    };
     programs.git = {
       package = pkgs.gitAndTools.gitFull;
       difftastic.enable = true;
-      extraConfig = { init = { defaultBranch = "master"; }; };
+      extraConfig = {
+        init = {
+          defaultBranch = "master";
+        };
+      };
       aliases = {
         alias = ''!f() { git config --get-regexp "^alias.''${1}$" ;}; f'';
         au = "add -u";
@@ -53,10 +67,12 @@ in {
         rebase.autosquash = true;
         rerere.enabled = true;
       };
-      includes = [{
-        path = ../../git/config.work;
-        condition = "gitdir:~/work";
-      }];
+      includes = [
+        {
+          path = ../../git/config.work;
+          condition = "gitdir:~/work";
+        }
+      ];
       userName = config.primaryUser.handle;
       userEmail = config.primaryUser.email;
       signing = {
