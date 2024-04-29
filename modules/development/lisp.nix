@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.home.development.lisp;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.home.development.lisp;
+in
+{
   imports = [ ];
 
   options = {
@@ -14,7 +21,13 @@ in {
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = with pkgs; [ roswell sbcl babashka leiningen clojure ];
+      packages = with pkgs; [
+        roswell
+        sbcl
+        babashka
+        leiningen
+        clojure
+      ];
       activation.roswellInit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         PATH=$PATH:${pkgs.roswell}/bin
         if type ros
