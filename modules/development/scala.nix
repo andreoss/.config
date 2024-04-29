@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }:
-let cfg = config.home.development.scala;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.home.development.scala;
+in
+{
   options = with lib; {
     home.development.scala = {
       enable = mkOption {
@@ -12,28 +19,34 @@ in {
   config = {
     programs.sbt = {
       enable = cfg.enable;
-      package = (pkgs.sbt.override { jre = pkgs.openjdk17; });
+      package = (pkgs.sbt.override { jre = pkgs.openjdk21; });
       plugins = [ ];
     };
     home = lib.mkIf cfg.enable {
-      sessionVariables = { "SBT_OPTS" = "-Xmx32G"; };
-      file.".local/bin/sbt-21" = let
-        sbt-script = (pkgs.writeShellScript "sbt-21" ''
-          PATH=${
-            lib.strings.makeBinPath [
-              (pkgs.sbt.override { jre = pkgs.openjdk21; })
-              pkgs.openjdk21
-            ]
-          }:$PATH
-          exec "sbt" "$@"
-        '');
-      in {
-        executable = true;
-        text = ''
-          #!/bin/sh
-          exec ${sbt-script} "$@"
-        '';
+      sessionVariables = {
+        "SBT_OPTS" = "-Xmx32G";
       };
+      file.".local/bin/sbt-17" =
+        let
+          sbt-script = (
+            pkgs.writeShellScript "sbt-17" ''
+              PATH=${
+                lib.strings.makeBinPath [
+                  (pkgs.sbt.override { jre = pkgs.openjdk17; })
+                  pkgs.openjdk17
+                ]
+              }:$PATH
+              exec "sbt" "$@"
+            ''
+          );
+        in
+        {
+          executable = true;
+          text = ''
+            #!/bin/sh
+            exec ${sbt-script} "$@"
+          '';
+        };
       packages = with pkgs; [
         coursier
         dotty
