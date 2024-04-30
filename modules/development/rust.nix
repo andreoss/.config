@@ -1,6 +1,15 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-let cfg = config.home.development.rust;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
+let
+  cfg = config.home.development.rust;
+in
+{
   options = {
     home.development.rust = with lib; {
       enable = mkOption {
@@ -9,5 +18,7 @@ in {
       };
     };
   };
-  config = with pkgs; { home.packages = lib.optionals cfg.enable [ rustup ]; };
+  config = with pkgs; {
+    home.packages = lib.optionals cfg.enable [ rustup ];
+  };
 }

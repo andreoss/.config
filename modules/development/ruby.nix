@@ -1,6 +1,15 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-let cfg = config.home.development.ruby;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
+let
+  cfg = config.home.development.ruby;
+in
+{
   options = {
     home.development.ruby = with lib; {
       enable = mkOption {
@@ -10,6 +19,9 @@ in {
     };
   };
   config = with pkgs; {
-    home.packages = lib.optionals cfg.enable [ ruby gem ];
+    home.packages = lib.optionals cfg.enable [
+      ruby
+      gem
+    ];
   };
 }

@@ -1,10 +1,20 @@
-{ config, pkgs, lib, stdenv, self, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
 
 let
   merge = builtins.foldl' (x: y: x // y) { };
-  mkJdk = pkg: var: dir:
-    let fp = "$HOME/.jdk/${dir}";
-    in {
+  mkJdk =
+    pkg: var: dir:
+    let
+      fp = "$HOME/.jdk/${dir}";
+    in
+    {
       sessionVariables."${var}" = fp;
       activation."${var}" = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
         install --directory --mode 700 --owner="$USER" "$HOME/.jdk/"
@@ -24,13 +34,13 @@ let
     (mkJdk pkgs.graalvm-ce "JDK_GRAAL" "graal")
   ];
   variables = merge (map (x: x.sessionVariables) jdks) // {
-    MAVEN_OPTS =
-      "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
+    MAVEN_OPTS = "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS";
     _JAVA_AWT_WM_NONREPARENTING = "1";
   };
   activationScripts = merge (map (x: x.activation) jdks);
   cfg = config.home.development.java;
-in {
+in
+{
   options = with lib; {
     home.development.java = {
       enable = mkOption {
@@ -50,15 +60,14 @@ in {
           executable = true;
           text = ''
             #!/bin/sh
-            exec firejail --profile="${
-              ../../firejail/idea.profile
-            }" idea-community "$@"
+            exec firejail --profile="${../../firejail/idea.profile}" idea-community "$@"
           '';
         };
       };
-      packages = with pkgs;
+      packages =
+        with pkgs;
         lib.mkIf cfg.enable [
-          jdt-language-server
+          java-language-server
           android-tools
           ant
           gradle
