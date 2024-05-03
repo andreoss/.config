@@ -1,35 +1,59 @@
-{ specialArgs, lib, pkgs, config, ... }:
-let isOn = (x: (builtins.elem x config.features));
-in {
+{
+  specialArgs,
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+let
+  isOn = (x: (builtins.elem x config.features));
+in
+{
   home-manager.extraSpecialArgs = specialArgs;
   home-manager.useGlobalPkgs = true;
   home-manager.verbose = true;
-  home-manager.sharedModules =
-    [{ home.sessionVariables = { NIX_SHELL_PRESERVE_PROMPT = 1; }; }];
+  home-manager.sharedModules = [
+    {
+      home.sessionVariables = {
+        NIX_SHELL_PRESERVE_PROMPT = 1;
+      };
+    }
+  ];
   home-manager.users.root = {
     home.stateVersion = config.stateVersion;
-    imports = [{ home.packages = with pkgs; [ nvi pciutils usbutils ]; }];
+    imports = [
+      {
+        home.packages = with pkgs; [
+          nvi
+          pciutils
+          usbutils
+        ];
+      }
+    ];
   };
   home-manager.users."${config.primaryUser.name}" = {
     nixpkgs.overlays = specialArgs.overlays;
     home.stateVersion = config.stateVersion;
-    imports = [
-      ../default.nix
-      specialArgs.cfg
-      specialArgs.inputs.emacs-d.nixosModules.home-manager
-      specialArgs.inputs.ff-hm.homeManagerModules.default
-      ../modules/development
-      ../modules/multimedia.nix
-      ../modules/web.nix
-      ../modules/office.nix
-      ../hm/base.nix
-      ../hm/home.nix
-      ../hm/sh.nix
-      ../hm/term.nix
-      ../hm/xsession-base.nix
-      ../hm/xsession.nix
-    ] ++ (lib.optionals (isOn "work") [ ../hm/work.nix ])
-      ++ (lib.optionals (isOn "email") [ ../hm/mail.nix ]) ++ [
+    imports =
+      [
+        ../default.nix
+        specialArgs.cfg
+        specialArgs.inputs.emacs-d.nixosModules.home-manager
+        specialArgs.inputs.ff-hm.homeManagerModules.default
+        ../modules/development
+        ../modules/multimedia.nix
+        ../modules/web.nix
+        ../modules/office.nix
+        ../hm/base.nix
+        ../hm/home.nix
+        ../hm/sh.nix
+        ../hm/term.nix
+        ../hm/xsession-base.nix
+        ../hm/xsession.nix
+      ]
+      ++ (lib.optionals (isOn "work") [ ../hm/work.nix ])
+      ++ (lib.optionals (isOn "email") [ ../hm/mail.nix ])
+      ++ [
         {
           home.firefox = {
             enable = true;
