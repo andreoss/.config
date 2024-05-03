@@ -1,12 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  stdenv,
-  inputs,
-  ...
-}:
-{
+{ config, pkgs, lib, stdenv, inputs, ... }: {
   config = {
     programs.emacs = {
       enable = true;
@@ -70,9 +62,7 @@
           hunspellDicts.en_GB-large
         ])
       ];
-      sessionVariables = {
-        EDITOR = "vi";
-      };
+      sessionVariables = { EDITOR = "vi"; };
     };
     services.emacs = {
       enable = true;
