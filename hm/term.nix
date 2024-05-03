@@ -1,10 +1,25 @@
-{ config, pkgs, lib, inputs, ... }:
-let palette = import ../os/palette.nix;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+let
+  palette = import ../os/palette.nix;
+in
+{
   config = {
-    xresources.properties = with palette;
+    xresources.properties =
+      with palette;
       lib.mkIf config.xsession.enable {
-        "XTerm*charClass" = [ "37:48" "45-47:48" "58:48" "64:48" "126:48" ];
+        "XTerm*charClass" = [
+          "37:48"
+          "45-47:48"
+          "58:48"
+          "64:48"
+          "126:48"
+        ];
         "*background" = black2;
         "*color0" = black1;
         "*color1" = red1;
@@ -24,11 +39,13 @@ in {
         "*color15" = white2;
         "*foreground" = white3;
       };
-    home.packages = with pkgs; [ antiword expect ];
+    home.packages = with pkgs; [
+      antiword
+      expect
+    ];
     home.file = {
       ".config/procps/toprc".source = ./../toprc;
-      ".urxvt/ext/context".text =
-        builtins.readFile "${inputs.urxvt-context-ext}/context";
+      ".urxvt/ext/context".text = builtins.readFile "${inputs.urxvt-context-ext}/context";
       ".local/bin/rxvt" = {
         executable = true;
         text = ''
@@ -48,7 +65,9 @@ in {
           Restart = "always";
           RestartSec = "3";
         };
-        Install = { WantedBy = [ "graphical-session.target" ]; };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
       };
     };
     programs = lib.mkIf config.xsession.enable {
@@ -134,8 +153,7 @@ in {
           "keysym.M-u" = "perl:url-select:select_next";
           "letterSpace" = 0;
           "loginShell" = "true";
-          "perl-ext-common" =
-            "context,selection-to-clipboard,url-select,resize-font,keyboard-select";
+          "perl-ext-common" = "context,selection-to-clipboard,url-select,resize-font,keyboard-select";
           "perl-lib" = "${pkgs.rxvt-unicode}/lib/urxvt/perl/";
           "secondaryScroll" = "true";
           "urgentOnBell" = "true";
