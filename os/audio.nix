@@ -1,6 +1,8 @@
 { lib, config, ... }:
-let user = config.primaryUser.name;
-in {
+let
+  user = config.primaryUser.name;
+in
+{
   hardware.bluetooth.enable = false;
   security.rtkit.enable = !config.preferPipewire;
   hardware.pulseaudio = {
