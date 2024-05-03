@@ -1,6 +1,9 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   services.guix = {
     enable = true;
-    gc = { enable = true; };
+    gc = {
+      enable = true;
+    };
   };
 }
