@@ -53,59 +53,121 @@ zle-line-init() {
     echo -ne "\e[5 q"
 }
 zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
+autoload -Uz add-zsh-hook
+
+
 autoload -Uz vcs_info
-precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
-setopt prompt_subst
-rprompt_components=(
-    $prompt_newline
-    "\$vcs_info_msg_0_"
-    "%(1j.%j.)"
-)
-RPROMPT=${(j::)rprompt_components}
-zstyle ':vcs_info:git:*' formats '%b %f'
-zstyle ':vcs_info:*' enable git
-
-prompt_components=(
-    "%~"
-    "$prompt_newline"
-    '%(!.#.*)'
-    " "
-)
-PROMPT=${(j::)prompt_components}
-
 autoload -Uz add-zsh-hook
-
-function reset_broken_terminal () {
-        printf '%b' '\e[0m\e(B\e)0\017\e[?5l\e7\e[0;0r\e8'
-}
-
-add-zsh-hook -Uz precmd reset_broken_terminal
-
-autoload -Uz add-zsh-hook
-
-function xterm_title_precmd () {
-        print -Pn -- '\e]2;%m:~\a'
-        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
-}
-
-function xterm_title_preexec () {
-        print -Pn -- '\e]2;%m: %~ %# ' && print -n -- "${(q)1}\a"
-        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
-}
-
-if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
-        add-zsh-hook -Uz precmd xterm_title_precmd
-        add-zsh-hook -Uz preexec xterm_title_preexec
-fi
 
 bindkey -v
 bindkey '^R' history-incremental-search-backward
 
-precmd () {print -Pn "\e]0;\a"}
+
+__short_pwd() {
+    DIR=
+    if [ -z "${INSIDE_EMACS-}" ]; then
+        case "$PWD" in
+            "$HOME")
+                DIR=
+                ;;
+            $HOME/*)
+                DIR=${PWD##"$HOME/"}
+                ;;
+            *)
+                DIR="$PWD"
+                ;;
+        esac
+    fi
+    printf '%s' "$DIR"
+}
+__git_work_tree() {
+    git rev-parse --is-inside-work-tree 2>/dev/null >/dev/null
+}
+__git_branch() {
+    if git show-ref --verify --quiet HEAD; then
+        git rev-parse --symbolic-full-name --abbrev-ref HEAD
+    else
+        echo "(empty)"
+    fi
+}
+__vcs_status() {
+    if __git_work_tree; then
+        printf '%s' "$(__git_branch)"
+    fi
+}
+__title() {
+    COMMAND="$1"
+    DIR="$(__short_pwd)"
+    DIR="${DIR:-~}"
+    VCS="$(__vcs_status)"
+    case "$COMMAND" in
+        history* | autojump*)
+            COMMAND=""
+            ;;
+    esac
+    if [ "$COMMAND" ]; then
+        echo -ne "\e]0;${VCS} ${DIR}: ${COMMAND}\007"
+    else
+        echo -ne "\e]0;${VCS} ${DIR}\007"
+    fi
+}
+
+__title_precmd() {
+         __title
+}
+
+__title_preexec() {
+         __title "$2"
+}
+
+
+__ps1_short() {
+    if [ "${USER:-}" = "root" ]; then
+        __PROMPT='# '
+    else
+        __PROMPT="${__PROMPT:-* }"
+    fi
+    printf '%s' "$__PROMPT"
+}
+
+__ps1() {
+    if [ "${USER:-}" = "root" ]; then
+        __PROMPT='# '
+    else
+        __PROMPT="${__PROMPT:-* }"
+    fi
+    DIR="$(__short_pwd)"
+
+    if [ "$DIR" ]; then
+        VCS="$(__vcs_status)"
+        printf '%s %s %s\n%s' "$VCS" "$DIR" "${IN_NIX_SHELL-}" "$__PROMPT"
+    else
+        printf '%s' "$__PROMPT"
+    fi
+}
+
+export PATH
+PROMPT_COMMAND="history -a"
+
+set -o vi
+
+setopt PROMPT_SUBST
+if [ "${ZSH_VERSION:-}" ]
+then
+    if [ "${TMUX:-}" ]
+    then
+       PROMPT='$(__ps1_short)'
+    else
+       PROMPT='$(__ps1)'
+    fi
+   if [[ "$TERM" == (screen*|xterm*|rxvt*) ]]
+   then
+      autoload -Uz add-zsh-hook
+      add-zsh-hook -Uz precmd __title_precmd
+      add-zsh-hook -Uz preexec __title_preexec
+    fi
+fi
