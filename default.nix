@@ -1,5 +1,6 @@
 { lib, ... }:
-with lib; {
+with lib;
+{
   options.hostId = mkOption { type = types.str; };
   options.primaryUser = {
     name = mkOption { type = types.str; };
