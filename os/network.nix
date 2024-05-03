@@ -1,8 +1,18 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   isOn = (x: (builtins.elem x config.features));
   change-mac = pkgs.writeShellScript "change-mac" ''
-    PATH=${lib.strings.makeBinPath [ pkgs.iproute2 pkgs.macchanger ]}:$PATH
+    PATH=${
+      lib.strings.makeBinPath [
+        pkgs.iproute2
+        pkgs.macchanger
+      ]
+    }:$PATH
     IFDEV="$1"
     if [ -z "$IFDEV" -o ! -e "/sys/class/net/$IFDEV" ]
     then
@@ -27,15 +37,18 @@ let
     };
   };
   keystore = "/etc/ssl/certs/java/keystore.jks";
-in {
+in
+{
   systemd.globalEnvironment = {
     SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
     NIX_SSL_CERT_FILE = "/etc/ssl/certs/ca-bundle.crt";
   };
   system.activationScripts = {
     generate-keystore-jks.text =
-      let path = lib.strings.makeBinPath [ pkgs.p11-kit ];
-      in ''
+      let
+        path = lib.strings.makeBinPath [ pkgs.p11-kit ];
+      in
+      ''
         PATH="$PATH:${path}"
         rm --force ${keystore}
         mkdir --parent $(dirname ${keystore})
@@ -72,7 +85,9 @@ in {
   };
   networking = {
     timeServers = [ ];
-    networkmanager = { enable = lib.mkForce false; };
+    networkmanager = {
+      enable = lib.mkForce false;
+    };
     enableIPv6 = lib.mkForce false;
     firewall = {
       extraPackages = with pkgs; [ ipset ];
@@ -108,29 +123,34 @@ in {
     };
     dhcpcd = {
       wait = "background";
-      runHook =
-        "if [[ $reason =~ BOUND ]]; then echo $interface: Routers are $new_routers - were $old_routers; fi";
+      runHook = "if [[ $reason =~ BOUND ]]; then echo $interface: Routers are $new_routers - were $old_routers; fi";
       enable = true;
-      allowInterfaces = [ "eth*" "wlan*" ];
+      allowInterfaces = [
+        "eth*"
+        "wlan*"
+      ];
       extraConfig = ''
         ${config.dhcpcdExtraConfig config.preferedLocalIp}
       '';
     };
   };
-  security = let russianCa = "https://gu-st.ru/content/lending/";
-  in {
-    pki.certificateFiles = with builtins; [
-      (fetchurl {
-        url = "${russianCa}/russian_trusted_root_ca_pem.crt";
-        sha256 = "sha256:0135zid0166n0rwymb38kd5zrd117nfcs6pqq2y2brg8lvz46slk";
-      })
-      (fetchurl {
-        url = "${russianCa}/russian_trusted_sub_ca_pem.crt";
-        sha256 = "sha256:19jffjrawgbpdlivdvpzy7kcqbyl115rixs86vpjjkvp6sgmibph";
-      })
-    ];
-    pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
-  };
+  security =
+    let
+      russianCa = "https://gu-st.ru/content/lending/";
+    in
+    {
+      pki.certificateFiles = with builtins; [
+        (fetchurl {
+          url = "${russianCa}/russian_trusted_root_ca_pem.crt";
+          sha256 = "sha256:0135zid0166n0rwymb38kd5zrd117nfcs6pqq2y2brg8lvz46slk";
+        })
+        (fetchurl {
+          url = "${russianCa}/russian_trusted_sub_ca_pem.crt";
+          sha256 = "sha256:19jffjrawgbpdlivdvpzy7kcqbyl115rixs86vpjjkvp6sgmibph";
+        })
+      ];
+      pki.caCertificateBlacklist = [ "CFCA EV ROOT" ];
+    };
   services = lib.mkIf config.sslProxy.enable {
     privoxy.enable = true;
     privoxy.inspectHttps = true;
@@ -161,20 +181,24 @@ in {
     };
   };
   system.activationScripts = {
-    fix-rfkill.text = let path = lib.strings.makeBinPath [ pkgs.util-linux ];
-    in ''
-      if [ -e /dev/rfkill ]
-      then
-         ${path}/rfkill block   all
-         ${path}/rfkill unblock all
-      fi
-    '';
-    restart-unbound.text =
-      "${pkgs.systemd}/bin/systemctl restart unbound.service";
+    fix-rfkill.text =
+      let
+        path = lib.strings.makeBinPath [ pkgs.util-linux ];
+      in
+      ''
+        if [ -e /dev/rfkill ]
+        then
+           ${path}/rfkill block   all
+           ${path}/rfkill unblock all
+        fi
+      '';
+    restart-unbound.text = "${pkgs.systemd}/bin/systemctl restart unbound.service";
   };
   systemd.network.wait-online.timeout = 10;
   systemd.services = {
-    dhcpcd = { partOf = [ "network.target" ]; };
+    dhcpcd = {
+      partOf = [ "network.target" ];
+    };
     macchanger-wlan0 = macchanger-service "wlan0";
     macchanger-wlan1 = macchanger-service "wlan1";
     macchanger-eth0 = macchanger-service "eth0";
