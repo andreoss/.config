@@ -1,4 +1,11 @@
-{ pkgs, lib, config, specialArgs, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  specialArgs,
+  ...
+}:
+{
 
   imports = [ ./kmonad.nix ];
   services.kmonad = {
@@ -31,6 +38,5 @@
   powerManagement.powertop.enable = true;
   powerManagement.powerUpCommands = "${pkgs.acpilight}/bin/xbacklight -set 100";
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
