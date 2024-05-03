@@ -1,8 +1,14 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   palette = import ../os/palette.nix;
   cfg = config.home.office;
-in {
+in
+{
   imports = [ ];
   options = {
     home.office = with lib; {
@@ -52,6 +58,7 @@ in {
     home = {
       packages = with pkgs; [
         abiword
+        calibre
         ditaa
         djview
         dmtx-utils
