@@ -1,6 +1,15 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-let palette = import ../os/palette.nix;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
+let
+  palette = import ../os/palette.nix;
+in
+{
   home.packages = with pkgs; [
     coreutils-full
     file
