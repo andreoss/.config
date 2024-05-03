@@ -1,12 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  stdenv,
-  inputs,
-  ...
-}:
-{
+{ config, pkgs, lib, stdenv, inputs, ... }: {
   config = {
     xdg.desktopEntries = {
       citrix = {
@@ -19,9 +11,7 @@
       };
     };
     xdg.mimeApps = {
-      defaultApplications = {
-        "application/x-ica" = [ "citrix.desktop" ];
-      };
+      defaultApplications = { "application/x-ica" = [ "citrix.desktop" ]; };
     };
     programs.browserpass = {
       enable = true;
@@ -45,8 +35,6 @@
       xorg.xhost
       ratpoison
     ];
-    home.file = {
-      ".local/bin/dates".source = ./../scripts/dates;
-    };
+    home.file = { ".local/bin/dates".source = ./../scripts/dates; };
   };
 }
