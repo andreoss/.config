@@ -20,7 +20,6 @@
   users.groups.disk.members = [ config.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
-  services.logind.lidSwitchExternalPower = "lock";
   services.logind.extraConfig = "";
   programs.bash = {
     promptInit = ''
