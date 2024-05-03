@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   config = {
     boot.loader = {
       grub = {
@@ -12,8 +18,7 @@
         gfxmodeBios = "1920x1080";
         gfxmodeEfi = "1920x1080";
         fontSize = 36;
-        font =
-          "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
+        font = "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
       };
     };
   };

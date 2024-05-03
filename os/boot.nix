@@ -1,6 +1,13 @@
-{ lib, config, pkgs, ... }:
-let palette = import ./palette.nix;
-in {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  palette = import ./palette.nix;
+in
+{
   hardware.enableRedistributableFirmware = true;
   boot = {
     kernelPackages = pkgs.${config.kernel};
@@ -61,7 +68,11 @@ in {
       "net.ipv4.ip_default_ttl" = 128;
     };
     consoleLogLevel = 0;
-    blacklistedKernelModules = [ "snd_pcsp" "pcspkr" "bluetooth" ];
+    blacklistedKernelModules = [
+      "snd_pcsp"
+      "pcspkr"
+      "bluetooth"
+    ];
     initrd = {
       kernelModules = [
         "ahci"
@@ -81,31 +92,14 @@ in {
       useTmpfs = true;
       cleanOnBoot = true;
     };
-    supportedFilesystems =
-      lib.mkForce [ "vfat" "f2fs" "xfs" "ntfs" "ext4" "btrfs" ];
-  };
-  console = {
-    packages = [ pkgs.uw-ttyp0 ];
-    font = "t0-18b-uni";
-    colors = builtins.map (x: builtins.replaceStrings [ "#" ] [ "" ] x)
-      (with palette; [
-        blue6
-        red1
-        green1
-        yellow1
-        blue1
-        red3
-        cyan1
-        white3
-        black2
-        orange1
-        gray1
-        gray2
-        gray3
-        magenta
-        red3
-        white1
-      ]);
+    supportedFilesystems = lib.mkForce [
+      "vfat"
+      "f2fs"
+      "xfs"
+      "ntfs"
+      "ext4"
+      "btrfs"
+    ];
   };
   system.activationScripts.uuidgen = ''
     rm --force /etc/machine-id /var/lib/dbus/machine-id

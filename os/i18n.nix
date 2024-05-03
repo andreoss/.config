@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
   services.xserver.xkb.layout = "us,ru";
   services.xserver.xkb.options = "ctrl:nocaps,grp:shifts_toggle,compose:ralt";
   i18n = {
@@ -18,7 +19,9 @@
   environment = {
     wordlist = {
       enable = true;
-      lists = { WORDLIST = [ "${pkgs.scowl}/share/dict/wbritish.txt" ]; };
+      lists = {
+        WORDLIST = [ "${pkgs.scowl}/share/dict/wbritish.txt" ];
+      };
     };
   };
 }

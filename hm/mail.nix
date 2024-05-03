@@ -1,9 +1,20 @@
-{ config, pkgs, lib, stdenv, self, ... }:
-let x = lib.pathExists ../secrets/mail.nix;
-in {
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
+let
+  x = lib.pathExists ../secrets/mail.nix;
+in
+{
   config = {
     accounts = lib.attrsets.optionalAttrs (x) {
-      email = { maildirBasePath = "${config.home.homeDirectory}/Maildir"; };
+      email = {
+        maildirBasePath = "${config.home.homeDirectory}/Maildir";
+      };
       email.accounts = if (x) then (import ../secrets/mail.nix) else { };
     };
     programs = lib.attrsets.optionalAttrs (x) {
@@ -11,7 +22,9 @@ in {
       msmtp.enable = x;
       notmuch = {
         enable = x;
-        new = { tags = [ "new" ]; };
+        new = {
+          tags = [ "new" ];
+        };
         hooks = {
           postInsert = "";
           preNew = "mbsync --all || true";
@@ -50,69 +63,84 @@ in {
       };
     };
     systemd = lib.attrsets.optionalAttrs (x) {
-      user.services.mbsync = let
-        path = lib.strings.makeBinPath [
-          pkgs.isync
-          pkgs.pass
-          pkgs.gawk
-          pkgs.coreutils
-          pkgs.gnugrep
-        ];
-      in {
-        Service = {
-          Environment = [ "PATH=${path}" ];
-          ExecStartPre =
-            "systemctl is-active sys-devices-virtual-net-tun0.device";
+      user.services.mbsync =
+        let
+          path = lib.strings.makeBinPath [
+            pkgs.isync
+            pkgs.pass
+            pkgs.gawk
+            pkgs.coreutils
+            pkgs.gnugrep
+          ];
+        in
+        {
+          Service = {
+            Environment = [ "PATH=${path}" ];
+            ExecStartPre = "systemctl is-active sys-devices-virtual-net-tun0.device";
+          };
         };
-      };
-      user.services.notmuch = let
-        path = lib.strings.makeBinPath [
-          pkgs.isync
-          pkgs.pass
-          pkgs.gawk
-          pkgs.coreutils
-          pkgs.gnugrep
-        ];
-      in {
-        Unit = { Requires = [ "davmail.service" ]; };
-        Install = { WantedBy = [ "default.target" ]; };
-        Service = {
-          ExecStart = "${pkgs.notmuch}/bin/notmuch new";
-          Environment = [ "PATH=${path}" ];
+      user.services.notmuch =
+        let
+          path = lib.strings.makeBinPath [
+            pkgs.isync
+            pkgs.pass
+            pkgs.gawk
+            pkgs.coreutils
+            pkgs.gnugrep
+          ];
+        in
+        {
+          Unit = {
+            Requires = [ "davmail.service" ];
+          };
+          Install = {
+            WantedBy = [ "default.target" ];
+          };
+          Service = {
+            ExecStart = "${pkgs.notmuch}/bin/notmuch new";
+            Environment = [ "PATH=${path}" ];
+          };
         };
-      };
       user.timers.notmuch = {
-        Install = { WantedBy = [ "timers.target" ]; };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
         Timer = {
           OnBootSec = "10m"; # first run 10min after boot up
           OnCalendar = "*:0/5";
         };
       };
-      user.services.davmail = let
-        write-properties = pkgs.writeShellScript "write-properties" ''
-          cat "$HOME"/.config/davmail-base.properties > "$HOME"/.config/davmail.properties
-        '';
-        run-davmail = pkgs.writeShellScript "run-davmail" ''
-          exec davmail "$HOME"/.config/davmail.properties
-        '';
-      in {
-        Unit = {
-          Description = "Davmail";
-          PartOf = [ "graphical-session.target" ];
+      user.services.davmail =
+        let
+          write-properties = pkgs.writeShellScript "write-properties" ''
+            cat "$HOME"/.config/davmail-base.properties > "$HOME"/.config/davmail.properties
+          '';
+          run-davmail = pkgs.writeShellScript "run-davmail" ''
+            exec davmail "$HOME"/.config/davmail.properties
+          '';
+        in
+        {
+          Unit = {
+            Description = "Davmail";
+            PartOf = [ "graphical-session.target" ];
+          };
+          Service =
+            let
+              path = lib.strings.makeBinPath [
+                pkgs.coreutils
+                pkgs.gnugrep
+                (pkgs.davmail.override { jre = pkgs.openjdk17; })
+              ];
+            in
+            {
+              ExecStartPre = "${write-properties}";
+              ExecStart = "${run-davmail}";
+              Environment = [ "PATH=${path}" ];
+            };
+          Install = {
+            WantedBy = [ "graphical-session.target" ];
+          };
         };
-        Service = let
-          path = lib.strings.makeBinPath [
-            pkgs.coreutils
-            pkgs.gnugrep
-            (pkgs.davmail.override { jre = pkgs.openjdk17; })
-          ];
-        in {
-          ExecStartPre = "${write-properties}";
-          ExecStart = "${run-davmail}";
-          Environment = [ "PATH=${path}" ];
-        };
-        Install = { WantedBy = [ "graphical-session.target" ]; };
-      };
     };
     services = lib.attrsets.optionalAttrs (x) { mbsync.enable = x; };
   };

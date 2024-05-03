@@ -1,7 +1,17 @@
-{ config, pkgs, lib, stdenv, self, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  self,
+  ...
+}:
+{
   config = {
     home = {
-      file = { ".inputrc".source = ./../inputrc; };
+      file = {
+        ".inputrc".source = ./../inputrc;
+      };
       sessionVariables.NO_COLOR = "true";
     };
     programs = {
@@ -28,7 +38,10 @@
         history = {
           extended = true;
           ignoreDups = true;
-          ignorePatterns = [ "rm *" "pkill *" ];
+          ignorePatterns = [
+            "rm *"
+            "pkill *"
+          ];
           save = 10000000;
           size = 10000000;
         };
@@ -36,14 +49,19 @@
         autocd = true;
         enableCompletion = true;
         autosuggestion.enable = true;
-        zplug = {
-          enable = true;
-          plugins = [{ name = "nnao45/zsh-kubectl-completion"; }];
+        initExtra = ''
+          ${builtins.readFile ../shrc}
+          ${builtins.readFile ../zshrc}
+        '';
+        shellAliases = {
+          "g" = "git";
         };
-        initExtra = builtins.readFile ../shrc;
-        shellAliases = { "g" = "git"; };
-        shellGlobalAliases = { "L" = "| less"; };
-        syntaxHighlighting = { highlighters = [ "brackets" ]; };
+        shellGlobalAliases = {
+          "L" = "| less";
+        };
+        syntaxHighlighting = {
+          highlighters = [ "brackets" ];
+        };
       };
     };
   };
