@@ -1,42 +1,53 @@
-{ config, pkgs, lib, stdenv, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  stdenv,
+  inputs,
+  ...
+}:
 let
   palette = import ../os/palette.nix;
   font = "Terminus";
-in {
+in
+{
   config = {
     xsession = {
       enable = true;
       scriptPath = ".xinitrc";
-      windowManager.command = let
-        path =
-          lib.strings.makeBinPath [ pkgs.icewm pkgs.dmenu pkgs.xdgmenumaker ];
-      in ''
-        PATH=$PATH:${path}
-        PATH=$PATH:$HOME/.local/bin
-        export PATH
-        if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
-        then
-            autorandr docked
-        fi
-        echo "Xft.dpi: ${
-          builtins.toString config.dpi
-        }" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
-        mkdir --parent ~/.config/icewm
-        rm --force ~/.config/icewm/menu
-        xdgmenumaker -i -f icewm > ~/.config/icewm/menu
-        LC_MESSAGES="$LC_NAME" icewm-session
-        while :
-        do
-              CMD=$(dmenu </dev/null)
-              if [ "$CMD" = "exit" ]
-              then
-                exit
-              else
-                $CMD
-              fi
-        done
-        wait
-      '';
+      windowManager.command =
+        let
+          path = lib.strings.makeBinPath [
+            pkgs.icewm
+            pkgs.dmenu
+            pkgs.xdgmenumaker
+          ];
+        in
+        ''
+          PATH=$PATH:${path}
+          PATH=$PATH:$HOME/.local/bin
+          export PATH
+          if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
+          then
+              autorandr docked
+          fi
+          echo "Xft.dpi: ${builtins.toString config.dpi}" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          mkdir --parent ~/.config/icewm
+          rm --force ~/.config/icewm/menu
+          xdgmenumaker -i -f icewm > ~/.config/icewm/menu
+          LC_MESSAGES="$LC_NAME" icewm-session
+          while :
+          do
+                CMD=$(dmenu </dev/null)
+                if [ "$CMD" = "exit" ]
+                then
+                  exit
+                else
+                  $CMD
+                fi
+          done
+          wait
+        '';
     };
     services.gammastep = {
       enable = config.xsession.enable;
@@ -90,29 +101,31 @@ in {
       };
     };
     systemd.user.services = lib.mkIf config.xsession.enable {
-      keynav.Service.Environment =
-        [ "PATH=${pkgs.xdotool}/bin:${pkgs.wmctrl}/bin:$PATH" ];
-      conky = let
-        path = lib.strings.makeBinPath [
-          pkgs.coreutils
-          pkgs.notmuch
-          pkgs.util-linux
-          pkgs.gnused
-          pkgs.conky
-        ];
-      in {
-        Unit = {
-          Description = "Conky";
-          PartOf = [ "graphical-session.target" ];
+      keynav.Service.Environment = [ "PATH=${pkgs.xdotool}/bin:${pkgs.wmctrl}/bin:$PATH" ];
+      conky =
+        let
+          path = lib.strings.makeBinPath [
+            pkgs.coreutils
+            pkgs.notmuch
+            pkgs.util-linux
+            pkgs.gnused
+            pkgs.conky
+          ];
+        in
+        {
+          Unit = {
+            Description = "Conky";
+            PartOf = [ "graphical-session.target" ];
+          };
+          Service = {
+            ExecStart = "${pkgs.conky}/bin/conky --daemonize --config=${../conkyrc}";
+            Environment = [ "PATH=${path}" ];
+            Type = "forking";
+          };
+          Install = {
+            WantedBy = [ "graphical-session.target" ];
+          };
         };
-        Service = {
-          ExecStart =
-            "${pkgs.conky}/bin/conky --daemonize --config=${../conkyrc}";
-          Environment = [ "PATH=${path}" ];
-          Type = "forking";
-        };
-        Install = { WantedBy = [ "graphical-session.target" ]; };
-      };
       volumeicon = {
         Unit = {
           Description = "Volumeicon";
@@ -124,7 +137,9 @@ in {
           Restart = "always";
           RestartSec = "3";
         };
-        Install = { WantedBy = [ "graphical-session.target" ]; };
+        Install = {
+          WantedBy = [ "graphical-session.target" ];
+        };
       };
     };
     services.picom = {
@@ -133,9 +148,14 @@ in {
         backend = "glx";
         frame-opacity = 1.0;
         shadow = true;
-        blur = { method = "dual_kawase"; };
+        blur = {
+          method = "dual_kawase";
+        };
         blur-background-exclude = [ "class_g = 'keynav'" ];
-        shadow-exclude = [ "class_g = 'firefox'" "class_g = 'conky'" ];
+        shadow-exclude = [
+          "class_g = 'firefox'"
+          "class_g = 'conky'"
+        ];
       };
     };
   };

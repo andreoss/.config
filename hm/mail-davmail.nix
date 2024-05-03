@@ -2,7 +2,8 @@ let
   address = "";
   domain = builtins.elemAt (builtins.split "@" address) 2;
   name = "";
-in {
+in
+{
   "${address}" = {
     primary = false;
     address = "${address}";
@@ -12,7 +13,9 @@ in {
     imap = {
       host = "127.0.0.1";
       port = 1143;
-      tls = { enable = false; };
+      tls = {
+        enable = false;
+      };
     };
     smtp = {
       host = "localhost";
@@ -37,6 +40,8 @@ in {
         user = "${address}";
       };
     };
-    notmuch = { enable = true; };
+    notmuch = {
+      enable = true;
+    };
   };
 }
