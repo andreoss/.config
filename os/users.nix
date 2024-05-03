@@ -1,15 +1,8 @@
-{
-  lib,
-  pkgs,
-  config,
-  self,
-  ...
-}:
-{
+{ lib, pkgs, config, self, ... }: {
   users.mutableUsers = false;
   users.motd = "";
-  users.users.root.initialHashedPassword = lib.mkForce "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
-  users.users.root.shell = pkgs.zsh;
+  users.users.root.initialHashedPassword = lib.mkForce
+    "$6$vOuTgR3jF.ZJjRje$iWA5cET.4Ak/If9ocTp3ttRw1QjTZNmshEkLXv8r.tCI6MNYddWuOK9kqseLNct3C/MncuRnkPRlNry1KppHM/";
   users.users."${config.primaryUser.name}" = {
     uid = config.primaryUser.uid;
     initialHashedPassword = config.primaryUser.passwd;
@@ -19,9 +12,7 @@
     linger = true;
     shell = pkgs.zsh;
   };
-  users.groups = {
-    uinput = { };
-  };
+  users.groups = { uinput = { }; };
   users.groups.wheel.members = [ config.primaryUser.name ];
   users.groups.input.members = [ config.primaryUser.name ];
   users.groups.video.members = [ config.primaryUser.name ];
@@ -29,6 +20,7 @@
   users.groups.disk.members = [ config.primaryUser.name ];
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
+  services.logind.lidSwitchExternalPower = "lock";
   services.logind.extraConfig = "";
   programs.bash = {
     promptInit = ''
@@ -40,25 +32,31 @@
     enable = true;
     enableBashCompletion = true;
     enableCompletion = true;
-    autosuggestions = {
-      enable = true;
-    };
+    autosuggestions = { enable = true; };
     promptInit = ''
       ${builtins.readFile ../zshrc}
     '';
   };
-  programs.git.enable = true;
   environment = {
     pathsToLink = [ "/share/zsh" ];
     noXlibs = false;
-    shells = [
-      pkgs.bash
-      pkgs.zsh
-    ];
+    shells = [ pkgs.bash pkgs.zsh ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
+      bcachefs-tools
+      openvpn
+      wireguard-tools
+      zsh
+      acpi
+      git
+      lm_sensors
+      man-pages
+      man-pages-posix
       mc
       psmisc
+      stdmanpages
+      wpa_supplicant_gui
+      links2
       molly-guard
     ];
     shellAliases = {
@@ -84,5 +82,11 @@
     loginShellInit = ''
       [ -d "$HOME/.nix-profile" ] || /nix/var/nix/profiles/per-user/$USER/home-manager/activate &> /dev/null
     '';
+  };
+  programs.dconf.enable = true;
+  programs.nix-ld.enable = true;
+  services.physlock = {
+    enable = lib.mkForce true;
+    allowAnyUser = true;
   };
 }
