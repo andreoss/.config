@@ -1,14 +1,6 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}:
-let
-  cfg = config.home.web;
-in
-{
+{ config, pkgs, lib, inputs, ... }:
+let cfg = config.home.web;
+in {
   imports = [ ];
   options = {
     home.web = {
@@ -37,11 +29,7 @@ in
     programs = {
       browserpass = {
         enable = config.programs.password-store.enable;
-        browsers = [
-          "brave"
-          "chromium"
-          "librewolf"
-        ];
+        browsers = [ "brave" "chromium" "librewolf" ];
       };
       chromium.enable = true;
       chromium.package = pkgs.brave;
