@@ -49,11 +49,10 @@
         autocd = true;
         enableCompletion = true;
         autosuggestion.enable = true;
-        zplug = {
-          enable = true;
-          plugins = [ { name = "nnao45/zsh-kubectl-completion"; } ];
-        };
-        initExtra = builtins.readFile ../shrc;
+        initExtra = ''
+          ${builtins.readFile ../shrc}
+          ${builtins.readFile ../zshrc}
+        '';
         shellAliases = {
           "g" = "git";
         };
