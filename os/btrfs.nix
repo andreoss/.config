@@ -1,16 +1,25 @@
-{ config, lib, pkgs, modulesPath, host, ... }:
-let host = config.hostId;
-in {
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  host,
+  ...
+}:
+let
+  host = config.hostId;
+in
+{
   boot.initrd = {
-    secrets = { "/etc/luks/system" = ../secrets/system-${host}; };
+    secrets = {
+      "/etc/luks/system" = ../secrets/system-${host};
+    };
     luks.devices = {
       "system-${host}" = {
         keyFile = "/etc/luks/system";
-        device =
-          "/dev/disk/by-partuuid/00000000-0000-0000-${host}-000000000002";
+        device = "/dev/disk/by-partuuid/00000000-0000-0000-${host}-000000000002";
       };
     };
-
   };
   fileSystems = {
     "/" = {
@@ -48,7 +57,6 @@ in {
       fsType = "btrfs";
       options = [ "subvol=var" ];
     };
-
   };
   swapDevices = [ ];
 }
