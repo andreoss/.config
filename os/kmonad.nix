@@ -1,15 +1,7 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}:
+{ pkgs, config, lib, ... }:
 
-let
-  cfg = config.services.kmonad;
-in
-with lib;
-{
+let cfg = config.services.kmonad;
+in with lib; {
   options.services.kmonad = {
     enable = mkOption {
       type = types.bool;
@@ -49,46 +41,41 @@ with lib;
     };
   };
 
-  config =
-    let
-      merge = builtins.foldl' (x: y: x // y) { };
-      mkKmonadService = d: {
-        "kmonad-${strings.sanitizeDerivationName d}" = {
-          enable = true;
-          description = "KMonad for ${d}";
-          restartTriggers = [ d ];
-          serviceConfig = {
-            Type = "simple";
-            Restart = "on-failure";
-            RestartSec = "1s";
-            ExecStart =
-              let
-                c = (
-                  builtins.toFile "kbd" (
-                    builtins.replaceStrings [ cfg.placeholder ] [ d ] (builtins.readFile cfg.configfile)
-                  )
-                );
-              in
-              pkgs.writeShellScript "kmonad.sh" ''
-                while [ ! -e ${d} ]
-                do
-                    sleep 1
-                done
-                ${cfg.package}/bin/kmonad ${c}
-              '';
-          };
-          wantedBy = [ "graphical.target" ];
+  config = let
+    merge = builtins.foldl' (x: y: x // y) { };
+    mkKmonadService = d: {
+      "kmonad-${strings.sanitizeDerivationName d}" = {
+        enable = true;
+        description = "KMonad for ${d}";
+        restartTriggers = [ d ];
+        serviceConfig = {
+          Type = "simple";
+          Restart = "on-failure";
+          RestartSec = "1s";
+          ExecStart = let
+            c = (builtins.toFile "kbd"
+              (builtins.replaceStrings [ cfg.placeholder ] [ d ]
+                (builtins.readFile cfg.configfile)));
+          in pkgs.writeShellScript "kmonad.sh" ''
+            while [ ! -e ${d} ]
+            do
+                sleep 1
+            done
+            ${cfg.package}/bin/kmonad ${c}
+          '';
         };
+        wantedBy = [ "graphical.target" ];
       };
-    in
-    {
-      users.groups.uinput = { };
-
-      services.udev.extraRules = mkIf cfg.enable ''
-        # KMonad user access to /dev/uinput
-        KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
-      '';
-
-      systemd.services = mkIf cfg.enable (merge (map (d: mkKmonadService d) cfg.devices));
     };
+  in {
+    users.groups.uinput = { };
+
+    services.udev.extraRules = mkIf cfg.enable ''
+      # KMonad user access to /dev/uinput
+      KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+    '';
+
+    systemd.services =
+      mkIf cfg.enable (merge (map (d: mkKmonadService d) cfg.devices));
+  };
 }
