@@ -58,6 +58,7 @@ in
     home = {
       packages = with pkgs; [
         abiword
+        calibre
         ditaa
         djview
         dmtx-utils
