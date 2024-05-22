@@ -93,12 +93,12 @@ in
         urgency_low = {
           background = gray5;
           foreground = black0;
-          timeout = 30;
+          timeout = 3600;
         };
         urgency_normal = {
           background = gray5;
           foreground = black0;
-          timeout = 60;
+          timeout = 180;
         };
         urgency_critical = {
           background = white3;
@@ -153,6 +153,7 @@ in
           PartOf = [ "graphical-session.target" ];
         };
         Service = {
+          ExecStartPre = "${pkgs.coreutils}/bin/sleep 10s";
           ExecStart = "${pkgs.wpa_supplicant_gui}/bin/wpa_gui -t";
           Restart = "always";
         };
