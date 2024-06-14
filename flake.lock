@@ -490,11 +490,11 @@
     },
     "nur_2": {
       "locked": {
-        "lastModified": 1718323718,
-        "narHash": "sha256-9rL8gsL+mn79q9YBINZB+RtdHW5rQK2fH1qlCzOe8pQ=",
+        "lastModified": 1718365537,
+        "narHash": "sha256-RiAhVWv1XcQyRlaIcuNS2rXIAIVD+yyiXIHeiXZOfpo=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "ff136f03422e271c38bc0c3c22a6a19f7bff3442",
+        "rev": "f65b760be31076d4b2306726db799339be613501",
         "type": "github"
       },
       "original": {
@@ -648,11 +648,11 @@
     "user-js_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1717796213,
-        "narHash": "sha256-Ex+eSb7tZ428MMJDIF/nqUOtnzjqEIPNaDXJPm9FvuY=",
+        "lastModified": 1718345666,
+        "narHash": "sha256-ecj9fQH+EnWLOO3FvlPkbw5iyC13Gkc5YvUQbs3t3tM=",
         "owner": "arkenfox",
         "repo": "user.js",
-        "rev": "47cbf5b9740ef59ed866874346d3fee3379f8da3",
+        "rev": "6446d73cf572fcdf631534a5a51276a64eec4a2d",
         "type": "github"
       },
       "original": {
