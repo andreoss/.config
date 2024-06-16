@@ -44,11 +44,11 @@
     "elisp-autofmt": {
       "flake": false,
       "locked": {
-        "lastModified": 1717925363,
-        "narHash": "sha256-vCvUwLp22g5MT1QH/ojZXb3bm8tVdk0k8p8w4W9XNJE=",
+        "lastModified": 1718450237,
+        "narHash": "sha256-UD5u89zTuWC0A88QbdGIa4ZC/fsm1SH5vfVUZWcr8Dk=",
         "ref": "refs/heads/main",
-        "rev": "0eb783f0cda5f150b39827bf53178ea9b2c4f4eb",
-        "revCount": 290,
+        "rev": "b9c4c2cf1fff18b219d5bba614f4e7bac28c0211",
+        "revCount": 291,
         "type": "git",
         "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
       },
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1718442764,
-        "narHash": "sha256-58CYTCRsOy1vdkFmLQlpJmUsXWGTPNm5041qhtUBlyE=",
+        "lastModified": 1718471512,
+        "narHash": "sha256-QbWu2sNjZlY++hn8mafAXr7F5IX8e/zL5tenlTBA3Pw=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "f29a037325d9c151513184b3367bbb2755c0357c",
+        "rev": "62b6d461862655efae9e2127a87ee3d0ef355c05",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1718442450,
-        "narHash": "sha256-2xg/4YPezwTRRPlGQEAw+qj1RBEwrurrnzW8zVeMLWA=",
+        "lastModified": 1718471300,
+        "narHash": "sha256-9BMVWt3WvYN2ro8M2Slt0lHHhDX8J3xaVR2M6YaIZUU=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "2d878eb04f770effe1fe9828e0391edb8e5f3df9",
+        "rev": "7154c01acab213910b80b4f788d1e35d8aa88769",
         "type": "github"
       },
       "original": {
@@ -376,11 +376,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717976391,
-        "narHash": "sha256-STKlWaiiFKDybexvQCg5U1+DSLRaxT93NwVaiBSEvTI=",
+        "lastModified": 1718470009,
+        "narHash": "sha256-VBeDG3we0bkbFWMyZy+wjUkmeDN58pGFzw1dQCTeDV8=",
         "owner": "nix-community",
         "repo": "NixOS-WSL",
-        "rev": "e3f215e518d52f6f2e68cf713cefe773284e1aa6",
+        "rev": "e0a970cbb8c3af05c80ef48a336ad91efd9b2bf6",
         "type": "github"
       },
       "original": {
@@ -490,11 +490,11 @@
     },
     "nur_2": {
       "locked": {
-        "lastModified": 1718451878,
-        "narHash": "sha256-DOt6b0+N0ea3DYJ83phSGtkKwgJbN+NA4ozXoVv6k8g=",
+        "lastModified": 1718483164,
+        "narHash": "sha256-Fm3v1sEndtHbsrAIoBzObz5NhbgWaXDluwEGlH+92s4=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "a83029a20d97e0d4713255b7eba1736c38ec9c14",
+        "rev": "53cf1c854e66a5efa73b69eb3ab952d6bf2e2817",
         "type": "github"
       },
       "original": {
