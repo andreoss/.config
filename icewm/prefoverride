@@ -6,40 +6,8 @@ KeySysShowDesktop="Super+d"
 KeySysTileHorizontal="Super+F3"
 KeySysTileVertical="Super+F2"
 
-ActiveButtonFontNameXft    = "Sans:size=8"
-ActiveTaskBarFontNameXft   = "Sans:size=8:bold"
-ApmFontNameXft             = "Sans:size=8"
-ClockFontNameXft           = "Sans:size=8"
-LabelFontNameXft           = "Sans:size=8"
-ListBoxFontNameXft         = "Sans:size=8"
-MenuFontNameXft	           = "Sans:size=8"
-MinimizedWindowFontNameXft = "Sans:size=8"
-NormalButtonFontNameXft    = "Sans:size=8"
-NormalTaskBarFontNameXft   = "Sans:size=8"
-QuickSwitchFontNameXft     = "Sans:size=8"
-StatusFontNameXft          = "Sans:size=8"
-TitleFontNameXft	   = "Sans:size=8:bold"
-ToolTipFontNameXft         = "Sans:size=8"
-
 CornerSizeX=30
 CornerSizeY=30
 TimeFormat="%-I:%M %P"
 
-PagerShowWindowIcons = 0
 SupportSemitransparency=1
-TaskBarAtTop=0
-TaskBarEnableSystemTray=1
-TaskBarShowAPMAuto=0
-TaskBarShowAPMGraph=0
-TaskBarShowApmStatus = 0
-TaskBarShowAPMStatus=0
-TaskBarShowAPMTime=0
-TaskBarShowMailboxStatus=0
-TaskBarShowMEMStatus = 0
-TaskBarShowNetStatus = 0
-TaskBarShowShowDesktopButton=0
-TaskBarShowStartMenu = 0
-TaskBarShowTray=1
-TrayDrawBevel=1
-TrayIconMaxHeight=16
-TrayIconMaxWidth=16

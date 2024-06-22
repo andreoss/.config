@@ -74,7 +74,7 @@ ColorCPUStatusIdle="rgb:d6/d3/ce"
 
 ColorNetSend="rgb:4c/59/a6"
 ColorNetReceive="rgb:9d/a1/bc"
-ColorNetIdle="00/00/00"
+ColorNetIdle="rgb:d6/d3/ce"
 
 ColorToolTip="rgb:d6/d4/ce"
 ColorToolTipText="rgb:00/00/00"

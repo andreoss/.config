@@ -128,6 +128,7 @@ in
         xclip
         xdotool
         xorg.xdpyinfo
+        xorg.xwininfo
         xorg.xev
         xorg.xhost
         xorg.xkill
