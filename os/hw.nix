@@ -32,8 +32,6 @@
           ;;
     esac
   '';
-  services.throttled.enable = true;
-  services.upower.enable = true;
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
   powerManagement.powerUpCommands = "${pkgs.acpilight}/bin/xbacklight -set 100";

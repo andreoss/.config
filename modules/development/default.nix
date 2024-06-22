@@ -52,6 +52,7 @@
       openshift
       pgtop
       postgresql
+      pspg
       psmisc
       pv
       qrencode
@@ -71,6 +72,7 @@
       yaml2json
       yamllint
       yaml-merge
+      rfc
       zip
     ];
   };

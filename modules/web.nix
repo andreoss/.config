@@ -23,7 +23,6 @@ in
         wget
         curl
         telescope
-        (pidgin.override { plugins = [ pidgin-otr ]; })
         dig.dnsutils
         jwhois
         mtr

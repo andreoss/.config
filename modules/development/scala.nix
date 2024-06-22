@@ -24,7 +24,6 @@ in
     };
     home = lib.mkIf cfg.enable {
       sessionVariables = {
-        "SBT_OPTS" = "-Xmx32G";
       };
       file.".local/bin/sbt-17" =
         let
