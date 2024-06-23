@@ -15,6 +15,7 @@
     devices = [ ];
   };
   hardware.opengl.enable = true;
+  hardware.opengl.driSupport = true;
   services.haveged.enable = true;
   programs.light.enable = true;
   programs.adb.enable = true;
