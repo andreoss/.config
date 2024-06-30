@@ -8,6 +8,22 @@ KeySysTileVertical="Super+F2"
 
 CornerSizeX=30
 CornerSizeY=30
-TimeFormat="%-I:%M %P"
 
 SupportSemitransparency=1
+
+TimeFormat="%-I:%M %P"
+TrayIconMaxWidth=16
+TrayIconMaxHeight=16
+TrayDrawBevel=1
+
+ShowHelp=0
+ShowRun=1
+
+TaskBarShowShowDesktopButton=0
+TaskBarShowStartMenu=0
+TaskBarShowWindowListMenu=0
+
+TaskBarShowAPMStatus=0
+TaskBarShowAPMAuto=0
+TaskBarShowAPMTime=0
+TaskBarShowAPMGraph=0
