@@ -23,7 +23,6 @@ in
           nodejs_18
           quick-lint-js
           rslint
-          v8
           mujs
         ])
         ++ (with pkgs.elmPackages; [
