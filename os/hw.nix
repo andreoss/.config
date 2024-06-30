@@ -14,6 +14,12 @@
     package = specialArgs.inputs.kmonad.packages.x86_64-linux.kmonad;
     devices = [ ];
   };
+  environment = {
+    systemPackages = with pkgs; [
+      lm_sensors
+      acpi
+    ];
+  };
   hardware.opengl.enable = true;
   services.haveged.enable = true;
   programs.light.enable = true;
@@ -31,8 +37,6 @@
           ;;
     esac
   '';
-  services.throttled.enable = true;
-  services.upower.enable = true;
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
   powerManagement.powerUpCommands = "${pkgs.acpilight}/bin/xbacklight -set 100";
