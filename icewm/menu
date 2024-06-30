@@ -1,0 +1,4 @@
+runonce "Файлы"     folder "pcmanfm" pcmanfm
+runonce "Терминал"  xterm  "urxvt"   urxvt
+separator
+menuprogreload "Приложения" folder 180 xdgmenumaker -n -i -f icewm
