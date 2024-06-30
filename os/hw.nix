@@ -14,8 +14,13 @@
     package = specialArgs.inputs.kmonad.packages.x86_64-linux.kmonad;
     devices = [ ];
   };
+  environment = {
+    systemPackages = with pkgs; [
+      lm_sensors
+      acpi
+    ];
+  };
   hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
   services.haveged.enable = true;
   programs.light.enable = true;
   programs.adb.enable = true;
