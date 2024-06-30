@@ -46,6 +46,7 @@ in
       };
       subnet4 = [
         {
+	  id = 1024;
           pools = [ { pool = "203.0.113.100 - 203.0.113.250"; } ];
           reservations = [
             {
