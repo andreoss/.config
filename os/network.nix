@@ -90,6 +90,10 @@ in
     };
     enableIPv6 = lib.mkForce false;
     firewall = {
+      trustedInterfaces = [
+        "docker0"
+        "virbr*"
+      ];
       extraPackages = with pkgs; [ ipset ];
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
