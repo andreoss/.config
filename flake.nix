@@ -240,7 +240,10 @@
         hostname = "ps";
         config = import ./secrets { lib = lib; };
         modules = [
-          { config.preferedLocalIp = "192.168.0.32"; }
+          {
+            config.preferedLocalIp = "192.168.0.32";
+            config.dpi = 96;
+          }
           ./secrets/3
           ./os/boot-grub-efi.nix
           ./os/btrfs-swap.nix
