@@ -28,7 +28,7 @@ in
         mtr
         monero-gui
         ungoogled-chromium
-        kotatogram-desktop
+        tdesktop
         signal-desktop
         transmission-gtk
       ];
