@@ -84,9 +84,9 @@ in
       enable = isOn "livecd";
     };
     virtualbox.host = {
-      enable = !(config.minimalInstallation || isOn "livecd") && isOn "virtualbox";
+      enable = isOn "vm";
       headless = false;
-      enableExtensionPack = true;
+      enableExtensionPack = false;
       enableHardening = false;
     };
     libvirtd.enable = isOn "vm";
