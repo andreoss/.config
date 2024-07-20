@@ -72,7 +72,6 @@ in
             pulsemixer
             pulseaudioFull
             pavucontrol
-            python3Packages.avahi
             python3Packages.zeroconf
           ];
           etc = {
