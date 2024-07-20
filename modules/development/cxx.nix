@@ -38,7 +38,6 @@ in
         cloc
         cmake
         cppcheck
-        cpplint
         ctags
         gcc
         gcovr
