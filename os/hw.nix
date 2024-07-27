@@ -20,7 +20,9 @@
       acpi
     ];
   };
-  hardware.opengl.enable = true;
+  nixpkgs.system = "x86_64-linux";
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = lib.mkForce false;
   services.haveged.enable = true;
   programs.light.enable = true;
   programs.adb.enable = true;
