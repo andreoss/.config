@@ -11,9 +11,16 @@
       enable = lib.mkForce config.autoLogin;
       user = config.primaryUser.name;
     };
+    services.libinput = {
+      enable = true;
+      touchpad.naturalScrolling = true;
+      touchpad.tapping = true;
+    };
     services.xserver = {
       dpi = config.dpi;
       enable = true;
+      upscaleDefaultCursor = true;
+      exportConfiguration = true;
       excludePackages = [ pkgs.xterm ];
       xautolock = lib.mkIf config.autoLock.enable {
         enable = true;
@@ -22,11 +29,6 @@
         notifier = ''${pkgs.libnotify}/bin/notify-send "Блокировка через 10 секунд"'';
         locker = "/run/wrappers/bin/physlock";
         enableNotifier = true;
-      };
-      libinput = {
-        enable = true;
-        touchpad.naturalScrolling = true;
-        touchpad.tapping = true;
       };
       inputClassSections = [
         ''
