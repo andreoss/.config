@@ -11,6 +11,7 @@ in
   hardware.enableRedistributableFirmware = true;
   boot = {
     kernelPackages = pkgs.${config.kernel};
+    extraModulePackages = [ config.boot.kernelPackages.rtl8821cu ];
     kernelParams = [
       "boot.shell_on_fail"
       "consoleblank=0"
