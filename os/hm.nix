@@ -12,6 +12,7 @@ in
   home-manager.extraSpecialArgs = specialArgs;
   home-manager.useGlobalPkgs = true;
   home-manager.verbose = true;
+  home-manager.backupFileExtension = "backup";
   home-manager.sharedModules = [
     {
       home.sessionVariables = {
@@ -25,8 +26,9 @@ in
       {
         home.packages = with pkgs; [
           nvi
-          pciutils
           usbutils
+          pciutils
+          ethtool
         ];
       }
     ];
