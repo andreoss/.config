@@ -142,21 +142,5 @@ in
         };
       };
     };
-    services.picom = {
-      enable = !config.minimalInstallation;
-      settings = {
-        backend = "glx";
-        frame-opacity = 1.0;
-        shadow = true;
-        blur = {
-          method = "dual_kawase";
-        };
-        blur-background-exclude = [ "class_g = 'keynav'" ];
-        shadow-exclude = [
-          "class_g = 'firefox'"
-          "class_g = 'conky'"
-        ];
-      };
-    };
   };
 }
