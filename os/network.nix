@@ -6,6 +6,18 @@
 }:
 let
   isOn = (x: (builtins.elem x config.features));
+  supplicant-service = (
+    interface: {
+      configFile = {
+        path = "/var/db/wpa_supplicant.conf";
+        writable = true;
+      };
+      userControlled = {
+        enable = true;
+        group = "wheel";
+      };
+    }
+  );
   change-mac = pkgs.writeShellScript "change-mac" ''
     PATH=${
       lib.strings.makeBinPath [
@@ -27,12 +39,10 @@ let
     enable = true;
     description = "macchanger on ${interface}";
     partOf = [ "network.target" ];
-    wants = [ "network-pre.target" ];
     before = [ "network-pre.target" ];
-    bindsTo = [ "sys-subsystem-net-devices-${interface}.device" ];
-    after = [ "sys-subsystem-net-devices-${interface}.device" ];
     serviceConfig = {
       Type = "oneshot";
+      ExecCondition = "${pkgs.bash}/bin/bash -c '[ -e /sys/class/net/${interface}]'";
       ExecStart = "${change-mac} ${interface}";
     };
   };
@@ -115,22 +125,15 @@ in
     };
     usePredictableInterfaceNames = false;
     extraHosts = config.extraHosts;
-    supplicant."wlan0" = {
-      configFile = {
-        path = "/var/db/wpa_supplicant.conf";
-        writable = true;
-      };
-      userControlled = {
-        enable = true;
-        group = "wheel";
-      };
-    };
+    supplicant."wlan0" = supplicant-service "wlan0";
+    supplicant."wlan1" = supplicant-service "wlan1";
     dhcpcd = {
       wait = "background";
       runHook = "if [[ $reason =~ BOUND ]]; then echo $interface: Routers are $new_routers - were $old_routers; fi";
       enable = true;
       allowInterfaces = [
         "eth*"
+        "usb*"
         "wlan*"
       ];
       extraConfig = ''
@@ -209,8 +212,19 @@ in
     supplicant-wlan0 = {
       requires = [ "macchanger-wlan0.service" ];
       bindsTo = [ "sys-subsystem-net-devices-wlan0.device" ];
+      conflicts = [ "supplicant-wlan1.service" ];
+      before = [ "macchanger-wlan0.service" ];
       serviceConfig = {
-        ExecCondition = "${pkgs.findutils}/bin/find /sys/class/net/wlan0";
+        ExecCondition = "${pkgs.bash}/bin/bash -c '[ -e /sys/class/net/wlan0 ] && [ ! -e /sys/class/net/wlan1 ]'";
+      };
+    };
+    supplicant-wlan1 = {
+      requires = [ "macchanger-wlan1.service" ];
+      before = [ "macchanger-wlan1.service" ];
+      bindsTo = [ "sys-subsystem-net-devices-wlan1.device" ];
+      conflicts = [ "supplicant-wlan0.service" ];
+      serviceConfig = {
+        ExecCondition = "${pkgs.bash}/bin/bash -c '[ -e /sys/class/net/wlan1 ]'";
       };
     };
   };
