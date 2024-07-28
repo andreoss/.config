@@ -27,3 +27,20 @@ TaskBarShowAPMStatus=0
 TaskBarShowAPMAuto=0
 TaskBarShowAPMTime=0
 TaskBarShowAPMGraph=0
+
+TitleFontNameXft		=	terminus:size=8:bold
+MenuFontNameXft			=	terminus:size=8
+MinimizedWindowFontNameXft	=	terminus:size=8
+ActiveButtonFontNameXft		=	terminus:size=8
+NormalButtonFontNameXft		=	terminus:size=8
+ToolButtonFontNameXft		=	terminus:size=8
+NormalWorkspaceFontNameXft	=	terminus:size=8
+ActiveWorkspaceFontNameXft	=	terminus:size=8
+QuickSwitchFontNameXft		=	terminus:size=8
+ListBoxFontNameXft		=	terminus:size=8
+StatusFontNameXft		=	terminus:size=8
+ToolTipFontNameXft		=	terminus:size=8
+ActiveTaskBarFontNameXft	=	terminus:size=8
+NormalTaskBarFontNameXft	=	terminus:size=8
+ClockFontNameXft		=	terminus:size=8
+InputFontNameXft		=	terminus:size=8
