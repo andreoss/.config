@@ -19,7 +19,7 @@ conky.config = {
     draw_outline = true,
     draw_shades = false,
     extra_newline = false,
-    font = 'VGA:size=12',
+    font = 'Terminus:size=12',
     gap_x = 48,
     gap_y = 48,
     maximum_height = 320,
