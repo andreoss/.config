@@ -34,7 +34,6 @@ in
     ];
   };
   home-manager.users."${config.primaryUser.name}" = {
-    nixpkgs.overlays = specialArgs.overlays;
     home.stateVersion = config.stateVersion;
     imports =
       [
