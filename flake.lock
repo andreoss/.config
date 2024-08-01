@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722446030,
-        "narHash": "sha256-9a3+wGl69PC0MIQc0VVgbLLo63mLaGXQfCXXdu89a8I=",
+        "lastModified": 1722503584,
+        "narHash": "sha256-8A6hyeptTxaytXbf+DpoF3Kw9aWJTuBwdTzlpD9uQMA=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "a8e738874ff25b317572d54a32d47b1f1c28f6b8",
+        "rev": "1fc46c82ad25f47f78d5da649db9972b7de83abe",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1722445825,
-        "narHash": "sha256-N6DtC62HY/2PA+PqIW6uH17pOZDmgd++ay5Iv2YW7ZI=",
+        "lastModified": 1722503466,
+        "narHash": "sha256-/uMz2fgoe15us1OufkY+cLxtPvwQ8pujIae1KpiTGCc=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "445662a366f5360a8a1b1cf1dbf21df483cd5a5b",
+        "rev": "835be326735bff3737320bf61cb2ae1b54a26cbd",
         "type": "github"
       },
       "original": {
@@ -328,11 +328,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722450280,
+        "lastModified": 1722496663,
         "narHash": "sha256-DwxAP5msn7OY6jQHmKdl83dTut59xOS1a9+OQx/ilQI=",
         "owner": "andreoss",
         "repo": "kernel-overlay",
-        "rev": "5bdc1451c1d2b7f122fab14c24f25faf1dcd8ee0",
+        "rev": "daacf171073d726ef5363b7478fce8156a290d48",
         "type": "github"
       },
       "original": {
@@ -490,11 +490,11 @@
     },
     "nur_2": {
       "locked": {
-        "lastModified": 1722465185,
-        "narHash": "sha256-vNu8ztiqTTAvgqYBatM/AuFn9qpJXfNuqGFYA95oVWk=",
+        "lastModified": 1722512694,
+        "narHash": "sha256-MxoMJDp+iFxy5ihtA4YpxBtdq6wLtoFxy+fNyDNwHqU=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "9ba05057d90d2c8fda1f40685871c0d8dbf81402",
+        "rev": "c34ae86f7397a21421f3e826da76b6928284ebc1",
         "type": "github"
       },
       "original": {
