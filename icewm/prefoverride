@@ -1,4 +1,4 @@
-LockCommand="physlock"
+LockCommand="xsecurelock"
 WorkspaceNames=" ", " ", " ", " ", " ",  " "
 GrabRootWindow=0
 
@@ -44,3 +44,7 @@ ActiveTaskBarFontNameXft	=	terminus:size=8
 NormalTaskBarFontNameXft	=	terminus:size=8
 ClockFontNameXft		=	terminus:size=8
 InputFontNameXft		=	terminus:size=8
+
+CenterLarge=1
+CenterTransientsOnOwner=1
+SmartPlacement=1

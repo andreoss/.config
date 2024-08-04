@@ -20,10 +20,6 @@ in
     enable = true;
     wrappedBinaries = { };
   };
-  services.physlock = {
-    enable = lib.mkForce true;
-    allowAnyUser = true;
-  };
   security = {
     lockKernelModules = false;
     forcePageTableIsolation = true;
