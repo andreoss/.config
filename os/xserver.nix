@@ -27,7 +27,7 @@
         time = config.autoLock.time;
         extraOptions = [ "-detectsleep" ];
         notifier = ''${pkgs.libnotify}/bin/notify-send "Блокировка через 10 секунд"'';
-        locker = "/run/wrappers/bin/physlock";
+        locker = "${pkgs.xsecurelock}/bin/xsecurelock";
         enableNotifier = true;
       };
       inputClassSections = [
