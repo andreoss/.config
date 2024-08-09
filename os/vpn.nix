@@ -83,7 +83,7 @@
           };
           "openvpn-${x}-health-check" = {
             script = ''
-              ${pkgs.iputils}/bin/ping -c 4 209.51.188.116
+              ${pkgs.iputils}/bin/ping -c 4 1.1.1.1
             '';
             restartTriggers = [ config.environment.etc."nixos/version".source ];
             conflicts = map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);
