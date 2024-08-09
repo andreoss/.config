@@ -7,6 +7,7 @@
 }:
 {
   config = {
+    programs.dconf.enable = true;
     services.startx = {
       enable = lib.mkForce config.autoLogin;
       user = config.primaryUser.name;
@@ -25,7 +26,7 @@
       xautolock = lib.mkIf config.autoLock.enable {
         enable = true;
         time = config.autoLock.time;
-        extraOptions = [ "-detectsleep" ];
+        extraOptions = [ ];
         notifier = ''${pkgs.libnotify}/bin/notify-send "Блокировка через 10 секунд"'';
         locker = "${pkgs.xsecurelock}/bin/xsecurelock";
         enableNotifier = true;
