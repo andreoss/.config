@@ -9,6 +9,7 @@
     copySystemConfiguration = false;
   };
   services = {
+    ntp.enable = true;
     getty.extraArgs = [
       "--nohostname"
       "--noissue"
