@@ -51,7 +51,6 @@
   programs.git.enable = true;
   environment = {
     pathsToLink = [ "/share/zsh" ];
-    noXlibs = false;
     shells = [
       pkgs.bash
       pkgs.zsh
