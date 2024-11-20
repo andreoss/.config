@@ -18,7 +18,7 @@ in
       };
       version = mkOption {
         type = types.str;
-        default = "536";
+        default = "540";
       };
     };
   };
