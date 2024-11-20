@@ -31,6 +31,8 @@ in
           if grep closed /proc/acpi/button/lid*/LID*/state >/dev/null
           then
               autorandr docked
+          else
+              autorandr mobile
           fi
           echo "Xft.dpi: ${builtins.toString config.dpi}" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
           mkdir --parent ~/.config/icewm
@@ -76,10 +78,10 @@ in
           fix-dpi = ''
             case "$AUTORANDR_CURRENT_PROFILE" in
                 docked)
-                DPI=${builtins.toString (2 * config.dpi)}";
+                DPI=${builtins.toString (2 * config.dpi)}
                 ;;
                 mobile)
-                DPI=${builtins.toString config.dpi}";
+                DPI=${builtins.toString config.dpi}
                 ;;
                 *)
                 echo "Unknown profile: $AUTORANDR_CURRENT_PROFILE"
