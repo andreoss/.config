@@ -18,6 +18,11 @@ in
   };
   config = lib.mkIf cfg.enable {
     home = {
+      activation = {
+        install-brotab = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          ${pkgs.brotab}/bin/brotab install
+        '';
+      };
       packages = with pkgs; [
         libressl
         wget
@@ -29,8 +34,8 @@ in
         monero-gui
         ungoogled-chromium
         tdesktop
+        brotab
         signal-desktop
-        transmission-gtk
       ];
     };
     programs = {
