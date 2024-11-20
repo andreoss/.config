@@ -21,8 +21,6 @@
         enable = true;
         font = "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
         fontSize = 36;
-        gfxmodeBios = lib.mkForce "1920x1080";
-        gfxmodeEfi = lib.mkForce "1920x1080";
         splashImage = config.backgroundImage;
         splashMode = "stretch";
         theme = null;
