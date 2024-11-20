@@ -131,6 +131,8 @@ in
         xorg.xwininfo
         xorg.xev
         xorg.xhost
+        xorg.xprop
+        xorg.xrandr
         xorg.xkill
         xorg.xwd
         xpra
