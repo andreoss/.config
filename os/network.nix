@@ -137,7 +137,13 @@ in
         "wlan*"
       ];
       extraConfig = ''
+        ipv4only
+        debug
+        noipv6
         ${config.dhcpcdExtraConfig config.preferedLocalIp}
+
+        anonymous
+        randomise_hwaddr
       '';
     };
   };
@@ -204,6 +210,7 @@ in
   systemd.network.wait-online.timeout = 10;
   systemd.services = {
     dhcpcd = {
+      serviceConfig.ReadWritePaths = lib.mkForce [ ];
       partOf = [ "network.target" ];
     };
     macchanger-wlan0 = macchanger-service "wlan0";
