@@ -76,7 +76,6 @@ in
         sdcv
         texlive.combined.scheme-full
         xlsx2csv
-        xlsxgrep
         zbar
       ];
     };
