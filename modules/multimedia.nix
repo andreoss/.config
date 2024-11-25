@@ -126,7 +126,7 @@ in
     programs.yt-dlp = {
       enable = cfg.enable;
       settings = {
-        downloader-args = "aria2c:'-c -x8 -s8 -k1M'";
+        downloader-args = "aria2c:'-c -x8 -s8 -k1M --allow-overwrite=true'";
         downloader = "aria2c";
         compat-options = "no-certifi";
         embed-chapters = true;
