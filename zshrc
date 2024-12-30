@@ -171,3 +171,23 @@ then
       add-zsh-hook -Uz preexec __title_preexec
     fi
 fi
+
+
+if [ "$HISTFILE" -eq "" ]
+then
+        HISTSIZE="10000000"
+        SAVEHIST="10000000"
+        HISTORY_IGNORE='(rm *|pkill *)'
+        HISTFILE="$HOME/.zsh_history"
+fi
+
+
+setopt HIST_FCNTL_LOCK
+unsetopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+unsetopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+unsetopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+setopt autocd
