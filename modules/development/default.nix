@@ -21,6 +21,7 @@
     home.packages = with pkgs; [
       ack
       act
+      selenium-server-standalone
       ascii
       atool
       cloc
