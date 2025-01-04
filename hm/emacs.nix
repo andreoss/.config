@@ -62,7 +62,6 @@
       };
       packages = with pkgs; [
         spleen
-        zile
         coreutils-full
         (hunspellWithDicts [
           hunspellDicts.ru_RU
