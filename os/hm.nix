@@ -25,7 +25,6 @@ in
     imports = [
       {
         home.packages = with pkgs; [
-          nvi
           usbutils
           pciutils
           ethtool
