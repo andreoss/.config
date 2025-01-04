@@ -47,7 +47,6 @@ in
         lcov
         pkg-config
         strace
-        tinycc
         valgrind
       ]
     );
