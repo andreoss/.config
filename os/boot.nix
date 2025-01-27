@@ -11,7 +11,10 @@ in
   hardware.enableRedistributableFirmware = true;
   boot = {
     kernelPackages = pkgs.${config.kernel};
-    extraModulePackages = [ config.boot.kernelPackages.rtl8821cu ];
+    extraModulePackages = [
+      config.boot.kernelPackages.rtl8821cu
+      config.boot.kernelPackages.v4l2loopback
+    ];
     kernelParams = [
       "boot.shell_on_fail"
       "consoleblank=0"
