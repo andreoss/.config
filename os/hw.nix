@@ -6,13 +6,25 @@
   ...
 }:
 {
-
-  imports = [ ./kmonad.nix ];
+  hardware = {
+    graphics = {
+      enable = lib.mkDefault true;
+      enable32Bit = lib.mkDefault false;
+    };
+  };
+  services.xserver.videoDrivers = [ ];
   services.kmonad = {
     enable = true;
-    configfile = ./../kbd;
-    package = specialArgs.inputs.kmonad.packages.x86_64-linux.kmonad;
-    devices = [ ];
+    keyboards = {
+      "laptop" = {
+        name = "laptop";
+        device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+        config = builtins.readFile ../kbd;
+        defcfg = {
+          enable = true;
+        };
+      };
+    };
   };
   environment = {
     systemPackages = with pkgs; [
@@ -21,24 +33,28 @@
     ];
   };
   nixpkgs.system = "x86_64-linux";
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = lib.mkForce false;
+
   services.haveged.enable = true;
   programs.light.enable = true;
   programs.adb.enable = true;
   services.udev.packages = [ pkgs.android-udev-rules ];
+  programs.kbdlight.enable = true;
   hardware.acpilight.enable = true;
-  services.acpid.enable = true;
-  services.acpid.acEventCommands = ''
-    case "$1" in
-         ac*0)
-           ${pkgs.acpilight}/bin/xbacklight -set 80
-          ;;
-         ac*1)
-           ${pkgs.acpilight}/bin/xbacklight -set 100
-          ;;
-    esac
-  '';
+  services.systembus-notify.enable = true;
+  services.acpid = {
+    enable = true;
+    logEvents = true;
+    acEventCommands = ''
+      case "$1" in
+           ac*0)
+             ${pkgs.acpilight}/bin/xbacklight -set 80
+            ;;
+           ac*1)
+             ${pkgs.acpilight}/bin/xbacklight -set 100
+            ;;
+      esac
+    '';
+  };
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
   powerManagement.powerUpCommands = "${pkgs.acpilight}/bin/xbacklight -set 100";
