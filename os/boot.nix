@@ -73,6 +73,11 @@ in
       "snd_pcsp"
       "pcspkr"
       "bluetooth"
+      "nouveau"
+      "rivafb"
+      "nvidiafb"
+      "rivatv"
+      "nv"
     ];
     initrd = {
       kernelModules = [
