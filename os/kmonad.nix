@@ -4,7 +4,6 @@
   lib,
   ...
 }:
-
 let
   cfg = config.services.kmonad;
 in
