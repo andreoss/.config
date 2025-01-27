@@ -62,16 +62,25 @@
       let
         merge = builtins.foldl' (x: y: x // y) { };
         cfx = builtins.attrNames config.services.openvpn.servers;
+        notify-send = pkgs.writeShellScript "notify-send" ''
+          PATH=${lib.strings.makeBinPath [ pkgs.dbus ]}:$PATH
+          topic="$1"
+          shift
+          dbus-send --system / net.nuetzlich.SystemNotifications.Notify "string:$topic" "string:$*"
+          exit 0
+        '';
       in
       merge (
         map (x: {
           "openvpn-${x}" = {
             requires = [ "openvpn-${x}-health-check.timer" ];
             restartTriggers = [ config.environment.etc."nixos/version".source ];
-            postStart = "${pkgs.systemd}/bin/systemctl restart unbound.service";
             conflicts = map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);
             serviceConfig = {
               Group = "tunnel";
+              ExecStopPost = "${notify-send} '${x}' 'down'";
+              ExecStartPost = "${notify-send} '${x}' 'up'";
+              # ExecStartPost = "${pkgs.systemd}/bin/systemctl restart unbound.service";
             };
           };
           "openvpn-${x}-restart" = {
@@ -79,6 +88,7 @@
             conflicts = map (y: "openvpn-${y}.service") (builtins.filter (y: y != x) cfx);
             serviceConfig = {
               Type = "oneshot";
+              ExecStartPost = "${notify-send} ${x} restarted";
             };
           };
           "openvpn-${x}-health-check" = {
