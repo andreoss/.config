@@ -18,7 +18,6 @@ in
       windowManager.command =
         let
           path = lib.strings.makeBinPath [
-            pkgs.xsecurelock
             pkgs.icewm
             pkgs.dmenu
             pkgs.xdgmenumaker
