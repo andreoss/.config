@@ -1,4 +1,4 @@
-LockCommand="xsecurelock"
+LockCommand="alock"
 WorkspaceNames=" ", " ", " ", " ", " ",  " "
 GrabRootWindow=0
 
