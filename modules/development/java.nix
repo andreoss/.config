@@ -27,10 +27,12 @@ let
     (mkJdk pkgs.jdk11 "JDK_11" "11")
     (mkJdk pkgs.jdk17 "JDK_17" "17")
     (mkJdk pkgs.jdk21 "JDK_21" "21")
+    (mkJdk pkgs.jdk23 "JDK_23" "23")
     (mkJdk pkgs.temurin-bin-8 "TEMURIN_JDK_8" "temurin-8")
     (mkJdk pkgs.temurin-bin-11 "TEMURIN_JDK_11" "temurin-11")
     (mkJdk pkgs.temurin-bin-17 "TEMURIN_JDK_17" "temurin-17")
-    (mkJdk pkgs.temurin-bin-17 "TEMURIN_JDK_21" "temurin-21")
+    (mkJdk pkgs.temurin-bin-21 "TEMURIN_JDK_21" "temurin-21")
+    (mkJdk pkgs.temurin-bin-23 "TEMURIN_JDK_21" "temurin-23")
     (mkJdk pkgs.graalvm-ce "JDK_GRAAL" "graal")
   ];
   variables = merge (map (x: x.sessionVariables) jdks) // {
@@ -73,7 +75,6 @@ in
           gradle
           groovy
           jetbrains.idea-community
-          kotlin
           lombok
           maven
           netbeans
@@ -100,8 +101,7 @@ in
           (buildEclipseUpdateSite rec {
             name = "IntelliJIdeaKeymap4Eclipse";
             src = pkgs.fetchzip {
-              url =
-                "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
+              url = "https://github.com/IntelliJIdeaKeymap4Eclipse/IntelliJIdeaKeymap4Eclipse-update-site/archive/refs/heads/main.zip";
               sha256 = "sha256-L43JWpYy/9JvOLi9t+UioT/uQbBLL08pgHrW8SuGQ8M=";
             };
           })
