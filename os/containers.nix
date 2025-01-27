@@ -22,7 +22,8 @@ in
       {
         system.stateVersion = cfg.stateVersion;
         services.openssh.enable = true;
-        services.openssh.settings.X11Forwarding = true;
+        services.xserver.enable = true;
+        services.openssh.settings.X11Forwarding = false;
         systemd.tmpfiles.rules = [
           "d /nix/var/nix/profiles/per-user/${user} - ${user} - - -"
           "d /nix/var/nix/gcroots/per-user/${user} - ${user} - - -"
@@ -36,6 +37,8 @@ in
         environment = {
           defaultPackages = with pkgs; [ ];
           systemPackages = with pkgs; [
+            xpra
+            cwm
             tor-browser
             pulseaudio
           ];
@@ -144,7 +147,7 @@ in
               UtmpIdentifier = "tty1";
               UtmpMode = "user";
               UnsetEnvironment = "TERM";
-              ExecStart = "${pkgs.xorg.xorgserver}/bin/Xvfb :0 -screen 0 1300x700x24";
+              ExecStart = "${pkgs.xorg.xorgserver}/bin/Xvfb :0 -screen 0 1900x1200x24";
               Restart = "always";
               RestartSec = "3";
               Type = "idle";

@@ -23,6 +23,9 @@ in
       "psi=1"
       "udev.log_priority=3"
       "usbcore.autosuspend=-1"
+      "nvme_core.default_ps_max_latency_us=0"
+      "nvme.poll_queues=4"
+      "nvme_core.io_timeout=1"
     ];
     extraModprobeConfig = ''
       options thinkpad_acpi fan_control=1
