@@ -88,7 +88,7 @@ in
           alignment = "center";
           word_warp = "true";
           line_height = 3;
-          geometry = "384x5-30+20";
+          geometry = "600x5-30+20";
         };
         urgency_low = {
           background = gray5;
@@ -112,9 +112,8 @@ in
     home.packages = lib.optionals config.xsession.enable (
       with pkgs;
       [
-        comic-mono
+        alock
         fontpreview
-        last-resort
         luculent
         paratype-pt-mono
         recursive
@@ -136,7 +135,6 @@ in
         xorg.xkill
         xorg.xwd
         xpra
-        pcmanfm
       ]
     );
     home.sessionVariables = lib.mkIf config.xsession.enable {
