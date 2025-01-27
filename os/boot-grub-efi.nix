@@ -13,7 +13,7 @@
         configurationName = "${config.environment.etc."nixos/version".text} ${
           config.environment.etc."nixos/date".text
         }";
-        configurationLimit = 3;
+        configurationLimit = 10;
         devices = [ "nodev" ];
         efiInstallAsRemovable = true;
         efiSupport = true;
