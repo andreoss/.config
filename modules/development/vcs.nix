@@ -93,7 +93,6 @@ in
     };
     home.packages = with pkgs; [
       fossil
-      gitAndTools.git-codeowners
       gitAndTools.git-extras
       gitAndTools.gitflow
       git-crypt
