@@ -173,14 +173,13 @@ then
 fi
 
 
-if [ "$HISTFILE" -eq "" ]
+if [ ! "$HISTFILE" ]
 then
         HISTSIZE="10000000"
         SAVEHIST="10000000"
         HISTORY_IGNORE='(rm *|pkill *)'
         HISTFILE="$HOME/.zsh_history"
 fi
-
 
 setopt HIST_FCNTL_LOCK
 unsetopt APPEND_HISTORY
