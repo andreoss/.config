@@ -25,15 +25,31 @@ let
         pkgs.macchanger
       ]
     }:$PATH
-    IFDEV="$1"
-    if [ -z "$IFDEV" -o ! -e "/sys/class/net/$IFDEV" ]
+    IF="$1"
+    if [ -z "$IF" -o ! -e "/sys/class/net/$IF" ]
     then
-      echo "No such device: $IFDEV"
+      echo "No such device: $IF"
       exit 0
     fi
-    ip link set "$IFDEV" down &&
-    macchanger -b -r "$IFDEV"
-    ip link set "$IFDEV" up
+    ip link set "$IF" down &&
+    macchanger --bia "$IF"
+    ip link set "$IF" up
+  '';
+
+  change-mac-notify = pkgs.writeShellScript "change-mac-notify" ''
+    PATH=${
+      lib.strings.makeBinPath [
+        pkgs.dbus
+        pkgs.macchanger
+      ]
+    }:$PATH
+    IF="$1"
+    if [ -z "$IF" -o ! -e "/sys/class/net/$IF" ]
+    then
+      echo "No such device: $IF"
+      exit 0
+    fi
+    dbus-send --system / net.nuetzlich.SystemNotifications.Notify "string:$IF" "string:$(macchanger --show $IF | head -1)"
   '';
   macchanger-service = interface: {
     enable = true;
@@ -42,8 +58,9 @@ let
     before = [ "network-pre.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecCondition = "${pkgs.bash}/bin/bash -c '[ -e /sys/class/net/${interface}]'";
+      ExecCondition = "${pkgs.bash}/bin/bash -c '[ -e /sys/class/net/${interface} ]'";
       ExecStart = "${change-mac} ${interface}";
+      ExecStartPost = "${change-mac-notify} ${interface}";
     };
   };
   keystore = "/etc/ssl/certs/java/keystore.jks";
@@ -74,6 +91,7 @@ in
       traceroute
       dig.dnsutils
       jwhois
+      namespaced-openvpn
       wirelesstools
     ];
     variables.JAVAX_NET_SSL_TRUSTSTORE = keystore;
@@ -116,11 +134,11 @@ in
       extraConfig = "";
     };
     proxy = {
-      # allProxy = "http://127.0.0.1:8118";
-      # httpsProxy = "http://127.0.0.1:8118";
-      # httpProxy = "http://127.0.0.1:8118";
-      # ftpProxy = "http://127.0.0.1:8118";
-      # default = "http://127.0.0.1:8118";
+      #allProxy = "http://127.0.0.1:8118";
+      #httpsProxy = "http://127.0.0.1:8118";
+      #httpProxy = "http://127.0.0.1:8118";
+      #ftpProxy = "http://127.0.0.1:8118";
+      #default = "http://127.0.0.1:8118";
       noProxy = "gcr.io,zoom.us,slack.com";
     };
     usePredictableInterfaceNames = false;
@@ -140,6 +158,7 @@ in
         ipv4only
         debug
         noipv6
+
         ${config.dhcpcdExtraConfig config.preferedLocalIp}
 
         anonymous
