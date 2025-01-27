@@ -3,6 +3,7 @@
   pkgs,
   config,
   self,
+  inputs,
   ...
 }:
 {
@@ -57,6 +58,8 @@
     ];
     defaultPackages = with pkgs; [ ];
     systemPackages = with pkgs; [
+      inputs.dmenu.packages.x86_64-linux.dmenu
+      icewm
       mc
       psmisc
       molly-guard
