@@ -6,9 +6,6 @@
   self,
   ...
 }:
-let
-  palette = import ../os/palette.nix;
-in
 {
   home.packages = with pkgs; [
     coreutils-full
@@ -24,6 +21,7 @@ in
     ])
     paperkey
     anki-bin
+    cool-retro-term
   ];
   home.file = {
     ".npmrc".source = ./../npmrc;
