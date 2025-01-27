@@ -5,7 +5,9 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixos-unstable";
     };
-
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
     flake-utils = {
       url = "github:numtide/flake-utils";
     };
@@ -13,7 +15,6 @@
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
 
     nur.url = "github:nix-community/NUR";
@@ -71,10 +72,6 @@
       url = "github:arkenfox/user.js";
       flake = false;
     };
-    kmonad = {
-      url = "git+https://github.com/kmonad/kmonad?submodules=0&dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
@@ -85,6 +82,7 @@
       nixpkgs,
       home-manager,
       nixos-hardware,
+      ghostty,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -173,8 +171,9 @@
             overlays = [ ];
             modules = [
               {
+                config.kernel = "linuxPackages";
                 config.preferedLocalIp = "192.168.0.32";
-                config.dpi = 96;
+                config.dpi = 120;
               }
               ./secrets/3
               ./os/boot-grub-efi.nix
