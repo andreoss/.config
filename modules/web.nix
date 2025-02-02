@@ -32,9 +32,9 @@ in
         jwhois
         mtr
         monero-gui
-        ungoogled-chromium
         tdesktop
         brotab
+        librewolf
         signal-desktop
       ];
     };
@@ -42,13 +42,12 @@ in
       browserpass = {
         enable = config.programs.password-store.enable;
         browsers = [
-          "brave"
           "chromium"
           "librewolf"
         ];
       };
       chromium.enable = true;
-      chromium.package = pkgs.brave;
+      chromium.package = pkgs.ungoogled-chromium;
     };
   };
 }
