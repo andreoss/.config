@@ -33,6 +33,12 @@ in
             if [ "$NEW_MAIL" -gt 0 ]
             then
                ${pkgs.libnotify}/bin/notify-send "✉ + $(notmuch count tag:new) / $(notmuch count tag:unread)"
+               notmuch search tag:new | awk '{print $1}' | while read id;
+               do
+                   m=$(notmuch show --format-version=1 --format=json "$id"  | jq '.[].[].[] | .headers' | json2yaml)
+                   nid=$(dunstify -p "$m")
+                   notmuch tag +notified +"nid:$nid" -- $id
+               done
                notmuch tag +inbox +unread -new -- tag:new
             fi
           '';

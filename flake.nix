@@ -103,7 +103,7 @@
                     nixpkgs.overlays = host.overlays ++ [
                       inputs.nur.overlay
                       inputs.emacs-d.overlays.default
-                      inputs.kernel-overlay.overlays."x86_64-linux".default
+                      # inputs.kernel-overlay.overlays."x86_64-linux".default
                     ];
                   }
                   host.config
@@ -196,7 +196,7 @@
             overlays = [
               inputs.nur.overlay
               inputs.emacs-d.overlays.default
-              inputs.kernel-overlay.overlays.default
+              # inputs.kernel-overlay.overlays.default
             ];
             config = {
               allowUnfree = true;
@@ -207,7 +207,7 @@
         inputs.nixpkgs.lib.composeManyExtensions [
           inputs.nur.overlay
           inputs.emacs-d.overlays.default
-          inputs.kernel-overlay.overlays.default
+          # inputs.kernel-overlay.overlays.default
         ]
       );
     };
