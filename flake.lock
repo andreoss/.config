@@ -44,11 +44,11 @@
     "elisp-autofmt": {
       "flake": false,
       "locked": {
-        "lastModified": 1722518713,
-        "narHash": "sha256-VuiFGr16aIC98+j1Gntju7RaJOThb82+1lmSo7TGA7A=",
+        "lastModified": 1739268741,
+        "narHash": "sha256-iUXvDkMpnciyC++jlW0d2zwYk4NRVTGt0wcx3296I+k=",
         "ref": "refs/heads/main",
-        "rev": "43a44dcbd17adf3b235de93e748321c7076f1c3c",
-        "revCount": 294,
+        "rev": "cafea0de76bafaf37595dcb2f91b7c5b7b0314a6",
+        "revCount": 300,
         "type": "git",
         "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
       },
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1739211652,
-        "narHash": "sha256-4ek0tirowq31eThj/LCL5UC/BvD5GXW8YBCGz20AmPc=",
+        "lastModified": 1739268999,
+        "narHash": "sha256-DQBM52JhYPB1o0BTm4ywpIFV+wbbHW2I7lLk0C2XYcc=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "37cba18ad90692d41d523667f05da0c6971627f8",
+        "rev": "1fe938f2409b8c3e3f85983d16b6a7fca9337a3e",
         "type": "github"
       },
       "original": {
@@ -87,11 +87,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1739207663,
-        "narHash": "sha256-H0Z/Uxh1EIoZRzpXgezQPekp3ccFd/WdUVinILVnM+Y=",
+        "lastModified": 1739266093,
+        "narHash": "sha256-Xs9Lvwh3mXARVY0DEgwN6pdPxueUmV/w8xUA5gR1m4M=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "66b6a800edf6c6ef58d021b81ab7e6a10ae34834",
+        "rev": "20e2333eb7184318ddfa0c9269a8e509b6de85d6",
         "type": "github"
       },
       "original": {
@@ -403,11 +403,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1739139592,
-        "narHash": "sha256-qSHS7rzN9dNmtQdtaMprZvBFFKhxlfann812kHhDpbc=",
+        "lastModified": 1739265793,
+        "narHash": "sha256-zP6bAjJz2R+Ml1v5xRNdJ2LRkGHlYx5vJloqLNiET0c=",
         "owner": "andreoss",
         "repo": "kernel-overlay",
-        "rev": "5be1eb2f8ec4f86a38e48c438dec09334eab3a0c",
+        "rev": "9df60d44781d603716e7e10f9c5279d78dab1290",
         "type": "github"
       },
       "original": {
