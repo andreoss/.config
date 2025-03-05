@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1741112491,
-        "narHash": "sha256-aEIf85QlLART/HVFoGDWHZnGsNgwPoTZK8Kygw2v0Mg=",
+        "lastModified": 1741151751,
+        "narHash": "sha256-YwHKStbPxppfL0q+JTebiQ8nndXlUYpy18UMCnUtR5o=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "5c53d1aca5be8c0b4ce57cf840c0be73b3f09e7b",
+        "rev": "825257745155133bddd34615b59d8a25f8d1c163",
         "type": "github"
       },
       "original": {
@@ -87,11 +87,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1741109012,
-        "narHash": "sha256-th96gqh+H7HoIgSLn3PpazxFTO8WjuN8IqdYtFrwzDw=",
+        "lastModified": 1741149197,
+        "narHash": "sha256-ctL0hvG9EMNW60Uz/EOX7QpmbDHBji4WtAgKl83E7t4=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "40466220218949e1f8b36d6ba44e27644dd6bc14",
+        "rev": "6429ee53a1c1199637602275c00aca475d8e8057",
         "type": "github"
       },
       "original": {
@@ -347,11 +347,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1741128660,
-        "narHash": "sha256-GWaZ+KGxWYbOB15CSqktwngq0ccA1l2Ov3aUfl9jeY4=",
+        "lastModified": 1741174782,
+        "narHash": "sha256-dYRebJk58/d5Ej1G6xTOadTfG6tU5zFgXYrLsRJlrgw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b1b964ea9348aef08cab514fa88e9c99def6fd63",
+        "rev": "def0dbbcea715d4514ca343ab4d6d7f3a1742da0",
         "type": "github"
       },
       "original": {
@@ -621,11 +621,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1741130069,
-        "narHash": "sha256-dOhJRcXNiho4VducmBHybyTdIR3WJ28M0Xd5ysoMcfI=",
+        "lastModified": 1741174598,
+        "narHash": "sha256-UkyLkiPX9K0N6k12CS6JBMrzY+mttBm057+lbvNUEyY=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "4251874cf9681d622206d70f8389356915031e81",
+        "rev": "9d60bc7a99411d7a0a45f0e234885c7cab0b5c19",
         "type": "github"
       },
       "original": {
@@ -802,11 +802,11 @@
     "user-js_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1736708527,
-        "narHash": "sha256-/JQo2XnLF8qfSQKvjuFDtvzzz/QHO/dLBHJO4vLOXNk=",
+        "lastModified": 1741159299,
+        "narHash": "sha256-p2Xzj8FFyQD72zlcK2otgRqLbjcQbCsj8Od59tYTPPI=",
         "owner": "arkenfox",
         "repo": "user.js",
-        "rev": "c25187332e19c633b956a6755a7971a6591d3e8d",
+        "rev": "9bba5788aa07f67b37abc025782113a43c717b7f",
         "type": "github"
       },
       "original": {
