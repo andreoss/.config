@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1743722684,
-        "narHash": "sha256-BBkXRmxeIkngOX7pFQA+OsLMs6aiA0RklHY4IHOeepw=",
+        "lastModified": 1743921162,
+        "narHash": "sha256-lmQXW+y082t5I7RpWlUHri4Qzt3NN8IhSv+gQfAOCUI=",
         "owner": "andreoss",
         "repo": "dnscrypt-nixos-module",
-        "rev": "d03736ee8a25ebe8529edbc74871057d8cd6472b",
+        "rev": "d4afb7669e5722b6e208b6ef5d4c6baac53ec23f",
         "type": "github"
       },
       "original": {
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1743877149,
-        "narHash": "sha256-5BiAW4tvgxsZ6IPbu9kZFFF9lR/iZYX7lkIbKeFUb4w=",
+        "lastModified": 1743934572,
+        "narHash": "sha256-hD5WgOChKu5sBwu9znPjzePTGBBXMd+V7UmOlaPnGXA=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "5c75fe30fd3341ae4379bd0aa80194783b4166fc",
+        "rev": "88de337ef9fbb6418da34715d17348385430493e",
         "type": "github"
       },
       "original": {
@@ -87,11 +87,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1743873242,
-        "narHash": "sha256-z1HQnvpt0doMfB2dmyRfvrgJumazI6gK8EdE+UI59m8=",
+        "lastModified": 1743930892,
+        "narHash": "sha256-2efjGG9Mpz/QPZQjkeqOW/mpxf099t0NO0kK/tchWPQ=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "761195be1ba33f90242eb52d7be277252c459e38",
+        "rev": "3fb12f3aacdc18ee1f455cca300c33d5f20de175",
         "type": "github"
       },
       "original": {
@@ -405,11 +405,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1743722591,
-        "narHash": "sha256-++H0LrD1noHnjQHz0XzCaWJgvzV/djpz72Evkq5U/cg=",
+        "lastModified": 1743921025,
+        "narHash": "sha256-YPrl36lXEojg8QphsGqMeVmZB4sQ4X2uXYheyA7LEKA=",
         "owner": "andreoss",
         "repo": "kernel-overlay",
-        "rev": "9abe5a85407458662509479b7c025a1a86ce7031",
+        "rev": "50eb9d9481369f43ebe5bd7cc573ab010f582b9d",
         "type": "github"
       },
       "original": {
@@ -457,11 +457,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1743583204,
-        "narHash": "sha256-F7n4+KOIfWrwoQjXrL2wD9RhFYLs2/GGe/MQY1sSdlE=",
+        "lastModified": 1743827369,
+        "narHash": "sha256-rpqepOZ8Eo1zg+KJeWoq1HAOgoMCDloqv5r2EAa9TSA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2c8d3f48d33929642c1c12cd243df4cc7d2ce434",
+        "rev": "42a1c966be226125b48c384171c44c651c236c22",
         "type": "github"
       },
       "original": {
@@ -552,11 +552,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1743583204,
-        "narHash": "sha256-F7n4+KOIfWrwoQjXrL2wD9RhFYLs2/GGe/MQY1sSdlE=",
+        "lastModified": 1743827369,
+        "narHash": "sha256-rpqepOZ8Eo1zg+KJeWoq1HAOgoMCDloqv5r2EAa9TSA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "2c8d3f48d33929642c1c12cd243df4cc7d2ce434",
+        "rev": "42a1c966be226125b48c384171c44c651c236c22",
         "type": "github"
       },
       "original": {
@@ -624,11 +624,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1743892397,
-        "narHash": "sha256-KYcVP8nU4E8xtk0IqIuSP46wzArcWZ+7Mf/BY6aZxU8=",
+        "lastModified": 1743941131,
+        "narHash": "sha256-8nTzPXoAQConOnOqG2ZxB8nuUvrGkPuNuqVao9ZNXcI=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b68d8ff58b2a40a595c6985588ad98cba415eb40",
+        "rev": "aa39cbcf5d0bec9b2b3205ae82baa7aac4d6042c",
         "type": "github"
       },
       "original": {
@@ -824,11 +824,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1742811057,
-        "narHash": "sha256-OP2gIBCzKscKuKEonDbCeZWw+5l5YgrDTDeZzxruqN0=",
+        "lastModified": 1743918289,
+        "narHash": "sha256-N0D+IKBSmaSNQR7me/eHrzwRkwouhm0JkDF8MfgYUsU=",
         "owner": "andreoss",
         "repo": "citrix",
-        "rev": "3bb10e61ee83b831a59d8de1bf22a80cecad4042",
+        "rev": "d6fc26127a41392f69744af8cd764b31dac4edb8",
         "type": "github"
       },
       "original": {
