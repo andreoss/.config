@@ -44,11 +44,11 @@
     "elisp-autofmt": {
       "flake": false,
       "locked": {
-        "lastModified": 1744155916,
-        "narHash": "sha256-cFDzCi45PrS3BtLm70il9b0fLGV0ARvK5gMz9nHOnSc=",
+        "lastModified": 1744679775,
+        "narHash": "sha256-F4O1xUvHYrT1wuuT7SLeYkQqQ0TNLERb1SgrQo/okYs=",
         "ref": "refs/heads/main",
-        "rev": "5b1fdc2761a80674123769ebf8a43fe312c0fa3f",
-        "revCount": 306,
+        "rev": "e5b336e925c5a1fe86a2c2456cdda3b10a4cf166",
+        "revCount": 307,
         "type": "git",
         "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
       },
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1744650873,
-        "narHash": "sha256-H62zOCs6iVWaFnDrKyVNLQ43SOHR2bRw0vAQzjmWiJE=",
+        "lastModified": 1744712276,
+        "narHash": "sha256-+wbVAzsF34+VbNAASOdeeNehIBHEzEz5WRu2Zf8UjXk=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "2f2f73ee60bf12373077bad0050782a92dbd5a47",
+        "rev": "ce8159924ba0806052a57c5f0087605e8b75537f",
         "type": "github"
       },
       "original": {
@@ -87,11 +87,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1744647878,
-        "narHash": "sha256-Eoq/yjp/uFQ7uTXg0PkMK7jjw9ZTbYzcFSel94a5onI=",
+        "lastModified": 1744710563,
+        "narHash": "sha256-bbYWW6VVeVM+kaJJzo6IkdIqplYpfdedEaLFC6bN8Bo=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "f6ea355d7b9818394bb9e073b2bdad4b0d1717be",
+        "rev": "cc39626b787d64e5df5364a529423d624543b6a6",
         "type": "github"
       },
       "original": {
@@ -624,11 +624,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1744665912,
-        "narHash": "sha256-NRiuDkoCFap4GKb4UjtNqY2p6xnZl4/tRsPsP2m0kdg=",
+        "lastModified": 1744712855,
+        "narHash": "sha256-Cn/+S2B63DiYaNAW24S+qptE3UvMNd+gCRAD6L7BAKQ=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "a0fd02eb827911d886114c9f2680df34ec0a6267",
+        "rev": "17352f230e0ee3a2466dabc7226eea9533b5c865",
         "type": "github"
       },
       "original": {
