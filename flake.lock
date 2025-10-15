@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760433521,
-        "narHash": "sha256-CdbWikTrt7yOKDvoRgbCZmSg8hauZEf1HUPAnqKTJRs=",
+        "lastModified": 1760462070,
+        "narHash": "sha256-f9BYQ1azzBnSKvZCqJ9gLq3XsiH399Ep0VVTKUsRvgA=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "34a71a0a0ebc618a0af177563a520ac73757704f",
+        "rev": "1bf79cf0a291fbbde47acb2e58d9322d8288fd3a",
         "type": "github"
       },
       "original": {
@@ -87,11 +87,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1760432944,
-        "narHash": "sha256-4OXXccXsY1sBXTXjYIthdjXLAotozSh4F8StGRuLyMQ=",
+        "lastModified": 1760461800,
+        "narHash": "sha256-MSBJxgLtImDfeRfaI8/xkSkUWlKZSZUVMBjT+v0ryNo=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "aba8daa237dc07a3bb28a61c252a718e8eb38057",
+        "rev": "1423d6e34796c27093dedfdf19424f59cd451670",
         "type": "github"
       },
       "original": {
@@ -348,11 +348,11 @@
         "zon2nix": "zon2nix"
       },
       "locked": {
-        "lastModified": 1760414761,
-        "narHash": "sha256-3+DnzgFUIErVPvDHslXGOUB9i19BjqTLaTO16aevNdY=",
+        "lastModified": 1760469165,
+        "narHash": "sha256-iU9zt9qF1rckFj2QgSSzcY0TlEe0ALhIzC8nWMXlKPs=",
         "owner": "ghostty-org",
         "repo": "ghostty",
-        "rev": "75734a4d070b92e9b73dda1aab93f5ae1c7a3766",
+        "rev": "e5247f6d10ae02cc892c77d7435319549769ba1c",
         "type": "github"
       },
       "original": {
@@ -368,11 +368,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760312644,
-        "narHash": "sha256-U9SkK45314urw9P7MmjhEgiQwwD/BTj+T3HTuz1JU1Q=",
+        "lastModified": 1760479847,
+        "narHash": "sha256-xOwdvpPSHw767aXyeo3GG8DjFbZ9YyRIVSr4TXADQ48=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e121f3773fa596ecaba5b22e518936a632d72a90",
+        "rev": "ed1eb4cfddba1be85cb16702d7a42803d1ff55e8",
         "type": "github"
       },
       "original": {
@@ -426,11 +426,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760419324,
-        "narHash": "sha256-sqQT+A1MRmcKIXYc7MT2y/kmlu861FW75VWFA78KR1U=",
+        "lastModified": 1760473601,
+        "narHash": "sha256-AIJ7ILtm+pTBwSYi0/ZnrmCXu6oP/dGjmbfI/hLYZUw=",
         "owner": "andreoss",
         "repo": "kernel-overlay",
-        "rev": "ba6adc404a9f44859f3b3ba9d9298025d51f3a5b",
+        "rev": "b2902c641b4185e91eb7fdc912ba561842a2d3d0",
         "type": "github"
       },
       "original": {
@@ -463,11 +463,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1760441980,
-        "narHash": "sha256-HLO1uUa1DJWT6bXD+RigrSthZmxY6JHlbn+zhMizzBo=",
+        "lastModified": 1760454217,
+        "narHash": "sha256-qG4cQaYRKrAMj4OjISYYoWqJc+xcoJnLx2jsws7EdGg=",
         "owner": "nix-community",
         "repo": "NixOS-WSL",
-        "rev": "3534ac7ff39683da15dbf3adb2a950841a6d58d4",
+        "rev": "a8209ae46721f2a70214d0a70388a812ec7740da",
         "type": "github"
       },
       "original": {
@@ -659,11 +659,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1760443374,
-        "narHash": "sha256-zrCb/Ck+8Li9fhNbAr8eP2+X3qUwqnmSuoacD+x4Msc=",
+        "lastModified": 1760478278,
+        "narHash": "sha256-KnLlTlmcDUPeXyjJzow6+q2H7bMQ2oLZCjRh1oZT7Ic=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "c41298dba5d86cca70bf285662760e186c59b70f",
+        "rev": "1c872a164e1a186c24acc9071bbdfe04b6265eb6",
         "type": "github"
       },
       "original": {
@@ -889,11 +889,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1759192380,
-        "narHash": "sha256-0BWJgt4OSzxCESij5oo8WLWrPZ+1qLp8KUQe32QeV4Q=",
+        "lastModified": 1760401936,
+        "narHash": "sha256-/zj5GYO5PKhBWGzbHbqT+ehY8EghuABdQ2WGfCwZpCQ=",
         "owner": "mitchellh",
         "repo": "zig-overlay",
-        "rev": "0bcd1401ed43d10f10cbded49624206553e92f57",
+        "rev": "365085b6652259753b598d43b723858184980bbe",
         "type": "github"
       },
       "original": {
