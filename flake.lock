@@ -44,11 +44,11 @@
     "elisp-autofmt": {
       "flake": false,
       "locked": {
-        "lastModified": 1760529693,
-        "narHash": "sha256-yx0bslv5aZtk5+SgjjWxTDE8lRiYXD1OkEedVY2yRp0=",
+        "lastModified": 1762041765,
+        "narHash": "sha256-weR+gOcB+Hs+OBFRjqHZX/Bz3HK5+6pW7DDvl3qYn2M=",
         "ref": "refs/heads/main",
-        "rev": "4295b30b432d0552682017a75bfe9ef6836ecaa6",
-        "revCount": 339,
+        "rev": "c4b0b6a306b920821dde8c8de45625e4e9f4724a",
+        "revCount": 340,
         "type": "git",
         "url": "https://codeberg.org/ideasman42/emacs-elisp-autofmt.git"
       },
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1761988551,
-        "narHash": "sha256-QieJ9t89kSyH5UEhZeZovgqr8FawLbQnybuewzdQv64=",
+        "lastModified": 1762078537,
+        "narHash": "sha256-Auy8Z0PSHAmAiKKRaO2rxfqosZEStGr7d6YGK9tdCC8=",
         "owner": "andreoss",
         "repo": ".emacs.d",
-        "rev": "cdf204fa9c3e0a4da708e3fcd21a24583ea39f0b",
+        "rev": "14be11af00489204167bcbb22b032a64f26afe1c",
         "type": "github"
       },
       "original": {
@@ -87,11 +87,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1761985492,
-        "narHash": "sha256-h0d1DG0dp7mrrQoe+sUmtZvnYhbGAyI/pr9bgYfHb9M=",
+        "lastModified": 1762075523,
+        "narHash": "sha256-nNJmzHMMpq+JhKHX7H87ofZuaOktk/FLtHA/RocaCQk=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "11c52dbdbf5bacf57ce3fd7b0cbe359a3e23eb3c",
+        "rev": "4a0b7854d2c6162770b29d90a741ac1cec1eed62",
         "type": "github"
       },
       "original": {
@@ -368,11 +368,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762041416,
-        "narHash": "sha256-rmJKABRXnhFjjI6RB/MnEvLTQa569zu684Th9y6UlOI=",
+        "lastModified": 1762084374,
+        "narHash": "sha256-2Doq4ekJmxa67aDfrVUkj3lJSuR3I7/lYCmtHolAx7c=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c0016dd14773f4ca0b467b74c7cdcc501570df4b",
+        "rev": "5eaa0072ff2e74d235aa6b010b6cd32f61dcf161",
         "type": "github"
       },
       "original": {
@@ -659,11 +659,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1762033460,
-        "narHash": "sha256-RXBIqO8fcw/kiveRGxFVA+j6hPJkB6ikg0I1/pueud0=",
+        "lastModified": 1762084574,
+        "narHash": "sha256-eRUMA1pe0d2s/b+T4/nimo6N0IV21BxT+zKDcHflIDU=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "c5403cdf368174b0792dd0a155f8e5bc8f0bade7",
+        "rev": "9ca9485cd632ac7ce099a089dd388a4fadcfc57a",
         "type": "github"
       },
       "original": {
