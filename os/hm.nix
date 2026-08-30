@@ -7,6 +7,7 @@
 }:
 let
   isOn = (x: (builtins.elem x config.features));
+  importDir = (import ../lib/imports.nix { inherit lib; }).importDir;
 in
 {
   home-manager.extraSpecialArgs = specialArgs;
@@ -40,19 +41,13 @@ in
         specialArgs.cfg
         specialArgs.inputs.emacs-d.nixosModules.home-manager
         specialArgs.inputs.ff-hm.homeManagerModules.default
-        ../modules/development
-        ../modules/multimedia.nix
-        ../modules/web.nix
-        ../modules/office.nix
-        ../hm/base.nix
-        ../hm/home.nix
-        ../hm/sh.nix
-        ../hm/term.nix
-        ../hm/xsession-base.nix
-        ../hm/xsession.nix
       ]
-      ++ (lib.optionals (isOn "work") [ ../hm/work.nix ])
-      ++ (lib.optionals (isOn "email") [ ../hm/mail.nix ])
+      # Auto-discover every module in ./hm (except the inactive ones listed in
+      # `exclude`). Drop a new file in hm/ and it is activated automatically.
+      ++ (importDir { exclude = [ "android.nix" "config.nix" "emacs.nix" "mail-davmail.nix" ]; } ../hm)
+      # Auto-discover every module under ./modules (development/ is aggregated
+      # by its own default.nix).
+      ++ (importDir { recursive = true; } ../modules)
       ++ [
         {
           home.firefox = {

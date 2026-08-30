@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     coreutils-full
     file
-    oathToolkit
+    oath-toolkit
     openvpn
     rsync
     screen

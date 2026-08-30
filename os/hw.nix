@@ -30,14 +30,12 @@
     systemPackages = with pkgs; [
       lm_sensors
       acpi
+      android-tools
     ];
   };
   nixpkgs.system = "x86_64-linux";
 
   services.haveged.enable = true;
-  programs.light.enable = true;
-  programs.adb.enable = true;
-  services.udev.packages = [ pkgs.android-udev-rules ];
   programs.kbdlight.enable = true;
   hardware.acpilight.enable = true;
   services.systembus-notify.enable = true;

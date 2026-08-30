@@ -7,7 +7,7 @@
   ...
 }:
 {
-  config = {
+  config = lib.mkIf (builtins.elem "work" config.features) {
     xdg.desktopEntries = {
       citrix = {
         name = "Citrix";

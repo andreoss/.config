@@ -31,7 +31,6 @@
   services.logind.killUserProcesses = true;
   services.logind.lidSwitch = "suspend";
   services.logind.lidSwitchExternalPower = "lock";
-  services.logind.extraConfig = "";
   programs.bash = {
     promptInit = ''
       ${builtins.readFile ../shrc}

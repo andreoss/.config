@@ -44,12 +44,12 @@ in
       logo = config.backgroundImage;
       font = "${pkgs.terminus_font_ttf}/share/fonts/truetype/TerminusTTF-Bold.ttf";
     };
-    systemd.extraConfig = lib.mkForce ''
-      DefaultTimeoutStartSec=10s
-      DefaultTimeoutStopSec=10s
-      DefaultOOMPolicy=kill
-      ShowStatus=error
-    '';
+    systemd.settings.Manager = lib.mkForce {
+      DefaultTimeoutStartSec = "10s";
+      DefaultTimeoutStopSec = "10s";
+      DefaultOOMPolicy = "kill";
+      ShowStatus = "error";
+    };
     services.gpm.enable = lib.mkForce true;
     services.xserver.displayManager.gdm.enable = lib.mkForce false;
     services.xserver.displayManager.lightdm.enable = lib.mkForce false;

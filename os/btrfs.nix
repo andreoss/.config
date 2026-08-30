@@ -11,9 +11,7 @@ let
 in
 {
   boot.initrd = {
-    secrets = {
-      "/etc/luks/system" = ../secrets/system-${host};
-    };
+    secrets = { };
     luks.devices = {
       "system-${host}" = {
         keyFile = "/etc/luks/system";

@@ -39,12 +39,5 @@
         ''
       ];
     };
-    environment = {
-      etc = {
-        "icewm" = {
-          source = ../icewm;
-        };
-      };
-    };
   };
 }

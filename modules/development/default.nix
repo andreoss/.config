@@ -39,11 +39,10 @@
       json2yaml
       k9s
       kail
-      kubernetes
       lcov
       libxslt
       lsof
-      mariadb-client
+      mariadb.client
       minikube
       nil
       ninja
@@ -62,7 +61,7 @@
       sharutils
       shellcheck
       shfmt
-      silver-searcher
+      silver-searcher-ng
       sleek
       sshfs
       sysstat
