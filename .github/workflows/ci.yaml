@@ -11,9 +11,6 @@ jobs:
         matrix:
            package:
            - nixosConfigurations.livecd.config.system.build.isoImage
-           - nixosConfigurations.v.config.system.build.bootStage1
-           - nixosConfigurations.v.config.system.build.bootStage2
-           - nixosConfigurations.v.config.system.build.kernel
            channel:
            - nixos-unstable
     runs-on: ubuntu-latest

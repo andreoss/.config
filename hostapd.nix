@@ -1,4 +1,5 @@
 {
+  pkgs,
   interface ? "wlan1",
   bridge ? "virbr0",
   ssid,
