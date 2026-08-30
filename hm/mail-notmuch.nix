@@ -2,24 +2,33 @@
   config,
   pkgs,
   lib,
-  stdenv,
-  self,
   ...
 }:
 let
-  x = lib.pathExists ../secrets/mail.nix;
+  x = false;
 in
 {
-  config = {
-    accounts = lib.attrsets.optionalAttrs (x) {
-      email = {
-        maildirBasePath = "${config.home.homeDirectory}/Maildir";
-      };
-      email.accounts = if (x) then (import ../secrets/mail.nix) else { };
+  config = lib.mkIf (builtins.elem "email" config.features) {
+    home.file.".config/davmail-base.properties" = lib.attrsets.optionalAttrs (x) {
+      text = ''
+        davmail.server=true
+        davmail.url=https://outlook.office365.com/EWS/Exchange.asmx
+        davmail.mode=O365Interactive
+        davmail.caldavPort=1080
+        davmail.imapPort=1143
+        davmail.ldapPort=1389
+        davmail.popPort=1110
+        davmail.smtpPort=1025
+        davmail.enableProxy=true
+        davmail.useSystemProxies=true
+        davmail.ssl.nosecurecaldav=true
+        davmail.ssl.nosecureimap=true
+        davmail.ssl.nosecureldap=true
+        davmail.ssl.nosecuresmtp=true
+        log4j.rootLogger=WARN
+      '';
     };
     programs = lib.attrsets.optionalAttrs (x) {
-      mbsync.enable = x;
-      msmtp.enable = x;
       notmuch = {
         enable = x;
         new = {
@@ -43,29 +52,6 @@ in
             fi
           '';
         };
-      };
-    };
-    home = {
-      packages = with pkgs; [ rss2email ];
-      file.".config/davmail-base.properties" = {
-        text = ''
-          davmail.server=true
-          davmail.url=https://outlook.office365.com/EWS/Exchange.asmx
-          davmail.mode=O365Interactive
-          davmail.caldavPort=1080
-          davmail.imapPort=1143
-          davmail.ldapPort=1389
-          davmail.popPort=1110
-          davmail.smtpPort=1025
-          davmail.enableProxy=true
-          davmail.useSystemProxies=true
-          davmail.ssl.nosecurecaldav=true
-          davmail.ssl.nosecureimap=true
-          davmail.ssl.nosecureldap=true
-          davmail.ssl.nosecurepop=true
-          davmail.ssl.nosecuresmtp=true
-          log4j.rootLogger=WARN
-        '';
       };
     };
     systemd = lib.attrsets.optionalAttrs (x) {
@@ -112,7 +98,7 @@ in
           WantedBy = [ "timers.target" ];
         };
         Timer = {
-          OnBootSec = "10m"; # first run 10min after boot up
+          OnBootSec = "10m";
           OnCalendar = "*:0/5";
         };
       };
@@ -148,6 +134,5 @@ in
           };
         };
     };
-    services = lib.attrsets.optionalAttrs (x) { mbsync.enable = x; };
   };
 }
