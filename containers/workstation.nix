@@ -16,7 +16,14 @@ in
     hostAddress = host;
     localAddress = "192.168.99.2";
     config =
-      { config, pkgs, lib, specialArgs, inputs, ... }:
+      {
+        config,
+        pkgs,
+        lib,
+        specialArgs,
+        inputs,
+        ...
+      }:
       {
         system.stateVersion = cfg.stateVersion;
         services.openssh.enable = true;
@@ -66,17 +73,16 @@ in
         };
         home-manager.users."${user}" = {
           home.stateVersion = cfg.stateVersion;
-          imports =
-            [
-              ../default.nix
-              ../hm/base.nix
-              ../hm/xsession-base.nix
-              ../hm/sh.nix
-              ../hm/term-urxvt.nix
-              ../hm/term-tmux.nix
-              ../hm/term-packages.nix
-              ../hm/work.nix
-            ];
+          imports = [
+            ../default.nix
+            ../hm/base.nix
+            ../hm/xsession-base.nix
+            ../hm/sh.nix
+            ../hm/term-urxvt.nix
+            ../hm/term-tmux.nix
+            ../hm/term-packages.nix
+            ../hm/work.nix
+          ];
           xsession = {
             enable = true;
             scriptPath = ".xsession";

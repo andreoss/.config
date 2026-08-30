@@ -4,15 +4,30 @@ with lib;
   options.hostId = mkOption { type = types.str; };
   options.primaryUser = {
     # Non-secret defaults for the host identity, so the tree evaluates standalone.
-    name = mkOption { type = types.str; default = "user"; };
-    handle = mkOption { type = types.str; default = "user"; };
-    email = mkOption { type = types.str; default = "user@example.com"; };
-    gpgKey = mkOption { type = types.str; default = ""; };
+    name = mkOption {
+      type = types.str;
+      default = "user";
+    };
+    handle = mkOption {
+      type = types.str;
+      default = "user";
+    };
+    email = mkOption {
+      type = types.str;
+      default = "user@example.com";
+    };
+    gpgKey = mkOption {
+      type = types.str;
+      default = "";
+    };
     authorizedKeys = mkOption {
       type = types.listOf (types.str);
       default = [ ];
     };
-    key = mkOption { type = types.str; default = ""; };
+    key = mkOption {
+      type = types.str;
+      default = "";
+    };
     uid = mkOption {
       type = types.int;
       default = 1337;
@@ -34,7 +49,10 @@ with lib;
     type = types.bool;
     default = false;
   };
-   options.autoLogin = mkOption { type = types.bool; default = false; };
+  options.autoLogin = mkOption {
+    type = types.bool;
+    default = false;
+  };
   options.autoLock = {
     enable = mkOption {
       type = types.bool;

@@ -97,45 +97,44 @@
                 cfg = host.config;
                 overlays = host.overlays;
               };
-              modules =
-                [
-                  {
-                    nixpkgs.config.allowUnfree = true;
-                    nixpkgs.overlays = host.overlays ++ [
-                      inputs.nur.overlays.default
-                      inputs.emacs-d.overlays.default
-                      inputs.kernel-overlay.overlays."x86_64-linux".default
+              modules = [
+                {
+                  nixpkgs.config.allowUnfree = true;
+                  nixpkgs.overlays = host.overlays ++ [
+                    inputs.nur.overlays.default
+                    inputs.emacs-d.overlays.default
+                    inputs.kernel-overlay.overlays."x86_64-linux".default
+                  ];
+                }
+                host.config
+                ./default.nix
+                { time.timeZone = "America/New_York"; }
+                { networking.stevenBlackHosts.enable = true; }
+                { networking.hostName = host.hostname; }
+                inputs.nodm-module.nixosModules.default
+                inputs.dnscrypt-module.nixosModules.default
+                { networking.dns-crypt.enable = true; }
+                inputs.home-manager.nixosModules.home-manager
+                inputs.hosts.nixosModule
+              ]
+              ++ host.modules
+              ++ [
+                ./os
+                {
+                  system.autoUpgrade = {
+                    enable = true;
+                    flake = inputs.self.outPath;
+                    flags = [
+                      "--update-input"
+                      "nixpkgs"
+                      "--no-write-lock-file"
+                      "-L"
                     ];
-                  }
-                  host.config
-                  ./default.nix
-                  { time.timeZone = "America/New_York"; }
-                  { networking.stevenBlackHosts.enable = true; }
-                  { networking.hostName = host.hostname; }
-                  inputs.nodm-module.nixosModules.default
-                  inputs.dnscrypt-module.nixosModules.default
-                  { networking.dns-crypt.enable = true; }
-                  inputs.home-manager.nixosModules.home-manager
-                  inputs.hosts.nixosModule
-                ]
-                ++ host.modules
-                ++ [
-                  ./os
-                  {
-                    system.autoUpgrade = {
-                      enable = true;
-                      flake = inputs.self.outPath;
-                      flags = [
-                        "--update-input"
-                        "nixpkgs"
-                        "--no-write-lock-file"
-                        "-L"
-                      ];
-                      dates = "02:00";
-                      randomizedDelaySec = "45min";
-                    };
-                  }
-                ];
+                    dates = "02:00";
+                    randomizedDelaySec = "45min";
+                  };
+                }
+              ];
             };
         in
         {
