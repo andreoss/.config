@@ -1,4 +1,5 @@
 {
+  # livecd iso build graph reset
   description = "Flakes";
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -101,9 +102,9 @@
                   {
                     nixpkgs.config.allowUnfree = true;
                     nixpkgs.overlays = host.overlays ++ [
-                      inputs.nur.overlay
+                      inputs.nur.overlays.default
                       inputs.emacs-d.overlays.default
-                      # inputs.kernel-overlay.overlays."x86_64-linux".default
+                      inputs.kernel-overlay.overlays."x86_64-linux".default
                     ];
                   }
                   host.config
@@ -114,25 +115,12 @@
                   inputs.nodm-module.nixosModules.default
                   inputs.dnscrypt-module.nixosModules.default
                   { networking.dns-crypt.enable = true; }
-                  inputs.home-manager.nixosModule
+                  inputs.home-manager.nixosModules.home-manager
                   inputs.hosts.nixosModule
                 ]
                 ++ host.modules
                 ++ [
-                  ./os/hm.nix
-                  ./os/nix.nix
-                  ./os/configuration.nix
-                  ./os/hw.nix
-                  ./os/security.nix
-                  ./os/audio.nix
-                  ./os/users.nix
-                  ./os/virtualisation.nix
-                  ./os/xserver.nix
-                  ./os/vpn.nix
-                  ./os/network.nix
-                  ./os/i18n.nix
-                  ./os/boot.nix
-                  ./os/console.nix
+                  ./os
                   {
                     system.autoUpgrade = {
                       enable = true;
@@ -151,36 +139,7 @@
             };
         in
         {
-          "ss" = mkSystem {
-            hostname = "ss";
-            config = import ./secrets;
-            overlays = [ ];
-            modules = [
-              {
-                config.preferedLocalIp = "192.168.0.16";
-                config.dpi = 99;
-              }
-              ./secrets/2
-              ./os/boot-grub-efi.nix
-              ./os/btrfs-swap.nix
-            ];
-          };
-          "ps" = mkSystem {
-            hostname = "ps";
-            config = import ./secrets;
-            overlays = [ ];
-            modules = [
-              {
-                config.kernel = "linuxPackages";
-                config.preferedLocalIp = "192.168.0.32";
-                config.dpi = 120;
-              }
-              ./secrets/3
-              ./os/boot-grub-efi.nix
-              ./os/btrfs-swap.nix
-              ./os/containers.nix
-            ];
-          };
+          "livecd" = mkSystem (import ./hosts/livecd.nix);
         };
       systems = [ "x86_64-linux" ];
       perSystem =
